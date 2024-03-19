@@ -14,7 +14,7 @@
   
   .wrapper {
     width: 1000px;
-    height: 1000px;
+    height: 700px;
     border: 1px solid #000;
   }
   </style>

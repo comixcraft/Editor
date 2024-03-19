@@ -1,5 +1,19 @@
 <template>
 
-    <WrapperCanvas></WrapperCanvas>
+    <div class="container">
+        <WrapperCanvas></WrapperCanvas>
+        <CatalogContainer></CatalogContainer>
+    </div>
 
 </template>
+
+<style scoped>
+
+    .container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        
+    }
+
+</style>
