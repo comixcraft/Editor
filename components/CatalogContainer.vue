@@ -2,6 +2,13 @@
 for (const [key, value] of Object.entries(sampleCatalog)) {
   console.log(`${key}: ${value.file_location}`);
 }
+
+function returnAttrOnClick(event) {
+    let tempObj = {name: event.target.alt, src: event.target.src};
+    console.log(tempObj);
+    return tempObj;
+}
+
 </script>
 
 
@@ -9,7 +16,7 @@ for (const [key, value] of Object.entries(sampleCatalog)) {
 
     <div class="container" id="catalog-container">
         <div class="catalogPreviewWrapper" v-for="value in sampleCatalog">
-            <CatalogImagePreview :alt-text="value.name" :url="value.file_location"/>
+            <CatalogImagePreview :alt-text="value.name" :url="value.file_location" @click="returnAttrOnClick"/>
         </div>
     </div>
 

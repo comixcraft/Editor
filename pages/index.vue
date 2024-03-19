@@ -1,7 +1,12 @@
+<script setup>
+
+
+</script>
+
 <template>
 
     <div class="container">
-        <WrapperCanvas></WrapperCanvas>
+        <WrapperCanvas class="canvasWrapper"></WrapperCanvas>
         <CatalogContainer></CatalogContainer>
     </div>
 
