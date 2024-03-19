@@ -1,5 +1,5 @@
 <template>
 
-<div>Hello world</div>
+    <WrapperCanvas></WrapperCanvas>
 
 </template>
