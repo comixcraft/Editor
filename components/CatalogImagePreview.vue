@@ -1,5 +1,4 @@
 <script setup>
-    import { ref, onMounted } from 'vue'
 
     defineProps({
     altText: String,
@@ -27,5 +26,10 @@
     .card > img {
         height: 100%;
         width: auto;
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-select: none;
     }
 </style>
