@@ -1,16 +1,18 @@
 <script setup>
+    import { ref, onMounted } from 'vue'
 
-defineProps({
-  altText: String,
-  url: String,
-})
+    defineProps({
+    altText: String,
+    url: String,
+    })
+
 
 </script>
 
 <template>
 
   <div class="card">
-    <img src="{{ url }}" alt="{{ altText }}">
+    <img :src="url" :alt="altText">
   </div>
 
 </template>
