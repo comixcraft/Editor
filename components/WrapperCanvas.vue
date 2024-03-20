@@ -1,11 +1,19 @@
+<script setup>
+    import {ref, watch } from 'vue';
+
+  // Watch for changes in the length of the entries array
+  watch(() => elementsInCanvas.value.length, (newLength, oldLength) => {
+        if (newLength > oldLength) {
+          const newEntry = elementsInCanvas.value[newLength - 1];
+          console.clear();
+          console.log(newEntry.src)
+        }
+      });
+</script>
+
 <template>
-    <div class="wrapper">
-      <DraggableResizable :w="300" :h="300" :parent="true">
-        <p>
-          Hello! I'm a flexible component. You can drag me around and you can
-          resize me.
-        </p>
-      </DraggableResizable>
+    <div class="wrapper" id="canvasWrapper" ref="container">
+      <CanvasDragableElement v-for="element in elementsInCanvas" :w="130" :h="200" :z="1" :altText="element.name" :url="element.src"/>
     </div>
   </template>
   
@@ -14,7 +22,14 @@
   
   .wrapper {
     width: 1000px;
-    height: 1000px;
+    height: 700px;
     border: 1px solid #000;
+    overflow: hidden;
+  }
+
+  .box {
+  margin-top: 2rem;
+  padding: 1rem;
+  outline: solid 1px #ccc;
   }
   </style>
