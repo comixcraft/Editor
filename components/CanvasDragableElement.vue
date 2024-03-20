@@ -14,8 +14,6 @@
 
 <template>
         <DraggableResizable 
-        :x="150"
-        :y="150"
         :w="w" 
         :h="h" 
         :parent="true" 
@@ -47,12 +45,12 @@
         height: 32px;
         border: 2px solid red;
         border-radius: 5px;
-        right: -16px;   
+        right: -20px;   
     }
 
     #bin {
         top: 10px;
-        background: no-repeat center/80%  url('/assets/bin.svg'), white;
+        background: no-repeat center/80%  url('/assets/bin.svg'), rgb(255, 226, 244);
     }
 
     #up-arrow {
