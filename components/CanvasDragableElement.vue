@@ -10,6 +10,13 @@
     let elementActive = false;
     let deleteElement = ref(false);
 
+    /**
+     * @typedef {Object} Position
+     * @property {number} x
+     * @property {number} y
+     */
+    let Position = ref({x: 0, y: 0});
+
 </script>
 
 <template>

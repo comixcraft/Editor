@@ -49,7 +49,7 @@
  * @property {string} border
  * @property {Map<Id:Element>} elements 
  * @property {positiveNumber} width 
- * page is another typedef
+ * Element is another typedef
 */
 
 // ===================================================
@@ -63,7 +63,6 @@
  * @property {Boolean} isMirrored 
  * @property {positiveNumber} width 
  * @property {positiveNumber} height 
- * page is another typedef
 */
 
 // ===================================================
