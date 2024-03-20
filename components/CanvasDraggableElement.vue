@@ -10,12 +10,34 @@
     let elementActive = false;
     let deleteElement = ref(false);
 
-    /**
+    /** 
      * @typedef {Object} Position
      * @property {number} x
      * @property {number} y
-     */
+    */
     let Position = ref({x: 0, y: 0});
+
+    /**
+     * @typedef {Object} Element
+     * @property {Position} position
+     * @property {Asset | Text} type
+     * @property {Boolean} isFocused 
+     * @property {number} rotation 
+     * @property {Boolean} isMirrored 
+     * @property {positiveNumber} width 
+     * @property {positiveNumber} height 
+    */
+    let Element = ref({
+        position: undefined,
+        type: undefined,
+        isFocused: undefined,
+        rotation: undefined,
+        isMirrored: undefined,
+        width: undefined,
+        height: undefined,
+    })
+
+
 
 </script>
 

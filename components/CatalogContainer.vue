@@ -1,7 +1,13 @@
 <script setup>
 
     function returnAttrOnClick(event) {
-        let tempObj = {name: event.target.alt, src: event.target.src};
+        let fixedHeight = 200;
+        let tempObj = {
+            name: event.target.alt, 
+            src: event.target.src,
+            height: fixedHeight,
+            width: (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight
+        };
         elementsInCanvas.value.push(tempObj)
         return tempObj;
     }

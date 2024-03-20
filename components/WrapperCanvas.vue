@@ -11,7 +11,7 @@
 
 <template>
     <div class="wrapper" id="canvasWrapper" ref="container">
-      <CanvasDraggableElement v-for="element in elementsInCanvas" :w="130" :h="200" :z="1" :altText="element.name" :url="element.src"/>
+      <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/>
     </div>
   </template>
   
