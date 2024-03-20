@@ -8,6 +8,7 @@
     })
 
     let elementActive = false;
+    let deleteElement = ref(false);
 
 </script>
 
@@ -19,10 +20,11 @@
         :h="h" 
         :parent="true" 
         :class-name-active="'elementActive'" 
+        v-if="!deleteElement"
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}">
             <img :src="url" :alt="altText">
-            <div v-if="elementActive" class="icon" id="bin"></div>
+            <div v-if="elementActive" class="icon" id="bin" @click="function() {deleteElement = !deleteElement}"></div>
             <div v-if="elementActive" class="icon" id="up-arrow"></div>
             <div v-if="elementActive" class="icon" id="down-arrow"></div>
         </DraggableResizable>
