@@ -13,6 +13,11 @@
  * id is a type positiveNumber that can only be integer
  */
 
+/**
+ * @typedef {number} percentage
+ * percentage is a type number that is between 0 and 1
+ */
+
 // ===================================================
 // ********** Comic
 /**
