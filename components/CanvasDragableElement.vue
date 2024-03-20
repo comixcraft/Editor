@@ -22,9 +22,9 @@
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}">
             <img :src="url" :alt="altText">
-            <img v-if="elementActive" src="/assets/bin.svg" alt="bin icon" class="icon" id="bin">
-            <img v-if="elementActive" src="/assets/bin.svg" alt="bin icon" class="icon" id="up-arrow">
-            <img v-if="elementActive" src="/assets/bin.svg" alt="bin icon" class="icon" id="dow-arrow">
+            <div v-if="elementActive" class="icon" id="bin"></div>
+            <div v-if="elementActive" class="icon" id="up-arrow"></div>
+            <div v-if="elementActive" class="icon" id="down-arrow"></div>
         </DraggableResizable>
 </template>
 
@@ -43,7 +43,6 @@
         position: absolute;
         width: 32px;
         height: 32px;
-        background-color: white;
         border: 2px solid red;
         border-radius: 5px;
         right: -16px;   
@@ -51,17 +50,19 @@
 
     #bin {
         top: 10px;
-        background: no-repeat center/80%  url('/assets/bin.svg');
+        background: no-repeat center/80%  url('/assets/bin.svg'), white;
     }
 
     #up-arrow {
         top: 52px;
-        background: no-repeat center/80%  url('/assets/up-arrow.svg');
+        background: no-repeat center/80%  url('/assets/upArrow.svg'), white;
+        border-color: black;
     }
 
     #down-arrow {
         top: 94px;
-        background: no-repeat center/80%  url('/assets/down-arrow.svg');
+        background: no-repeat center/80%  url('/assets/downArrow.svg'), white;
+        border-color: black;
     }
 
 </style>
