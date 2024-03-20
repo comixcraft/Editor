@@ -9,6 +9,7 @@
 
     let elementActive = false;
     let deleteElement = ref(false);
+    let isMirrored = ref(false);
 
     /** 
      * @typedef {Object} Position
@@ -50,10 +51,11 @@
         v-if="!deleteElement"
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}">
-            <img :src="url" :alt="altText">
+            <img :src="url" :alt="altText" :class="{mirror : isMirrored}">
             <div v-if="elementActive" class="icon" id="bin" @click="function() {deleteElement = !deleteElement}"></div>
             <div v-if="elementActive" class="icon" id="up-arrow"></div>
             <div v-if="elementActive" class="icon" id="down-arrow"></div>
+            <div v-if="elementActive" class="icon" id="flip" @click="function() {isMirrored = !isMirrored}"></div>
         </DraggableResizable>
 </template>
 
@@ -72,26 +74,34 @@
         position: absolute;
         width: 32px;
         height: 32px;
-        border: 2px solid red;
+        border: 2px solid black;
         border-radius: 5px;
         right: -20px;   
+    }
+
+    .mirror{
+        transform: scaleX(-1);
     }
 
     #bin {
         top: 10px;
         background: no-repeat center/80%  url('/assets/bin.svg'), rgb(255, 226, 244);
+        border-color: red;
     }
 
     #up-arrow {
         top: 52px;
         background: no-repeat center/80%  url('/assets/upArrow.svg'), white;
-        border-color: black;
     }
 
     #down-arrow {
         top: 94px;
         background: no-repeat center/80%  url('/assets/downArrow.svg'), white;
-        border-color: black;
+    }
+
+    #flip {
+        top: 136px;
+        background: no-repeat center/80%  url('/assets/flip.svg'), white;
     }
 
 </style>
