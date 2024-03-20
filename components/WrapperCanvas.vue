@@ -5,15 +5,13 @@
   watch(() => elementsInCanvas.value.length, (newLength, oldLength) => {
         if (newLength > oldLength) {
           const newEntry = elementsInCanvas.value[newLength - 1];
-          console.clear();
-          console.log(newEntry.src)
         }
       });
 </script>
 
 <template>
     <div class="wrapper" id="canvasWrapper" ref="container">
-      <CanvasDragableElement v-for="element in elementsInCanvas" :w="130" :h="200" :z="1" :altText="element.name" :url="element.src"/>
+      <CanvasDraggableElement v-for="element in elementsInCanvas" :w="130" :h="200" :z="1" :altText="element.name" :url="element.src"/>
     </div>
   </template>
   
