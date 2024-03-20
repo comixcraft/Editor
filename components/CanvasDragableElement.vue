@@ -56,7 +56,7 @@
 
     #up-arrow {
         top: 52px;
-        background: no-repeat center/80%  url('/assets/');
+        background: no-repeat center/80%  url('/assets/up-arrow.svg');
     }
 
     #down-arrow {
