@@ -34,7 +34,9 @@
         width: 300px;
         height: 700px;
         border: 1px solid #000;
-        overflow-y: scroll;
+        overflow-y: scroll !important;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
     }
     
     #aligner {
