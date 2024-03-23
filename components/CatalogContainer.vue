@@ -9,6 +9,8 @@
             width: (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight
         };
         elementsInCanvas.value.push(tempObj)
+        elInCanvas.value.set(elInCanvas.value.size + 1, tempObj)
+        console.log(elInCanvas.value)
         return tempObj;
     }
 
