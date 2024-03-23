@@ -1,4 +1,4 @@
-class Position {
+export default class Position {
     #x;
     #y;
 
@@ -17,8 +17,9 @@ class Position {
     }
 
     // setter
-    set definePos({x, y}) {
-        this.#x = x;
-        this.#y = y;
+    set definePos(obj) {
+        this.#x = obj.x;
+        this.#y = obj.y;
     }
+
 }

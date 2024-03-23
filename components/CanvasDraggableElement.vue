@@ -8,8 +8,21 @@
     })
 
     let elementActive = false;
-    let deleteElement = ref(false);
     let isMirrored = ref(false);
+    let self = ref(null);
+
+
+    function removeElement() {
+        if (self.value) {
+            const zValue = parseInt(self.value.$el.style.zIndex); // Get the z-index of the element
+            elementsInCanvas.value.delete(zValue); // Delete the element from the map using its z-index
+        }
+    }
+
+
+    function updatePosition() {
+        // set position of element here
+    }
 
 
 </script>
@@ -20,11 +33,13 @@
         :h="h" 
         :parent="true" 
         :class-name-active="'elementActive'" 
+        ref="self"
         v-if="!deleteElement"
         @activated="function() {elementActive = !elementActive}"
-        @deactivated="function() {elementActive = !elementActive}">
+        @deactivated="function() {elementActive = !elementActive}"
+        @dragging="updatePosition">
             <img :src="url" :alt="altText" :class="{mirror : isMirrored}">
-            <div v-if="elementActive" class="icon" id="bin" @click="function() {deleteElement = !deleteElement}"></div>
+            <div v-if="elementActive" class="icon" id="bin" @click="removeElement"></div>
             <div v-if="elementActive" class="icon" id="up-arrow"></div>
             <div v-if="elementActive" class="icon" id="down-arrow"></div>
             <div v-if="elementActive" class="icon" id="flip" @click="function() {isMirrored = !isMirrored}"></div>

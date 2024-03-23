@@ -1,9 +1,7 @@
 import { ref } from 'vue';
 
 // dynamic elements
-const elementsInCanvas = ref([]);
-
-const elInCanvas = ref(new Map());
+const elementsInCanvas = ref(new Map());
 
 
-export { elementsInCanvas, elInCanvas};
+export { elementsInCanvas };

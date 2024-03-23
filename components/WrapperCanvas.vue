@@ -11,7 +11,7 @@
 
 <template>
     <div class="wrapper" id="canvasWrapper" ref="container">
-      <CanvasDraggableElement v-for="[key, value] in elInCanvas"
+      <CanvasDraggableElement v-for="[key, value] in elementsInCanvas"
         :z="key"
         :w="value.width"
         :h="value.height"

@@ -1,17 +1,16 @@
 <script setup>
 
-    function returnAttrOnClick(event) {
+    import ElementDS from '../utils/Classes/Element.js'
+
+    function addNewElementToDisplay(event) {
         let fixedHeight = 200;
-        let tempObj = {
-            name: event.target.alt, 
-            src: event.target.src,
-            height: fixedHeight,
-            width: (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight
-        };
-        elementsInCanvas.value.push(tempObj)
-        elInCanvas.value.set(elInCanvas.value.size + 1, tempObj)
-        console.log(elInCanvas.value)
-        return tempObj;
+        let name = event.target.alt; 
+        let src = event.target.src;
+        let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
+
+        // width, height, alt, src
+        let tempEl = new ElementDS(width, fixedHeight, name, src)
+        elementsInCanvas.value.set(elementsInCanvas.value.size + 1, tempEl)
     }
 
 </script>
@@ -22,7 +21,7 @@
     <div class="container" id="catalog-container">
         <div id="aligner">
             <div class="catalogPreviewWrapper" v-for="value in sampleCatalog">
-                <CatalogImagePreview :alt-text="value.name" :url="value.file_location" @click="returnAttrOnClick"/>
+                <CatalogImagePreview :alt-text="value.name" :url="value.file_location" @click="addNewElementToDisplay"/>
             </div>
         </div>
     </div>
