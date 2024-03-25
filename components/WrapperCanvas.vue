@@ -1,15 +1,14 @@
 <script setup>
     import {ref, watch } from 'vue';
 
-  // Watch for changes in the length of the entries array
-  watch(() => elementsInCanvas.value.length, (newLength, oldLength) => {
-        if (newLength > oldLength) {
-          const newEntry = elementsInCanvas.value[newLength - 1];
-        }
-      });
+    function showMap() {
+
+    }
+
 </script>
 
 <template>
+    <button @click="showMap">show map</button>
     <div class="wrapper" id="canvasWrapper" ref="container">
       <CanvasDraggableElement v-for="[key, value] in elementsInCanvas"
         :z="key"

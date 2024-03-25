@@ -34,7 +34,6 @@
         :parent="true" 
         :class-name-active="'elementActive'" 
         ref="self"
-        v-if="!deleteElement"
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}"
         @dragging="updatePosition">

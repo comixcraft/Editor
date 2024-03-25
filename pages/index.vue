@@ -6,7 +6,7 @@
 <template>
 
     <div class="container">
-        <WrapperCanvas class="canvasWrapper"></WrapperCanvas>
+        <WrapperCanvas></WrapperCanvas>
         <CatalogContainer></CatalogContainer>
     </div>
 

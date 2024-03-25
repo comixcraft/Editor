@@ -2,6 +2,7 @@ import Position from "./Position.js";
 
 export default class ElementDS {
 
+    #id;
     #pos = new Position(0, 0);
     #isFocused = false;
     #isMirrored = false;
@@ -16,15 +17,26 @@ export default class ElementDS {
         this.#height = height;
         this.#src = src;
         this.#alt = alt;
+
+        this.#init();
+    }
+
+    #init() {
+        let i = 1;
+        while (elementsInCanvas.value.has(i)) {
+            i++;
+        }
+        this.#id = i;
     }
 
     // getter
-    get currentState() {
+    currentState = () => {
         return this.#getCurrentState();
     }
 
     #getCurrentState() {
         return {
+            id: this.#id,
             pos: this.#pos,
             isFocused: this.#isFocused,
             isMirrored: this.#isMirrored,
