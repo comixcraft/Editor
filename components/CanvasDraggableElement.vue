@@ -13,10 +13,7 @@
 
 
     function removeElement() {
-        if (self.value) {
-            const zValue = parseInt(self.value.$el.style.zIndex); // Get the z-index of the element
-            elementsInCanvas.value.delete(zValue); // Delete the element from the map using its z-index
-        }
+        // remove element from elementInCanvas.value here
     }
 
 

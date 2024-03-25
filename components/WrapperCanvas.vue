@@ -1,8 +1,12 @@
 <script setup>
-    import {ref, watch } from 'vue';
+
+    import ElementDS from '../utils/Classes/Element.js'
 
     function showMap() {
-
+      console.clear()
+      elementsInCanvas.value.forEach((value, key) => {
+        console.log(`${key} is ${JSON.stringify(value.currentState())}. [instance of ElementDS: ${value instanceof ElementDS}]`)
+      })
     }
 
 </script>
@@ -12,10 +16,10 @@
     <div class="wrapper" id="canvasWrapper" ref="container">
       <CanvasDraggableElement v-for="[key, value] in elementsInCanvas"
         :z="key"
-        :w="value.width"
-        :h="value.height"
-        :altText="value.name" 
-        :url="value.src"
+        :w="value.currentState().width"
+        :h="value.currentState().height"
+        :altText="value.currentState().name" 
+        :url="value.currentState().src"
       />
       <!-- <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/> -->
     </div>
