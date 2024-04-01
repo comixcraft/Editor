@@ -3,14 +3,18 @@
     import ElementDS from '../utils/Classes/Element.js'
 
     function addNewElementToDisplay(event) {
+        elementsCounter.value++;
         let fixedHeight = 200;
         let name = event.target.alt; 
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
-
+        let availableInteger = 1;
+        while (elementsInCanvas.value.has(availableInteger)) {
+            availableInteger++;
+        }
         // width, height, alt, src
         let tempEl = new ElementDS(width, fixedHeight, name, src)
-        elementsInCanvas.value.set(elementsInCanvas.value.size + 1, tempEl)
+        elementsInCanvas.value.set(availableInteger, tempEl)
     }
 
 </script>

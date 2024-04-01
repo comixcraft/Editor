@@ -3,7 +3,8 @@ import Position from "./Position.js";
 export default class ElementDS {
 
     #id;
-    #pos = new Position(0, 0);
+    #z;
+    #pos = new Position(undefined, undefined);
     #isFocused = false;
     #isMirrored = false;
     #rotation = 0;
@@ -22,11 +23,8 @@ export default class ElementDS {
     }
 
     #init() {
-        let i = 1;
-        while (elementsInCanvas.value.has(i)) {
-            i++;
-        }
-        this.#id = i;
+        this.#z = this.#getFirstAvailableInteger();
+        this.#id = this.#setIdToLastPossibleInteger();
     }
 
     // getter
@@ -37,6 +35,7 @@ export default class ElementDS {
     #getCurrentState() {
         return {
             id: this.#id,
+            z: this.#z,
             pos: this.#pos,
             isFocused: this.#isFocused,
             isMirrored: this.#isMirrored,
@@ -49,8 +48,12 @@ export default class ElementDS {
     }
 
     // setters
-    set setPos(obj) {
+    setPos = (obj) => {
         this.#pos.definePos(obj);
+    }
+
+    setZIndex = (n) => {
+        this.#z = n;
     }
 
     set mirroring(bool) {
@@ -61,5 +64,25 @@ export default class ElementDS {
         this.#isFocused = bool;
     }
 
+    // init functions
+    #setIdToLastPossibleInteger() {
+        // if map element is empty return 1;
+        if (elementsInCanvas.value.size === 0) return 1;
 
+        // get last entry of the elementsInCanvas Map
+        let lastEntry;
+        for (const entry of elementsInCanvas.value.entries()) {
+            lastEntry = entry;
+        }
+        return lastEntry[1].currentState().id + 1;
+
+    }
+
+    #getFirstAvailableInteger() {
+        let i = 1;
+        while (elementsInCanvas.value.has(i)) {
+            i++;
+        }
+        return i;
+    }
 }

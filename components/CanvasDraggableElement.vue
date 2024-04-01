@@ -1,41 +1,50 @@
 <script setup>
+    import ElementDS from '../utils/Classes/Element.js'
 
     defineProps({
+        z: Number,
         w: Number,
         h: Number,
         altText: String,
         url: String,
+        eId: Number,
     })
 
     let elementActive = false;
     let isMirrored = ref(false);
     let self = ref(null);
 
-
-    function removeElement() {
-        // remove element from elementInCanvas.value here
+    function updatePosition(eId) {
+        // check what map entry correspond to id
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        })
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]')
+            return;
+        }
+        // update position of element
+        matchingIdEntry.setPos({x: self.value.left, y: self.value.top})
     }
-
-
-    function updatePosition() {
-        // set position of element here
-    }
-
 
 </script>
 
 <template>
-        <DraggableResizable 
+        <DraggableResizable
+        :z="z"
         :w="w" 
         :h="h" 
+        :eId="eId"
         :parent="true" 
         :class-name-active="'elementActive'" 
+        :disableUserSelect="true"
         ref="self"
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}"
-        @dragging="updatePosition">
+        @dragging="updatePosition(eId)">
             <img :src="url" :alt="altText" :class="{mirror : isMirrored}">
-            <div v-if="elementActive" class="icon" id="bin" @click="removeElement"></div>
+            <div v-if="elementActive" class="icon" id="bin" @click="$emit('deleteEvent', z)"></div>
             <div v-if="elementActive" class="icon" id="up-arrow"></div>
             <div v-if="elementActive" class="icon" id="down-arrow"></div>
             <div v-if="elementActive" class="icon" id="flip" @click="function() {isMirrored = !isMirrored}"></div>

@@ -8,7 +8,7 @@ export default class Position {
     }
 
     // getter 
-    get currPos() {
+    currPos = () => {
         return this.#getCurrentPosition();
     }
 
@@ -17,7 +17,11 @@ export default class Position {
     }
 
     // setter
-    set definePos(obj) {
+    definePos = (obj) => {
+        return this.#definePosition(obj)
+    }
+
+    #definePosition = (obj) => {
         this.#x = obj.x;
         this.#y = obj.y;
     }
