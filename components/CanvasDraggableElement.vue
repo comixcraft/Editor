@@ -43,11 +43,12 @@
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}"
         @dragging="updatePosition(eId)">
+            <EditionMenu 
+            v-if="elementActive"
+            @mirror-event="function() {isMirrored = !isMirrored}"
+            />
             <img :src="url" :alt="altText" :class="{mirror : isMirrored}">
             <div v-if="elementActive" class="icon" id="bin" @click="$emit('deleteEvent', z)"></div>
-            <div v-if="elementActive" class="icon" id="up-arrow"></div>
-            <div v-if="elementActive" class="icon" id="down-arrow"></div>
-            <div v-if="elementActive" class="icon" id="flip" @click="function() {isMirrored = !isMirrored}"></div>
         </DraggableResizable>
 </template>
 

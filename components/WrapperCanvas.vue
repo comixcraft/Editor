@@ -10,7 +10,7 @@
     }
 
     function deleteElement(elId) {
-      // need to change all z element there;
+      // all z element
       changeZIndex(elId)
       // delete last element of map
       elementsInCanvas.value.delete(elementsInCanvas.value.size)
