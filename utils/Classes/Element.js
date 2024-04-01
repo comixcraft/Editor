@@ -53,6 +53,7 @@ export default class ElementDS {
     }
 
     setZIndex = (n) => {
+        console.log(n)
         this.#z = n;
     }
 
