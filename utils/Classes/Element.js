@@ -23,7 +23,7 @@ export default class ElementDS {
     }
 
     #init() {
-        this.#z = this.#getFirstAvailableInteger();
+        this.#z = this.#setZIndexToLast();
         this.#id = this.#setIdToLastPossibleInteger();
     }
 
@@ -69,21 +69,22 @@ export default class ElementDS {
     #setIdToLastPossibleInteger() {
         // if map element is empty return 1;
         if (elementsInCanvas.value.size === 0) return 1;
-
         // get last entry of the elementsInCanvas Map
-        let lastEntry;
-        for (const entry of elementsInCanvas.value.entries()) {
-            lastEntry = entry;
-        }
-        return lastEntry[1].currentState().id + 1;
-
+        return this.#getLastEntryOfMap(elementsInCanvas.value).id + 1;
     }
 
-    #getFirstAvailableInteger() {
-        let i = 1;
-        while (elementsInCanvas.value.has(i)) {
-            i++;
+    #setZIndexToLast() {
+        // if map element is empty return 1;
+        if (elementsInCanvas.value.size === 0) return 1;
+        // get last entry of the elementsInCanvas Map
+        return this.#getLastEntryOfMap(elementsInCanvas.value).z + 1;
+    }
+
+    #getLastEntryOfMap(map) {
+        let lastEntry;
+        for (const entry of map.entries()) {
+            lastEntry = entry;
         }
-        return i;
+        return lastEntry[1].currentState()
     }
 }
