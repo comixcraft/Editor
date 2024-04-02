@@ -1,15 +1,20 @@
 <script setup>
 
-    function returnAttrOnClick(event) {
+    import ElementDS from '../utils/Classes/Element.js'
+
+    function addNewElementToDisplay(event) {
+        elementsCounter.value++;
         let fixedHeight = 200;
-        let tempObj = {
-            name: event.target.alt, 
-            src: event.target.src,
-            height: fixedHeight,
-            width: (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight
-        };
-        elementsInCanvas.value.push(tempObj)
-        return tempObj;
+        let name = event.target.alt; 
+        let src = event.target.src;
+        let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
+        let availableInteger = 1;
+        while (elementsInCanvas.value.has(availableInteger)) {
+            availableInteger++;
+        }
+        // width, height, alt, src
+        let tempEl = new ElementDS(width, fixedHeight, name, src)
+        elementsInCanvas.value.set(availableInteger, tempEl)
     }
 
 </script>
@@ -20,7 +25,7 @@
     <div class="container" id="catalog-container">
         <div id="aligner">
             <div class="catalogPreviewWrapper" v-for="value in sampleCatalog">
-                <CatalogImagePreview :alt-text="value.name" :url="value.file_location" @click="returnAttrOnClick"/>
+                <CatalogImagePreview :alt-text="value.name" :url="value.file_location" @click="addNewElementToDisplay"/>
             </div>
         </div>
     </div>
@@ -34,7 +39,9 @@
         width: 300px;
         height: 700px;
         border: 1px solid #000;
-        overflow-y: scroll;
+        overflow-y: scroll !important;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
     }
     
     #aligner {

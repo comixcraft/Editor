@@ -1,17 +1,49 @@
 <script setup>
-    import {ref, watch } from 'vue';
 
-  // Watch for changes in the length of the entries array
-  watch(() => elementsInCanvas.value.length, (newLength, oldLength) => {
-        if (newLength > oldLength) {
-          const newEntry = elementsInCanvas.value[newLength - 1];
-        }
-      });
+    import ElementDS from '../utils/Classes/Element.js'
+    
+    function showMap() {
+      console.clear()
+      elementsInCanvas.value.forEach((value, key) => {
+        console.log(`${key} is ${JSON.stringify(value.currentState())}. [instance of ElementDS: ${value instanceof ElementDS}]`)
+      })
+    }
+
+    function deleteElement(elId) {
+      // all z element
+      changeZIndex(elId)
+      // delete last element of map
+      elementsInCanvas.value.delete(elementsInCanvas.value.size)
+    }
+
+    function changeZIndex(z) {
+      // change all z index
+      if (z > elementsInCanvas.value.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
+
+      let nextElement = elementsInCanvas.value.get(z + 1)
+
+      nextElement.setZIndex(z) // change z-index of next element
+      elementsInCanvas.value.set(z, nextElement) // update map element with next element
+      z++; // increment z index
+      changeZIndex(z) // recursive
+    }
+
 </script>
 
 <template>
+    <button @click="showMap">show map</button>
     <div class="wrapper" id="canvasWrapper" ref="container">
-      <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/>
+      <CanvasDraggableElement v-for="[key, value] in elementsInCanvas"
+        @delete-event="deleteElement"
+        :key="value.currentState().id"
+        :eId="value.currentState().id"
+        :z="value.currentState().z"
+        :w="value.currentState().width"
+        :h="value.currentState().height"
+        :altText="value.currentState().name" 
+        :url="value.currentState().src"
+      />
+      <!-- <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/> -->
     </div>
   </template>
   
