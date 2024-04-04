@@ -8,6 +8,7 @@
     <div class="container">
         <WrapperCanvas></WrapperCanvas>
         <CatalogContainer></CatalogContainer>
+        <PreviewCanvas></PreviewCanvas>
     </div>
 
 </template>
