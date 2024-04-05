@@ -1,7 +1,13 @@
 <script setup>
+useFetch('/api/catalog/structure')
+    .then((response) => {
+        console.log('Catalog structure', response.data.value)
+    })
+    .catch((error) => {
+        createError(error);
+    })
 
 let catalogElements = [];
-
 await useFetch('/api/catalog/', {
   method: 'POST',
   body: {
