@@ -1,6 +1,9 @@
 <script setup>
+    import ElementDS from "~/utils/Classes/Element.js";
 
-    import ElementDS from '../utils/Classes/Element.js'
+    defineProps({
+      assets: Array,
+    })
 
     function addNewElementToDisplay(event) {
         elementsCounter.value++;
@@ -21,44 +24,29 @@
 
 
 <template>
-
-    <div class="container" id="catalog-container">
-        <div id="aligner">
-            <div class="catalogPreviewWrapper" v-for="value in sampleCatalog">
-                <CatalogImagePreview :alt-text="value.name" :url="value.file_location" @click="addNewElementToDisplay"/>
-            </div>
-        </div>
+    <div class="catalog-scroll-container">
+      <CatalogImagePreview
+          v-for="asset in assets"
+          :alt-text="asset.name"
+          :url="asset.file_location"
+          @click="addNewElementToDisplay"
+      />
     </div>
-
 </template>
 
 <style scoped>
-
-    .container {
-        position: relative;
+    .catalog-scroll-container {
         width: 300px;
         height: 700px;
+        padding: 25px 0;
         border: 1px solid #000;
-        overflow-y: scroll !important;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
     }
-    
-    #aligner {
-        position: absolute;
-        top: 0;
-        padding: 10px 0;
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .catalogPreviewWrapper {
-        width: auto;
-        height: 100%;
-        border: 1px solid black;
-    }
-
 </style>
