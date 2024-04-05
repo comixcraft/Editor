@@ -1,4 +1,4 @@
-export const catalogue = {
+export const catalog = {
   "Templates": {
     "Frames": {
       "filter-options": [],

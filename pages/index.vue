@@ -1,17 +1,14 @@
 <script setup>
 
-let catalogueElements = [];
+let catalogElements = [];
 
-await useFetch('/api/catalogue/', {
+await useFetch('/api/catalog/', {
   method: 'POST',
   body: {
-    category: 'characters',
-    subCategory: ['single', 'multiple'],
   }
 })
     .then((response) => {
-        catalogueElements.value = response.data.value;
-        console.log(catalogueElements.value)
+        catalogElements.value = response.data.value;
     })
     .catch((error) => {
         createError(error);
@@ -22,7 +19,7 @@ await useFetch('/api/catalogue/', {
     <div class="container">
         <WrapperCanvas></WrapperCanvas>
         <CatalogContainer
-            :assets="catalogueElements.value"
+            :assets="catalogElements.value"
         ></CatalogContainer>
     </div>
 

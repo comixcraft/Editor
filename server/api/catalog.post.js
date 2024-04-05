@@ -1,4 +1,4 @@
-import {catalogue} from "~/server/assets/comixplain-catalogue.js";
+import {catalog} from "~/server/assets/comixplain-catalog.js";
 
 const whitelistCategories = {
     'templates': 'Templates',
@@ -25,7 +25,7 @@ const whitelistSubCategories = {
 }
 
 export default defineEventHandler(async (event) => {
-    let catalogueAssets = [];
+    let catalogAssets = [];
 
     const body = await readBody(event)
 
@@ -73,11 +73,11 @@ export default defineEventHandler(async (event) => {
     }
 
     for (const categoryKey of categoryKeys) {
-        for (const [subCategoryKey, subCategoryValue] of Object.entries(catalogue[categoryKey])) {
+        for (const [subCategoryKey, subCategoryValue] of Object.entries(catalog[categoryKey])) {
             if (subCategoryKeys.includes(subCategoryKey)) {
 
                 if (filter.length === 0) {
-                    catalogueAssets = catalogueAssets.concat(subCategoryValue.assets);
+                    catalogAssets = catalogAssets.concat(subCategoryValue.assets);
                 }
 
                 for (const asset of subCategoryValue.assets) {
@@ -86,12 +86,12 @@ export default defineEventHandler(async (event) => {
 
                     let assetFilter = filter.filter((f) => keywords.toLowerCase().includes(f.toLowerCase()));
                     if (assetFilter.length > 0) {
-                        catalogueAssets.push(asset);
+                        catalogAssets.push(asset);
                     }
                 }
             }
         }
     }
 
-    return catalogueAssets;
+    return catalogAssets;
 })
