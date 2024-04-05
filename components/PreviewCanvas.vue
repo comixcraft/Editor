@@ -1,55 +1,51 @@
 <script setup>
-import {onMounted, watch} from 'vue';
+import { onMounted, watch } from 'vue';
+
+
 function closePreview() {
     document.querySelector(".previewContainer").classList.add("hide");
 }
 
-function displayPreview() {
+async function  displayPreview  () {
     const canvas = document.querySelector('.previewCanvas');
-    canvas.width = 300;
-    canvas.height = 500;
+    // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
+    canvas.width = 450;
+    canvas.height = 750;
 
     let context = canvas.getContext('2d');
-    // Drawing a circle
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
-    var radius = 70;
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = 'rgba(0,200,0, .7)';
-    context.fill();
-    context.lineWidth = 2;
-    context.strokeStyle = 'black';
-    context.stroke();
 
-
+    // draw each element on the canvas
     elementsInCanvas.value.forEach((element, key) => {
-        console.log(element.currentState())
+        const currentState = element.currentState();
+        console.log(element.isMirrored)
+        const pos = currentState.pos.currPos();
+        const img = new Image();
+        img.onload = () => {
+            context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height)
+        }
+        img.src = currentState.src;
     })
-
 }
 
+// not working with the github asset due to CORS problem
 function download() {
     const canvas = document.querySelector('.previewCanvas');
-    const dataURL = canvas.toDataURL("image/png");
-
-    // Create an link and click it to download the png
-    const a = document.createElement('a');
-    a.href = dataURL;
-    a.download = 'test.png';
-    a.click();
+    const img = canvas.toDataURL('image/png');
+    // create a link for download and click it
+    const link = document.createElement('a');
+    link.href = img;
+    link.download = 'canvas.png';
+    link.click();
 }
 
-watch(elementsCounter, () => {displayPreview()});
-onMounted(() => displayPreview());
-
+defineExpose({ displayPreview })
 </script>
 
 <template>
-    <div class="previewContainer hide">
+    <div class="previewContainer hide" ref="previewCanvas">
         <button class="closeBtn" @click="closePreview">X</button>
         <p>Preview</p>
-        <canvas class="previewCanvas"> </canvas>
+        <canvas class="previewCanvas" ref="canvas"> </canvas>
         <button @click="download">download</button>
     </div>
 </template>
@@ -81,7 +77,7 @@ onMounted(() => displayPreview());
 .previewCanvas {
     border: 1px solid black;
     width: 100%;
-    height: auto;    
+    height: auto;
 }
 
 .closeBtn {
@@ -105,7 +101,7 @@ p {
     .previewCanvas {
         border: 1px solid black;
         width: auto;
-        height: 100%; 
-    }  
+        height: 100%;
+    }
 }
 </style>

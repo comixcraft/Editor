@@ -2,6 +2,8 @@
 
 import ElementDS from '../utils/Classes/Element.js'
 
+const previewCanvasRef = ref(null);
+
 function showMap() {
     console.clear()
     elementsInCanvas.value.forEach((value, key) => {
@@ -30,11 +32,13 @@ function changeZIndex(z) {
 
 function openPreview() {
     document.querySelector(".previewContainer").classList.remove("hide");
+    previewCanvasRef.value.displayPreview();
 }
 
 </script>
 
 <template>
+    <PreviewCanvas ref="previewCanvasRef"></PreviewCanvas>
     <div class="buttonContainer">
         <button @click="showMap">show map</button>
         <button @click="openPreview">Export</button>
@@ -51,8 +55,8 @@ function openPreview() {
 @import 'vue-draggable-resizable/style.css';
 
 .wrapper {
-    width: 1000px;
-    height: 700px;
+    width: 450px;
+    height: 750px;
     border: 1px solid #000;
     overflow: hidden;
     display: grid;

@@ -4,7 +4,7 @@ export default class ElementDS {
 
     #id;
     #z;
-    #pos = new Position(undefined, undefined);
+    #pos = new Position(0, 0);
     #isFocused = false;
     #isMirrored = false;
     #rotation = 0;
