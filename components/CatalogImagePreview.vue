@@ -1,35 +1,36 @@
 <script setup>
-
     defineProps({
-    altText: String,
-    url: String,
+      altText: String,
+      url: String,
     })
-
-
 </script>
 
 <template>
 
   <div class="card">
-    <img :src="url" :alt="altText">
+    <img :alt="altText"
+         loading="lazy"
+         :src="url" />
   </div>
 
 </template>
 
 <style scoped>
     .card {
-        width: 180px;
-        height: 180px;
-        display: flex;
-        justify-content: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid black;
     }
+
     .card > img {
-        height: 100%;
-        width: auto;
-        -webkit-user-drag: none;
-        -khtml-user-drag: none;
-        -moz-user-drag: none;
-        -o-user-drag: none;
-        user-select: none;
+      height: 100px;
+      width: 100px;
+      object-fit: contain;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-select: none;
     }
 </style>
