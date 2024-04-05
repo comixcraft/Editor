@@ -1,7 +1,6 @@
 import {catalog} from "~/server/assets/comixplain-catalog.js";
 
 const whitelistCategories = {
-    'templates': 'Templates',
     'characters': 'Characters',
     'speech-bubbles': 'Speech Bubbles',
     'scenes': 'Scenes',
@@ -9,7 +8,6 @@ const whitelistCategories = {
 }
 
 const whitelistSubCategories = {
-    'frames': 'Frames',
     'facial-expressions': 'Facial Expressions',
     'single': 'Single',
     'multiple': 'Multiple',

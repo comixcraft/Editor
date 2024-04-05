@@ -1,29 +1,4 @@
 export const catalog = {
-  "Templates": {
-    "Frames": {
-      "filter-options": [],
-      "assets": [
-        {
-          "name": "single_frame.png",
-          "keywords": ["frames","single frame","panels","single panel","single","border","template","grid"],
-          "created_by": "Magdalena Boucher & Alena Ertl",
-          "file_location": "https://github.com/fhstp/comixplain/blob/main/Comixplain_Assets/single_frame.png?raw=true"
-        },
-        {
-          "name": "double_frame.png",
-          "keywords": ["frames","double frame","panels","double panel","double","border","template","grid"],
-          "created_by": "Magdalena Boucher & Alena Ertl",
-          "file_location": "https://github.com/fhstp/comixplain/blob/main/Comixplain_Assets/double_frame.png?raw=true"
-        },
-        {
-          "name": "triple_frame.png",
-          "keywords": ["frames","triple frame","panels","triple panel","triple","border","template","grid"],
-          "created_by": "Magdalena Boucher & Alena Ertl",
-          "file_location": "https://github.com/fhstp/comixplain/blob/main/Comixplain_Assets/triple_frame.png?raw=true"
-        }
-      ]
-    },
-  },
   "Characters": {
     "Facial Expressions": {
       "filter-options": ["happy","angry","neutral","sad","questioning","talking"],
