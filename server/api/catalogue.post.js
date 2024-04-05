@@ -61,11 +61,29 @@ export default defineEventHandler(async (event) => {
         subCategoryKeys = Object.values(whitelistSubCategories);
     }
 
+    // Filter
+    let filter = body.filter;
+    if (!Array.isArray(filter)) {
+        filter = [filter];
+    }
+
     for (const categoryKey of categoryKeys) {
         for (const [subCategoryKey, subCategoryValue] of Object.entries(catalogue[categoryKey])) {
             if (subCategoryKeys.includes(subCategoryKey)) {
-                console.log("subCategoryKey",subCategoryKey);
-                catalogueAssets = catalogueAssets.concat(subCategoryValue.assets);
+
+                if (filter.length === 0) {
+                    catalogueAssets = catalogueAssets.concat(subCategoryValue.assets);
+                }
+
+                for (const asset of subCategoryValue.assets) {
+                    let keywords = asset.keywords;
+                    keywords = keywords + ' ' + asset.name;
+
+                    let assetFilter = filter.filter((f) => keywords.toLowerCase().includes(f.toLowerCase()));
+                    if (assetFilter.length > 0) {
+                        catalogueAssets.push(asset);
+                    }
+                }
             }
         }
     }
