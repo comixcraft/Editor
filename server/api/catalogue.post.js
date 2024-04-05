@@ -63,6 +63,11 @@ export default defineEventHandler(async (event) => {
 
     // Filter
     let filter = body.filter;
+
+    if (!filter) {
+        filter = [];
+    }
+
     if (!Array.isArray(filter)) {
         filter = [filter];
     }
