@@ -1,26 +1,10 @@
 import {catalog} from "~/server/assets/comixplain-catalog.js";
 
-const whitelistCategories = {
-    'characters': 'Characters',
-    'speech-bubbles': 'Speech Bubbles',
-    'scenes': 'Scenes',
-    'annotation-elements': 'Annotation Elements',
-}
-
-const whitelistSubCategories = {
-    'facial-expressions': 'Facial Expressions',
-    'single': 'Single',
-    'multiple': 'Multiple',
-    'full-bubbles': 'Full Bubbles',
-    'half-bubbles': 'Half Bubbles',
-    'background': 'Background',
-    'items': 'Items',
-    'arrows': 'Arrows',
-    'circles': 'Circles',
-    'rectangles': 'Rectangles',
-    'lines': 'Lines',
-    'others': 'Others',
-}
+/* Post parameters:
+ * category: string or array of strings - categories of the comixplain catalog in all lowercase and with a dash instead of a whitespace
+ * subCategory: string or array of strings - subcategories of the comixplain catalog in all lowercase and with a dash instead of a whitespace
+ * filter: string or array of strings - terms to filter the assets by name or keywords (case insensitive) - multiple terms are combined with an OR operator
+ */
 
 export default defineEventHandler(async (event) => {
     let catalogAssets = [];
@@ -29,35 +13,43 @@ export default defineEventHandler(async (event) => {
 
     // Category
     let categories = body.category;
+
+    if (!categories) {
+        categories = [];
+    }
+
     if (!Array.isArray(categories)) {
         categories = [categories];
     }
 
-    categories = categories.map((c) => whitelistCategories[c] ? whitelistCategories[c] : null);
-    categories = categories.filter((c) => c !== null);
-
-    let categoryKeys = [];
-    if (categories.length > 0) {
-        categoryKeys = categories;
-    } else {
-        categoryKeys = Object.values(whitelistCategories);
-    }
+    categories = categories.map((c) => {
+        if (typeof c !== 'string') {
+            return null;
+        }
+        let categoryParts = c.split('-');
+        categoryParts = categoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
+        return categoryParts.join(' ');
+    });
 
     // SubCategory
     let subCategories = body.subCategory;
+
+    if (!subCategories) {
+        subCategories = [];
+    }
+
     if (!Array.isArray(subCategories)) {
         subCategories = [subCategories];
     }
 
-    subCategories = subCategories.map((c) => whitelistSubCategories[c] ? whitelistSubCategories[c] : null);
-    subCategories = subCategories.filter((c) => c !== null);
-
-    let subCategoryKeys = [];
-    if (subCategories.length > 0) {
-        subCategoryKeys = subCategories;
-    } else {
-        subCategoryKeys = Object.values(whitelistSubCategories);
-    }
+    subCategories = subCategories.map((c) => {
+        if (typeof c !== 'string') {
+            return null;
+        }
+        let subCategoryParts = c.split('-');
+        subCategoryParts = subCategoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
+        return subCategoryParts.join(' ');
+    });
 
     // Filter
     let filter = body.filter;
@@ -70,22 +62,27 @@ export default defineEventHandler(async (event) => {
         filter = [filter];
     }
 
-    for (const categoryKey of categoryKeys) {
+    for (const [categoryKey, categoryValue] of Object.entries(catalog)) {
+        if (categories.length > 0 && !categories.includes(categoryKey)) {
+            return;
+        }
+
         for (const [subCategoryKey, subCategoryValue] of Object.entries(catalog[categoryKey])) {
-            if (subCategoryKeys.includes(subCategoryKey)) {
+            if (subCategories.length > 0 && !subCategories.includes(categoryKey)) {
+                return;
+            }
 
-                if (filter.length === 0) {
-                    catalogAssets = catalogAssets.concat(subCategoryValue.assets);
-                }
+            if (filter.length === 0) {
+                catalogAssets = catalogAssets.concat(subCategoryValue.assets);
+            }
 
-                for (const asset of subCategoryValue.assets) {
-                    let keywords = asset.keywords;
-                    keywords = keywords + ' ' + asset.name;
+            for (const asset of subCategoryValue.assets) {
+                let keywords = asset.keywords;
+                keywords = keywords + ' ' + asset.name;
 
-                    let assetFilter = filter.filter((f) => keywords.toLowerCase().includes(f.toLowerCase()));
-                    if (assetFilter.length > 0) {
-                        catalogAssets.push(asset);
-                    }
+                let assetFilter = filter.filter((f) => keywords.toLowerCase().includes(f.toLowerCase()));
+                if (assetFilter.length > 0) {
+                    catalogAssets.push(asset);
                 }
             }
         }
