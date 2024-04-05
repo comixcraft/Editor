@@ -5,6 +5,9 @@ let catalogElements = [];
 await useFetch('/api/catalog/', {
   method: 'POST',
   body: {
+    // category: ['characters'],
+    // subCategory: ['single', 'multiple'],
+    // filter: ['old']
   }
 })
     .then((response) => {
