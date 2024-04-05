@@ -7,7 +7,7 @@ useFetch('/api/catalog/structure')
         createError(error);
     })
 
-let catalogElements = [];
+let catalogElements = ref([]);
 await useFetch('/api/catalog/', {
   method: 'POST',
   body: {
@@ -28,7 +28,7 @@ await useFetch('/api/catalog/', {
     <div class="container">
         <WrapperCanvas></WrapperCanvas>
         <CatalogContainer
-            :assets="catalogElements.value"
+            :assets="catalogElements"
         ></CatalogContainer>
     </div>
 
