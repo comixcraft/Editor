@@ -4,6 +4,9 @@ import ElementDS from '../utils/Classes/Element.js'
 
 const previewCanvasRef = ref(null);
 
+// Should come from the template selected
+const canvasSize = {w: 450, h:750};
+
 function showMap() {
     console.clear()
     elementsInCanvas.value.forEach((value, key) => {
@@ -38,7 +41,7 @@ function openPreview() {
 </script>
 
 <template>
-    <PreviewCanvas ref="previewCanvasRef"></PreviewCanvas>
+    <PreviewCanvas ref="previewCanvasRef" :size="canvasSize"></PreviewCanvas>
     <div class="buttonContainer">
         <button @click="showMap">show map</button>
         <button @click="openPreview">Export</button>
@@ -55,8 +58,10 @@ function openPreview() {
 @import 'vue-draggable-resizable/style.css';
 
 .wrapper {
+    /* sould be defined dynamically once the value comes from template */
     width: 450px;
     height: 750px;
+    
     border: 1px solid #000;
     overflow: hidden;
     display: grid;

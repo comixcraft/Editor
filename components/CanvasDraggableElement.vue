@@ -11,7 +11,7 @@
     })
 
     let elementActive = false;
-    let isMirrored = ref(false);
+    let mirrored = ref(false);
     let self = ref(null);
 
     function updatePosition(eId) {
@@ -26,6 +26,22 @@
         }
         // update position of element
         matchingIdEntry.setPos({x: self.value.left, y: self.value.top})
+    }
+
+    function updateMirroring(eId) {
+        // mirror the image on editor
+        this.mirrored = !this.mirrored;
+        // recover the element
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        })
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]')
+            return;
+        }
+        // update isMirrored of element
+        matchingIdEntry.setIsMirrored(this.mirrored);
     }
 
 
@@ -46,9 +62,9 @@
         @dragging="updatePosition(eId)">
             <EditionMenu 
             v-if="elementActive"
-            @mirror-event="function() {isMirrored = !isMirrored}"
+            @mirror-event="updateMirroring(eId)"
             />
-            <img :src="url" :alt="altText" :class="{mirror : isMirrored}">
+            <img :src="url" :alt="altText" :class="{mirror : mirrored}">
             <div v-if="elementActive" class="icon" id="bin" @click="$emit('deleteEvent', z)"></div>
         </DraggableResizable>
 </template>

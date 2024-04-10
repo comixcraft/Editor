@@ -57,7 +57,7 @@ export default class ElementDS {
         this.#z = n;
     }
 
-    set mirroring(bool) {
+    setIsMirrored = (bool) => {
         this.#isMirrored = bool;
     }
 

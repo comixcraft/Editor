@@ -1,29 +1,41 @@
 <script setup>
-import { onMounted, watch } from 'vue';
+
+const props = defineProps({
+    size: Object
+})
 
 
 function closePreview() {
     document.querySelector(".previewContainer").classList.add("hide");
 }
 
-async function  displayPreview  () {
+async function  displayPreview() {
     const canvas = document.querySelector('.previewCanvas');
     // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
-    canvas.width = 450;
-    canvas.height = 750;
+    canvas.width = props.size.w;
+    canvas.height = props.size.h;
 
     let context = canvas.getContext('2d');
 
     // draw each element on the canvas
     elementsInCanvas.value.forEach((element, key) => {
         const currentState = element.currentState();
-        console.log(element.isMirrored)
         const pos = currentState.pos.currPos();
         const img = new Image();
         img.onload = () => {
-            context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height)
+            console.log(currentState)
+            if (currentState.isMirrored) {
+                context.scale(-1,1)
+                context.translate(-currentState.width -pos.x, pos.y);
+                context.drawImage(img, 0, 0, currentState.width, currentState.height);
+                context.restore();
+            }
+            else {
+                context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height)
+            }
         }
-        img.src = currentState.src;
+        // to change once the images are right
+        img.src = '/Barista And Coffee no expression.png';
     })
 }
 
