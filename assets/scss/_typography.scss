@@ -1,0 +1,37 @@
+$material-symbols-font-path: '~/material-symbols/';
+@import "material-symbols/rounded.css";
+
+@font-face {
+  font-family: "Nunito";
+  font-style: NORMAL;
+  font-weight: 400;
+  src: url("../../public/fonts/Nunito-VariableFont_wght.ttf") format('ttf');
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-style: NORMAL;
+  font-weight: 700;
+  src: url("../../public/fonts/Nunito-VariableFont_wght.ttf") format('ttf');
+}
+
+@font-face {
+  font-family: "Pangolin";
+  font-style: NORMAL;
+  font-weight: 700;
+  src: url("/fonts/Pangolin-Regular.ttf") format('ttf');
+}
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+.material-symbols-rounded, .icon {
+  font-family: 'Material Symbols Rounded', system-ui;
+  font-size: 24px;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.text-comic {
+  font-family: "Pangolin", "Comic Sans MS", sans-serif;
+}
