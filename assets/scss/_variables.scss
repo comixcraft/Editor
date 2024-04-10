@@ -1,3 +1,5 @@
+// Color
+
 $primary-100: #6360f4;
 $primary-50: #B1B0FA;
 $primary-30: #D1D0FC;
@@ -51,7 +53,56 @@ $grey-60: #B8B8B8;
 $grey-50: #D6D6D6;
 $grey-40: #EBEBEB;
 $grey-30: #F5F5F5;
-$grey-0:  #FFFFFF;
+$grey-0: #FFFFFF;
 
 $black: $grey-100;
 $white: $grey-0;
+
+// Font
+$font-size-desktop: (
+        1: 56px,
+        2: 48px,
+        3: 32px,
+        4: 24px,
+        5: 18px,
+);
+
+$font-size-tablet: (
+        1: 48px,
+        2: 32px,
+        3: 24px,
+        4: 18px,
+        5: 16px,
+);
+
+$font-size-phone: (
+        1: 24px,
+        2: 20px,
+        3: 18px,
+        4: 16px,
+        5: 14px,
+);
+
+$line-height-desktop: (
+        1: 1.1,
+        2: 1.2,
+        3: 1.2,
+        4: 1.2,
+        5: 1.2,
+);
+
+$line-height-tablet: (
+        1: 1.1,
+        2: 1.2,
+        3: 1.2,
+        4: 1.2,
+        5: 1.2,
+);
+
+$line-height-phone: (
+        1: 1.2,
+        2: 1.2,
+        3: 1.2,
+        4: 1.2,
+        5: 1.2,
+);

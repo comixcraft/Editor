@@ -22,10 +22,6 @@ $material-symbols-font-path: '~/material-symbols/';
   src: url("/fonts/Pangolin-Regular.ttf") format('ttf');
 }
 
-* {
-  font-family: "Nunito", sans-serif;
-}
-
 .material-symbols-rounded, .icon {
   font-family: 'Material Symbols Rounded', system-ui;
   font-size: 24px;
@@ -34,4 +30,39 @@ $material-symbols-font-path: '~/material-symbols/';
 
 .text-comic {
   font-family: "Pangolin", "Comic Sans MS", sans-serif;
+}
+
+@mixin font-classes($sizes, $line-height) {
+  @each $index, $size in $sizes {
+    h#{$index}, .h#{$index} {
+      font-weight: bold;
+      font-size: $size;
+      line-height: map-get($line-height, $index);
+    }
+
+    .p#{$index} {
+      font-weight: normal;
+      font-size: $size;
+      line-height: map-get($line-height, $index);
+    }
+
+    * {
+      font-family: "Nunito", sans-serif;
+      font-size: map-get($sizes, 4);
+      line-height: map-get($line-height, 4);
+    }
+  }
+}
+
+// Mobile
+@include font-classes($font-size-phone, $line-height-phone);
+
+// Tablets
+@media (min-width: 768px) {
+  @include font-classes($font-size-tablet, $line-height-tablet);
+}
+
+// Desktop
+@media (min-width: 992px) {
+  @include font-classes($font-size-desktop, $line-height-desktop);
 }
