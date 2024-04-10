@@ -1,0 +1,57 @@
+$primary-100: #6360f4;
+$primary-50: #B1B0FA;
+$primary-30: #D1D0FC;
+$primary: $primary-100;
+
+$secondary-100: #F460B7;
+$secondary-50: #FAB0DB;
+$secondary-30: #FCD0EA;
+$secondary: $secondary-100;
+
+$accent-100: #07B8BA;
+$accent-50: #83DBDD;
+$accent-30: #B5EAEA;
+$accent: $accent-100;
+
+$negative-100: #FF474F;
+$negative-50: #F9B4B7;
+$negative-30: #FBD2D4;
+$negative: $negative-100;
+
+$danger-100: $negative-100;
+$danger-50: $negative-50;
+$danger-30: $negative-30;
+$danger: $danger-100;
+
+$error-100: $negative-100;
+$error-50: $negative-50;
+$error-30: $negative-30;
+$error: $error-100;
+
+$positive-100: #16C74A;
+$positive-50: #B2EBC3;
+$positive-30: #D1F3DB;
+$positive: $positive-100;
+
+$success-100: $positive-100;
+$success-50: $positive-50;
+$success-30: $positive-30;
+$success: $success-100;
+
+$info-100: #005DF9;
+$info-50: #80ADFC;
+$info-30: #B2CEFD;
+$info: $info-100;
+
+$grey-100: #000000;
+$grey-90: #272727;
+$grey-80: #3D3C3E;
+$grey-70: #707070;
+$grey-60: #B8B8B8;
+$grey-50: #D6D6D6;
+$grey-40: #EBEBEB;
+$grey-30: #F5F5F5;
+$grey-0:  #FFFFFF;
+
+$black: $grey-100;
+$white: $grey-0;
