@@ -2,11 +2,6 @@
 
 import ElementDS from '../utils/Classes/Element.js'
 
-const previewCanvasRef = ref(null);
-
-// Should come from the template selected
-const canvasSize = {w: 450, h:750};
-
 function showMap() {
     console.clear()
     elementsInCanvas.value.forEach((value, key) => {
@@ -33,19 +28,10 @@ function changeZIndex(z) {
     changeZIndex(z) // recursive
 }
 
-function openPreview() {
-    document.querySelector(".previewContainer").classList.remove("hide");
-    previewCanvasRef.value.displayPreview();
-}
-
 </script>
 
 <template>
-    <PreviewCanvas ref="previewCanvasRef" :size="canvasSize"></PreviewCanvas>
-    <div class="buttonContainer">
-        <button @click="showMap">show map</button>
-        <button @click="openPreview">Export</button>
-    </div>
+    <button @click="showMap">show map</button>
     <div class="wrapper" id="canvasWrapper" ref="container">
         <CanvasDraggableElement v-for="[key, value] in elementsInCanvas" @delete-event="deleteElement"
             :key="value.currentState().id" :eId="value.currentState().id" :z="value.currentState().z"
