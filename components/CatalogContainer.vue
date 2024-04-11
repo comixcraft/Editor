@@ -34,17 +34,17 @@
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
     .catalog-scroll-container {
         width: 300px;
         height: 700px;
-        padding: 25px 0;
-        border: 1px solid #000;
+        padding: $spacer-4 0;
+        border: $border-width solid $black;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 20px;
+        gap: $spacer-4;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
