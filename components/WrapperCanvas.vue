@@ -32,7 +32,7 @@
 
 <template>
     <button @click="showMap">show map</button>
-    <div class="wrapper" id="canvasWrapper" ref="container">
+    <div class="wrapper" ref="container">
       <CanvasDraggableElement v-for="[key, value] in elementsInCanvas"
         @delete-event="deleteElement"
         :key="value.currentState().id"

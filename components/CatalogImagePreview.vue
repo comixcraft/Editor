@@ -15,12 +15,12 @@
 
 </template>
 
-<style scoped>
+<style scoped lang="scss">
     .card {
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid black;
+      border: $border-width solid black;
     }
 
     .card > img {
