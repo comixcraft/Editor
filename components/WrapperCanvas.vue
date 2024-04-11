@@ -32,11 +32,18 @@ function changeZIndex(z) {
 
 <template>
     <button @click="showMap">show map</button>
-    <div class="wrapper" id="canvasWrapper" ref="container">
-        <CanvasDraggableElement v-for="[key, value] in elementsInCanvas" @delete-event="deleteElement"
-            :key="value.currentState().id" :eId="value.currentState().id" :z="value.currentState().z"
-            :w="value.currentState().width" :h="value.currentState().height" :altText="value.currentState().name"
-            :url="value.currentState().src" />
+    <div class="wrapper" ref="container">
+      <CanvasDraggableElement v-for="[key, value] in elementsInCanvas"
+        @delete-event="deleteElement"
+        :key="value.currentState().id"
+        :eId="value.currentState().id"
+        :z="value.currentState().z"
+        :w="value.currentState().width"
+        :h="value.currentState().height"
+        :altText="value.currentState().name" 
+        :url="value.currentState().src"
+      />
+      <!-- <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/> -->
     </div>
 </template>
 

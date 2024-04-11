@@ -72,7 +72,7 @@
         :h="h" 
         :eId="eId"
         :parent="true" 
-        :class-name-active="'elementActive'" 
+        class-name-active="elementActive"
         :disableUserSelect="true"
         ref="self"
         @activated="function() {elementActive = !elementActive}"
@@ -88,49 +88,17 @@
         </DraggableResizable>
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
     img {
         width: 100%;
         height: 100%;
     }
 
     .elementActive {
-        border: 1px dashed red;
+        border: $border-width solid $info;
     }
 
-    .icon {
-        position: absolute;
-        width: 32px;
-        height: 32px;
-        border: 2px solid black;
-        border-radius: 5px;
-        right: -20px;   
-    }
-
-    .mirror{
+    .mirror {
         transform: scaleX(-1);
     }
-
-    #bin {
-        top: 10px;
-        background: no-repeat center/80%  url('/assets/bin.svg'), rgb(255, 226, 244);
-        border-color: red;
-    }
-
-    #up-arrow {
-        top: 52px;
-        background: no-repeat center/80%  url('/assets/upArrow.svg'), white;
-    }
-
-    #down-arrow {
-        top: 94px;
-        background: no-repeat center/80%  url('/assets/downArrow.svg'), white;
-    }
-
-    #flip {
-        top: 136px;
-        background: no-repeat center/80%  url('/assets/flip.svg'), white;
-    }
-
 </style>
