@@ -58,6 +58,8 @@ $grey-0: #FFFFFF;
 $black: $grey-100;
 $white: $grey-0;
 
+$gradient-primary-secondary: linear-gradient(90deg, $primary 50%, $secondary 100%);
+
 // Font
 $font-size-desktop: (
         1: 56px,
