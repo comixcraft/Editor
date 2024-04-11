@@ -1,17 +1,19 @@
 <script setup>
     import ElementDS from '../utils/Classes/Element.js'
 
-    defineProps({
+    const props = defineProps({
         z: Number,
         w: Number,
         h: Number,
         altText: String,
         url: String,
         eId: Number,
+        pos: Object,
+        isMirrored: Boolean
     })
 
     let elementActive = false;
-    let mirrored = ref(false);
+    let mirrored = ref(props.isMirrored);
     let self = ref(null);
 
     function updatePosition(eId) {
@@ -42,8 +44,6 @@
         matchingIdEntry.setPos({x: self.value.left, y: self.value.top});
         matchingIdEntry.setWidth(self.value.width);
         matchingIdEntry.setHeight(self.value.height);
-
-
     }
 
     function updateMirroring(eId) {
@@ -61,15 +61,15 @@
         // update isMirrored of element
         matchingIdEntry.setIsMirrored(this.mirrored);
     }
-
-
 </script>
 
 <template>
         <DraggableResizable
         :z="z"
         :w="w" 
-        :h="h" 
+        :h="h"
+        :x="pos.currPos().x"
+        :y="pos.currPos().y" 
         :eId="eId"
         :parent="true" 
         class-name-active="elementActive"
@@ -82,10 +82,10 @@
             <EditionMenu 
             v-if="elementActive"
             @mirror-event="updateMirroring(eId)"
+            @delete-event="$emit('deleteEvent', z)"
             />
             <img :src="url" :alt="altText" :class="{mirror : mirrored}">
-            <div v-if="elementActive" class="icon" id="bin" @click="$emit('deleteEvent', z)"></div>
-        </DraggableResizable>
+            </DraggableResizable>
 </template>
 
 <style scoped lang="scss">

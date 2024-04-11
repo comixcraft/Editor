@@ -39,11 +39,10 @@ async function displayPreview() {
                 context.scale(-1, 1)
                 context.translate(-currentState.width - pos.x, pos.y);
                 context.drawImage(img, 0, 0, currentState.width, currentState.height);
-                context.restore();
+                context.resetTransform();
             }
             else {
-                context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height)
-                context.restore();
+                context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height);
             }
         }
         // to change once the images are right

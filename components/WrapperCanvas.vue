@@ -42,6 +42,8 @@ function changeZIndex(z) {
         :h="value.currentState().height"
         :altText="value.currentState().name" 
         :url="value.currentState().src"
+        :pos="value.currentState().pos"
+        :isMirrored="value.currentState().isMirrored"
       />
       <!-- <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/> -->
     </div>
