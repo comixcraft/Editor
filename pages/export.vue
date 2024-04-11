@@ -47,7 +47,7 @@ async function displayPreview() {
             }
         }
         // to change once the images are right
-        img.src = '/Barista And Coffee no expression.png';
+        img.src = currentState.src;
     })
 }
 

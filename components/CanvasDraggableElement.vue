@@ -28,6 +28,24 @@
         matchingIdEntry.setPos({x: self.value.left, y: self.value.top})
     }
 
+    function resize(eId) {
+        // check what map entry correspond to id
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        })
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]')
+            return;
+        }
+
+        matchingIdEntry.setPos({x: self.value.left, y: self.value.top});
+        matchingIdEntry.setWidth(self.value.width);
+        matchingIdEntry.setHeight(self.value.height);
+
+
+    }
+
     function updateMirroring(eId) {
         // mirror the image on editor
         this.mirrored = !this.mirrored;
@@ -59,7 +77,8 @@
         ref="self"
         @activated="function() {elementActive = !elementActive}"
         @deactivated="function() {elementActive = !elementActive}"
-        @dragging="updatePosition(eId)">
+        @drag-stop="updatePosition(eId)"
+        @resize-stop="resize(eId)">
             <EditionMenu 
             v-if="elementActive"
             @mirror-event="updateMirroring(eId)"

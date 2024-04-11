@@ -65,6 +65,14 @@ export default class ElementDS {
         this.#isFocused = bool;
     }
 
+    setWidth = (width) => {
+        this.#width = width;
+    }
+    
+    setHeight = (height) => {
+        this.#height = height;
+    }
+
     // init functions
     #setIdToLastPossibleInteger() {
         // if map element is empty return 1;
