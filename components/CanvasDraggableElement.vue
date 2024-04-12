@@ -1,6 +1,4 @@
 <script setup>
-    import ElementDS from '../utils/Classes/Element.js'
-
     const props = defineProps({
         z: Number,
         w: Number,
@@ -72,7 +70,7 @@
         :y="pos.currPos().y" 
         :eId="eId"
         :parent="true" 
-        class-name-active="elementActive"
+        class-name-active="element--active"
         :disableUserSelect="true"
         ref="self"
         @activated="function() {elementActive = !elementActive}"
@@ -94,7 +92,7 @@
         height: 100%;
     }
 
-    .elementActive {
+    .element--active {
         border: $border-width solid $info;
     }
 

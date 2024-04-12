@@ -61,16 +61,4 @@ function changeZIndex(z) {
     overflow: hidden;
     display: grid;
 }
-
-.box {
-    margin-top: 2rem;
-    padding: 1rem;
-    outline: solid 1px #ccc;
-}
-
-.hide {
-    display: none;
-}
-
-
 </style>

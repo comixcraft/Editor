@@ -24,7 +24,7 @@
 
 
 <template>
-    <div class="catalog-scroll-container">
+    <div class="catalog__scroll-container">
       <CatalogImagePreview
           v-for="asset in assets"
           :alt-text="asset.name"
@@ -35,7 +35,7 @@
 </template>
 
 <style scoped lang="scss">
-    .catalog-scroll-container {
+    .catalog__scroll-container {
         width: 300px;
         height: 700px;
         padding: $spacer-4 0;

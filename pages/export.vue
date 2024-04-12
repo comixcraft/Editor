@@ -1,10 +1,10 @@
 <template>
-    <div class="previewContainer" ref="previewCanvas">
+    <div class="preview__container" ref="previewCanvas">
         <button>
             <NuxtLink to="/">Back</NuxtLink>
         </button>
         <p>Preview</p>
-        <canvas class="previewCanvas" ref="canvasEl"> </canvas>
+        <canvas class="preview__canvas" ref="canvasEl"> </canvas>
         <button @click="download">download</button>
     </div>
 </template>
@@ -76,7 +76,7 @@ onMounted(() => {
 
 <style>
 
-.previewContainer {
+.previewC__container {
     z-index: 1000;
     justify-self: center;
     align-self: center;
@@ -94,7 +94,7 @@ onMounted(() => {
     align-items: center;
 }
 
-.previewCanvas {
+.preview__canvas {
     border: 1px solid black;
     
     background-color: white;
@@ -103,25 +103,12 @@ onMounted(() => {
     height: auto;
 }
 
-.closeBtn {
-    border-radius: 50%;
-    background-color: red;
-    width: 1.25rem;
-    height: 1.25rem;
-    border: none;
-    position: absolute;
-    padding: .1rem;
-    top: .25rem;
-    right: .25rem;
-    color: white;
-}
-
 p {
     margin: 0;
 }
 
 @media (min-width: 768px) {
-    .previewCanvas {
+    .preview__canvas {
         border: 1px solid black;
         width: auto;
         height: 100%;
