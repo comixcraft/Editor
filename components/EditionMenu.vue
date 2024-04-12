@@ -15,7 +15,7 @@
     <div class="edit-icon icon">flip_to_front</div>
     <div class="edit-icon icon">flip_to_back</div>
     <div class="edit-icon icon" @click="$emit('mirrorEvent')">flip</div>
-    <div class="edit-icon icon" @click="$emit('mirrorEvent')">more_vert</div>
+    <div class="edit-icon icon">more_vert</div>
   </div>
 
 </template>

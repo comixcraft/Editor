@@ -4,7 +4,7 @@ export default class ElementDS {
 
     #id;
     #z;
-    #pos = new Position(undefined, undefined);
+    #pos = new Position(0, 0);
     #isFocused = false;
     #isMirrored = false;
     #rotation = 0;
@@ -57,12 +57,20 @@ export default class ElementDS {
         this.#z = n;
     }
 
-    set mirroring(bool) {
+    setIsMirrored = (bool) => {
         this.#isMirrored = bool;
     }
 
     set focused(bool) {
         this.#isFocused = bool;
+    }
+
+    setWidth = (width) => {
+        this.#width = width;
+    }
+    
+    setHeight = (height) => {
+        this.#height = height;
     }
 
     // init functions

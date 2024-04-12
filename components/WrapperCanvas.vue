@@ -1,32 +1,32 @@
 <script setup>
 
-    import ElementDS from '../utils/Classes/Element.js'
-    
-    function showMap() {
-      console.clear()
-      elementsInCanvas.value.forEach((value, key) => {
+import ElementDS from '../utils/Classes/Element.js'
+
+function showMap() {
+    console.clear()
+    elementsInCanvas.value.forEach((value, key) => {
         console.log(`${key} is ${JSON.stringify(value.currentState())}. [instance of ElementDS: ${value instanceof ElementDS}]`)
-      })
-    }
+    })
+}
 
-    function deleteElement(elId) {
-      // all z element
-      changeZIndex(elId)
-      // delete last element of map
-      elementsInCanvas.value.delete(elementsInCanvas.value.size)
-    }
+function deleteElement(elId) {
+    // all z element
+    changeZIndex(elId)
+    // delete last element of map
+    elementsInCanvas.value.delete(elementsInCanvas.value.size)
+}
 
-    function changeZIndex(z) {
-      // change all z index
-      if (z > elementsInCanvas.value.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
+function changeZIndex(z) {
+    // change all z index
+    if (z > elementsInCanvas.value.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
 
-      let nextElement = elementsInCanvas.value.get(z + 1)
+    let nextElement = elementsInCanvas.value.get(z + 1)
 
-      nextElement.setZIndex(z) // change z-index of next element
-      elementsInCanvas.value.set(z, nextElement) // update map element with next element
-      z++; // increment z index
-      changeZIndex(z) // recursive
-    }
+    nextElement.setZIndex(z) // change z-index of next element
+    elementsInCanvas.value.set(z, nextElement) // update map element with next element
+    z++; // increment z index
+    changeZIndex(z) // recursive
+}
 
 </script>
 
@@ -42,24 +42,35 @@
         :h="value.currentState().height"
         :altText="value.currentState().name" 
         :url="value.currentState().src"
+        :pos="value.currentState().pos"
+        :isMirrored="value.currentState().isMirrored"
       />
       <!-- <CanvasDraggableElement v-for="element in elementsInCanvas" :w="element.width" :h="element.height" :z="1" :altText="element.name" :url="element.src"/> -->
     </div>
-  </template>
-  
-  <style>
-  @import 'vue-draggable-resizable/style.css';
-  
-  .wrapper {
-    width: 1000px;
-    height: 700px;
+</template>
+
+<style>
+@import 'vue-draggable-resizable/style.css';
+
+.wrapper {
+    /* sould be defined dynamically once the value comes from template */
+    width: 450px;
+    height: 750px;
+    
     border: 1px solid #000;
     overflow: hidden;
-  }
+    display: grid;
+}
 
-  .box {
-  margin-top: 2rem;
-  padding: 1rem;
-  outline: solid 1px #ccc;
-  }
-  </style>
+.box {
+    margin-top: 2rem;
+    padding: 1rem;
+    outline: solid 1px #ccc;
+}
+
+.hide {
+    display: none;
+}
+
+
+</style>
