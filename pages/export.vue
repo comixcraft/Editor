@@ -1,10 +1,10 @@
 <template>
-    <div class="preview__container" ref="previewCanvas">
+    <div ref="previewCanvas" class="preview__container">
         <button>
             <NuxtLink to="/">Back</NuxtLink>
         </button>
         <p>Preview</p>
-        <canvas class="preview__canvas" ref="canvasEl"> </canvas>
+        <canvas ref="canvasEl" class="preview__canvas"></canvas>
         <button @click="download">download</button>
     </div>
 </template>
@@ -24,9 +24,9 @@ async function displayPreview() {
 
     // draw a white background
     context.beginPath();
-    context.fillStyle = "white";
-    context.rect(0,0,canvasWidth.value, canvasHeight.value);
-    context.fill()
+    context.fillStyle = 'white';
+    context.rect(0, 0, canvasWidth.value, canvasHeight.value);
+    context.fill();
     context.restore();
 
     // draw each element on the canvas
@@ -36,18 +36,17 @@ async function displayPreview() {
         const img = new Image();
         img.onload = () => {
             if (currentState.isMirrored) {
-                context.scale(-1, 1)
+                context.scale(-1, 1);
                 context.translate(-currentState.width - pos.x, pos.y);
                 context.drawImage(img, 0, 0, currentState.width, currentState.height);
                 context.resetTransform();
-            }
-            else {
+            } else {
                 context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height);
             }
-        }
+        };
         // to change once the images are right
         img.src = currentState.src;
-    })
+    });
 }
 
 // not working with the github asset due to CORS problem
@@ -69,14 +68,11 @@ onMounted(() => {
     canvasHeight.value = route.query.height ? route.query.height : 0;
 
     displayPreview();
-    
-})
-
+});
 </script>
 
 <style>
-
-.previewC__container {
+.preview__container {
     z-index: 1000;
     justify-self: center;
     align-self: center;
@@ -88,15 +84,15 @@ onMounted(() => {
     background-color: white;
     display: grid;
     grid-template-rows: auto auto 1fr auto;
-    padding: .25rem;
-    gap: .25rem;
+    padding: 0.25rem;
+    gap: 0.25rem;
     justify-items: center;
     align-items: center;
 }
 
 .preview__canvas {
     border: 1px solid black;
-    
+
     background-color: white;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.75);
     width: 100%;

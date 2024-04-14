@@ -1,5 +1,6 @@
-import {describe, it, expect} from 'vitest';
-import ElementDS from "~/utils/Classes/Element.js";
+import { describe, expect, it } from 'vitest';
+import ElementDS from '~/utils/Classes/Element.js';
+
 describe('Element', () => {
     it('creates an element with passed and default properties', () => {
         const sut = new ElementDS(0.2, 0.5, 'Image description', 'example.png');

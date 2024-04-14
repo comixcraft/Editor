@@ -1,7 +1,6 @@
-import Position from "./Position.js";
+import Position from './Position.js';
 
 export default class ElementDS {
-
     #id;
     #z;
     #pos = new Position(0, 0);
@@ -13,7 +12,7 @@ export default class ElementDS {
     #src;
     #alt;
 
-    constructor (width, height, alt, src) {
+    constructor(width, height, alt, src) {
         this.#width = width;
         this.#height = height;
         this.#src = src;
@@ -30,7 +29,7 @@ export default class ElementDS {
     // getter
     currentState = () => {
         return this.#getCurrentState();
-    }
+    };
 
     #getCurrentState() {
         return {
@@ -44,22 +43,21 @@ export default class ElementDS {
             height: this.#height,
             src: this.#src,
             alt: this.#alt,
-        }
+        };
     }
 
     // setters
     setPos = (obj) => {
         this.#pos.definePos(obj);
-    }
+    };
 
     setZIndex = (n) => {
-        console.log(n)
         this.#z = n;
-    }
+    };
 
     setIsMirrored = (bool) => {
         this.#isMirrored = bool;
-    }
+    };
 
     set focused(bool) {
         this.#isFocused = bool;
@@ -67,11 +65,11 @@ export default class ElementDS {
 
     setWidth = (width) => {
         this.#width = width;
-    }
-    
+    };
+
     setHeight = (height) => {
         this.#height = height;
-    }
+    };
 
     // init functions
     #setIdToLastPossibleInteger() {
@@ -93,6 +91,6 @@ export default class ElementDS {
         for (const entry of map.entries()) {
             lastEntry = entry;
         }
-        return lastEntry[1].currentState()
+        return lastEntry[1].currentState();
     }
 }
