@@ -10,7 +10,7 @@
         "postinstall": "nuxt prepare",
         "prepare": "husky",
         "prettier": "prettier --write .",
-        "lint": "eslint --fix ."
+        "lint": "eslint --ignore-pattern **/.nuxt --fix ."
     },
     "dependencies": {
         "bootstrap": "^5.3.3",

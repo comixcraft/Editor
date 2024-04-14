@@ -5,7 +5,7 @@ import pluginPrettier from 'eslint-plugin-prettier';
 export default [
     ...pluginVue.configs['flat/essential'],
     {
-        ignores: ['node-module/*'],
+        ignores: ['.nuxt/dev/'],
         plugins: {
             prettier: pluginPrettier,
             vue: pluginVue,
@@ -23,6 +23,7 @@ export default [
             },
         },
         rules: {
+            indent: 'off',
             'prettier/prettier': 'error',
             'max-len': [
                 'error',

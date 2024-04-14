@@ -1,66 +1,66 @@
 <script setup>
-const props = defineProps({
-    z: Number,
-    w: Number,
-    h: Number,
-    altText: String,
-    url: String,
-    eId: Number,
-    pos: Object,
-    isMirrored: Boolean,
-});
-
-let elementActive = false;
-let mirrored = ref(props.isMirrored);
-let self = ref(null);
-
-defineEmits(['deleteEvent']);
-
-function updatePosition(eId) {
-    // check what map entry correspond to id
-    let matchingIdEntry;
-    elementsInCanvas.value.forEach((value, key) => {
-        if (value.currentState().id === eId) matchingIdEntry = value;
+    const props = defineProps({
+        z: Number,
+        w: Number,
+        h: Number,
+        altText: String,
+        url: String,
+        eId: Number,
+        pos: Object,
+        isMirrored: Boolean,
     });
-    if (!matchingIdEntry) {
-        console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
-        return;
-    }
-    // update position of element
-    matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
-}
 
-function resize(eId) {
-    // check what map entry correspond to id
-    let matchingIdEntry;
-    elementsInCanvas.value.forEach((value, key) => {
-        if (value.currentState().id === eId) matchingIdEntry = value;
-    });
-    if (!matchingIdEntry) {
-        console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
-        return;
+    let elementActive = false;
+    let mirrored = ref(props.isMirrored);
+    let self = ref(null);
+
+    defineEmits(['deleteEvent']);
+
+    function updatePosition(eId) {
+        // check what map entry correspond to id
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        });
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
+            return;
+        }
+        // update position of element
+        matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
     }
 
-    matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
-    matchingIdEntry.setWidth(self.value.width);
-    matchingIdEntry.setHeight(self.value.height);
-}
+    function resize(eId) {
+        // check what map entry correspond to id
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        });
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
+            return;
+        }
 
-function updateMirroring(eId) {
-    // mirror the image on editor
-    this.mirrored = !this.mirrored;
-    // recover the element
-    let matchingIdEntry;
-    elementsInCanvas.value.forEach((value, key) => {
-        if (value.currentState().id === eId) matchingIdEntry = value;
-    });
-    if (!matchingIdEntry) {
-        console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
-        return;
+        matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
+        matchingIdEntry.setWidth(self.value.width);
+        matchingIdEntry.setHeight(self.value.height);
     }
-    // update isMirrored of element
-    matchingIdEntry.setIsMirrored(this.mirrored);
-}
+
+    function updateMirroring(eId) {
+        // mirror the image on editor
+        this.mirrored = !this.mirrored;
+        // recover the element
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        });
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
+            return;
+        }
+        // update isMirrored of element
+        matchingIdEntry.setIsMirrored(this.mirrored);
+    }
 </script>
 
 <template>
@@ -90,16 +90,16 @@ function updateMirroring(eId) {
 </template>
 
 <style lang="scss" scoped>
-img {
-    width: 100%;
-    height: 100%;
-}
+    img {
+        width: 100%;
+        height: 100%;
+    }
 
-.element--active {
-    border: $border-width solid $info;
-}
+    .element--active {
+        border: $border-width solid $info;
+    }
 
-.mirror {
-    transform: scaleX(-1);
-}
+    .mirror {
+        transform: scaleX(-1);
+    }
 </style>
