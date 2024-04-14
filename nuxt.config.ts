@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import {fileURLToPath} from "node:url";
+
 export default defineNuxtConfig({
   css: [
     '@/assets/scss/styles.scss',
@@ -12,5 +14,11 @@ export default defineNuxtConfig({
         },
       },
     },
+    resolve: {
+      alias: {
+        '~bootstrap': fileURLToPath(new URL('./node_modules/bootstrap', import.meta.url)),
+      }
+    },
+
   },
 })

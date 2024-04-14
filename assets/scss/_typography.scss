@@ -62,11 +62,11 @@ $material-symbols-font-path: '~/material-symbols/';
 @include font-classes($font-size-phone, $line-height-phone);
 
 // Tablets
-@media (min-width: 768px) {
+@media (min-width: map-get($grid-breakpoints, md)) {
   @include font-classes($font-size-tablet, $line-height-tablet);
 }
 
 // Desktop
-@media (min-width: 992px) {
+@media (min-width: map-get($grid-breakpoints, lg)) {
   @include font-classes($font-size-desktop, $line-height-desktop);
 }

@@ -11,6 +11,7 @@
     "test": "nuxi prepare && vitest"
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "material-symbols": "^0.17.2",
     "nuxt": "^3.11.1",
     "sass": "^1.74.1",
