@@ -44,9 +44,7 @@
     </div>
 </template>
 
-<script setup>
-    console.log('hi');
-</script>
+<script setup></script>
 
 <style scoped lang="scss">
     .topNav {
