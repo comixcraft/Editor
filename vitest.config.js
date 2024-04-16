@@ -1,6 +1,6 @@
-import {fileURLToPath} from 'node:url';
-import {defineVitestConfig} from '@nuxt/test-utils/config';
-import {resolve} from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { defineVitestConfig } from '@nuxt/test-utils/config';
+import { resolve } from 'node:path';
 
 export default defineVitestConfig({
     test: {
@@ -15,5 +15,5 @@ export default defineVitestConfig({
                 },
             },
         },
-    }
-})
+    },
+});
