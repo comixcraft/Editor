@@ -3,62 +3,67 @@
         <div class="topNav">
             <div class="logo">comixcraft</div>
         </div>
-        <div class="welcomeContainer">
-            <div class="welcomeText">
-                <div class="welcome">
-                    <h1>welcome to comixcraft</h1>
+        <div class="container">
+            <div class="d-flex pb-3 pb-lg-0">
+                <div class="welcomeText">
+                    <div class="welcome">
+                        <h1>welcome to comixcraft</h1>
+                    </div>
+                    <div class="introText">
+                        <p>
+                            With plenty of templates and assets to choose from, the only limit is your imagination! Get
+                            started now by choosing a template!
+                        </p>
+                    </div>
                 </div>
-                <div class="introText">
-                    <p>
-                        With plenty of templates and assets to choose from, the only limit is your imagination! Get
-                        started now by choosing a template!
-                    </p>
+                <div class="comicImage">
+                    <p>placeholder</p>
                 </div>
             </div>
-            <div class="comicImage">
-                <p>placeholder</p>
-            </div>
-        </div>
-        <div class="templates">
-            <h3>templates</h3>
-            <p>start by choosing a template</p>
-            <h5>comic panels</h5>
-            <div class="comicPanels">
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-            </div>
-            <h5>comic strips</h5>
-            <div class="comicPanels">
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
-                <div class="singleTemplate"></div>
+            <div class="templates">
+                <h3>templates</h3>
+                <p>start by choosing a template</p>
+                <h5>comic panels</h5>
+                <div class="comicPanels">
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                </div>
+                <h5>comic strips</h5>
+                <div class="comicPanels">
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                    <div class="singleTemplate"></div>
+                </div>
             </div>
             <button class="startBtn">start craftin</button>
         </div>
+        <button @click="layersShow = true">djshbsdjflw</button>
+        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">layers go here</ScreenOverlay>
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+    let layersShow = ref(false);
+</script>
 
 <style scoped lang="scss">
     .topNav {
         display: flex;
         align-items: center;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        width: 100%;
         height: 80px;
         margin: 0;
     }
     .logo {
         display: flex;
         flex-direction: row;
-        margin-left: 5%;
+        margin-left: $spacer-3;
         justify-content: flex-start;
         justify-content: center;
         color: #fff;
@@ -66,14 +71,6 @@
 
     .templates {
         background: var(--Off-white-100, #f5f5f5);
-        width: 100%;
-    }
-    .welcomeContainer {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        height: 200px;
-        background: var(--White-100, #fff);
     }
     .welcomeText {
         display: flex;
@@ -81,7 +78,6 @@
     }
     .welcome {
         display: flex;
-        width: 50%;
         padding: 0%;
         margin: 0;
     }
@@ -92,14 +88,13 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        width: 50%;
     }
 
     .comicPanels {
         display: flex;
         gap: 20px;
-        overflow-x: auto;
         width: 100%;
+        overflow-x: auto;
         flex-wrap: nowrap; /* prevent items from wrapping */
     }
 
@@ -112,8 +107,7 @@
 
     .startBtn {
         display: flex;
-        width: 358px;
-        padding: 12px 16px;
+        padding: $spacer-3;
         justify-content: center;
         align-items: center;
         gap: 8px;
