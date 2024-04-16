@@ -1,14 +1,14 @@
 <script setup>
-    import ElementDS from "~/utils/Classes/Element.js";
+    import ElementDS from '~/utils/Classes/Element.js';
 
     defineProps({
-      assets: Array,
-    })
+        assets: Array,
+    });
 
     function addNewElementToDisplay(event) {
         elementsCounter.value++;
         let fixedHeight = 200;
-        let name = event.target.alt; 
+        let name = event.target.alt;
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
         let availableInteger = 1;
@@ -16,26 +16,25 @@
             availableInteger++;
         }
         // width, height, alt, src
-        let tempEl = new ElementDS(width, fixedHeight, name, src)
-        elementsInCanvas.value.set(availableInteger, tempEl)
+        let tempEl = new ElementDS(width, fixedHeight, name, src);
+        elementsInCanvas.value.set(availableInteger, tempEl);
     }
-
 </script>
 
-
 <template>
-    <div class="catalog-scroll-container">
-      <CatalogImagePreview
-          v-for="asset in assets"
-          :alt-text="asset.name"
-          :url="asset.file_location"
-          @click="addNewElementToDisplay"
-      />
+    <div class="catalog__scroll-container">
+        <CatalogImagePreview
+            v-for="asset in assets"
+            :key="asset.id"
+            :alt-text="asset.name"
+            :url="asset.file_location"
+            @click="addNewElementToDisplay"
+        />
     </div>
 </template>
 
-<style scoped lang="scss">
-    .catalog-scroll-container {
+<style lang="scss" scoped>
+    .catalog__scroll-container {
         width: 300px;
         height: 700px;
         padding: $spacer-4 0;

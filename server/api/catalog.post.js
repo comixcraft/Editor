@@ -1,4 +1,4 @@
-import {catalog} from "~/server/assets/comixplain-catalog.js";
+import { catalog } from '~/server/assets/comixplain-catalog.js';
 
 /* Post parameters:
  * category: string or array of strings - categories of the comixplain catalog in all lowercase and with a dash instead of a whitespace
@@ -9,7 +9,7 @@ import {catalog} from "~/server/assets/comixplain-catalog.js";
 export default defineEventHandler(async (event) => {
     let catalogAssets = [];
 
-    const body = await readBody(event)
+    const body = await readBody(event);
 
     // Category
     let categories = body.category;
@@ -89,4 +89,4 @@ export default defineEventHandler(async (event) => {
     }
 
     return catalogAssets;
-})
+});
