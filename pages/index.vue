@@ -38,6 +38,9 @@ await useFetch('/api/catalog/', {
     <button>
         <NuxtLink :to="{name:'export', path:'/export', query: {width: canvasWidth, height: canvasHeight}}">See Preview</NuxtLink>
     </button>
+    <button>
+        <NuxtLink :to="{name:'layoutTesting', path:'/layoutTesting'}">chaos</NuxtLink>
+    </button>
 
 </template>
 
