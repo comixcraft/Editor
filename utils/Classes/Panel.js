@@ -8,7 +8,6 @@ export default class Panel {
         this.#width = width;
         this.#border = border;
         this.#elements = elements;
-
     }
 
     // GETTERS
@@ -38,5 +37,4 @@ export default class Panel {
     set width(x) {
         this.#width = x
     }
-
 }

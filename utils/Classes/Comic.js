@@ -1,13 +1,3 @@
-// ********** Comic
-/**
- * @typedef {Object} Comic
- * @property {name} projectname
- * @property {name | null} title 
- * @property {name | null} creatorname 
- * @property {page[]} pages 
- * page is another typedef
-*/
-
 export default class Comic {
 
     #name;
@@ -17,15 +7,8 @@ export default class Comic {
 
     constructor (name, title, creatorName) {
         this.#name = name;
-
-        this.#init(title, creatorName)
-    }
-
-    #init(title, creatorName) {
         this.#title = title;
         this.#creatorName = creatorName;
-
-        this.#pages = [];
     }
 
     // GETTER
@@ -41,7 +24,7 @@ export default class Comic {
         return this.#creatorName
     }
 
-    get page() {
+    get pages() {
         return this.#pages
     }
 

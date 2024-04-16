@@ -1,14 +1,3 @@
-
-// ===================================================
-// ********** Text
-/**
- * @typedef {Object} Text
- * @property {string} content
- * @property {positiveNumber} fontSize
- * @property {"Roboto" | "Helvetica" | ...} fontFamily
- * @property {"bold" | "italic"} fontWeight
- */
-
 export default class Text {
     #content;
     #fontSize;
