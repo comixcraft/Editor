@@ -1,101 +1,105 @@
 <script setup>
-    import ElementDS from '../utils/Classes/Element.js'
-
-    defineProps({
+    const props = defineProps({
         z: Number,
         w: Number,
         h: Number,
         altText: String,
         url: String,
         eId: Number,
-    })
+        pos: Object,
+        isMirrored: Boolean,
+    });
 
     let elementActive = false;
-    let isMirrored = ref(false);
+    let mirrored = ref(props.isMirrored);
     let self = ref(null);
+
+    defineEmits(['deleteEvent']);
 
     function updatePosition(eId) {
         // check what map entry correspond to id
         let matchingIdEntry;
         elementsInCanvas.value.forEach((value, key) => {
             if (value.currentState().id === eId) matchingIdEntry = value;
-        })
+        });
         if (!matchingIdEntry) {
-            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]')
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
             return;
         }
         // update position of element
-        matchingIdEntry.setPos({x: self.value.left, y: self.value.top})
+        matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
     }
 
+    function resize(eId) {
+        // check what map entry correspond to id
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        });
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
+            return;
+        }
 
+        matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
+        matchingIdEntry.setWidth(self.value.width);
+        matchingIdEntry.setHeight(self.value.height);
+    }
+
+    function updateMirroring(eId) {
+        // mirror the image on editor
+        this.mirrored = !this.mirrored;
+        // recover the element
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === eId) matchingIdEntry = value;
+        });
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
+            return;
+        }
+        // update isMirrored of element
+        matchingIdEntry.setIsMirrored(this.mirrored);
+    }
 </script>
 
 <template>
-        <DraggableResizable
-        :z="z"
-        :w="w" 
-        :h="h" 
-        :eId="eId"
-        :parent="true" 
-        :class-name-active="'elementActive'" 
-        :disableUserSelect="true"
+    <DraggableResizable
         ref="self"
-        @activated="function() {elementActive = !elementActive}"
-        @deactivated="function() {elementActive = !elementActive}"
-        @dragging="updatePosition(eId)">
-            <EditionMenu 
+        :disableUserSelect="true"
+        :eId="eId"
+        :h="h"
+        :parent="true"
+        :w="w"
+        :x="pos.currPos().x"
+        :y="pos.currPos().y"
+        :z="z"
+        class-name-active="element--active"
+        @activated="() => (elementActive = true)"
+        @deactivated="() => (elementActive = false)"
+        @drag-stop="updatePosition(eId)"
+        @resize-stop="resize(eId)"
+    >
+        <EditionMenu
             v-if="elementActive"
-            @mirror-event="function() {isMirrored = !isMirrored}"
-            />
-            <img :src="url" :alt="altText" :class="{mirror : isMirrored}">
-            <div v-if="elementActive" class="icon" id="bin" @click="$emit('deleteEvent', z)"></div>
-        </DraggableResizable>
+            @mirror-event="updateMirroring(eId)"
+            @delete-event="$emit('deleteEvent', z)"
+        />
+        <img :alt="altText" :class="{ mirror: mirrored }" :src="url" />
+    </DraggableResizable>
 </template>
 
-<style scoped>
-
+<style lang="scss" scoped>
     img {
         width: 100%;
         height: 100%;
     }
 
-    .elementActive {
-        border: 1px dashed red;
+    .element--active {
+        border: $border-width solid $info;
     }
 
-    .icon {
-        position: absolute;
-        width: 32px;
-        height: 32px;
-        border: 2px solid black;
-        border-radius: 5px;
-        right: -20px;   
-    }
-
-    .mirror{
+    .mirror {
         transform: scaleX(-1);
     }
-
-    #bin {
-        top: 10px;
-        background: no-repeat center/80%  url('/assets/bin.svg'), rgb(255, 226, 244);
-        border-color: red;
-    }
-
-    #up-arrow {
-        top: 52px;
-        background: no-repeat center/80%  url('/assets/upArrow.svg'), white;
-    }
-
-    #down-arrow {
-        top: 94px;
-        background: no-repeat center/80%  url('/assets/downArrow.svg'), white;
-    }
-
-    #flip {
-        top: 136px;
-        background: no-repeat center/80%  url('/assets/flip.svg'), white;
-    }
-
 </style>

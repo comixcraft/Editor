@@ -1,0 +1,162 @@
+// Color
+
+$primary-100: #6360f4;
+$primary-50: #b1b0fa;
+$primary-30: #d1d0fc;
+$primary: $primary-100;
+
+$secondary-100: #f460b7;
+$secondary-50: #fab0db;
+$secondary-30: #fcd0ea;
+$secondary: $secondary-100;
+
+$accent-100: #07b8ba;
+$accent-50: #83dbdd;
+$accent-30: #b5eaea;
+$accent: $accent-100;
+
+$negative-100: #ff474f;
+$negative-50: #f9b4b7;
+$negative-30: #fbd2d4;
+$negative: $negative-100;
+
+$danger-100: $negative-100;
+$danger-50: $negative-50;
+$danger-30: $negative-30;
+$danger: $danger-100;
+
+$error-100: $negative-100;
+$error-50: $negative-50;
+$error-30: $negative-30;
+$error: $error-100;
+
+$positive-100: #16c74a;
+$positive-50: #b2ebc3;
+$positive-30: #d1f3db;
+$positive: $positive-100;
+
+$success-100: $positive-100;
+$success-50: $positive-50;
+$success-30: $positive-30;
+$success: $success-100;
+
+$info-100: #005df9;
+$info-50: #80adfc;
+$info-30: #b2cefd;
+$info: $info-100;
+
+$grey-100: #000000;
+$grey-90: #272727;
+$grey-80: #3d3c3e;
+$grey-70: #707070;
+$grey-60: #b8b8b8;
+$grey-50: #d6d6d6;
+$grey-40: #ebebeb;
+$grey-30: #f5f5f5;
+$grey-0: #ffffff;
+
+$black-100: $grey-100;
+$ultra-dark-grey-100: $grey-90;
+$dark-grey-100: $grey-80;
+$medium-grey-100: $grey-70;
+$grey-100: $grey-60;
+$light-grey-100: $grey-50;
+$ultra-light-grey-100: $grey-40;
+$off-white-100: $grey-30;
+$owhite-100: $grey-0;
+
+$black: $grey-100;
+$white: $grey-0;
+
+$gradient-primary-secondary: linear-gradient(90deg, $primary 50%, $secondary 100%);
+
+$colors: (
+    'primary': $primary,
+    'secondary': $secondary,
+    'accent': $accent,
+    'negative': $negative,
+    'danger': $danger,
+    'error': $error,
+    'positive': $positive,
+    'success': $success,
+    'info': $info,
+    'grey': $grey-60,
+    'black': $black,
+    'white': $white,
+);
+
+// Font
+$font-size-desktop: (
+    1: 56px,
+    2: 48px,
+    3: 32px,
+    4: 24px,
+    5: 18px,
+);
+
+$font-size-tablet: (
+    1: 48px,
+    2: 32px,
+    3: 24px,
+    4: 18px,
+    5: 16px,
+);
+
+$font-size-phone: (
+    1: 24px,
+    2: 20px,
+    3: 18px,
+    4: 16px,
+    5: 14px,
+);
+
+$line-height-desktop: (
+    1: 1.1,
+    2: 1.2,
+    3: 1.2,
+    4: 1.2,
+    5: 1.2,
+);
+
+$line-height-tablet: (
+    1: 1.1,
+    2: 1.2,
+    3: 1.2,
+    4: 1.2,
+    5: 1.2,
+);
+
+$line-height-phone: (
+    1: 1.2,
+    2: 1.2,
+    3: 1.2,
+    4: 1.2,
+    5: 1.2,
+);
+
+// Spacer
+$spacer-1: 4px;
+$spacer-2: 8px;
+$spacer-3: 16px;
+$spacer-4: 24px;
+$spacer-5: 32px;
+$spacer-6: 40px;
+$spacer-7: 48px;
+
+$spacer: $spacer-1;
+$spacers: (
+    0: 0,
+    1: $spacer-1,
+    2: $spacer-2,
+    3: $spacer-3,
+    4: $spacer-4,
+    5: $spacer-5,
+    6: $spacer-6,
+    7: $spacer-7,
+);
+
+// Border
+$border-radius: 4px;
+$border-radius-lg: 8px;
+
+$border-width: 1px;

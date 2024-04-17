@@ -1,64 +1,42 @@
 <script setup>
-
     defineProps({
-    altText: String,
-    url: String,
-    })
+        altText: String,
+        url: String,
+    });
 
-
+    defineEmits(['deleteEvent', 'mirrorEvent']);
 </script>
 
 <template>
-
-  <div class="icon-container">
-    <div class="icon" id="up-arrow"></div>
-    <div class="icon" id="down-arrow"></div>
-    <div class="icon" id="flip" @click="$emit('mirrorEvent')"></div>
-  </div>
-
+    <div class="icon-container">
+        <span class="edit-icon icon" @click="$emit('deleteEvent')">delete</span>
+        <div class="edit-icon icon">flip_to_front</div>
+        <div class="edit-icon icon">flip_to_back</div>
+        <div class="edit-icon icon" @click="$emit('mirrorEvent')">flip</div>
+        <div class="edit-icon icon">more_vert</div>
+    </div>
 </template>
 
-<style scoped>
-
+<style lang="scss" scoped>
     .icon-container {
-        --grid-column-gap: 10px;
-        --grid-padding-h: 3px;
-        --grid-padding-v: 10px;
-
+        z-index: 99999;
         position: absolute;
-        padding: var(--grid-padding-h) var(--grid-padding-v);
+        padding: $spacer-1 $spacer-1;
         top: -60px;
-        left: 50%;
-        transform: translate(-50%, 0);
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         grid-template-rows: 1fr;
-        grid-column-gap: var(--grid-column-gap);
-        background-color: aliceblue;
-        border: 2px solid black;
-        border-radius: 5px;
+        border: $border-width solid $light-grey-100;
+        border-radius: $border-radius;
+        background-color: $white;
     }
 
-    .icon {
-        --icon-height: 32px;
+    .edit-icon {
+        padding: $spacer-1 $spacer-2;
+        border-right: $border-width solid $light-grey-100;
 
-        width: var(--icon-height);
-        height: var(--icon-height);
-        border: 1px solid rgba(0,0,0,0.5);
-        border-radius: 5px;
-        right: -20px;   
+        &:last-child {
+            border-right: none;
+        }
     }
-
-    #up-arrow {
-        background: no-repeat center/80%  url('/assets/upArrow.svg'), white;
-    }
-
-    #down-arrow {
-        background: no-repeat center/80%  url('/assets/downArrow.svg'), white;
-    }
-
-    #flip {
-        background: no-repeat center/80%  url('/assets/flip.svg'), white;
-    }
-
 </style>
