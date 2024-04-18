@@ -1,19 +1,39 @@
 <script setup>
+    const props = defineProps({
+        panel: Object,
+    });
+
+    let elements = props.panel.currentState().elements;
+
     function deleteElement(elId) {
         // all z element
         changeZIndex(elId);
         // delete last element of map
-        elementsInCanvas.delete(elementsInCanvas.size);
+        props.panel.deleteElement(elements.size);
+    }
+
+    function updatePosition(obj) {
+        // check what map entry correspond to id
+        let matchingIdEntry;
+        elements.forEach((value, key) => {
+            if (value.currentState().id === obj.id) matchingIdEntry = value;
+        });
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
+            return;
+        }
+        // update position of element
+        matchingIdEntry.setPos({ x: obj.self.value.left, y: obj.self.value.top });
     }
 
     function changeZIndex(z) {
         // change all z index
-        if (z > elementsInCanvas.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
+        if (z > elements.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
 
-        let nextElement = elementsInCanvas.get(z + 1);
+        let nextElement = elements.get(z + 1);
 
         nextElement.setZIndex(z); // change z-index of next element
-        elementsInCanvas.set(z, nextElement); // update map element with next element
+        elements.set(z, nextElement); // update map element with next element
         z++; // increment z index
         changeZIndex(z); // recursive
     }
@@ -22,7 +42,7 @@
 <template>
     <div ref="container" class="wrapper">
         <CanvasDraggableElement
-            v-for="[key, value] in elementsInCanvas"
+            v-for="[key, value] in elements"
             :key="key"
             :altText="value.currentState().name"
             :eId="value.currentState().id"
@@ -33,6 +53,7 @@
             :w="value.currentState().width"
             :z="value.currentState().z"
             @delete-event="deleteElement"
+            @update-event="updatePosition"
         />
     </div>
 </template>

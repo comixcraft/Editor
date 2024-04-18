@@ -1,23 +1,23 @@
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
+    import Panel from '~/utils/Classes/Panel.js';
 
     defineProps({
         assets: Array,
     });
 
+    const emit = defineEmits(['addElement']);
+
     function addNewElementToDisplay(event) {
-        elementsCounter.value++;
         let fixedHeight = 200;
         let name = event.target.alt;
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
-        let availableInteger = 1;
-        while (elementsInCanvas.has(availableInteger)) {
-            availableInteger++;
-        }
+
         // width, height, alt, src
         let tempEl = new ElementDS(width, fixedHeight, name, src);
-        elementsInCanvas.set(availableInteger, tempEl);
+        emit('addElement', tempEl);
+        //elementsInCanvas.set(availableInteger, tempEl);
     }
 </script>
 

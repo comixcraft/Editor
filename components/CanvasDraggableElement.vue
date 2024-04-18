@@ -14,20 +14,10 @@
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
 
-    defineEmits(['deleteEvent']);
+    const emit = defineEmits(['deleteEvent', 'updateEvent']);
 
     function updatePosition(eId) {
-        // check what map entry correspond to id
-        let matchingIdEntry;
-        elementsInCanvas.forEach((value, key) => {
-            if (value.currentState().id === eId) matchingIdEntry = value;
-        });
-        if (!matchingIdEntry) {
-            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
-            return;
-        }
-        // update position of element
-        matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
+        emit('updateEvent', { id: eId, self: self });
     }
 
     function resize(eId) {

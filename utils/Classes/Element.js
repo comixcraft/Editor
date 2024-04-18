@@ -18,13 +18,6 @@ export default class ElementDS {
         this.#height = height;
         this.#src = src;
         this.#alt = alt;
-
-        this.#init();
-    }
-
-    #init() {
-        this.#z = this.#setZIndexToLast();
-        this.#id = this.#setIdToLastPossibleInteger();
     }
 
     currentState = () => {
@@ -54,6 +47,10 @@ export default class ElementDS {
         this.#z = n;
     };
 
+    setId = (n) => {
+        this.#id = n;
+    };
+
     setIsMirrored = (bool) => {
         this.#isMirrored = bool;
     };
@@ -69,27 +66,4 @@ export default class ElementDS {
     setHeight = (height) => {
         this.#height = height;
     };
-
-    // init functions
-    #setIdToLastPossibleInteger() {
-        // if map element is empty return 1;
-        if (elementsInCanvas.size === 0) return 1;
-        // get last entry of the elementsInCanvas Map
-        return this.#getLastEntryOfMap(elementsInCanvas).id + 1;
-    }
-
-    #setZIndexToLast() {
-        // if map element is empty return 1;
-        if (elementsInCanvas.size === 0) return 1;
-        // get last entry of the elementsInCanvas Map
-        return this.#getLastEntryOfMap(elementsInCanvas).z + 1;
-    }
-
-    #getLastEntryOfMap(map) {
-        let lastEntry;
-        for (const entry of map.entries()) {
-            lastEntry = entry;
-        }
-        return lastEntry[1].currentState();
-    }
 }
