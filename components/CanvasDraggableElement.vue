@@ -19,7 +19,8 @@
     function updatePosition(eId) {
         // check what map entry correspond to id
         let matchingIdEntry;
-        elementsInCanvas.value.forEach((value, key) => {
+        elementsInCanvas.forEach((value, key) => {
+            console.log(value.alt);
             if (value.currentState().id === eId) matchingIdEntry = value;
         });
         if (!matchingIdEntry) {
@@ -33,7 +34,7 @@
     function resize(eId) {
         // check what map entry correspond to id
         let matchingIdEntry;
-        elementsInCanvas.value.forEach((value, key) => {
+        elementsInCanvas.forEach((value, key) => {
             if (value.currentState().id === eId) matchingIdEntry = value;
         });
         if (!matchingIdEntry) {
@@ -51,7 +52,7 @@
         this.mirrored = !this.mirrored;
         // recover the element
         let matchingIdEntry;
-        elementsInCanvas.value.forEach((value, key) => {
+        elementsInCanvas.forEach((value, key) => {
             if (value.currentState().id === eId) matchingIdEntry = value;
         });
         if (!matchingIdEntry) {

@@ -11,6 +11,7 @@ export default class ElementDS {
     #height;
     #src;
     #alt;
+    #type;
 
     constructor(width, height, alt, src) {
         this.#width = width;
@@ -26,7 +27,6 @@ export default class ElementDS {
         this.#id = this.#setIdToLastPossibleInteger();
     }
 
-    // getter
     currentState = () => {
         return this.#getCurrentState();
     };
@@ -46,7 +46,6 @@ export default class ElementDS {
         };
     }
 
-    // setters
     setPos = (obj) => {
         this.#pos.definePos(obj);
     };
@@ -74,16 +73,16 @@ export default class ElementDS {
     // init functions
     #setIdToLastPossibleInteger() {
         // if map element is empty return 1;
-        if (elementsInCanvas.value.size === 0) return 1;
+        if (elementsInCanvas.size === 0) return 1;
         // get last entry of the elementsInCanvas Map
-        return this.#getLastEntryOfMap(elementsInCanvas.value).id + 1;
+        return this.#getLastEntryOfMap(elementsInCanvas).id + 1;
     }
 
     #setZIndexToLast() {
         // if map element is empty return 1;
-        if (elementsInCanvas.value.size === 0) return 1;
+        if (elementsInCanvas.size === 0) return 1;
         // get last entry of the elementsInCanvas Map
-        return this.#getLastEntryOfMap(elementsInCanvas.value).z + 1;
+        return this.#getLastEntryOfMap(elementsInCanvas).z + 1;
     }
 
     #getLastEntryOfMap(map) {

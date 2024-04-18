@@ -12,12 +12,12 @@
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
         let availableInteger = 1;
-        while (elementsInCanvas.value.has(availableInteger)) {
+        while (elementsInCanvas.has(availableInteger)) {
             availableInteger++;
         }
         // width, height, alt, src
         let tempEl = new ElementDS(width, fixedHeight, name, src);
-        elementsInCanvas.value.set(availableInteger, tempEl);
+        elementsInCanvas.set(availableInteger, tempEl);
     }
 </script>
 

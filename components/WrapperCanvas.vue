@@ -3,17 +3,17 @@
         // all z element
         changeZIndex(elId);
         // delete last element of map
-        elementsInCanvas.value.delete(elementsInCanvas.value.size);
+        elementsInCanvas.delete(elementsInCanvas.size);
     }
 
     function changeZIndex(z) {
         // change all z index
-        if (z > elementsInCanvas.value.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
+        if (z > elementsInCanvas.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
 
-        let nextElement = elementsInCanvas.value.get(z + 1);
+        let nextElement = elementsInCanvas.get(z + 1);
 
         nextElement.setZIndex(z); // change z-index of next element
-        elementsInCanvas.value.set(z, nextElement); // update map element with next element
+        elementsInCanvas.set(z, nextElement); // update map element with next element
         z++; // increment z index
         changeZIndex(z); // recursive
     }
