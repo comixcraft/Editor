@@ -10,6 +10,10 @@
             type: Array,
             default: () => [],
         },
+        filterable: {
+            type: Boolean,
+            default: true,
+        },
         placeholder: {
             type: String,
             default: '',
@@ -39,6 +43,7 @@
     <div>
         <div class="search">
             <span
+                v-if="filterable"
                 class="icon search__tune"
                 :class="{ 'search__tune--active': showAllFilters }"
                 @click="showAllFilters = !showAllFilters"
