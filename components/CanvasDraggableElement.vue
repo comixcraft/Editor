@@ -7,12 +7,16 @@
         url: String,
         eId: String,
         pos: Object,
-        isMirrored: Boolean,
+        isMirroredHorizontal: Boolean,
     });
 
     let elementActive = false;
-    let mirrored = ref(props.isMirrored);
+    let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let self = ref(null);
+
+    const setMirroredHorizontal = computed(() => {
+        return mirroredHorizontal.value ? '-1' : '1';
+    });
 
     const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
@@ -31,11 +35,15 @@
 
     function updateMirroring(eId) {
         // mirror the image on editor
-        this.mirrored = !this.mirrored;
+        this.mirroredHorizontal = !this.mirroredHorizontal;
         emit('mirrorEvent', {
             id: eId,
-            mirror: this.mirrored,
+            mirror: this.mirroredHorizontal,
         });
+    }
+
+    function updateVerticalMirroring(eId) {
+        console.log('updateVerticalMirroring');
     }
 </script>
 
@@ -59,9 +67,10 @@
         <EditionMenu
             v-if="elementActive"
             @mirror-event="updateMirroring(eId)"
+            @mirror-vertical-event="updateVerticalMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <img :alt="altText" :class="{ mirror: mirrored }" :src="url" />
+        <img :alt="altText" :class="{ mirror: mirroredHorizontal }" :src="url" />
     </DraggableResizable>
 </template>
 
@@ -76,6 +85,6 @@
     }
 
     .mirror {
-        transform: scaleX(-1);
+        transform: scaleX(v-bind(setMirroredHorizontal));
     }
 </style>

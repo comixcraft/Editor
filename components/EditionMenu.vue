@@ -5,7 +5,7 @@
         url: String,
     });
 
-    defineEmits(['deleteEvent', 'mirrorEvent']);
+    defineEmits(['deleteEvent', 'mirrorEvent', 'mirrorVerticalEvent']);
 </script>
 
 <template>
@@ -27,7 +27,9 @@
             <div class="edit-icon edit-icon__right icon">rotate_90_degrees_ccw</div>
             <div class="edit-icon edit-icon__right icon">rotate_90_degrees_cw</div>
             <div class="edit-icon edit-icon__right icon" @click="$emit('mirrorEvent')">flip</div>
-            <div class="edit-icon edit-icon__right edit-icon--flipped icon">flip</div>
+            <div class="edit-icon edit-icon__right edit-icon--flipped icon" @click="$emit('mirrorVerticalEvent')">
+                flip
+            </div>
         </div>
     </div>
 </template>
@@ -52,7 +54,7 @@
         &__right {
             grid-template-rows: repeat(4, 1fr);
             grid-template-columns: 1fr;
-            right: -60px;
+            right: -65px;
         }
     }
 
