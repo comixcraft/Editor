@@ -20,7 +20,6 @@
         // check what map entry correspond to id
         let matchingIdEntry;
         elementsInCanvas.forEach((value, key) => {
-            console.log(value.alt);
             if (value.currentState().id === eId) matchingIdEntry = value;
         });
         if (!matchingIdEntry) {
