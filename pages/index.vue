@@ -33,6 +33,10 @@
         .catch((error) => {
             createError(error);
         });
+
+    function copyToElement() {
+        elementsInCanvas.value = panelTest.currentState().elements;
+    }
 </script>
 
 <template>
@@ -46,8 +50,9 @@
             :to="{
                 name: 'export',
                 path: '/export',
-                query: { width: canvasWidth, height: canvasHeight },
+                query: { width: canvasWidth, height: canvasHeight, panel: 123 },
             }"
+            @click="copyToElement"
             >See Preview
         </NuxtLink>
     </button>

@@ -5,7 +5,7 @@
         h: Number,
         altText: String,
         url: String,
-        eId: Number,
+        eId: String,
         pos: Object,
         isMirrored: Boolean,
     });
@@ -14,42 +14,28 @@
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
 
-    const emit = defineEmits(['deleteEvent', 'updateEvent']);
+    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
     function updatePosition(eId) {
-        emit('updateEvent', { id: eId, self: self });
+        emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
     function resize(eId) {
-        // check what map entry correspond to id
-        let matchingIdEntry;
-        elementsInCanvas.forEach((value, key) => {
-            if (value.currentState().id === eId) matchingIdEntry = value;
+        emit('resizeEvent', {
+            id: eId,
+            width: self.value.width,
+            height: self.value.height,
+            pos: { x: self.value.left, y: self.value.top },
         });
-        if (!matchingIdEntry) {
-            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
-            return;
-        }
-
-        matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
-        matchingIdEntry.setWidth(self.value.width);
-        matchingIdEntry.setHeight(self.value.height);
     }
 
     function updateMirroring(eId) {
         // mirror the image on editor
         this.mirrored = !this.mirrored;
-        // recover the element
-        let matchingIdEntry;
-        elementsInCanvas.forEach((value, key) => {
-            if (value.currentState().id === eId) matchingIdEntry = value;
+        emit('mirrorEvent', {
+            id: eId,
+            mirror: this.mirrored,
         });
-        if (!matchingIdEntry) {
-            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]');
-            return;
-        }
-        // update isMirrored of element
-        matchingIdEntry.setIsMirrored(this.mirrored);
     }
 </script>
 
@@ -73,7 +59,7 @@
         <EditionMenu
             v-if="elementActive"
             @mirror-event="updateMirroring(eId)"
-            @delete-event="$emit('deleteEvent', z)"
+            @delete-event="$emit('deleteEvent', eId)"
         />
         <img :alt="altText" :class="{ mirror: mirrored }" :src="url" />
     </DraggableResizable>

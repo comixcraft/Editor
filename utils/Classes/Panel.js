@@ -32,15 +32,14 @@ export default class Panel {
      */
     addElement(element) {
         // find available integer
-        let availableInteger = this.#findAvailableInteger();
-        let myuuid = uuidv4();
+        let myUuid = uuidv4();
 
         // set id and z index of element
-        element.setId(myuuid);
-        element.setZIndex(this.#setZIndexToLast());
+        element.setId(myUuid);
+        element.setZIndex(this.#getHighestZIndex() + 1);
 
         // set the element in map
-        this.#elements.set(availableInteger, element);
+        this.#elements.set(myUuid, element);
     }
 
     deleteElement(id) {
@@ -48,26 +47,13 @@ export default class Panel {
     }
     // switch element
 
-    #findAvailableInteger() {
-        let availableInteger = 1;
-        while (this.#elements.has(availableInteger)) {
-            availableInteger++;
-        }
-        return availableInteger;
-    }
-
-    #setZIndexToLast() {
-        // if map element is empty return 1;
-        if (this.#elements.size === 0) return 1;
-        // get last entry of the elementsInCanvas Map
-        return this.#getLastEntryOfMap(this.#elements).z + 1;
-    }
-
-    #getLastEntryOfMap(map) {
-        let lastEntry;
-        for (const entry of map.entries()) {
-            lastEntry = entry;
-        }
-        return lastEntry[1].currentState();
+    #getHighestZIndex() {
+        let potentialZIndex = 0;
+        this.#elements.forEach((element) => {
+            if (element.currentState().z > potentialZIndex) {
+                potentialZIndex = element.currentState().z;
+            }
+        });
+        return potentialZIndex;
     }
 }
