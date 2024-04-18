@@ -1,4 +1,5 @@
 <script setup>
+    let showMore = ref(false);
     defineProps({
         altText: String,
         url: String,
@@ -8,12 +9,26 @@
 </script>
 
 <template>
-    <div class="icon-container">
-        <span class="edit-icon icon" @click="$emit('deleteEvent')">delete</span>
-        <div class="edit-icon icon">flip_to_front</div>
-        <div class="edit-icon icon">flip_to_back</div>
-        <div class="edit-icon icon" @click="$emit('mirrorEvent')">flip</div>
-        <div class="edit-icon icon">more_vert</div>
+    <div>
+        <div class="icon-container icon-container__top">
+            <div class="edit-icon edit-icon__top icon" @click="$emit('deleteEvent')">delete</div>
+            <div class="edit-icon edit-icon__top icon">flip_to_back</div>
+            <div class="edit-icon edit-icon__top icon">flip_to_front</div>
+            <div
+                class="edit-icon edit-icon__top icon"
+                :class="{ 'edit-icon--active': showMore }"
+                @click="showMore = !showMore"
+            >
+                more_vert
+            </div>
+        </div>
+
+        <div v-if="showMore" class="icon-container icon-container__right">
+            <div class="edit-icon edit-icon__right icon">rotate_90_degrees_ccw</div>
+            <div class="edit-icon edit-icon__right icon">rotate_90_degrees_cw</div>
+            <div class="edit-icon edit-icon__right icon" @click="$emit('mirrorEvent')">flip</div>
+            <div class="edit-icon edit-icon__right edit-icon--flipped icon">flip</div>
+        </div>
     </div>
 </template>
 
@@ -22,21 +37,49 @@
         z-index: 99999;
         position: absolute;
         padding: $spacer-1 $spacer-1;
-        top: -60px;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: 1fr;
         border: $border-width solid $light-grey-100;
         border-radius: $border-radius;
         background-color: $white;
+
+        &__top {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr;
+            right: 0;
+            top: -60px;
+        }
+
+        &__right {
+            grid-template-rows: repeat(4, 1fr);
+            grid-template-columns: 1fr;
+            right: -60px;
+        }
     }
 
     .edit-icon {
         padding: $spacer-1 $spacer-2;
-        border-right: $border-width solid $light-grey-100;
+        user-select: none;
+        cursor: pointer;
+
+        &__top {
+            border-right: $border-width solid $light-grey-100;
+        }
+
+        &__right {
+            border-bottom: $border-width solid $light-grey-100;
+        }
 
         &:last-child {
             border-right: none;
+            border-bottom: none;
+        }
+
+        &--flipped {
+            transform: rotate(-90deg);
+        }
+
+        &--active {
+            background-color: $light-grey-100;
         }
     }
 </style>
