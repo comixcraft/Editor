@@ -30,6 +30,10 @@
                 createError(error);
             });
     }
+
+    onMounted(() => {
+        fetchCatalogElements();
+    });
 </script>
 
 <template>
