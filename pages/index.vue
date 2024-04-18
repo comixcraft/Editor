@@ -50,7 +50,7 @@
             :to="{
                 name: 'export',
                 path: '/export',
-                query: { width: canvasWidth, height: canvasHeight, panel: 123 },
+                query: { width: canvasWidth, height: canvasHeight },
             }"
             @click="copyToElement"
             >See Preview
