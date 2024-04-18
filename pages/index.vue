@@ -40,12 +40,11 @@
                 placeholder="happy, barista, ..."
                 :filters="catalogStructure.categories[0].subCategories[0].filter"
                 @search="
-                    (n) => {
-                        console.log(n);
+                    (selectedFilter) => {
                         fetchCatalogElements(
                             catalogStructure.categories[0].name,
                             catalogStructure.categories[0].subCategories[0].name,
-                            n
+                            selectedFilter
                         );
                     }
                 "

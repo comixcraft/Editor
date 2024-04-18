@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
     let catalogAssets = [];
 
     const body = await readBody(event);
-    console.log('body', body);
 
     // Category
     let categories = body.category;
@@ -23,15 +22,6 @@ export default defineEventHandler(async (event) => {
         categories = [categories];
     }
 
-    // categories = categories.map((c) => {
-    //     if (typeof c !== 'string') {
-    //         return null;
-    //     }
-    //     let categoryParts = c.split('-');
-    //     categoryParts = categoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
-    //     return categoryParts.join(' ');
-    // });
-
     // SubCategory
     let subCategories = body.subCategory;
 
@@ -42,15 +32,6 @@ export default defineEventHandler(async (event) => {
     if (!Array.isArray(subCategories)) {
         subCategories = [subCategories];
     }
-
-    // subCategories = subCategories.map((c) => {
-    //     if (typeof c !== 'string') {
-    //         return null;
-    //     }
-    //     let subCategoryParts = c.split('-');
-    //     subCategoryParts = subCategoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
-    //     return subCategoryParts.join(' ');
-    // });
 
     // Filter
     let filter = body.filter;
