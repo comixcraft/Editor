@@ -62,6 +62,21 @@
         // update isMirrored of element
         matchingIdEntry.setIsMirrored(this.mirrored);
     }
+    
+    function modifyText(eId) {
+        // modify text of element
+        let matchingIdEntry;
+        elementsInCanvas.value.forEach((value, key) => {
+            if (value.currentState().id === props.eId) matchingIdEntry = value;
+        })
+        if (!matchingIdEntry) {
+            console.log('Error in id passing for updatePosition function [CanvasDraggableElement:20]')
+            return;
+        }
+        let newText = prompt('Enter new text');
+        matchingIdEntry.currentState().type.setContent(newText);
+        console.log(matchingIdEntry.currentState());
+    }
 </script>
 
 <template>
@@ -85,8 +100,16 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', z)"
             />
-            <p v-if="type.getName() == 'Text'">{{type.getContent()}}</p>
+
+            <p 
+            v-if="type.getName() == 'Text'"
+            @click="modifyText(eId)"
+            >
+                {{type.getContent()}}
+            </p>
+            
             <img :src="url" :alt="altText" :class="{mirror : mirrored}" v-if="type.getName() == 'Asset'">
+        
         </DraggableResizable>
 </template>
 

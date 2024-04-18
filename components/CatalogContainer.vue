@@ -17,7 +17,7 @@ function addNewElementToDisplay(event) {
     availableInteger++;
   }
   // width, height, alt, src
-  let tempEl = new ElementDS(width, fixedHeight, name, src, {getName: () => {return 'Asset'}});
+  let tempEl = reactive(new ElementDS(width, fixedHeight, name, src, {getName: () => {return 'Asset'}}));
   console.log('tempEl', tempEl.currentState().type.getName())
   elementsInCanvas.value.set(availableInteger, tempEl);
 }

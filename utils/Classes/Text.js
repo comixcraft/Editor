@@ -9,14 +9,14 @@
  */
 
 export default class Text {
-  #name = "Text";
-  #content;
+  #name = "Text"
+  content;
   #fontSize;
   #fontFamily;
   #fontWeight;
 
   constructor(content, fontSize) {
-    this.#content = content;
+    this.content = ref(content);
     this.#fontSize = fontSize;
     this.#fontFamily = "Roboto";
     this.#fontWeight = "400";
@@ -24,7 +24,7 @@ export default class Text {
 
   // GETTERS
   getContent() {
-    return this.#content;
+    return this.content.value;
   }
   getFontSize() {
     return this.#fontSize;
@@ -41,7 +41,7 @@ export default class Text {
 
   // SETTERS
   setContent(c) {
-    this.#content = c;
+    this.content.value = c;
   }
   setFontSize(fS) {
     this.#fontSize = fS;
