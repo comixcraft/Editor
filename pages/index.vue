@@ -24,6 +24,7 @@
             },
         })
             .then((response) => {
+                console.log('response', response);
                 catalogElements.value = response.data.value;
             })
             .catch((error) => {
@@ -41,7 +42,12 @@
                 :filters="catalogStructure.categories[0].subCategories[0].filter"
                 @search="
                     (n) => {
-                        console.log('search', n);
+                        console.log(n);
+                        fetchCatalogElements(
+                            catalogStructure.categories[0].name,
+                            catalogStructure.categories[0].subCategories[0].name,
+                            n
+                        );
                     }
                 "
             />

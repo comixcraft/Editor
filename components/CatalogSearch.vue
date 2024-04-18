@@ -1,6 +1,7 @@
 <script setup>
     let activeFilters = ref([]);
     let searchTerm = ref('');
+    let showAllFilters = ref(false);
 
     const emit = defineEmits(['search']);
 
@@ -15,8 +16,8 @@
         },
     });
 
-    const allFilters = computed(() => {
-        return [...new Set([...props.filters, ...activeFilters.value])];
+    const visibleFilters = computed(() => {
+        return showAllFilters.value ? props.filters : activeFilters.value;
     });
 
     function toggleFilter(filter) {
@@ -37,9 +38,14 @@
 <template>
     <div>
         <div class="search">
-            <span class="icon search__tune">tune</span>
+            <span
+                class="icon search__tune"
+                :class="{ 'search__tune--active': showAllFilters }"
+                @click="showAllFilters = !showAllFilters"
+                >tune</span
+            >
             <input
-                class="search__input"
+                class="input search__input"
                 type="text"
                 :placeholder="placeholder"
                 @input="emitSearch"
@@ -48,7 +54,7 @@
         </div>
         <div class="filter">
             <span
-                v-for="filter in filters"
+                v-for="filter in visibleFilters"
                 :key="filter"
                 class="filter__pill"
                 :class="{ 'filter__pill--selected': activeFilters.includes(filter) }"
@@ -71,6 +77,7 @@
         gap: $spacer-2;
         flex-wrap: wrap;
         &__pill {
+            margin-top: $spacer-2;
             cursor: pointer;
             padding: $spacer-1 $spacer-2;
             border: $border-width solid $secondary;
@@ -102,19 +109,16 @@
         align-items: center;
 
         &__input {
-            padding: $spacer-1 $spacer-2;
-            border: $border-width solid $medium-grey-100;
-            border-radius: $border-radius;
             flex-grow: 1;
-
-            &:focus,
-            &:active {
-                border-color: $primary;
-            }
         }
 
         &__tune {
+            cursor: pointer;
             padding: $spacer-1;
+
+            &--active {
+                color: $secondary;
+            }
         }
     }
 
