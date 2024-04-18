@@ -85,8 +85,8 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', z)"
             />
-            <p>{{type.getContent()}}</p>
-            <!-- <img :src="url" :alt="altText" :class="{mirror : mirrored}" v-if="type."> -->
+            <p v-if="type.getName() == 'Text'">{{type.getContent()}}</p>
+            <img :src="url" :alt="altText" :class="{mirror : mirrored}" v-if="type.getName() == 'Asset'">
         </DraggableResizable>
 </template>
 

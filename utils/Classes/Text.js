@@ -1,4 +1,3 @@
-
 // ===================================================
 // ********** Text
 /**
@@ -10,41 +9,47 @@
  */
 
 export default class Text {
-    #content;
-    #fontSize;
-    #fontFamily;
-    #fontWeight;
+  #name = "Text";
+  #content;
+  #fontSize;
+  #fontFamily;
+  #fontWeight;
 
-    constructor(content, fontSize) {
-        this.#content = content;
-        this.#fontSize = fontSize
-    }
+  constructor(content, fontSize) {
+    this.#content = content;
+    this.#fontSize = fontSize;
+    this.#fontFamily = "Roboto";
+    this.#fontWeight = "400";
+  }
 
-    // GETTERS
-    getContent() {
-        return this.#content;
-    }    
-    getFontSize() {
-        return this.#fontSize;
-    }    
-    getFontFamily() {
-        return this.#fontFamily;
-    }    
-    getFontWeight() {
-        return this.#fontWeight;
-    }
+  // GETTERS
+  getContent() {
+    return this.#content;
+  }
+  getFontSize() {
+    return this.#fontSize;
+  }
+  getFontFamily() {
+    return this.#fontFamily;
+  }
+  getFontWeight() {
+    return this.#fontWeight;
+  }
+  getName() {
+    return this.#name;
+  }
 
-    // SETTERS
-    setContent(c) {
-        this.#content = c;
-    }    
-    setFontSize(fS) {
-        this.#fontSize = fS;
-    }    
-    setFontFamily(fF) {
-        this.#fontFamily = fF;
-    }    
-    setFontWeight(fW) {
-        this.#fontWeight = fW;
-    }
+  // SETTERS
+  setContent(c) {
+    this.#content = c;
+  }
+  setFontSize(fS) {
+    this.#fontSize = fS;
+  }
+  setFontFamily(fF) {
+    this.#fontFamily = fF;
+  }
+  setFontWeight(fW) {
+    this.#fontWeight = fW;
+  }
 }

@@ -16,7 +16,6 @@ function addNewTextToDisplay(event) {
   }
   let name = "text" + availableInteger;
   let type = new Text(name, 24);
-  console.log("type", type)
   // width, height, alt, src
   let tempEl = new ElementDS(width, fixedHeight, name, src, type);
   elementsInCanvas.value.set(availableInteger, tempEl);
