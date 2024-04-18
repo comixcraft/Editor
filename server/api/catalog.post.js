@@ -73,5 +73,5 @@ export default defineEventHandler(async (event) => {
 });
 
 function includesAll(arr, values) {
-    return values.every((v) => arr.includes(v));
+    return values.every((v) => arr.toString().includes(v));
 }
