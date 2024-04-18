@@ -7,7 +7,7 @@
             <div class="d-flex pb-3 pb-lg-0">
                 <div class="welcomeText">
                     <div class="welcome">
-                        <h1>welcome to comixcraft</h1>
+                        <h1>Welcome to comixcraft!</h1>
                     </div>
                     <div class="introText">
                         <p>
@@ -21,9 +21,10 @@
                 </div>
             </div>
             <div class="templates">
-                <h3>templates</h3>
-                <p>start by choosing a template</p>
-                <h5>comic panels</h5>
+                <h2>Templates</h2>
+                <p class="font-italic">start by choosing a template</p>
+                <h3>comic panels</h3>
+                <p>A comic panel is a single frame within a comic strip.</p>
                 <div class="comicPanels">
                     <div class="singleTemplate"></div>
                     <div class="singleTemplate"></div>
@@ -32,7 +33,8 @@
                     <div class="singleTemplate"></div>
                     <div class="singleTemplate"></div>
                 </div>
-                <h5>comic strips</h5>
+                <h3>comic strips</h3>
+                <p>A comic strip consists of a series of panels.</p>
                 <div class="comicPanels">
                     <div class="singleTemplate"></div>
                     <div class="singleTemplate"></div>
@@ -43,14 +45,10 @@
             </div>
             <button class="startBtn">start craftin</button>
         </div>
-        <button @click="layersShow = true">djshbsdjflw</button>
-        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">layers go here</ScreenOverlay>
     </div>
 </template>
 
-<script setup>
-    let layersShow = ref(false);
-</script>
+<script setup></script>
 
 <style scoped lang="scss">
     .topNav {
@@ -71,47 +69,59 @@
 
     .templates {
         background: var(--Off-white-100, #f5f5f5);
+        padding-top: $spacer-4;
     }
     .welcomeText {
         display: flex;
         flex-direction: column;
+        padding: $spacer-2;
+        margin-top: $spacer-3;
     }
     .welcome {
         display: flex;
-        padding: 0%;
-        margin: 0;
     }
     .introText {
         display: flex;
+        justify-content: left;
+        width: 45vw;
+        margin-top: $spacer-2;
     }
     .comicImage {
+        text-align: center;
         display: flex;
         justify-content: center;
         flex-direction: column;
+        width: 55vw;
     }
 
     .comicPanels {
         display: flex;
-        gap: 20px;
+        gap: $spacer-3;
         width: 100%;
         overflow-x: auto;
-        flex-wrap: nowrap; /* prevent items from wrapping */
+        flex-wrap: nowrap;
+        margin-top: $spacer-4;
     }
 
     .singleTemplate {
-        height: 200px;
-        width: 150px;
+        padding: 100px;
         background-color: gray;
-        flex: 0 0 auto; /* prevent items from flexing and maintain their size */
+        flex: 0 0 auto;
+        margin-bottom: $spacer-4;
     }
-
     .startBtn {
         display: flex;
         padding: $spacer-3;
+        padding-left: $spacer-5;
+        padding-right: $spacer-5;
         justify-content: center;
         align-items: center;
         gap: 8px;
         background-color: #f460b7;
-        position: relative;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999;
     }
 </style>

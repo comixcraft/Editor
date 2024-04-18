@@ -23,6 +23,8 @@
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
         height: 80px;
         margin: 0;
+        padding: 16px;
+        color: white;
     }
     .overlay {
         height: 100vh;
