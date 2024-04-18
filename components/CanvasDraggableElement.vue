@@ -9,7 +9,8 @@
         url: String,
         eId: Number,
         pos: Object,
-        isMirrored: Boolean
+        isMirrored: Boolean,
+        type: Object
     })
 
     let elementActive = false;
@@ -84,8 +85,9 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', z)"
             />
-            <img :src="url" :alt="altText" :class="{mirror : mirrored}">
-            </DraggableResizable>
+            <p>{{type.getContent()}}</p>
+            <!-- <img :src="url" :alt="altText" :class="{mirror : mirrored}" v-if="type."> -->
+        </DraggableResizable>
 </template>
 
 <style scoped lang="scss">

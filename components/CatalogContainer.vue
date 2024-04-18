@@ -16,7 +16,7 @@
             availableInteger++;
         }
         // width, height, alt, src
-        let tempEl = new ElementDS(width, fixedHeight, name, src)
+        let tempEl = new ElementDS(width, fixedHeight, name, src, {type: 'image'})
         elementsInCanvas.value.set(availableInteger, tempEl)
     }
 

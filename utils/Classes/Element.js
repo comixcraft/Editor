@@ -12,12 +12,14 @@ export default class ElementDS {
     #height;
     #src;
     #alt;
+    #type;
 
-    constructor (width, height, alt, src) {
+    constructor (width, height, alt, src, type) {
         this.#width = width;
         this.#height = height;
         this.#src = src;
         this.#alt = alt;
+        this.#type = type;
 
         this.#init();
     }
@@ -44,6 +46,7 @@ export default class ElementDS {
             height: this.#height,
             src: this.#src,
             alt: this.#alt,
+            type: this.#type
         }
     }
 
