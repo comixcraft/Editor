@@ -1,28 +1,47 @@
 <script setup>
+    const props = defineProps({
+        panel: Object,
+    });
+
+    let elements = props.panel.currentState().elements;
+
     function deleteElement(elId) {
-        // all z element
-        changeZIndex(elId);
+        console.log(elId);
         // delete last element of map
-        elementsInCanvas.value.delete(elementsInCanvas.value.size);
+        props.panel.deleteElement(elId);
     }
 
-    function changeZIndex(z) {
-        // change all z index
-        if (z > elementsInCanvas.value.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
+    function resizeElement(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.id).setWidth(obj.width);
+        elements.get(obj.id).setHeight(obj.height);
+    }
 
-        let nextElement = elementsInCanvas.value.get(z + 1);
+    function updatePosition(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+    }
 
-        nextElement.setZIndex(z); // change z-index of next element
-        elementsInCanvas.value.set(z, nextElement); // update map element with next element
-        z++; // increment z index
-        changeZIndex(z); // recursive
+    function mirrorElement(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setIsMirrored(obj.mirror);
     }
 </script>
 
 <template>
     <div ref="container" class="wrapper">
         <CanvasDraggableElement
-            v-for="[key, value] in elementsInCanvas"
+            v-for="[key, value] in elements"
             :key="key"
             :altText="value.currentState().name"
             :eId="value.currentState().id"
@@ -33,6 +52,9 @@
             :w="value.currentState().width"
             :z="value.currentState().z"
             @delete-event="deleteElement"
+            @update-event="updatePosition"
+            @resize-event="resizeElement"
+            @mirror-event="mirrorElement"
         />
     </div>
 </template>

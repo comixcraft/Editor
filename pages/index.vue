@@ -1,4 +1,6 @@
 <script setup>
+    import Panel from '~/utils/Classes/Panel.js';
+
     // Values should come from the template chosen before opening the editor
     const canvasWidth = ref(450);
     const canvasHeight = ref(750);
@@ -9,6 +11,12 @@
         .catch((error) => {
             createError(error);
         });
+
+    // for testing matter
+    let panelTest = new Panel(600, 'none');
+    function addElementToDisplay(e) {
+        panelTest.addElement(e);
+    }
 
     let catalogElements = ref([]);
     await useFetch('/api/catalog/', {
@@ -25,12 +33,16 @@
         .catch((error) => {
             createError(error);
         });
+
+    function copyToElement() {
+        elementsInCanvas.value = panelTest.currentState().elements;
+    }
 </script>
 
 <template>
     <div class="container">
-        <WrapperCanvas></WrapperCanvas>
-        <CatalogContainer :assets="catalogElements"></CatalogContainer>
+        <WrapperCanvas :panel="panelTest"></WrapperCanvas>
+        <CatalogContainer :assets="catalogElements" @add-element="addElementToDisplay"> </CatalogContainer>
     </div>
 
     <button>
@@ -40,6 +52,7 @@
                 path: '/export',
                 query: { width: canvasWidth, height: canvasHeight },
             }"
+            @click="copyToElement"
             >See Preview
         </NuxtLink>
     </button>
