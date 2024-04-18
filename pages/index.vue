@@ -52,7 +52,7 @@
         <button @click="sceneCatalogShow = true">Scenes</button>
         <button @click="allAssetsCatalogShow = true">All Assets</button>
 
-        <CatalogOverlay
+        <PopupOverlay
             iconName="add_reaction"
             title="Characters"
             :show="characterCatalogShow"
@@ -63,32 +63,32 @@
                 :buttons="characterButtons"
                 @buttonClick="subCharCatalogShow"
             ></CatalogNavigation>
-        </CatalogOverlay>
-        <CatalogOverlay
+        </PopupOverlay>
+        <PopupOverlay
             iconName="chat_bubble"
             title="Speech Bubble"
             :show="speechBubbleCatalogShow"
             @close="speechBubbleCatalogShow = false"
         >
             This is Speech Bubble
-        </CatalogOverlay>
-        <CatalogOverlay iconName="sticky_note" title="Text" :show="textCatalogShow" @close="textCatalogShow = false">
+        </PopupOverlay>
+        <PopupOverlay iconName="sticky_note" title="Text" :show="textCatalogShow" @close="textCatalogShow = false">
             This is Text
-        </CatalogOverlay>
-        <CatalogOverlay iconName="category" title="Shapes" :show="shapesCatalogShow" @close="shapesCatalogShow = false">
+        </PopupOverlay>
+        <PopupOverlay iconName="category" title="Shapes" :show="shapesCatalogShow" @close="shapesCatalogShow = false">
             This is Shapes
-        </CatalogOverlay>
-        <CatalogOverlay iconName="scene" title="Scene" :show="sceneCatalogShow" @close="sceneCatalogShow = false">
+        </PopupOverlay>
+        <PopupOverlay iconName="scene" title="Scene" :show="sceneCatalogShow" @close="sceneCatalogShow = false">
             This is Scene
-        </CatalogOverlay>
-        <CatalogOverlay
+        </PopupOverlay>
+        <PopupOverlay
             iconName="image_search"
             title="All Assets"
             :show="allAssetsCatalogShow"
             @close="allAssetsCatalogShow = false"
         >
             This is All Assets
-        </CatalogOverlay>
+        </PopupOverlay>
 
         <button>
             <NuxtLink
