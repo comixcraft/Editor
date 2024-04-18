@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
     let catalogAssets = [];
 
     const body = await readBody(event);
+    console.log('body', body);
 
     // Category
     let categories = body.category;
@@ -22,14 +23,14 @@ export default defineEventHandler(async (event) => {
         categories = [categories];
     }
 
-    categories = categories.map((c) => {
-        if (typeof c !== 'string') {
-            return null;
-        }
-        let categoryParts = c.split('-');
-        categoryParts = categoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
-        return categoryParts.join(' ');
-    });
+    // categories = categories.map((c) => {
+    //     if (typeof c !== 'string') {
+    //         return null;
+    //     }
+    //     let categoryParts = c.split('-');
+    //     categoryParts = categoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
+    //     return categoryParts.join(' ');
+    // });
 
     // SubCategory
     let subCategories = body.subCategory;
@@ -42,14 +43,14 @@ export default defineEventHandler(async (event) => {
         subCategories = [subCategories];
     }
 
-    subCategories = subCategories.map((c) => {
-        if (typeof c !== 'string') {
-            return null;
-        }
-        let subCategoryParts = c.split('-');
-        subCategoryParts = subCategoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
-        return subCategoryParts.join(' ');
-    });
+    // subCategories = subCategories.map((c) => {
+    //     if (typeof c !== 'string') {
+    //         return null;
+    //     }
+    //     let subCategoryParts = c.split('-');
+    //     subCategoryParts = subCategoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
+    //     return subCategoryParts.join(' ');
+    // });
 
     // Filter
     let filter = body.filter;
@@ -64,12 +65,12 @@ export default defineEventHandler(async (event) => {
 
     for (const [categoryKey, categoryValue] of Object.entries(catalog)) {
         if (categories.length > 0 && !categories.includes(categoryKey)) {
-            return;
+            continue;
         }
 
         for (const [subCategoryKey, subCategoryValue] of Object.entries(catalog[categoryKey])) {
-            if (subCategories.length > 0 && !subCategories.includes(categoryKey)) {
-                return;
+            if (subCategories.length > 0 && !subCategories.includes(subCategoryKey)) {
+                continue;
             }
 
             if (filter.length === 0) {

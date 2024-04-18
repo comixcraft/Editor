@@ -20,11 +20,10 @@
             body: {
                 category: category,
                 subCategory: subCategory,
-                filter: [],
+                filter: filter,
             },
         })
             .then((response) => {
-                console.log('response', response);
                 catalogElements.value = response.data.value;
             })
             .catch((error) => {
