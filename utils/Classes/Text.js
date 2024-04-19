@@ -6,19 +6,19 @@ export default class Text {
 
     constructor(content, fontSize) {
         this.#content = content;
-        this.#fontSize = fontSize
+        this.#fontSize = fontSize;
     }
 
     // GETTERS
     get content() {
         return this.#content;
-    }    
+    }
     get fontSize() {
         return this.#fontSize;
-    }    
+    }
     get fontFamily() {
         return this.#fontFamily;
-    }    
+    }
     get fontWeight() {
         return this.#fontWeight;
     }
@@ -26,13 +26,13 @@ export default class Text {
     // SETTERS
     set content(c) {
         this.#content = c;
-    }    
+    }
     set fontSize(fS) {
         this.#fontSize = fS;
-    }    
+    }
     set fontFamily(fF) {
         this.#fontFamily = fF;
-    }    
+    }
     set fontWeight(fW) {
         this.#fontWeight = fW;
     }
