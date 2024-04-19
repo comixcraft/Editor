@@ -72,20 +72,24 @@
     <div>
         <div class="d-flex flex-wrap gap-3">
             <TemplateDisplay
+                @select-template="selectedComicConfiguration = $event"
                 v-for="option in panelOptions"
                 :key="option.title"
                 :title="option.title"
                 :preview="option.preview"
                 :config="option.config"
+                :selected="option.title === selectedComicConfiguration?.title"
             />
         </div>
         <div class="d-flex flex-wrap gap-3">
             <TemplateDisplay
+                @select-template="selectedComicConfiguration = $event"
                 v-for="option in stripOptions"
                 :key="option.title"
                 :title="option.title"
                 :preview="option.preview"
                 :config="option.config"
+                :selected="option.title === selectedComicConfiguration?.title"
             />
         </div>
     </div>
