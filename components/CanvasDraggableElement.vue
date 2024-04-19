@@ -1,173 +1,131 @@
 <script setup>
-import ElementDS from "../utils/Classes/Element.js";
-import { ref } from "vue";
+    import ElementDS from '../utils/Classes/Element.js';
+    import { ref } from 'vue';
 
-const props = defineProps({
-  z: Number,
-  w: Number,
-  h: Number,
-  altText: String,
-  url: String,
-  eId: Number,
-  pos: Object,
-  isMirrored: Boolean,
-  type: Object,
-  startModifyText: Function,
-  resetClicks: Function,
-});
-
-let elementActive = false;
-let mirrored = ref(props.isMirrored);
-let self = ref(null);
-
-function updatePosition(eId) {
-  props.resetClicks();
-  // check what map entry correspond to id
-  let matchingIdEntry;
-  elementsInCanvas.value.forEach((value, key) => {
-    if (value.currentState().id === eId) matchingIdEntry = value;
-  });
-  if (!matchingIdEntry) {
-    console.log(
-      "Error in id passing for updatePosition function [CanvasDraggableElement:29]"
-    );
-    return;
-  }
-  // update position of element
-  matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
-}
-
-function resize(eId) {
-  // check what map entry correspond to id
-  let matchingIdEntry;
-  elementsInCanvas.value.forEach((value, key) => {
-    if (value.currentState().id === eId) matchingIdEntry = value;
-  });
-  if (!matchingIdEntry) {
-    console.log(
-      "Error in id passing for updatePosition function [CanvasDraggableElement:20]"
-    );
-    return;
-  }
-
-  matchingIdEntry.setPos({ x: self.value.left, y: self.value.top });
-  matchingIdEntry.setWidth(self.value.width);
-  matchingIdEntry.setHeight(self.value.height);
-}
-
-function updateMirroring(eId) {
-  // mirror the image on editor
-  this.mirrored = !this.mirrored;
-  // recover the element
-  let matchingIdEntry;
-  elementsInCanvas.value.forEach((value, key) => {
-    if (value.currentState().id === eId) matchingIdEntry = value;
-  });
-  if (!matchingIdEntry) {
-    console.log(
-      "Error in id passing for updatePosition function [CanvasDraggableElement:20]"
-    );
-    return;
-  }
-  // update isMirrored of element
-  matchingIdEntry.setIsMirrored(this.mirrored);
-}
-
-function startModifyText(eId) {
-  if (elementActive) {
-    let matchingIdEntry;
-    elementsInCanvas.value.forEach((value, key) => {
-      if (value.currentState().id === eId) matchingIdEntry = value;
+    const props = defineProps({
+        z: Number,
+        w: Number,
+        h: Number,
+        altText: String,
+        url: String,
+        eId: Number,
+        pos: Object,
+        isMirrored: Boolean,
+        type: Object,
+        startModifyText: Function,
+        resetClicks: Function,
     });
-    if (!matchingIdEntry) {
-      console.log(
-        "Error in id passing for startModifyText function [CanvasDraggableElement:76]"
-      );
-      return;
+
+    let elementActive = false;
+    let mirrored = ref(props.isMirrored);
+    let self = ref(null);
+
+    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
+
+    function updatePosition(eId) {
+        props.resetClicks();
+        emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
     }
-    props.startModifyText(true, matchingIdEntry);
-  }
-}
+
+    function resize(eId) {
+        emit('resizeEvent', {
+            id: eId,
+            width: self.value.width,
+            height: self.value.height,
+            pos: { x: self.value.left, y: self.value.top },
+        });
+    }
+
+    function updateMirroring(eId) {
+        // mirror the image on editor
+        this.mirrored = !this.mirrored;
+        emit('mirrorEvent', {
+            id: eId,
+            mirror: this.mirrored,
+        });
+    }
+    function ModifyText(eId) {
+        if (elementActive) {
+            let matchingIdEntry;
+            elementsInCanvas.value.forEach((value, key) => {
+                if (value.currentState().id === eId) matchingIdEntry = value;
+            });
+            if (!matchingIdEntry) {
+                console.log('Error in id passing for ModifyText function [CanvasDraggableElement:76]');
+                return;
+            }
+            props.startModifyText(true, matchingIdEntry);
+        }
+    }
 </script>
 
 <template>
-  <DraggableResizable
-    :z="z"
-    :w="w"
-    :h="h"
-    :x="pos.currPos().x"
-    :y="pos.currPos().y"
-    :eId="eId"
-    :parent="true"
-    class-name-active="elementActive"
-    :disableUserSelect="true"
-    ref="self"
-    @activated="elementActive = !elementActive"
-    @deactivated="elementActive = !elementActive"
-    @drag-stop="updatePosition(eId)"
-    @resize-stop="resize(eId)"
-  >
-    <EditionMenu
-      v-if="elementActive"
-      @mirror-event="updateMirroring(eId)"
-      @delete-event="$emit('deleteEvent', z)"
-    />
-
-    <div
-      tabindex="-1"
-      class="textContainer"
-      v-if="type.getName() == 'Text'"
-      @click="startModifyText(eId)"
+    <DraggableResizable
+        ref="self"
+        :disableUserSelect="true"
+        :eId="eId"
+        :h="h"
+        :parent="true"
+        :w="w"
+        :x="pos.currPos().x"
+        :y="pos.currPos().y"
+        :z="z"
+        class-name-active="element--active"
+        @activated="() => (elementActive = true)"
+        @deactivated="() => (elementActive = false)"
+        @drag-stop="updatePosition(eId)"
+        @resize-stop="resize(eId)"
     >
-      <p>
-        {{ type.getContent() }}
-      </p>
-    </div>
+        <EditionMenu
+            v-if="elementActive"
+            @mirror-event="updateMirroring(eId)"
+            @delete-event="$emit('deleteEvent', eId)"
+        />
+        <div tabindex="-1" class="textContainer" v-if="type.getName() == 'Text'" @click="ModifyText(eId)">
+            <p>
+                {{ type.getContent() }}
+            </p>
+        </div>
 
-    <img
-      :src="url"
-      :alt="altText"
-      :class="{ mirror: mirrored }"
-      v-if="type.getName() == 'Asset'"
-    />
-  </DraggableResizable>
+        <img :src="url" :alt="altText" :class="{ mirror: mirrored }" v-if="type.getName() == 'Asset'" />
+    </DraggableResizable>
 </template>
 
-<style scoped lang="scss">
-img {
-  width: 100%;
-  height: 100%;
-}
+<style lang="scss" scoped>
+    img {
+        width: 100%;
+        height: 100%;
+    }
 
-.elementActive {
-  border: $border-width solid $info;
-}
+    .element--active {
+        border: $border-width solid $info;
+    }
 
-.mirror {
-  transform: scaleX(-1);
-}
+    .mirror {
+        transform: scaleX(-1);
+    }
 
-p {
-  width: 100%;
-  height: 100%;
-}
+    p {
+        width: 100%;
+        height: 100%;
+    }
 
-textarea {
-  width: auto;
-  height: auto;
-  border: none;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
+    textarea {
+        width: auto;
+        height: auto;
+        border: none;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
 
-  &:focus-visible {
-    border: 1px solid red;
-  }
-}
+        &:focus-visible {
+            border: 1px solid red;
+        }
+    }
 
-.textContainer {
-  width: 100%;
-  height: 100%;
-}
+    .textContainer {
+        width: 100%;
+        height: 100%;
+    }
 </style>

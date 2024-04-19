@@ -1,72 +1,78 @@
 $material-symbols-font-path: '~/material-symbols/';
-@import "material-symbols/rounded.css";
+@import 'material-symbols/rounded.css';
 
 @font-face {
-  font-family: "Nunito";
-  font-style: NORMAL;
-  font-weight: 400;
-  src: url("../../public/fonts/Nunito-VariableFont_wght.ttf") format('truetype');
+    font-family: 'Nunito';
+    font-style: NORMAL;
+    font-weight: 400;
+    src: url('../../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "Nunito";
-  font-style: NORMAL;
-  font-weight: 700;
-  src: url("../../public/fonts/Nunito-VariableFont_wght.ttf") format('truetype');
+    font-family: 'Nunito';
+    font-style: NORMAL;
+    font-weight: 700;
+    src: url('../../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "Pangolin";
-  font-style: NORMAL;
-  font-weight: 400;
-  src: url("../../public/fonts/Pangolin-Regular.ttf") format('truetype');
+    font-family: 'Pangolin';
+    font-style: NORMAL;
+    font-weight: 400;
+    src: url('../../public/fonts/Pangolin-Regular.ttf') format('truetype');
 }
 
-.material-symbols-rounded, .icon {
-  font-family: 'Material Symbols Rounded', system-ui;
-  font-size: 24px;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+.material-symbols-rounded,
+.icon {
+    font-family: 'Material Symbols Rounded', system-ui;
+    font-size: 24px;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
 }
 
 .text-comic {
-  font-family: "Pangolin", "Comic Sans MS", sans-serif;
+    font-family: 'Pangolin', 'Comic Sans MS', sans-serif;
 }
 
 * {
-  font-family: "Nunito", sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
 
 @mixin font-classes($sizes, $line-height) {
-  @each $index, $size in $sizes {
-    h#{$index}, .h#{$index} {
-      font-weight: bold;
-      font-size: $size;
-      line-height: map-get($line-height, $index);
+    @each $index, $size in $sizes {
+        h#{$index},
+        .h#{$index} {
+            font-weight: bold;
+            font-size: $size;
+            line-height: map-get($line-height, $index);
+        }
+
+        .p#{$index} {
+            font-weight: normal;
+            font-size: $size;
+            line-height: map-get($line-height, $index);
+        }
     }
 
-    .p#{$index} {
-      font-weight: normal;
-      font-size: $size;
-      line-height: map-get($line-height, $index);
+    * {
+        font-family: 'Nunito', sans-serif;
+        font-size: map-get($sizes, 4);
+        line-height: map-get($line-height, 4);
     }
-  }
-
-  * {
-    font-family: "Nunito", sans-serif;
-    font-size: map-get($sizes, 4);
-    line-height: map-get($line-height, 4);
-  }
 }
 
 // Mobile
 @include font-classes($font-size-phone, $line-height-phone);
 
 // Tablets
-@media (min-width: 768px) {
-  @include font-classes($font-size-tablet, $line-height-tablet);
+@media (min-width: map-get($grid-breakpoints, md)) {
+    @include font-classes($font-size-tablet, $line-height-tablet);
 }
 
 // Desktop
-@media (min-width: 992px) {
-  @include font-classes($font-size-desktop, $line-height-desktop);
+@media (min-width: map-get($grid-breakpoints, lg)) {
+    @include font-classes($font-size-desktop, $line-height-desktop);
 }
