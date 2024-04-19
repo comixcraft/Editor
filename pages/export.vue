@@ -35,6 +35,13 @@
             const pos = currentState.pos.currPos();
             const img = new Image();
             img.onload = () => {
+                // rotate the image
+                if (currentState.rotation !== 0) {
+                    context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
+                    context.rotate((currentState.rotation * Math.PI) / 180);
+                    context.translate(-pos.x - currentState.width / 2, -pos.y - currentState.height / 2);
+                }
+
                 if (currentState.isMirrored && currentState.isMirroredVertical) {
                     context.scale(-1, -1);
                     context.translate(-currentState.width - pos.x, -currentState.height - pos.y);

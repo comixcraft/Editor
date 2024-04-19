@@ -44,6 +44,14 @@
         }
         elements.get(obj.id).setIsMirroredVertical(obj.mirror);
     }
+
+    function rotateElement(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setRotation(obj.rotation);
+    }
 </script>
 
 <template>
@@ -65,6 +73,8 @@
             @resize-event="resizeElement"
             @mirror-horizontal-event="mirrorElement"
             @mirror-vertical-event="mirrorElementVertical"
+            @rotate-left-event="rotateElement"
+            @rotate-right-event="rotateElement"
         />
     </div>
 </template>

@@ -9,19 +9,27 @@
         pos: Object,
         isMirroredHorizontal: Boolean,
         isMirroredVertical: Boolean,
+        rotation: { type: Number, default: 0 },
     });
 
     let elementActive = false;
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
+    let rotation = ref(props.rotation);
 
+    // computed function to set the mirroring of the image
     const setMirroredHorizontal = computed(() => {
         return mirroredHorizontal.value ? '-1' : '1';
     });
 
     const setMirroredVertical = computed(() => {
         return mirroredVertical.value ? '-1' : '1';
+    });
+
+    // computed function to set the rotation of the image
+    const setRotation = computed(() => {
+        return rotation.value + 'deg';
     });
 
     const emit = defineEmits([
@@ -67,11 +75,13 @@
 
     function updateRotation(eId, direction) {
         if (direction === 'left') {
-            emit('rotateLeftEvent', { id: eId });
-            console.log('rotate left');
-        } else {
-            emit('rotateRightEvent', { id: eId });
-            console.log('rotate right');
+            rotation.value -= 45;
+            if (rotation.value < 0) rotation.value = 315;
+            emit('rotateLeftEvent', { id: eId, rotation: rotation.value });
+        } else if (direction === 'right') {
+            rotation.value += 45;
+            if (rotation.value > 360) rotation.value = 45;
+            emit('rotateRightEvent', { id: eId, rotation: rotation.value });
         }
     }
 </script>
@@ -101,7 +111,7 @@
             @rotate-right-event="updateRotation(eId, (direction = 'right'))"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <img :alt="altText" class="mirror" :src="url" />
+        <img :alt="altText" :class="{ transform: mirroredHorizontal || mirroredVertical || rotation > 0 }" :src="url" />
     </DraggableResizable>
 </template>
 
@@ -115,7 +125,7 @@
         border: $border-width solid $info;
     }
 
-    .mirror {
-        transform: scale(v-bind(setMirroredHorizontal), v-bind(setMirroredVertical));
+    .transform {
+        transform: scale(v-bind(setMirroredHorizontal), v-bind(setMirroredVertical)) rotate(v-bind(setRotation));
     }
 </style>

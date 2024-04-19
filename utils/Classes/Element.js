@@ -61,6 +61,10 @@ export default class ElementDS {
         this.#isMirroredVertical = bool;
     };
 
+    setRotation = (n) => {
+        this.#rotation = n;
+    };
+
     set focused(bool) {
         this.#isFocused = bool;
     }
