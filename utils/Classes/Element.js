@@ -6,6 +6,7 @@ export default class ElementDS {
     #pos = new Position(0, 0);
     #isFocused = false;
     #isMirrored = false;
+    #isMirroredVertical = false;
     #rotation = 0;
     #width;
     #height;
@@ -31,6 +32,7 @@ export default class ElementDS {
             pos: this.#pos,
             isFocused: this.#isFocused,
             isMirrored: this.#isMirrored,
+            isMirroredVertical: this.#isMirroredVertical,
             rotation: this.#rotation,
             width: this.#width,
             height: this.#height,
@@ -53,6 +55,10 @@ export default class ElementDS {
 
     setIsMirrored = (bool) => {
         this.#isMirrored = bool;
+    };
+
+    setIsMirroredVertical = (bool) => {
+        this.#isMirroredVertical = bool;
     };
 
     set focused(bool) {

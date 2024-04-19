@@ -35,7 +35,17 @@
             const pos = currentState.pos.currPos();
             const img = new Image();
             img.onload = () => {
-                if (currentState.isMirrored) {
+                if (currentState.isMirrored && currentState.isMirroredVertical) {
+                    context.scale(-1, -1);
+                    context.translate(-currentState.width - pos.x, -currentState.height - pos.y);
+                    context.drawImage(img, 0, 0, currentState.width, currentState.height);
+                    context.resetTransform();
+                } else if (currentState.isMirroredVertical) {
+                    context.scale(1, -1);
+                    context.translate(pos.x, -currentState.height - pos.y);
+                    context.drawImage(img, 0, 0, currentState.width, currentState.height);
+                    context.resetTransform();
+                } else if (currentState.isMirrored) {
                     context.scale(-1, 1);
                     context.translate(-currentState.width - pos.x, pos.y);
                     context.drawImage(img, 0, 0, currentState.width, currentState.height);

@@ -30,6 +30,8 @@
         'resizeEvent',
         'mirrorHorizontalEvent',
         'mirrorVerticalEvent',
+        'rotateLeftEvent',
+        'rotateRightEvent',
     ]);
 
     function updatePosition(eId) {
@@ -62,6 +64,16 @@
             });
         }
     }
+
+    function updateRotation(eId, direction) {
+        if (direction === 'left') {
+            emit('rotateLeftEvent', { id: eId });
+            console.log('rotate left');
+        } else {
+            emit('rotateRightEvent', { id: eId });
+            console.log('rotate right');
+        }
+    }
 </script>
 
 <template>
@@ -85,6 +97,8 @@
             v-if="elementActive"
             @mirror-horizontal-event="updateMirroring(eId, (direction = 'horizontal'))"
             @mirror-vertical-event="updateMirroring(eId, (direction = 'vertical'))"
+            @rotate-left-event="updateRotation(eId, (direction = 'left'))"
+            @rotate-right-event="updateRotation(eId, (direction = 'right'))"
             @delete-event="$emit('deleteEvent', eId)"
         />
         <img :alt="altText" class="mirror" :src="url" />

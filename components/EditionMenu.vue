@@ -5,7 +5,7 @@
         url: String,
     });
 
-    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);
+    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent', 'rotateLeftEvent', 'rotateRightEvent']);
 </script>
 
 <template>
@@ -24,8 +24,8 @@
         </div>
 
         <div v-if="showMore" class="icon-container icon-container__right">
-            <div class="edit-icon edit-icon__right icon">rotate_90_degrees_ccw</div>
-            <div class="edit-icon edit-icon__right icon">rotate_90_degrees_cw</div>
+            <div class="edit-icon edit-icon__right icon" @click="$emit('rotateLeftEvent')">rotate_90_degrees_ccw</div>
+            <div class="edit-icon edit-icon__right icon" @click="$emit('rotateRightEvent')">rotate_90_degrees_cw</div>
             <div class="edit-icon edit-icon__right icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
             <div class="edit-icon edit-icon__right edit-icon--flipped icon" @click="$emit('mirrorVerticalEvent')">
                 flip

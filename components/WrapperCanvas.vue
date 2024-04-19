@@ -36,6 +36,14 @@
         }
         elements.get(obj.id).setIsMirrored(obj.mirror);
     }
+
+    function mirrorElementVertical(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setIsMirroredVertical(obj.mirror);
+    }
 </script>
 
 <template>
@@ -47,6 +55,7 @@
             :eId="value.currentState().id"
             :h="value.currentState().height"
             :isMirrored="value.currentState().isMirrored"
+            :isMirroredVertical="value.currentState().isMirroredVertical"
             :pos="value.currentState().pos"
             :url="value.currentState().src"
             :w="value.currentState().width"
