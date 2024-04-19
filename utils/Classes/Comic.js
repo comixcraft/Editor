@@ -8,6 +8,7 @@ export default class Comic {
         this.#name = name;
         this.#title = title;
         this.#creatorName = creatorName;
+        this.#pages = [];
     }
 
     // GETTER

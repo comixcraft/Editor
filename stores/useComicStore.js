@@ -1,9 +1,26 @@
 import { defineStore } from 'pinia';
+import Comic from '~/utils/Classes/Comic.js';
+import Page from '~/utils/Classes/Page.js';
+import Strip from '~/utils/Classes/Strip.js';
+import Panel from '~/utils/Classes/Panel.js';
 
 export const useComicStore = defineStore('comic', () => {
-    let comic = reactive(null);
+    const comic = new Comic(null, null, null);
 
-    function createComicWithConfig(config) {}
+    function createComicWithConfig(config) {
+        const strip = new Strip(config.height + 'px');
+
+        config.panels.forEach((panel) => {
+            strip.addPanelToStrip(new Panel(panel.width, panel.height));
+        });
+
+        const page = new Page();
+        page.addStripToPage(strip);
+
+        comic.addPageToComic(page);
+
+        return comic;
+    }
 
     return {
         comic,

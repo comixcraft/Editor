@@ -1,4 +1,6 @@
 <script setup>
+    const comicStore = useComicStore();
+
     let panelOptions = reactive([
         {
             title: 'Single',
@@ -66,6 +68,13 @@
     ]);
 
     let selectedComicConfiguration = ref(null);
+
+    function createComic(config) {
+        if (!config) return;
+
+        let comic = comicStore.createComicWithConfig({ ...config });
+        console.log(comicStore.comic);
+    }
 </script>
 
 <template>
@@ -93,6 +102,9 @@
             />
         </div>
     </div>
+    <button @click="createComic(selectedComicConfiguration?.config)" :disabled="!selectedComicConfiguration">
+        Create Comic
+    </button>
 </template>
 
 <style scoped lang="scss"></style>
