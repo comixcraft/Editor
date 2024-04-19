@@ -29,12 +29,20 @@
         elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
-    function mirrorElement(obj) {
+    function mirrorElementHorizontal(obj) {
         if (!elements.has(obj.id)) {
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setIsMirrored(obj.mirror);
+        elements.get(obj.id).setIsMirroredHorizontal(obj.mirrorHorizontal);
+    }
+
+    function mirrorElementVertical(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setIsMirroredVertical(obj.mirrorVertical);
     }
 </script>
 
@@ -54,7 +62,8 @@
             @delete-event="deleteElement"
             @update-event="updatePosition"
             @resize-event="resizeElement"
-            @mirror-event="mirrorElement"
+            @mirror-horizontal-event="mirrorElementHorizontal"
+            @mirror-vertical-event="mirrorElementVertical"
         />
     </div>
 </template>

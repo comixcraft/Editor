@@ -8,17 +8,29 @@
         eId: String,
         pos: Object,
         isMirroredHorizontal: Boolean,
+        isMirroredVertical: Boolean,
     });
 
     let elementActive = false;
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
+    let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
 
     const setMirroredHorizontal = computed(() => {
         return mirroredHorizontal.value ? '-1' : '1';
     });
 
-    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
+    const setMirroredVertical = computed(() => {
+        return mirroredVertical.value ? '-1' : '1';
+    });
+
+    const emit = defineEmits([
+        'deleteEvent',
+        'updateEvent',
+        'resizeEvent',
+        'mirrorHorizontalEvent',
+        'mirrorVerticalEvent',
+    ]);
 
     function updatePosition(eId) {
         emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
@@ -33,17 +45,22 @@
         });
     }
 
-    function updateMirroring(eId) {
-        // mirror the image on editor
-        this.mirroredHorizontal = !this.mirroredHorizontal;
-        emit('mirrorEvent', {
-            id: eId,
-            mirror: this.mirroredHorizontal,
-        });
-    }
-
-    function updateVerticalMirroring(eId) {
-        console.log('updateVerticalMirroring');
+    function updateMirroring(eId, direction) {
+        if (direction === 'horizontal') {
+            // mirror the image on editor
+            mirroredHorizontal.value = !mirroredHorizontal.value;
+            emit('mirrorHorizontalEvent', {
+                id: eId,
+                mirror: mirroredHorizontal.value,
+            });
+        } else {
+            // mirror the image on editor
+            mirroredVertical.value = !mirroredVertical.value;
+            emit('mirrorVerticalEvent', {
+                id: eId,
+                mirror: mirroredVertical.value,
+            });
+        }
     }
 </script>
 
@@ -66,11 +83,11 @@
     >
         <EditionMenu
             v-if="elementActive"
-            @mirror-event="updateMirroring(eId)"
-            @mirror-vertical-event="updateVerticalMirroring(eId)"
+            @mirror-horizontal-event="updateMirroring(eId, (direction = 'horizontal'))"
+            @mirror-vertical-event="updateMirroring(eId, (direction = 'vertical'))"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <img :alt="altText" :class="{ mirror: mirroredHorizontal }" :src="url" />
+        <img :alt="altText" class="mirror" :src="url" />
     </DraggableResizable>
 </template>
 
@@ -85,6 +102,6 @@
     }
 
     .mirror {
-        transform: scaleX(v-bind(setMirroredHorizontal));
+        transform: scale(v-bind(setMirroredHorizontal), v-bind(setMirroredVertical));
     }
 </style>
