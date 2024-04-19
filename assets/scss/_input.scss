@@ -5,6 +5,7 @@
 
     &:focus,
     &:active {
-        border-color: $info;
+        border: $border-width solid $info;
+        outline: $border-width solid $info;
     }
 }
