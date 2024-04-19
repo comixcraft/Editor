@@ -56,7 +56,17 @@
                 @input="emitSearch"
                 v-model="searchTerm"
             />
-            <span v-if="searchTerm" class="icon p5 search__clear" @click="searchTerm = ''">close</span>
+            <span
+                v-if="searchTerm"
+                class="icon p5 search__clear"
+                @click="
+                    () => {
+                        searchTerm = '';
+                        emitSearch();
+                    }
+                "
+                >close
+            </span>
         </div>
         <div class="filter">
             <span
