@@ -4,6 +4,13 @@ import { fileURLToPath } from 'node:url';
 export default defineNuxtConfig({
     css: ['@/assets/scss/styles.scss'],
     devtools: { enabled: true },
+    modules: [
+        // ...
+        '@pinia/nuxt',
+    ],
+    pinia: {
+        storesDirs: ['./stores/**'],
+    },
     vite: {
         css: {
             preprocessorOptions: {
