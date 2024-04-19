@@ -1,0 +1,11 @@
+.input {
+    padding: $spacer-1 $spacer-2;
+    border: $border-width solid $medium-grey-100;
+    border-radius: $border-radius;
+
+    &:focus,
+    &:active {
+        border: $border-width solid $info;
+        outline: $border-width solid $info;
+    }
+}
