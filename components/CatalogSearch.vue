@@ -56,6 +56,7 @@
                 @input="emitSearch"
                 v-model="searchTerm"
             />
+            <span v-if="searchTerm" class="icon p5 search__clear">close</span>
         </div>
         <div class="filter">
             <span
@@ -109,9 +110,18 @@
     }
 
     .search {
+        position: relative;
         display: flex;
         gap: $spacer-2;
         align-items: center;
+
+        &__clear {
+            position: absolute;
+            padding: $spacer-1;
+            cursor: pointer;
+            color: $medium-grey-100;
+            right: $spacer-3;
+        }
 
         &__input {
             flex-grow: 1;
