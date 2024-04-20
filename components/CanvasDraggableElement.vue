@@ -82,11 +82,11 @@
         />
         <div
             tabindex="-1"
-            class="textContainer"
+            class="textContent__container"
             v-if="type.getName() == 'Text'"
             @click="$emit('modifyTextEvent', { active: true, id: eId })"
         >
-            <p>
+            <p class="textContent">
                 {{ type.getContent() }}
             </p>
         </div>
@@ -109,27 +109,13 @@
         transform: scaleX(-1);
     }
 
-    p {
+    .textContent__container {
         width: 100%;
         height: 100%;
-    }
 
-    textarea {
-        width: auto;
-        height: auto;
-        border: none;
-        padding: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        &:focus-visible {
-            border: 1px solid red;
+        .textContent {
+            width: 100%;
+            height: 100%;
         }
-    }
-
-    .textContainer {
-        width: 100%;
-        height: 100%;
     }
 </style>

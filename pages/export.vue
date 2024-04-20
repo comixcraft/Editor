@@ -33,23 +33,62 @@
         elementsInCanvas.value.forEach((element, key) => {
             const currentState = element.currentState();
             const pos = currentState.pos.currPos();
-            const img = new Image();
-            img.onload = () => {
-                if (currentState.isMirrored) {
-                    context.scale(-1, 1);
-                    context.translate(-currentState.width - pos.x, pos.y);
-                    context.drawImage(img, 0, 0, currentState.width, currentState.height);
-                    context.resetTransform();
-                } else {
-                    context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height);
-                }
-            };
-            // to change once the images are right
-            img.src = currentState.src;
+            const type = currentState.type.getName();
+            switch (type) {
+                case 'Asset':
+                    drawAsset(context, currentState, pos);
+                    break;
+                case 'Text':
+                    drawText(context, currentState, pos);
+                    break;
+                default:
+                    console.log('Element type not recognized');
+            }
         });
     }
 
-    // not working with the github asset due to CORS problem
+    function drawAsset(context, currentState, pos) {
+        const img = new Image();
+        img.onload = () => {
+            if (currentState.isMirrored) {
+                context.scale(-1, 1);
+                context.translate(-currentState.width - pos.x, pos.y);
+                context.drawImage(img, 0, 0, currentState.width, currentState.height);
+                context.resetTransform();
+            } else {
+                context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height);
+            }
+        };
+        img.src = currentState.src;
+    }
+
+    function getLines(context, text, maxWidth) {
+        let words = text.split(' ');
+        let lines = [];
+        let currentLine = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+            let word = words[i];
+            let width = context.measureText(currentLine + ' ' + word).width;
+            if (width < maxWidth) {
+                currentLine += ' ' + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+
+    function drawText(context, currentState, pos) {
+        context.font = `${currentState.type.getFontSize()}px ${currentState.type.getFontFamily()}`;
+        context.fillStyle = 'black';
+        getLines(context, currentState.type.getContent(), currentState.width).forEach((line, i) => {
+            context.fillText(line, pos.x, pos.y + i * currentState.type.getFontSize());
+        });
+    }
+
     function download() {
         const canvas = canvasEl.value;
         const img = canvas.toDataURL('image/png');

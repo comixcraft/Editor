@@ -12,6 +12,12 @@
 
     // for testing matter
     let panelTest = new Panel(600, 'none');
+    // for testing matter => panel should be our new elementsInCanvas
+    function fillPanel() {
+        elementsInCanvas.value.forEach((element) => {
+            panelTest.addElement(element);
+        });
+    }
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -46,6 +52,8 @@
         elementsInCanvas.value = panelTest.currentState().elements;
     }
 
+    // logic should be move to the menu where the text button will be and call addElementToDisplay
+    // => see CatalogContainer.vue
     function addNewTextToDisplay(event) {
         let fixedHeight = 200;
         let src = '';
@@ -55,13 +63,6 @@
         let type = new Text(name, 24);
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         panelTest.addElement(tempEl);
-    }
-
-    // for testing matter
-    function fillPanel() {
-        elementsInCanvas.value.forEach((element) => {
-            panelTest.addElement(element);
-        });
     }
 
     onMounted(() => {

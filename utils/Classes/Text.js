@@ -8,7 +8,7 @@ export default class Text {
     constructor(content, fontSize) {
         this.content = ref(content);
         this.#fontSize = fontSize;
-        this.#fontFamily = 'Roboto';
+        this.#fontFamily = 'nunito';
         this.#fontWeight = '400';
     }
 

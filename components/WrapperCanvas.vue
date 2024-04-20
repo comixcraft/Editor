@@ -85,8 +85,8 @@
             @reset-clicks-event="resetClicks"
             :type="value.currentState().type"
         />
-        <div class="textarea-container" v-show="modifyTextActive">
-            <input tabindex="0" :placeholder="placeholderText" ref="textarea" @blur="stopModifyText" />
+        <div class="textarea__container" v-show="modifyTextActive">
+            <textarea tabindex="0" :value="placeholderText" ref="textarea" @blur="stopModifyText"></textarea>
         </div>
     </div>
 </template>
@@ -103,7 +103,7 @@
         overflow: hidden;
         display: grid;
     }
-    .textarea-container {
+    .textarea__container {
         position: relative;
         left: 0;
         top: 0;
