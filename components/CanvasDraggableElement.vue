@@ -8,7 +8,7 @@
         h: Number,
         altText: String,
         url: String,
-        eId: Number,
+        eId: String,
         pos: Object,
         isMirrored: Boolean,
         type: Object,
@@ -20,10 +20,17 @@
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
 
-    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
+    const emit = defineEmits([
+        'deleteEvent',
+        'updateEvent',
+        'resizeEvent',
+        'mirrorEvent',
+        'modifyTextEvent',
+        'resetClicksEvent',
+    ]);
 
     function updatePosition(eId) {
-        props.resetClicks();
+        emit('resetClicksEvent');
         emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
@@ -44,18 +51,10 @@
             mirror: this.mirrored,
         });
     }
-    function ModifyText(eId) {
-        if (elementActive) {
-            let matchingIdEntry;
-            elementsInCanvas.value.forEach((value, key) => {
-                if (value.currentState().id === eId) matchingIdEntry = value;
-            });
-            if (!matchingIdEntry) {
-                console.log('Error in id passing for ModifyText function [CanvasDraggableElement:76]');
-                return;
-            }
-            props.startModifyText(true, matchingIdEntry);
-        }
+
+    function deactivate() {
+        elementActive = false;
+        emit('resetClicksEvent');
     }
 </script>
 
@@ -72,7 +71,7 @@
         :z="z"
         class-name-active="element--active"
         @activated="() => (elementActive = true)"
-        @deactivated="() => (elementActive = false)"
+        @deactivated="deactivate"
         @drag-stop="updatePosition(eId)"
         @resize-stop="resize(eId)"
     >
@@ -81,7 +80,12 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <div tabindex="-1" class="textContainer" v-if="type.getName() == 'Text'" @click="ModifyText(eId)">
+        <div
+            tabindex="-1"
+            class="textContainer"
+            v-if="type.getName() == 'Text'"
+            @click="$emit('modifyTextEvent', { active: true, id: eId })"
+        >
             <p>
                 {{ type.getContent() }}
             </p>

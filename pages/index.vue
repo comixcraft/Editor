@@ -1,5 +1,7 @@
 <script setup>
     import Panel from '~/utils/Classes/Panel.js';
+    import ElementDS from '~/utils/Classes/Element.js';
+    import Text from '~/utils/Classes/Text.js';
 
     // Values should come from the template chosen before opening the editor
 
@@ -7,6 +9,9 @@
     const canvasHeight = ref(750);
     let catalogElements = ref([]);
     let catalogStructure = ref([]);
+
+    // for testing matter
+    let panelTest = new Panel(600, 'none');
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -16,8 +21,6 @@
             createError(error);
         });
 
-    // for testing matter
-    let panelTest = new Panel(600, 'none');
     function addElementToDisplay(e) {
         panelTest.addElement(e);
     }
@@ -39,13 +42,32 @@
             });
     }
 
-    onMounted(() => {
-        fetchCatalogElements();
-    });
-
     function copyToElement() {
         elementsInCanvas.value = panelTest.currentState().elements;
     }
+
+    function addNewTextToDisplay(event) {
+        let fixedHeight = 200;
+        let src = '';
+        let width = 200;
+        let availableInteger = 1;
+        let name = 'text' + availableInteger;
+        let type = new Text(name, 24);
+        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
+        panelTest.addElement(tempEl);
+    }
+
+    // for testing matter
+    function fillPanel() {
+        elementsInCanvas.value.forEach((element) => {
+            panelTest.addElement(element);
+        });
+    }
+
+    onMounted(() => {
+        fetchCatalogElements();
+        fillPanel();
+    });
 </script>
 
 <template>

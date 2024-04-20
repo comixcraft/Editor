@@ -11,8 +11,6 @@
     let currentElement = ref(null);
 
     function deleteElement(elId) {
-        console.log(elId);
-        // delete last element of map
         props.panel.deleteElement(elId);
     }
 
@@ -41,10 +39,11 @@
         }
         elements.get(obj.id).setIsMirrored(obj.mirror);
     }
-    function startModifyText(newValue, element) {
+    function startModifyText(obj) {
+        let element = elements.get(obj.id);
         clicks.value++;
         if (clicks.value === 2) {
-            modifyTextActive.value = newValue;
+            modifyTextActive.value = true;
             nextTick(() => {
                 currentElement.value = element;
                 textarea.value.focus();
@@ -82,8 +81,8 @@
             @update-event="updatePosition"
             @resize-event="resizeElement"
             @mirror-event="mirrorElement"
-            :startModifyText="startModifyText"
-            :resetClicks="resetClicks"
+            @modify-text-event="startModifyText"
+            @reset-clicks-event="resetClicks"
             :type="value.currentState().type"
         />
         <div class="textarea-container" v-show="modifyTextActive">

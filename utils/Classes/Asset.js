@@ -1,4 +1,5 @@
 export default class Asset {
+    #name = 'Asset';
     #path;
     #id;
 
@@ -13,6 +14,10 @@ export default class Asset {
 
     get id() {
         return this.#id;
+    }
+
+    getName() {
+        return this.#name;
     }
 
     // SETTERS

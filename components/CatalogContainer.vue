@@ -1,6 +1,6 @@
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
-    import Panel from '~/utils/Classes/Panel.js';
+    import Asset from '~/utils/Classes/Asset';
 
     defineProps({
         assets: Array,
@@ -14,10 +14,9 @@
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
 
-        // width, height, alt, src
-        let tempEl = new ElementDS(width, fixedHeight, name, src);
+        let newAsset = new Asset(src);
+        let tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
         emit('addElement', tempEl);
-        //elementsInCanvas.set(availableInteger, tempEl);
     }
 </script>
 
