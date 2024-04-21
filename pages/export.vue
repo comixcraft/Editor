@@ -84,6 +84,7 @@
     function drawText(context, currentState, pos) {
         context.font = `${currentState.type.getFontSize()}px ${currentState.type.getFontFamily()}`;
         context.fillStyle = 'black';
+        context.textBaseline = 'top';
         getLines(context, currentState.type.getContent(), currentState.width).forEach((line, i) => {
             context.fillText(line, pos.x, pos.y + i * currentState.type.getFontSize());
         });

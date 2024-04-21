@@ -1,5 +1,4 @@
 <script setup>
-    import ElementDS from '../utils/Classes/Element.js';
     import { ref } from 'vue';
 
     const props = defineProps({
@@ -12,6 +11,7 @@
         pos: Object,
         isMirrored: Boolean,
         type: Object,
+        fontSize: Number,
         startModifyText: Function,
         resetClicks: Function,
     });
@@ -86,7 +86,7 @@
             v-if="type.getName() == 'Text'"
             @click="$emit('modifyTextEvent', { active: true, id: eId })"
         >
-            <p class="textContent">
+            <p class="textContent" :style="{ fontSize: fontSize + 'px' }">
                 {{ type.getContent() }}
             </p>
         </div>

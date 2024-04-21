@@ -33,8 +33,11 @@ export default class Text {
     setContent(c) {
         this.content.value = c;
     }
-    setFontSize(fS) {
-        this.#fontSize = fS;
+    increaseFontSize() {
+        this.#fontSize++;
+    }
+    decreaseFontSize() {
+        this.#fontSize--;
     }
     setFontFamily(fF) {
         this.#fontFamily = fF;
