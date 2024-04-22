@@ -18,6 +18,18 @@ export default class Panel {
 
     // GETTERS
 
+    get border() {
+        return this._border;
+    }
+
+    get elements() {
+        return this._elements;
+    }
+
+    get width() {
+        return this._width;
+    }
+
     currentState() {
         return {
             border: this._border,

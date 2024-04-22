@@ -1,12 +1,14 @@
 <script setup>
-    import Panel from '~/utils/Classes/Panel.js';
+    definePageMeta({
+        middleware: ['comic-defined'],
+    });
 
-    // Values should come from the template chosen before opening the editor
+    const comicStore = useComicStore();
 
-    const canvasWidth = ref(450);
-    const canvasHeight = ref(750);
     let catalogElements = ref([]);
     let catalogStructure = ref([]);
+    const activePanel = ref(null);
+    const stripHeight = ref(0);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -16,10 +18,8 @@
             createError(error);
         });
 
-    // for testing matter
-    let panelTest = new Panel(600, 'none');
     function addElementToDisplay(e) {
-        panelTest.addElement(e);
+        activePanel.value.addElement(e);
     }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
@@ -39,18 +39,17 @@
             });
     }
 
+    stripHeight.value = comicStore.comic.getPage(0).getStrip(0).height;
+    activePanel.value = comicStore.comic.getPage(0).getStrip(0).getPanel(0);
+
     onMounted(() => {
         fetchCatalogElements();
     });
-
-    function copyToElement() {
-        elementsInCanvas.value = panelTest.currentState().elements;
-    }
 </script>
 
 <template>
-    <div class="container">
-        <WrapperCanvas :panel="panelTest"></WrapperCanvas>
+    <div class="editor__container">
+        <WrapperCanvas :height="stripHeight" :panel="activePanel"></WrapperCanvas>
         <div>
             <CatalogSearch
                 placeholder="happy, barista, ..."
@@ -74,16 +73,14 @@
             :to="{
                 name: 'export',
                 path: '/export',
-                query: { width: canvasWidth, height: canvasHeight },
             }"
-            @click="copyToElement"
             >See Preview
         </NuxtLink>
     </button>
 </template>
 
-<style scoped>
-    .container {
+<style scoped lang="scss">
+    .editor__container {
         display: flex;
         justify-content: space-evenly;
         align-items: center;

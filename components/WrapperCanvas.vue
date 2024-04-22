@@ -1,12 +1,15 @@
 <script setup>
     const props = defineProps({
+        height: Number,
         panel: Object,
     });
+
+    const canvasHeight = computed(() => props.height + 'px');
+    const canvasWidth = computed(() => props.panel.currentState().width + 'px');
 
     let elements = props.panel.currentState().elements;
 
     function deleteElement(elId) {
-        console.log(elId);
         // delete last element of map
         props.panel.deleteElement(elId);
     }
@@ -63,9 +66,8 @@
     @import 'vue-draggable-resizable/style.css';
 
     .wrapper {
-        /* TODO: should be defined dynamically once the value comes from template */
-        width: 450px;
-        height: 750px;
+        width: v-bind(canvasWidth);
+        height: v-bind(canvasHeight);
 
         border: 1px solid #000;
         overflow: hidden;

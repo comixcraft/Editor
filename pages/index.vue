@@ -5,17 +5,17 @@
         {
             title: 'Single',
             preview: '/frames/preview/Preview_Single.png',
-            config: { height: 1084, panels: [{ width: 759, border: '/frames/Frame-Single.png' }] },
+            config: { height: 524, panels: [{ width: 380, border: '/frames/Frame-Single.png' }] },
         },
         {
             title: 'Double',
             preview: '/frames/preview/Preview_Double.png',
-            config: { height: 1084, panels: [{ width: 1552, border: '/frames/Frame-Double.png' }] },
+            config: { height: 524, panels: [{ width: 776, border: '/frames/Frame-Double.png' }] },
         },
         {
             title: 'Triple',
             preview: '/frames/preview/Preview_Triple.png',
-            config: { height: 1084, panels: [{ width: 2327, border: '/frames/Frame-Triple.png' }] },
+            config: { height: 524, panels: [{ width: 1164, border: '/frames/Frame-Triple.png' }] },
         },
     ]);
 
@@ -24,11 +24,11 @@
             title: 'Three Single',
             preview: '/frames/preview/Preview_Single-Single-Single.png',
             config: {
-                height: 1084,
+                height: 524,
                 panels: [
-                    { width: 759, border: '/frames/Frame-Single.png' },
-                    { width: 759, border: '/frames/Frame-Single.png' },
-                    { width: 759, border: '/frames/Frame-Single.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
                 ],
             },
         },
@@ -36,10 +36,10 @@
             title: 'Double and Single',
             preview: '/frames/preview/Preview_Double-Single.png',
             config: {
-                height: 1084,
+                height: 524,
                 panels: [
-                    { width: 1552, border: '/frames/Frame-Double.png' },
-                    { width: 759, border: '/frames/Frame-Single.png' },
+                    { width: 776, border: '/frames/Frame-Double.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
                 ],
             },
         },
@@ -47,10 +47,10 @@
             title: 'Single and Double',
             preview: '/frames/preview/Preview_Single-Double.png',
             config: {
-                height: 1084,
+                height: 524,
                 panels: [
-                    { width: 1552, border: '/frames/Frame-Double.png' },
-                    { width: 759, border: '/frames/Frame-Single.png' },
+                    { width: 776, border: '/frames/Frame-Double.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
                 ],
             },
         },
@@ -58,10 +58,10 @@
             title: 'Two Single',
             preview: '/frames/preview/Preview_Single-Single.png',
             config: {
-                height: 1084,
+                height: 524,
                 panels: [
-                    { width: 759, border: '/frames/Frame-Single.png' },
-                    { width: 759, border: '/frames/Frame-Single.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
+                    { width: 380, border: '/frames/Frame-Single.png' },
                 ],
             },
         },
@@ -72,8 +72,8 @@
     function createComic(config) {
         if (!config) return;
 
-        let comic = comicStore.createComicWithConfig({ ...config });
-        console.log(comicStore.comic);
+        comicStore.createComicWithConfig({ ...config });
+        return navigateTo('/editor');
     }
 </script>
 

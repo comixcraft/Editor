@@ -8,10 +8,10 @@ export const useComicStore = defineStore('comic', () => {
     const comic = new Comic(null, null, null);
 
     function createComicWithConfig(config) {
-        const strip = new Strip(config.height + 'px');
+        const strip = new Strip(config.height);
 
         config.panels.forEach((panel) => {
-            strip.addPanelToStrip(new Panel(panel.width, panel.height));
+            strip.addPanelToStrip(new Panel(panel.width, panel.border));
         });
 
         const page = new Page();
