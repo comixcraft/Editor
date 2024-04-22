@@ -1,91 +1,47 @@
 <script setup>
-    import Panel from '~/utils/Classes/Panel.js';
+    import templatePanelConfig from '/config/templatePanelConfig.js';
+    import templateStripConfig from '/config/templateStripConfig.js';
 
-    // Values should come from the template chosen before opening the editor
+    const comicStore = useComicStore();
 
-    const canvasWidth = ref(450);
-    const canvasHeight = ref(750);
-    let catalogElements = ref([]);
-    let catalogStructure = ref([]);
+    let selectedComicConfiguration = ref(null);
 
-    await useFetch('/api/catalog/structure')
-        .then((response) => {
-            catalogStructure.value = response.data.value;
-        })
-        .catch((error) => {
-            createError(error);
-        });
+    function createComic(config) {
+        if (!config) return;
 
-    // for testing matter
-    let panelTest = new Panel(600, 'none');
-    function addElementToDisplay(e) {
-        panelTest.addElement(e);
-    }
-
-    function fetchCatalogElements(category = [], subCategory = [], filter = []) {
-        useFetch('/api/catalog/', {
-            method: 'POST',
-            body: {
-                category: category,
-                subCategory: subCategory,
-                filter: filter,
-            },
-        })
-            .then((response) => {
-                catalogElements.value = response.data.value;
-            })
-            .catch((error) => {
-                createError(error);
-            });
-    }
-
-    onMounted(() => {
-        fetchCatalogElements();
-    });
-
-    function copyToElement() {
-        elementsInCanvas.value = panelTest.currentState().elements;
+        comicStore.createComicWithConfig({ ...config });
+        return navigateTo('/editor');
     }
 </script>
 
 <template>
-    <div class="container">
-        <WrapperCanvas :panel="panelTest"></WrapperCanvas>
-        <div>
-            <CatalogSearch
-                placeholder="happy, barista, ..."
-                :filters="catalogStructure.categories[0].subCategories[0].filter"
-                @search="
-                    (selectedFilter) => {
-                        fetchCatalogElements(
-                            catalogStructure.categories[0].name,
-                            catalogStructure.categories[0].subCategories[0].name,
-                            selectedFilter
-                        );
-                    }
-                "
+    <div>
+        <div class="d-flex flex-wrap gap-3">
+            <TemplateDisplay
+                @select-template="selectedComicConfiguration = $event"
+                v-for="option in templatePanelConfig"
+                :key="option.title"
+                :title="option.title"
+                :preview="option.preview"
+                :config="option.config"
+                :selected="option.title === selectedComicConfiguration?.title"
             />
-            <CatalogContainer :assets="catalogElements" @add-element="addElementToDisplay"></CatalogContainer>
+        </div>
+        <div class="d-flex flex-wrap gap-3">
+            <TemplateDisplay
+                @select-template="selectedComicConfiguration = $event"
+                v-for="option in templateStripConfig"
+                :key="option.title"
+                :title="option.title"
+                :preview="option.preview"
+                :config="option.config"
+                :selected="option.title === selectedComicConfiguration?.title"
+            />
         </div>
     </div>
-
-    <button>
-        <NuxtLink
-            :to="{
-                name: 'export',
-                path: '/export',
-                query: { width: canvasWidth, height: canvasHeight },
-            }"
-            @click="copyToElement"
-            >See Preview
-        </NuxtLink>
+    <button @click="createComic(selectedComicConfiguration?.config)" :disabled="!selectedComicConfiguration">
+        Create Comic
     </button>
 </template>
 
-<style scoped>
-    .container {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-</style>
+<style scoped lang="scss"></style>

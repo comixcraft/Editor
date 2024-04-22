@@ -161,3 +161,7 @@ $border-radius-lg: 8px;
 
 $border-width: 1px;
 $border-width-lg: 2px;
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
