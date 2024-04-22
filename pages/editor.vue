@@ -6,11 +6,10 @@
     });
 
     const comicStore = useComicStore();
-
-    let catalogElements = ref([]);
-    let catalogStructure = ref([]);
+    const catalogElements = ref([]);
+    const catalogStructure = ref([]);
     const comic = reactive(comicStore.comic);
-    console.log('comic', comic);
+    const activePanelIndex = ref(0);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -20,9 +19,8 @@
             createError(error);
         });
 
-    function addElementToDisplay(e) {
-        console.log(addElementToDisplay());
-        //activePanel.value.addElement(e);
+    function addElementToActivePanel(element) {
+        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
     }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
@@ -49,7 +47,7 @@
 
 <template>
     <div class="editor__container">
-        <ComicPanels :comic="comic"></ComicPanels>
+        <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
         <div>
             <CatalogSearch
                 placeholder="happy, barista, ..."
@@ -64,7 +62,7 @@
                     }
                 "
             />
-            <CatalogContainer :assets="catalogElements" @add-element="addElementToDisplay"></CatalogContainer>
+            <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
         </div>
     </div>
 

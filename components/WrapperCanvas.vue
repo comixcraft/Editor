@@ -42,25 +42,23 @@
 </script>
 
 <template>
-    <div class="panel__container">
-        <div ref="container" class="panel">
-            <CanvasDraggableElement
-                v-for="[key, value] in elements"
-                :key="key"
-                :altText="value.currentState().name"
-                :eId="value.currentState().id"
-                :h="value.currentState().height"
-                :isMirrored="value.currentState().isMirrored"
-                :pos="value.currentState().pos"
-                :url="value.currentState().src"
-                :w="value.currentState().width"
-                :z="value.currentState().z"
-                @delete-event="deleteElement"
-                @update-event="updatePosition"
-                @resize-event="resizeElement"
-                @mirror-event="mirrorElement"
-            />
-        </div>
+    <div ref="container" class="panel">
+        <CanvasDraggableElement
+            v-for="[key, value] in elements"
+            :key="key"
+            :altText="value.currentState().name"
+            :eId="value.currentState().id"
+            :h="value.currentState().height"
+            :isMirrored="value.currentState().isMirrored"
+            :pos="value.currentState().pos"
+            :url="value.currentState().src"
+            :w="value.currentState().width"
+            :z="value.currentState().z"
+            @delete-event="deleteElement"
+            @update-event="updatePosition"
+            @resize-event="resizeElement"
+            @mirror-event="mirrorElement"
+        />
     </div>
 </template>
 
@@ -71,9 +69,5 @@
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
         border: $border-width solid $black;
-
-        &__container {
-            margin-bottom: $spacer-6;
-        }
     }
 </style>
