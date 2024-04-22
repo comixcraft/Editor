@@ -38,6 +38,7 @@
 
         // draw each element on the canvas
         activePanel.value.elements.forEach((element, key) => {
+            const currentState = element.currentState();
             const pos = currentState.pos.currPos();
             const img = new Image();
             img.onload = () => {
