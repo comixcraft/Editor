@@ -7,7 +7,8 @@
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
 
-    let elements = props.panel.currentState().elements;
+    let elements = props.panel.elements;
+    const border = props.panel.border;
 
     function deleteElement(elId) {
         // delete last element of map
@@ -42,23 +43,26 @@
 </script>
 
 <template>
-    <div ref="container" class="panel">
-        <CanvasDraggableElement
-            v-for="[key, value] in elements"
-            :key="key"
-            :altText="value.currentState().name"
-            :eId="value.currentState().id"
-            :h="value.currentState().height"
-            :isMirrored="value.currentState().isMirrored"
-            :pos="value.currentState().pos"
-            :url="value.currentState().src"
-            :w="value.currentState().width"
-            :z="value.currentState().z"
-            @delete-event="deleteElement"
-            @update-event="updatePosition"
-            @resize-event="resizeElement"
-            @mirror-event="mirrorElement"
-        />
+    <div>
+        <div ref="container" class="panel">
+            <CanvasDraggableElement
+                v-for="[key, value] in elements"
+                :key="key"
+                :altText="value.currentState().name"
+                :eId="value.currentState().id"
+                :h="value.currentState().height"
+                :isMirrored="value.currentState().isMirrored"
+                :pos="value.currentState().pos"
+                :url="value.currentState().src"
+                :w="value.currentState().width"
+                :z="value.currentState().z"
+                @delete-event="deleteElement"
+                @update-event="updatePosition"
+                @resize-event="resizeElement"
+                @mirror-event="mirrorElement"
+            />
+            <img :src="border" class="panel__border" />
+        </div>
     </div>
 </template>
 
@@ -66,6 +70,14 @@
     .panel {
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
-        border: $border-width solid $black;
+        position: relative;
+
+        &__border {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
 </style>
