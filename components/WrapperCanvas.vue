@@ -62,9 +62,7 @@
     </div>
 </template>
 
-<style lang="scss">
-    @import 'vue-draggable-resizable/style.css';
-
+<style scoped lang="scss">
     .panel {
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
