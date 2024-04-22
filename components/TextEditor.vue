@@ -1,0 +1,126 @@
+<script setup>
+    import { ref } from 'vue';
+
+    const props = defineProps({
+        clicksOnText: Number,
+        currentElement: Object,
+    });
+
+    const emit = defineEmits(['resetClicksOnTextEvent', 'stopModifyTextEvent']);
+
+    const textarea = ref(null);
+    const fontSizeContainer = ref(null);
+    const textValue = ref('');
+    let fontSize = ref(24);
+
+    function startModifyText(element) {
+        textarea.value.focus();
+        textValue.value = element.currentState().type.getContent();
+        fontSize.value = element.currentState().type.getFontSize();
+    }
+
+    function stopModifyText(e) {
+        if (
+            (!e.target.classList.contains('textEditor') &&
+                !e.target.classList.contains('fontSize__button') &&
+                !e.target.classList.contains('fontSize')) ||
+            e.key === 'Enter'
+        ) {
+            emit('stopModifyTextEvent');
+            emit('resetClicksOnTextEvent');
+            props.currentElement.currentState().type.setContent(textarea.value.value);
+            textarea.value.value = '';
+        }
+    }
+    function saveText() {
+        props.currentElement.currentState().type.setContent(textarea.value.value);
+        textValue.value = textarea.value.value;
+    }
+
+    function enterText(e) {
+        e.preventDefault();
+        saveText(); // needed to update the text in the element
+        stopModifyText(e);
+    }
+
+    function increaseFont() {
+        props.currentElement.currentState().type.increaseFontSize();
+        fontSize.value = props.currentElement.currentState().type.getFontSize();
+    }
+
+    function decreaseFont() {
+        props.currentElement.currentState().type.decreaseFontSize();
+        fontSize.value = props.currentElement.currentState().type.getFontSize();
+    }
+
+    defineExpose({
+        startModifyText,
+    });
+
+    onMounted(() => {});
+</script>
+
+<template>
+    <div class="textEditor__container" @click="stopModifyText">
+        <textarea
+            class="textEditor"
+            tabindex="0"
+            rows="4"
+            ref="textarea"
+            :style="{ fontSize: fontSize + 'px' }"
+            :value="textValue"
+            @blur="saveText"
+            @keydown.enter="enterText"
+        ></textarea>
+
+        <div class="fontSize__container" ref="fontSizeContainer">
+            <button class="fontSize__button" @click="decreaseFont">-</button>
+            <p class="fontSize">{{ fontSize }}px</p>
+            <button class="fontSize__button" @click="increaseFont">+</button>
+        </div>
+    </div>
+</template>
+
+<style lang="scss" scoped>
+    .textEditor__container {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        z-index: 100;
+        background-color: rgba(184 184 184 / 0.5);
+
+        .textEditor {
+            max-width: 350px;
+        }
+        .fontSize__container {
+            background-color: white;
+            display: grid;
+            align-self: end;
+            grid-template-columns: repeat(3, auto);
+            border: 1px black solid;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+
+            .fontSize__button {
+                background: none;
+                border: none;
+                padding: 0.25rem 0.5rem;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #f1f1f1;
+                }
+            }
+
+            .fontSize {
+                margin: 0;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+    }
+</style>

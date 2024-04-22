@@ -12,8 +12,6 @@
         isMirrored: Boolean,
         type: Object,
         fontSize: Number,
-        startModifyText: Function,
-        resetClicks: Function,
     });
 
     let elementActive = false;
@@ -26,11 +24,11 @@
         'resizeEvent',
         'mirrorEvent',
         'modifyTextEvent',
-        'resetClicksEvent',
+        'resetClicksOnTextEvent',
     ]);
 
     function updatePosition(eId) {
-        emit('resetClicksEvent');
+        emit('resetClicksOnTextEvent');
         emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
@@ -54,7 +52,7 @@
 
     function deactivate() {
         elementActive = false;
-        emit('resetClicksEvent');
+        emit('resetClicksOnTextEvent');
     }
 </script>
 
