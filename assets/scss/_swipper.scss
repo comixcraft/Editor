@@ -1,20 +1,32 @@
 // Overrides of swiper.js classes https://swiperjs.com/swiper-api#css-styles
 
-.comic-swipper {
-    .swiper {
-        width: 70vw;
-        height: 100%;
-    }
-
-    .swiper-slide {
-        /* Center slide text vertically */
+.comic-swiper {
+    .swiper-pagination {
         display: flex;
         justify-content: center;
         align-items: center;
+        color: transparent;
+
+        @include media-breakpoint-up(lg) {
+            justify-content: start;
+            color: $white;
+        }
     }
 
     .swiper-pagination-bullet {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        border-radius: 50%;
         background-color: $secondary-50;
+
+        @include media-breakpoint-up(lg) {
+            color: $white;
+            padding: $spacer-5;
+            margin: 0 0;
+            border-radius: $border-radius;
+        }
     }
 
     .swiper-pagination-bullet-active {
