@@ -1,4 +1,6 @@
 <script setup>
+    import ComicPanels from '~/components/ComicPanels.vue';
+
     definePageMeta({
         middleware: ['comic-defined'],
     });
@@ -7,8 +9,8 @@
 
     let catalogElements = ref([]);
     let catalogStructure = ref([]);
-    const activePanel = ref(null);
-    const stripHeight = ref(0);
+    const comic = reactive(comicStore.comic);
+    console.log('comic', comic);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -19,7 +21,8 @@
         });
 
     function addElementToDisplay(e) {
-        activePanel.value.addElement(e);
+        console.log(addElementToDisplay());
+        //activePanel.value.addElement(e);
     }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
@@ -39,9 +42,6 @@
             });
     }
 
-    stripHeight.value = comicStore.comic.getPage(0).getStrip(0).height;
-    activePanel.value = comicStore.comic.getPage(0).getStrip(0).getPanel(0);
-
     onMounted(() => {
         fetchCatalogElements();
     });
@@ -49,7 +49,7 @@
 
 <template>
     <div class="editor__container">
-        <WrapperCanvas :height="stripHeight" :panel="activePanel"></WrapperCanvas>
+        <ComicPanels :comic="comic"></ComicPanels>
         <div>
             <CatalogSearch
                 placeholder="happy, barista, ..."

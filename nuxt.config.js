@@ -4,10 +4,7 @@ import { fileURLToPath } from 'node:url';
 export default defineNuxtConfig({
     css: ['@/assets/scss/styles.scss'],
     devtools: { enabled: true },
-    modules: [
-        // ...
-        '@pinia/nuxt',
-    ],
+    modules: ['@pinia/nuxt', 'nuxt-swiper'],
     pinia: {
         storesDirs: ['./stores/**'],
     },
