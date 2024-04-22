@@ -12,7 +12,7 @@
 </script>
 
 <template>
-    <swiper>
+    <swiper class="comic-swipper" :pagination="true" :modules="[SwiperPagination]">
         <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
             <WrapperCanvas :height="stripHeight" :panel="panel"></WrapperCanvas>
         </swiper-slide>

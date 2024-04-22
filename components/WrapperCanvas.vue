@@ -42,35 +42,38 @@
 </script>
 
 <template>
-    <div ref="container" class="wrapper">
-        <CanvasDraggableElement
-            v-for="[key, value] in elements"
-            :key="key"
-            :altText="value.currentState().name"
-            :eId="value.currentState().id"
-            :h="value.currentState().height"
-            :isMirrored="value.currentState().isMirrored"
-            :pos="value.currentState().pos"
-            :url="value.currentState().src"
-            :w="value.currentState().width"
-            :z="value.currentState().z"
-            @delete-event="deleteElement"
-            @update-event="updatePosition"
-            @resize-event="resizeElement"
-            @mirror-event="mirrorElement"
-        />
+    <div class="panel__container">
+        <div ref="container" class="panel">
+            <CanvasDraggableElement
+                v-for="[key, value] in elements"
+                :key="key"
+                :altText="value.currentState().name"
+                :eId="value.currentState().id"
+                :h="value.currentState().height"
+                :isMirrored="value.currentState().isMirrored"
+                :pos="value.currentState().pos"
+                :url="value.currentState().src"
+                :w="value.currentState().width"
+                :z="value.currentState().z"
+                @delete-event="deleteElement"
+                @update-event="updatePosition"
+                @resize-event="resizeElement"
+                @mirror-event="mirrorElement"
+            />
+        </div>
     </div>
 </template>
 
-<style>
+<style lang="scss">
     @import 'vue-draggable-resizable/style.css';
 
-    .wrapper {
+    .panel {
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
+        border: $border-width solid $black;
 
-        border: 1px solid #000;
-        overflow: hidden;
-        display: grid;
+        &__container {
+            margin-bottom: $spacer-6;
+        }
     }
 </style>
