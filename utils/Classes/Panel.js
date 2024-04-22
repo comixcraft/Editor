@@ -1,28 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default class Panel {
-    #border;
-    #elements;
-    #width;
+    _border;
+    _elements;
+    _width;
 
     constructor(width, border) {
-        this.#width = width;
-        this.#border = border;
+        this._width = width;
+        this._border = border;
 
         this.#init();
     }
 
     #init() {
-        this.#elements = reactive(new Map());
+        this._elements = reactive(new Map());
     }
 
     // GETTERS
 
     currentState() {
         return {
-            border: this.#border,
-            elements: this.#elements,
-            width: this.#width,
+            border: this._border,
+            elements: this._elements,
+            width: this._width,
         };
     }
 
@@ -36,20 +36,20 @@ export default class Panel {
 
         // set id and z index of element
         element.setId(myUuid);
-        element.setZIndex(this.#getHighestZIndex() + 1);
+        element.setZIndex(this.getHighestZIndex() + 1);
 
         // set the element in map
-        this.#elements.set(myUuid, element);
+        this._elements.set(myUuid, element);
     }
 
     deleteElement(id) {
-        this.#elements.delete(id);
+        this._elements.delete(id);
     }
     // switch element
 
-    #getHighestZIndex() {
+    getHighestZIndex() {
         let potentialZIndex = 0;
-        this.#elements.forEach((element) => {
+        this._elements.forEach((element) => {
             if (element.currentState().z > potentialZIndex) {
                 potentialZIndex = element.currentState().z;
             }

@@ -1,26 +1,26 @@
 export default class Asset {
-    #path;
-    #id;
+    _path;
+    _id;
 
     constructor(path) {
-        this.#path = path;
+        this._path = path;
     }
 
     // GETTERS
     get path() {
-        return this.#path;
+        return this._path;
     }
 
     get id() {
-        return this.#id;
+        return this._id;
     }
 
     // SETTERS
     set path(p) {
-        this.#path = p;
+        this._path = p;
     }
 
     set id(id) {
-        this.#id = id;
+        this._id = id;
     }
 }

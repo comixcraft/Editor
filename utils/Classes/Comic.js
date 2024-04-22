@@ -1,47 +1,51 @@
 export default class Comic {
-    #name;
-    #title;
-    #creatorName;
-    #pages;
+    _name;
+    _title;
+    _creatorName;
+    _pages;
 
     constructor(name, title, creatorName) {
-        this.#name = name;
-        this.#title = title;
-        this.#creatorName = creatorName;
-        this.#pages = [];
+        this._name = name;
+        this._title = title;
+        this._creatorName = creatorName;
+        this._pages = reactive([]);
     }
 
     // GETTER
     get name() {
-        return this.#name;
+        return this._name;
     }
 
     get title() {
-        return this.#title;
+        return this._title;
     }
 
     get creatorName() {
-        return this.#creatorName;
+        return this._creatorName;
     }
 
     get pages() {
-        return this.#pages;
+        return this._pages;
+    }
+
+    getPage(index) {
+        return this._pages[index];
     }
 
     // SETTER
     set name(n) {
-        this.#name = n;
+        this._name = n;
     }
 
     set title(t) {
-        this.#title = t;
+        this._title = t;
     }
 
     set creatorName(cN) {
-        this.#creatorName = cN;
+        this._creatorName = cN;
     }
 
     addPageToComic(page) {
-        this.#pages.push(page);
+        this.pages.push(page);
     }
 }

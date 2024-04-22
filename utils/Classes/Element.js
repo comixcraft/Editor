@@ -1,69 +1,69 @@
 import Position from './Position.js';
 
 export default class ElementDS {
-    #id;
-    #z;
-    #pos = new Position(0, 0);
-    #isFocused = false;
-    #isMirrored = false;
-    #rotation = 0;
-    #width;
-    #height;
-    #src;
-    #alt;
-    #type;
+    _id;
+    _z;
+    _pos = new Position(0, 0);
+    _isFocused = false;
+    _isMirrored = false;
+    _rotation = 0;
+    _width;
+    _height;
+    _src;
+    _alt;
+    _type;
 
     constructor(width, height, alt, src) {
-        this.#width = width;
-        this.#height = height;
-        this.#src = src;
-        this.#alt = alt;
+        this._width = width;
+        this._height = height;
+        this._src = src;
+        this._alt = alt;
     }
 
     currentState = () => {
-        return this.#getCurrentState();
+        return this._getCurrentState();
     };
 
-    #getCurrentState() {
+    _getCurrentState() {
         return {
-            id: this.#id,
-            z: this.#z,
-            pos: this.#pos,
-            isFocused: this.#isFocused,
-            isMirrored: this.#isMirrored,
-            rotation: this.#rotation,
-            width: this.#width,
-            height: this.#height,
-            src: this.#src,
-            alt: this.#alt,
+            id: this._id,
+            z: this._z,
+            pos: this._pos,
+            isFocused: this._isFocused,
+            isMirrored: this._isMirrored,
+            rotation: this._rotation,
+            width: this._width,
+            height: this._height,
+            src: this._src,
+            alt: this._alt,
         };
     }
 
     setPos = (obj) => {
-        this.#pos.definePos(obj);
+        this._pos.definePos(obj);
     };
 
     setZIndex = (n) => {
-        this.#z = n;
+        this._z = n;
     };
 
     setId = (n) => {
-        this.#id = n;
+        this._id = n;
     };
 
     setIsMirrored = (bool) => {
-        this.#isMirrored = bool;
+        this._isMirrored = bool;
     };
 
     set focused(bool) {
-        this.#isFocused = bool;
+        this._isFocused = bool;
     }
 
     setWidth = (width) => {
-        this.#width = width;
+        this._width = width;
     };
 
     setHeight = (height) => {
-        this.#height = height;
+        this._height = height;
     };
 }

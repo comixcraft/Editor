@@ -1,34 +1,38 @@
 export default class Strip {
-    #panels;
-    #height;
+    _panels;
+    _height;
 
     constructor(height) {
-        this.#height = height;
+        this._height = height;
 
         this.#init();
     }
 
     #init() {
-        this.#panels = [];
+        this._panels = [];
     }
 
     // GETTERS
 
     get panels() {
-        return this.#panels;
+        return this._panels;
     }
 
     get height() {
-        return this.#height;
+        return this._height;
+    }
+
+    getPanel(index) {
+        return this._panels[index];
     }
 
     // SETTERS
 
     set height(x) {
-        this.#height = x;
+        this._height = x;
     }
 
     addPanelToStrip(panel) {
-        this.#panels.push(panel);
+        this._panels.push(panel);
     }
 }
