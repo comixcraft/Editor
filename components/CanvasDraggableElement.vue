@@ -14,7 +14,7 @@
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
 
-    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
+    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent', 'backEvent', 'frontEvent']);
 
     function updatePosition(eId) {
         emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
@@ -27,6 +27,14 @@
             height: self.value.height,
             pos: { x: self.value.left, y: self.value.top },
         });
+    }
+
+    function upZIndex(eId) {
+        emit('frontEvent', eId);
+    }
+
+    function downZIndex(eId) {
+        emit('backEvent', eId);
     }
 
     function updateMirroring(eId) {
@@ -60,6 +68,8 @@
             v-if="elementActive"
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
+            @front-event="upZIndex(eId)"
+            @back-event="downZIndex(eId)"
         />
         <img :alt="altText" :class="{ mirror: mirrored }" :src="url" />
     </DraggableResizable>

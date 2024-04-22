@@ -4,14 +4,14 @@
         url: String,
     });
 
-    defineEmits(['deleteEvent', 'mirrorEvent']);
+    defineEmits(['deleteEvent', 'mirrorEvent', 'frontEvent', 'backEvent']);
 </script>
 
 <template>
     <div class="icon-container">
         <span class="edit-icon icon" @click="$emit('deleteEvent')">delete</span>
-        <div class="edit-icon icon">flip_to_front</div>
-        <div class="edit-icon icon">flip_to_back</div>
+        <div class="edit-icon icon" @click="$emit('frontEvent')">flip_to_front</div>
+        <div class="edit-icon icon" @click="$emit('backEvent')">flip_to_back</div>
         <div class="edit-icon icon" @click="$emit('mirrorEvent')">flip</div>
         <div class="edit-icon icon">more_vert</div>
     </div>
@@ -38,5 +38,10 @@
         &:last-child {
             border-right: none;
         }
+    }
+
+    .edit-icon:hover {
+        cursor: pointer;
+        user-select: none;
     }
 </style>

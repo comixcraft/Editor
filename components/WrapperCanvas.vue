@@ -6,7 +6,6 @@
     let elements = props.panel.currentState().elements;
 
     function deleteElement(elId) {
-        console.log(elId);
         // delete last element of map
         props.panel.deleteElement(elId);
     }
@@ -16,9 +15,9 @@
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
-        elements.get(obj.id).setWidth(obj.width);
-        elements.get(obj.id).setHeight(obj.height);
+        props.panel.getElement(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+        props.panel.getElement(obj.id).setWidth(obj.width);
+        props.panel.getElement(obj.id).setHeight(obj.height);
     }
 
     function updatePosition(obj) {
@@ -26,7 +25,7 @@
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+        props.panel.getElement(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
     function mirrorElement(obj) {
@@ -34,7 +33,15 @@
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setIsMirrored(obj.mirror);
+        props.panel.getElement(obj.id).setIsMirrored(obj.mirror);
+    }
+
+    function upElement(eId) {
+        props.panel.moveZIndexUp(eId);
+    }
+
+    function downElement(eId) {
+        props.panel.moveZIndexDown(eId);
     }
 </script>
 
@@ -55,6 +62,8 @@
             @update-event="updatePosition"
             @resize-event="resizeElement"
             @mirror-event="mirrorElement"
+            @front-event="upElement"
+            @back-event="downElement"
         />
     </div>
 </template>
