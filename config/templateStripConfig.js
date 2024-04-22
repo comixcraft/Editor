@@ -31,8 +31,8 @@ export default [
         config: {
             height: 524,
             panels: [
-                { width: 776, border: '/frames/Frame-Double.png' },
                 { width: 380, border: '/frames/Frame-Single.png' },
+                { width: 776, border: '/frames/Frame-Double.png' },
             ],
         },
     },
