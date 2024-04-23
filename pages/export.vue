@@ -35,31 +35,34 @@
             const pos = currentState.pos.currPos();
             const img = new Image();
             img.onload = () => {
-                // rotate the image
-                if (currentState.rotation !== 0) {
-                    context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
-                    context.rotate((currentState.rotation * Math.PI) / 180);
-                    context.translate(-pos.x - currentState.width / 2, -pos.y - currentState.height / 2);
+                // Save the current context
+                context.save();
+
+                // Move the rotation point to the center of the image
+                context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
+
+                // Mirror the canvas around the x-axis or y-axis if necessary
+                if (currentState.isMirrored) {
+                    context.scale(-1, 1);
+                }
+                if (currentState.isMirroredVertical) {
+                    context.scale(1, -1);
                 }
 
-                if (currentState.isMirrored && currentState.isMirroredVertical) {
-                    context.scale(-1, -1);
-                    context.translate(-currentState.width - pos.x, -currentState.height - pos.y);
-                    context.drawImage(img, 0, 0, currentState.width, currentState.height);
-                    context.resetTransform();
-                } else if (currentState.isMirroredVertical) {
-                    context.scale(1, -1);
-                    context.translate(pos.x, -currentState.height - pos.y);
-                    context.drawImage(img, 0, 0, currentState.width, currentState.height);
-                    context.resetTransform();
-                } else if (currentState.isMirrored) {
-                    context.scale(-1, 1);
-                    context.translate(-currentState.width - pos.x, pos.y);
-                    context.drawImage(img, 0, 0, currentState.width, currentState.height);
-                    context.resetTransform();
-                } else {
-                    context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height);
-                }
+                // Rotate the canvas to the specified degrees
+                context.rotate((currentState.rotation * Math.PI) / 180);
+
+                // Draw the image
+                context.drawImage(
+                    img,
+                    -currentState.width / 2,
+                    -currentState.height / 2,
+                    currentState.width,
+                    currentState.height
+                );
+
+                // Restore the saved context
+                context.restore();
             };
             // to change once the images are right
             img.src = currentState.src;

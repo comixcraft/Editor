@@ -74,6 +74,14 @@
     }
 
     function updateRotation(eId, direction) {
+        // Count the number of true values for mirroring
+        let mirrorCount = [mirroredHorizontal.value, mirroredVertical.value].filter(Boolean).length;
+
+        // If the count is odd, swap the directions (to keep the perceived direction consistent)
+        if (mirrorCount % 2 === 1) {
+            direction = direction === 'left' ? 'right' : 'left';
+        }
+
         if (direction === 'left') {
             rotation.value -= 45;
             if (rotation.value < 0) rotation.value = 315;
