@@ -3,21 +3,36 @@
         <div class="topNav">
             <div class="logo">comixcraft</div>
         </div>
-        <div class="container">
-            <div class="d-flex pb-3 pb-lg-0">
-                <div class="welcomeText">
-                    <div class="welcome">
-                        <h1>Welcome to comixcraft!</h1>
-                    </div>
-                    <div class="introText">
-                        <p>
-                            With plenty of templates and assets to choose from, the only limit is your imagination! Get
-                            started now by choosing a template!
-                        </p>
+        <div class="container-fluid pt-lg-5">
+            <div class="row justify-content-center justify-content-lg-between align-items-center pb-3 pb-lg-0">
+                <div class="col-lg-5">
+                    <div class="welcomeText">
+                        <div class="welcome">
+                            <h1>Welcome to comixcraft!</h1>
+                        </div>
+                        <!-- Text for desktop -->
+                        <div class="desktopIntroText d-none d-lg-block">
+                            <p>
+                                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
+                                piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
+                                McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of
+                                the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through
+                                the cites of the word in classical literature, discovered the blah blah.
+                            </p>
+                        </div>
+                        <!-- Text for mobile -->
+                        <div class="mobileIntroText d-block d-lg-none">
+                            <p>
+                                With plenty of templates and assets to choose from, the only limit is your imagination!
+                                Get started now by choosing a template!
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="comicImage">
-                    <p>placeholder</p>
+                <div class="col-lg-5 d-flex justify-content-center align-items-center">
+                    <div class="comicImage">
+                        <p>placeholder</p>
+                    </div>
                 </div>
             </div>
             <div class="templates">
@@ -48,7 +63,34 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+    import { ref, onMounted } from 'vue';
+
+    const selectedTemplate = ref(null);
+
+    function selectTemplate(template) {
+        if (selectedTemplate.value) {
+            selectedTemplate.value.classList.remove('selected');
+        }
+
+        template.classList.add('selected');
+        selectedTemplate.value = template;
+    }
+
+    onMounted(() => {
+        const templateElements = document.querySelectorAll('.singleTemplate');
+        // Select the first template by default
+        if (templateElements.length > 0) {
+            selectTemplate(templateElements[0]);
+        }
+        // Add click event listeners to all template elements
+        templateElements.forEach((template) => {
+            template.addEventListener('click', () => {
+                selectTemplate(template);
+            });
+        });
+    });
+</script>
 
 <style scoped lang="scss">
     .topNav {
@@ -108,6 +150,12 @@
         background-color: gray;
         flex: 0 0 auto;
         margin-bottom: $spacer-4;
+        cursor: pointer;
+        border: 4px solid transparent; /* Ensure consistent size */
+    }
+
+    .singleTemplate.selected {
+        border-color: blue;
     }
     .startBtn {
         display: flex;
@@ -123,5 +171,9 @@
         left: 50%;
         transform: translateX(-50%);
         z-index: 999;
+    }
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 </style>

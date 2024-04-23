@@ -13,17 +13,22 @@
             <div class="centered-grey-div"></div>
         </div>
         <div class="swipingArea">
-            <div class="swipingTriggers"></div>
-            <div class="swipingTriggers"></div>
+            <div class="swipingIndicator desktop">1</div>
+            <div class="swipingIndicator desktop">2</div>
+            <div class="swipingTriggers mobile"></div>
+            <div class="swipingTriggers mobile"></div>
         </div>
-        <div class="editor__bottom-nav">
-            <div class="bottom-nav__scrollable-nav">
-                <div class="scrollable-nav__item characters-btn">Characters</div>
-                <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
-                <div class="scrollable-nav__item text-btn">Text</div>
-                <div class="scrollable-nav__item shapes-btn">Shapes</div>
-                <div class="scrollable-nav__item scenes-btn">Scenes</div>
+        <div class="bottom-nav__container">
+            <div class="editor__bottom-nav">
+                <div class="bottom-nav__scrollable-nav">
+                    <div class="scrollable-nav__item characters-btn">Characters</div>
+                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
+                    <div class="scrollable-nav__item text-btn">Text</div>
+                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
+                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
+                </div>
             </div>
+            <div class="placeholder-rectangle"></div>
         </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layerBackground">
@@ -68,16 +73,6 @@
         height: 80vh;
     }
 
-    .centered-grey-div {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #ccc;
-        width: 85%;
-        height: 70%;
-    }
-
     .editor__bottom-nav {
         background-color: $grey-90;
         padding: $spacer-3;
@@ -103,10 +98,20 @@
     }
 
     .swipingArea {
-        width: 100vw;
         display: flex;
         justify-content: center;
-        gap: 5px;
+        margin-top: 20px; /* Adjust as needed */
+    }
+
+    .swipingIndicator {
+        width: 30px; /* Adjust as needed */
+        height: 30px; /* Adjust as needed */
+        background-color: #ccc; /* Adjust as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 10px; /* Adjust as needed */
+        border-radius: 5px; /* Adjust as needed */
     }
 
     .swipingTriggers {
@@ -126,8 +131,8 @@
     }
 
     .comicPreview {
-        width: 300px;
-        height: 200px;
+        width: 60vw;
+        height: 20vh;
         background-color: #ccc;
         position: absolute;
         top: 50%;
@@ -176,5 +181,84 @@
 
     .layerText {
         margin: 0; /* Remove default margin from paragraph */
+    }
+
+    .bottom-nav__container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff; // Set background color as needed
+        z-index: 1000; // Ensure it's above other content
+    }
+
+    @media (min-width: 992px) {
+        .comicPreview {
+            width: 30vw;
+            height: 30vh;
+            background-color: #ccc;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .mobile {
+            display: none; /* Hide small circles for desktop screens */
+        }
+        .centered-grey-div {
+            background-color: #ccc;
+            width: 50vw;
+            height: 50vh;
+        }
+        .editor__canvas {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            margin-right: 120px;
+        }
+        .bottom-nav__container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 200px; // Adjust the width as needed
+            background-color: #fff; // Set background color as needed
+            z-index: 1000; // Ensure it's above other content
+        }
+
+        .placeholder-rectangle {
+            width: 25vw; // Adjust width to match side navigation width
+            height: calc(100vh - 80px); // Adjust height to match available viewport height
+            background-color: #ccc; // Set background color as needed
+            position: fixed;
+            top: 80px; // Adjust as needed to account for top navigation height
+            left: 200px; // Position it to the right of the side navigation
+            z-index: 900; // Ensure it's behind side navigation
+        }
+
+        .bottom-nav__scrollable-nav {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 10px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .placeholder-rectangle {
+            display: none; // Hide placeholder rectangle for mobile screens
+        }
+        .desktop {
+            display: none; /* Hide square divs for mobile screens */
+        }
+        .centered-grey-div {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ccc;
+            width: 85%;
+            height: 70%;
+        }
     }
 </style>
