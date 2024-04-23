@@ -1,7 +1,7 @@
 <template>
     <div ref="previewCanvas" class="preview__container">
         <button>
-            <NuxtLink to="/">Back</NuxtLink>
+            <NuxtLink to="/editor">Back</NuxtLink>
         </button>
         <p>Preview</p>
         <canvas ref="canvasEl" class="preview__canvas"></canvas>
@@ -10,9 +10,16 @@
 </template>
 
 <script setup>
+    definePageMeta({
+        middleware: ['comic-defined'],
+    });
+
+    const comicStore = useComicStore();
+
     const canvasWidth = ref(0);
     const canvasHeight = ref(0);
     const canvasEl = ref(null);
+    let activePanel = ref(null);
 
     async function displayPreview() {
         const canvas = canvasEl.value;
@@ -30,7 +37,7 @@
         context.restore();
 
         // draw each element on the canvas
-        elementsInCanvas.value.forEach((element, key) => {
+        activePanel.value.elements.forEach((element, key) => {
             const currentState = element.currentState();
             const pos = currentState.pos.currPos();
             const type = currentState.type.getName();
@@ -101,12 +108,11 @@
         link.click();
     }
 
+    activePanel.value = comicStore.comic.getPage(0).getStrip(0).getPanel(0);
+    canvasWidth.value = activePanel.value.width;
+    canvasHeight.value = comicStore.comic.getPage(0).getStrip(0).height;
+
     onMounted(() => {
-        const route = useRoute();
-
-        canvasWidth.value = route.query.width ? route.query.width : 0;
-        canvasHeight.value = route.query.height ? route.query.height : 0;
-
         displayPreview();
     });
 </script>

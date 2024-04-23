@@ -1,6 +1,5 @@
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
-    import Asset from '~/utils/Classes/Asset';
 
     defineProps({
         assets: Array,

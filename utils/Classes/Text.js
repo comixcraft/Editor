@@ -1,48 +1,47 @@
 export default class Text {
-    #name = 'Text';
-    content;
-    #fontSize;
-    #fontFamily;
-    #fontWeight;
+    _name = 'Text';
+    _content;
+    _fontSize;
+    _fontFamily;
+    _fontWeight;
 
     constructor(content, fontSize) {
-        this.content = ref(content);
-        this.#fontSize = fontSize;
-        this.#fontFamily = 'nunito';
-        this.#fontWeight = '400';
+        this._content = content;
+        this._fontSize = fontSize;
     }
 
     // GETTERS
-    getContent() {
-        return this.content.value;
+    get content() {
+        return this._content;
     }
-    getFontSize() {
-        return this.#fontSize;
+    get fontSize() {
+        return this._fontSize;
     }
-    getFontFamily() {
-        return this.#fontFamily;
+    get fontFamily() {
+        return this._fontFamily;
     }
-    getFontWeight() {
-        return this.#fontWeight;
+    get fontWeight() {
+        return this._fontWeight;
     }
-    getName() {
-        return this.#name;
+    get name() {
+        return this._name;
     }
 
     // SETTERS
-    setContent(c) {
-        this.content.value = c;
+    set content(c) {
+        this._content = c;
     }
     increaseFontSize() {
-        this.#fontSize++;
+        this._fontSize++;
+    }
+    set fontFamily(fF) {
+        this._fontFamily = fF;
     }
     decreaseFontSize() {
-        this.#fontSize--;
+        this._fontSize--;
     }
-    setFontFamily(fF) {
-        this.#fontFamily = fF;
-    }
-    setFontWeight(fW) {
-        this.#fontWeight = fW;
+
+    set fontWeight(fW) {
+        this._fontWeight = fW;
     }
 }

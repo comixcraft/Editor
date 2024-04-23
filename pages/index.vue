@@ -1,115 +1,48 @@
 <script setup>
-    import Panel from '~/utils/Classes/Panel.js';
-    import ElementDS from '~/utils/Classes/Element.js';
-    import Text from '~/utils/Classes/Text.js';
+    import templatePanelConfig from '/config/templatePanelConfig.js';
+    import templateStripConfig from '/config/templateStripConfig.js';
 
-    // Values should come from the template chosen before opening the editor
+    const comicStore = useComicStore();
 
-    const canvasWidth = ref(450);
-    const canvasHeight = ref(750);
-    let catalogElements = ref([]);
-    let catalogStructure = ref([]);
+    let selectedComicConfiguration = ref(null);
 
-    // for testing matter
-    let panelTest = new Panel(600, 'none');
-    // for testing matter => panel should be our new elementsInCanvas
-    function fillPanel() {
-        elementsInCanvas.value.forEach((element) => {
-            panelTest.addElement(element);
-        });
+    function createComic(config) {
+        if (!config) return;
+
+        comicStore.createComicWithConfig({ ...config });
+        return navigateTo('/editor');
     }
-
-    await useFetch('/api/catalog/structure')
-        .then((response) => {
-            catalogStructure.value = response.data.value;
-        })
-        .catch((error) => {
-            createError(error);
-        });
-
-    function addElementToDisplay(e) {
-        panelTest.addElement(e);
-    }
-
-    function fetchCatalogElements(category = [], subCategory = [], filter = []) {
-        useFetch('/api/catalog/', {
-            method: 'POST',
-            body: {
-                category: category,
-                subCategory: subCategory,
-                filter: filter,
-            },
-        })
-            .then((response) => {
-                catalogElements.value = response.data.value;
-            })
-            .catch((error) => {
-                createError(error);
-            });
-    }
-
-    function copyToElement() {
-        elementsInCanvas.value = panelTest.currentState().elements;
-    }
-
-    // logic should be move to the menu where the text button will be and call addElementToDisplay
-    // => see CatalogContainer.vue
-    function addNewTextToDisplay(event) {
-        let fixedHeight = 200;
-        let src = '';
-        let width = 200;
-        let availableInteger = 1;
-        let name = 'text' + availableInteger;
-        let type = new Text(name, 24);
-        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
-        panelTest.addElement(tempEl);
-    }
-
-    onMounted(() => {
-        fetchCatalogElements();
-        fillPanel();
-    });
 </script>
 
 <template>
-    <div class="container">
-        <WrapperCanvas :panel="panelTest"></WrapperCanvas>
-        <div>
-            <CatalogSearch
-                placeholder="happy, barista, ..."
-                :filters="catalogStructure.categories[0].subCategories[0].filter"
-                @search="
-                    (selectedFilter) => {
-                        fetchCatalogElements(
-                            catalogStructure.categories[0].name,
-                            catalogStructure.categories[0].subCategories[0].name,
-                            selectedFilter
-                        );
-                    }
-                "
+    <div>
+        <div class="d-flex flex-wrap gap-3">
+            <TemplateDisplay
+                @select-template="selectedComicConfiguration = $event"
+                v-for="option in templatePanelConfig"
+                :key="option.title"
+                :title="option.title"
+                :preview="option.preview"
+                :config="option.config"
+                :selected="option.title === selectedComicConfiguration?.title"
             />
-            <CatalogContainer :assets="catalogElements" @add-element="addElementToDisplay"></CatalogContainer>
+        </div>
+        <div class="d-flex flex-wrap gap-3">
+            <TemplateDisplay
+                @select-template="selectedComicConfiguration = $event"
+                v-for="option in templateStripConfig"
+                :key="option.title"
+                :title="option.title"
+                :preview="option.preview"
+                :config="option.config"
+                :selected="option.title === selectedComicConfiguration?.title"
+            />
         </div>
     </div>
-
-    <button>
-        <NuxtLink
-            :to="{
-                name: 'export',
-                path: '/export',
-                query: { width: canvasWidth, height: canvasHeight },
-            }"
-            @click="copyToElement"
-            >See Preview
-        </NuxtLink>
+    <button @click="createComic(selectedComicConfiguration?.config)" :disabled="!selectedComicConfiguration">
+        Create Comic
     </button>
     <button @click="addNewTextToDisplay">Add a text</button>
 </template>
 
-<style scoped>
-    .container {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-</style>
+<style scoped lang="scss"></style>

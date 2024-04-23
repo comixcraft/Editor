@@ -1,15 +1,21 @@
 <script setup>
     const props = defineProps({
+        height: Number,
         panel: Object,
     });
 
-    let elements = props.panel.currentState().elements;
+    const canvasHeight = computed(() => props.height + 'px');
+    const canvasWidth = computed(() => props.panel.currentState().width + 'px');
     let clicksOnText = ref(0);
     let modifyTextActive = ref(false);
     let textEditor = ref(null);
     let currentElement = ref(null);
 
+    let elements = props.panel.elements;
+    const border = props.panel.border;
+
     function deleteElement(elId) {
+        // delete last element of map
         props.panel.deleteElement(elId);
     }
 
@@ -61,45 +67,52 @@
 </script>
 
 <template>
-    <div ref="container" class="wrapper">
-        <CanvasDraggableElement
-            v-for="[key, value] in elements"
-            :key="key"
-            :altText="value.currentState().name"
-            :eId="value.currentState().id"
-            :h="value.currentState().height"
-            :isMirrored="value.currentState().isMirrored"
-            :pos="value.currentState().pos"
-            :url="value.currentState().src"
-            :w="value.currentState().width"
-            :z="value.currentState().z"
-            :fontSize="value.currentState().type.getName() == 'Text' ? value.currentState().type.getFontSize() : 24"
-            @delete-event="deleteElement"
-            @update-event="updatePosition"
-            @resize-event="resizeElement"
-            @mirror-event="mirrorElement"
-            @modify-text-event="startModifyText"
-            @reset-clicksOnText-event="resetClicksOnText"
-            :type="value.currentState().type"
-        />
-        <TextEditor
-            ref="textEditor"
-            v-show="modifyTextActive"
-            :currentElement="currentElement"
-            @reset-clicks-cn-text-event="resetClicksOnText"
-            @stop-modify-text-event="stopModifyText"
-        />
+    <div>
+        <div ref="container" class="panel">
+            <CanvasDraggableElement
+                v-for="[key, value] in elements"
+                :key="key"
+                :altText="value.currentState().name"
+                :eId="value.currentState().id"
+                :h="value.currentState().height"
+                :isMirrored="value.currentState().isMirrored"
+                :pos="value.currentState().pos"
+                :url="value.currentState().src"
+                :w="value.currentState().width"
+                :z="value.currentState().z"
+                :fontSize="value.currentState().type.getName() == 'Text' ? value.currentState().type.getFontSize() : 24"
+                @delete-event="deleteElement"
+                @update-event="updatePosition"
+                @resize-event="resizeElement"
+                @mirror-event="mirrorElement"
+                @modify-text-event="startModifyText"
+                @reset-clicksOnText-event="resetClicksOnText"
+                :type="value.currentState().type"
+            />
+            <img :src="border" class="panel__border" />
+            <TextEditor
+                ref="textEditor"
+                v-show="modifyTextActive"
+                :currentElement="currentElement"
+                @reset-clicks-cn-text-event="resetClicksOnText"
+                @stop-modify-text-event="stopModifyText"
+            />
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-    .wrapper {
-        /* TODO: should be defined dynamically once the value comes from template */
-        width: 450px;
-        height: 750px;
+    .panel {
+        width: v-bind(canvasWidth);
+        height: v-bind(canvasHeight);
+        position: relative;
 
-        border: 1px solid #000;
-        overflow: hidden;
-        display: grid;
+        &__border {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
 </style>
