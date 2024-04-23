@@ -1,5 +1,7 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
+    import ElementDS from '~/utils/Classes/Element.js';
+    import Text from '~/utils/Classes/Text.js';
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -40,6 +42,17 @@
             });
     }
 
+    function addNewTextToDisplay() {
+        let fixedHeight = 200;
+        let src = '';
+        let width = 200;
+        let availableInteger = 1;
+        let name = 'text' + availableInteger;
+        let type = new Text(name, 24);
+        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
+        addElementToActivePanel(tempEl);
+    }
+
     onMounted(() => {
         fetchCatalogElements();
     });
@@ -66,6 +79,7 @@
         </div>
     </div>
 
+    <button @click="addNewTextToDisplay">Add a text</button>
     <button>
         <NuxtLink
             :to="{

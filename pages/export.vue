@@ -40,7 +40,7 @@
         activePanel.value.elements.forEach((element, key) => {
             const currentState = element.currentState();
             const pos = currentState.pos.currPos();
-            const type = currentState.type.getName();
+            const type = currentState.type.name;
             switch (type) {
                 case 'Asset':
                     drawAsset(context, currentState, pos);
@@ -89,11 +89,11 @@
     }
 
     function drawText(context, currentState, pos) {
-        context.font = `${currentState.type.getFontSize()}px ${currentState.type.getFontFamily()}`;
+        context.font = `${currentState.type.fontSize}px ${currentState.type.fontFamily}`;
         context.fillStyle = 'black';
         context.textBaseline = 'top';
-        getLines(context, currentState.type.getContent(), currentState.width).forEach((line, i) => {
-            context.fillText(line, pos.x, pos.y + i * currentState.type.getFontSize());
+        getLines(context, currentState.type.content, currentState.width).forEach((line, i) => {
+            context.fillText(line, pos.x, pos.y + i * currentState.type.fontSize);
         });
     }
 

@@ -42,7 +42,6 @@
     <button @click="createComic(selectedComicConfiguration?.config)" :disabled="!selectedComicConfiguration">
         Create Comic
     </button>
-    <button @click="addNewTextToDisplay">Add a text</button>
 </template>
 
 <style scoped lang="scss"></style>

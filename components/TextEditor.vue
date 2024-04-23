@@ -6,17 +6,19 @@
         currentElement: Object,
     });
 
-    const emit = defineEmits(['resetClicksOnTextEvent', 'stopModifyTextEvent']);
+    const emit = defineEmits(['stopModifyTextEvent']);
 
     const textarea = ref(null);
     const fontSizeContainer = ref(null);
     const textValue = ref('');
     let fontSize = ref(24);
+    let element = ref(null);
 
-    function startModifyText(element) {
+    function startModifyText(newElement) {
+        element.value = newElement;
         textarea.value.focus();
-        textValue.value = element.currentState().type.getContent();
-        fontSize.value = element.currentState().type.getFontSize();
+        textValue.value = element.value.currentState().type.content;
+        fontSize.value = element.value.currentState().type.fontSize;
     }
 
     function stopModifyText(e) {
@@ -26,14 +28,13 @@
                 !e.target.classList.contains('fontSize')) ||
             e.key === 'Enter'
         ) {
-            emit('stopModifyTextEvent');
-            emit('resetClicksOnTextEvent');
-            props.currentElement.currentState().type.setContent(textarea.value.value);
+            element.value.currentState().type.content = textarea.value.value;
             textarea.value.value = '';
+            emit('stopModifyTextEvent');
         }
     }
     function saveText() {
-        props.currentElement.currentState().type.setContent(textarea.value.value);
+        element.value.currentState().type.content = textarea.value.value;
         textValue.value = textarea.value.value;
     }
 
@@ -44,13 +45,13 @@
     }
 
     function increaseFont() {
-        props.currentElement.currentState().type.increaseFontSize();
-        fontSize.value = props.currentElement.currentState().type.getFontSize();
+        element.value.currentState().type.increaseFontSize();
+        fontSize.value = element.value.currentState().type.fontSize;
     }
 
     function decreaseFont() {
-        props.currentElement.currentState().type.decreaseFontSize();
-        fontSize.value = props.currentElement.currentState().type.getFontSize();
+        element.value.currentState().type.decreaseFontSize();
+        fontSize.value = element.value.currentState().type.fontSize;
     }
 
     defineExpose({

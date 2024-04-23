@@ -81,15 +81,15 @@
         <div
             tabindex="-1"
             class="textContent__container"
-            v-if="type.getName() == 'Text'"
+            v-if="type.name == 'Text'"
             @click="$emit('modifyTextEvent', { active: true, id: eId })"
         >
             <p class="textContent" :style="{ fontSize: fontSize + 'px' }">
-                {{ type.getContent() }}
+                {{ type.content }}
             </p>
         </div>
 
-        <img :src="url" :alt="altText" :class="{ mirror: mirrored }" v-if="type.getName() == 'Asset'" />
+        <img :src="url" :alt="altText" :class="{ mirror: mirrored }" v-if="type.name == 'Asset'" />
     </DraggableResizable>
 </template>
 

@@ -6,6 +6,7 @@
 
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+
     let clicksOnText = ref(0);
     let modifyTextActive = ref(false);
     let textEditor = ref(null);
@@ -59,6 +60,7 @@
 
     function stopModifyText() {
         modifyTextActive.value = false;
+        resetClicksOnText();
     }
 
     function resetClicksOnText() {
@@ -80,21 +82,20 @@
                 :url="value.currentState().src"
                 :w="value.currentState().width"
                 :z="value.currentState().z"
-                :fontSize="value.currentState().type.getName() == 'Text' ? value.currentState().type.getFontSize() : 24"
+                :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 24"
+                :type="value.currentState().type"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
                 @mirror-event="mirrorElement"
                 @modify-text-event="startModifyText"
-                @reset-clicksOnText-event="resetClicksOnText"
-                :type="value.currentState().type"
+                @reset-clicks-on-text-event="resetClicksOnText"
             />
             <img :src="border" class="panel__border" />
             <TextEditor
                 ref="textEditor"
                 v-show="modifyTextActive"
                 :currentElement="currentElement"
-                @reset-clicks-cn-text-event="resetClicksOnText"
                 @stop-modify-text-event="stopModifyText"
             />
         </div>
