@@ -69,6 +69,7 @@
                 :h="value.currentState().height"
                 :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
                 :isMirroredVertical="value.currentState().isMirroredVertical"
+                :rotation="value.currentState().rotation"
                 :pos="value.currentState().pos"
                 :url="value.currentState().src"
                 :w="value.currentState().width"

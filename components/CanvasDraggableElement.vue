@@ -9,7 +9,7 @@
         pos: Object,
         isMirroredHorizontal: Boolean,
         isMirroredVertical: Boolean,
-        rotation: { type: Number, default: 0 },
+        rotation: Number,
     });
 
     let elementActive = false;
