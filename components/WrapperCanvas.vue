@@ -1,12 +1,16 @@
 <script setup>
     const props = defineProps({
+        height: Number,
         panel: Object,
     });
 
-    let elements = props.panel.currentState().elements;
+    const canvasHeight = computed(() => props.height + 'px');
+    const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+
+    let elements = props.panel.elements;
+    const border = props.panel.border;
 
     function deleteElement(elId) {
-        console.log(elId);
         // delete last element of map
         props.panel.deleteElement(elId);
     }
@@ -55,40 +59,45 @@
 </script>
 
 <template>
-    <div ref="container" class="wrapper">
-        <CanvasDraggableElement
-            v-for="[key, value] in elements"
-            :key="key"
-            :altText="value.currentState().name"
-            :eId="value.currentState().id"
-            :h="value.currentState().height"
-            :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
-            :isMirroredVertical="value.currentState().isMirroredVertical"
-            :pos="value.currentState().pos"
-            :url="value.currentState().src"
-            :w="value.currentState().width"
-            :z="value.currentState().z"
-            @delete-event="deleteElement"
-            @update-event="updatePosition"
-            @resize-event="resizeElement"
-            @mirror-horizontal-event="mirrorElementHorizontal"
-            @mirror-vertical-event="mirrorElementVertical"
-            @rotate-left-event="rotateElement"
-            @rotate-right-event="rotateElement"
-        />
+    <div>
+        <div ref="container" class="panel">
+            <CanvasDraggableElement
+                v-for="[key, value] in elements"
+                :key="key"
+                :altText="value.currentState().name"
+                :eId="value.currentState().id"
+                :h="value.currentState().height"
+                :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
+                :isMirroredVertical="value.currentState().isMirroredVertical"
+                :pos="value.currentState().pos"
+                :url="value.currentState().src"
+                :w="value.currentState().width"
+                :z="value.currentState().z"
+                @delete-event="deleteElement"
+                @update-event="updatePosition"
+                @resize-event="resizeElement"
+                @mirror-horizontal-event="mirrorElementHorizontal"
+                @mirror-vertical-event="mirrorElementVertical"
+                @rotate-left-event="rotateElement"
+                @rotate-right-event="rotateElement"
+            />
+            <img :src="border" class="panel__border" />
+        </div>
     </div>
 </template>
 
-<style>
-    @import 'vue-draggable-resizable/style.css';
+<style scoped lang="scss">
+    .panel {
+        width: v-bind(canvasWidth);
+        height: v-bind(canvasHeight);
+        position: relative;
 
-    .wrapper {
-        /* TODO: should be defined dynamically once the value comes from template */
-        width: 450px;
-        height: 750px;
-
-        border: 1px solid #000;
-        overflow: hidden;
-        display: grid;
+        &__border {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
 </style>

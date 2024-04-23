@@ -1,22 +1,27 @@
 export default class Page {
-
-    #strips;
+    _strips;
 
     constructor() {
-        this.#init()
+        this.#init();
     }
 
     #init() {
-        this.#strips = []
+        this._strips = [];
     }
 
     // GETTER
 
     get strips() {
-        return this.#strips
+        return this._strips;
     }
 
+    getStrip(index) {
+        return this._strips[index];
+    }
+
+    // SETTER
+
     addStripToPage(strip) {
-        this.#strips.push(strip)
-    } 
+        this._strips.push(strip);
+    }
 }
