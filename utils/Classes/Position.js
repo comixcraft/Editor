@@ -1,28 +1,28 @@
 export default class Position {
-    #x;
-    #y;
+    _x;
+    _y;
 
     constructor(x, y) {
-        this.#x = x;
-        this.#y = y;
+        this._x = x;
+        this._y = y;
     }
 
     // getter
     currPos = () => {
-        return this.#getCurrentPosition();
+        return this._getCurrentPosition();
     };
 
-    #getCurrentPosition() {
-        return { x: this.#x, y: this.#y };
+    _getCurrentPosition() {
+        return { x: this._x, y: this._y };
     }
 
     // setter
     definePos = (obj) => {
-        return this.#definePosition(obj);
+        return this._definePosition(obj);
     };
 
-    #definePosition = (obj) => {
-        this.#x = obj.x;
-        this.#y = obj.y;
+    _definePosition = (obj) => {
+        this._x = obj.x;
+        this._y = obj.y;
     };
 }
