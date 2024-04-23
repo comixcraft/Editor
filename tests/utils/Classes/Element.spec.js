@@ -11,7 +11,8 @@ describe('Element', () => {
         expect(currentSutState).hasOwnProperty('z');
         expect(currentSutState).hasOwnProperty('pos');
         expect(currentSutState).hasOwnProperty('isFocused');
-        expect(currentSutState).hasOwnProperty('isMirrored');
+        expect(currentSutState).hasOwnProperty('isMirroredHorizontal');
+        expect(currentSutState).hasOwnProperty('isMirroredVertical');
         expect(currentSutState).hasOwnProperty('rotation');
         expect(currentSutState).hasOwnProperty('width');
         expect(currentSutState).hasOwnProperty('height');
@@ -21,7 +22,8 @@ describe('Element', () => {
         expect(currentSutState.id).toBe(1);
         expect(currentSutState.z).toBe(1);
         expect(currentSutState.isFocused).toBe(false);
-        expect(currentSutState.isMirrored).toBe(false);
+        expect(currentSutState.isMirroredHorizontal).toBe(false);
+        expect(currentSutState.isMirroredVertical).toBe(false);
         expect(currentSutState.rotation).toBe(0);
         expect(currentSutState.width).toBe(0.2);
         expect(currentSutState.height).toBe(0.5);

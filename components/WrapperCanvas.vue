@@ -29,12 +29,12 @@
         elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
-    function mirrorElement(obj) {
+    function mirrorElementHorizontal(obj) {
         if (!elements.has(obj.id)) {
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setIsMirrored(obj.mirror);
+        elements.get(obj.id).setIsMirroredHorizontal(obj.mirror);
     }
 
     function mirrorElementVertical(obj) {
@@ -62,7 +62,7 @@
             :altText="value.currentState().name"
             :eId="value.currentState().id"
             :h="value.currentState().height"
-            :isMirrored="value.currentState().isMirrored"
+            :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
             :isMirroredVertical="value.currentState().isMirroredVertical"
             :pos="value.currentState().pos"
             :url="value.currentState().src"
@@ -71,7 +71,7 @@
             @delete-event="deleteElement"
             @update-event="updatePosition"
             @resize-event="resizeElement"
-            @mirror-horizontal-event="mirrorElement"
+            @mirror-horizontal-event="mirrorElementHorizontal"
             @mirror-vertical-event="mirrorElementVertical"
             @rotate-left-event="rotateElement"
             @rotate-right-event="rotateElement"

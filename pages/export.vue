@@ -42,7 +42,7 @@
                 context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
 
                 // Mirror the canvas around the x-axis or y-axis if necessary
-                if (currentState.isMirrored) {
+                if (currentState.isMirroredHorizontal) {
                     context.scale(-1, 1);
                 }
                 if (currentState.isMirroredVertical) {
