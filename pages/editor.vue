@@ -1,5 +1,6 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
+    import { ref } from 'vue';
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -43,11 +44,20 @@
     onMounted(() => {
         fetchCatalogElements();
     });
+
+    let catalogShow = ref(false);
+    let selectedCategory = ref('');
+
+    const updateSelectedCategory = (categoryName, show) => {
+        selectedCategory.value = categoryName;
+        catalogShow.value = show;
+        fetchCatalogElements(selectedCategory.value.name);
+    };
 </script>
 
 <template>
     <div class="editor__container">
-        <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+        <!-- <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels> -->
         <div>
             <CatalogSearch
                 placeholder="happy, barista, ..."
@@ -65,8 +75,6 @@
             <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
         </div>
     </div>
-    <CatalogNavigation />
-
     <button>
         <NuxtLink
             :to="{
@@ -76,6 +84,15 @@
             >See Preview
         </NuxtLink>
     </button>
+
+    <CatalogNavigation :category="catalogStructure.categories" @categorySelected="updateSelectedCategory" />
+    <CatalogStructure
+        :iconName="iconName"
+        :title="selectedCategory"
+        :show="catalogShow"
+        :selectedCatalog="selectedCategory"
+        @close="catalogShow = false"
+    />
 </template>
 
 <style scoped lang="scss">
@@ -83,5 +100,6 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        background-color: $primary;
     }
 </style>

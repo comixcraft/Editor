@@ -1,14 +1,3 @@
-<template>
-    <div v-if="show" class="sub__overlay">
-        <div class="sub__navigation">
-            <button v-for="(button, index) in buttons" :key="index" @click="handleButtonClick(button)">
-                {{ button.label }}
-            </button>
-        </div>
-        <div class="sub_overlay__content"><slot></slot></div>
-    </div>
-</template>
-
 <script setup>
     const props = defineProps({
         show: { type: Boolean, default: false },
@@ -21,6 +10,17 @@
         emit('buttonClick', button);
     }
 </script>
+
+<template>
+    <div v-if="show" class="sub__overlay">
+        <div class="sub__navigation">
+            <button v-for="(button, index) in buttons" :key="index" @click="handleButtonClick(button)">
+                {{ button.label }}
+            </button>
+        </div>
+        <div class="sub_overlay__content"><slot></slot></div>
+    </div>
+</template>
 
 <style lang="scss" scoped>
     .sub__overlay {

@@ -22,7 +22,7 @@
 
     const props = defineProps({
         iconName: { type: String, default: '' },
-        title: { type: String, default: '' },
+        title: { type: String },
         show: { type: Boolean, default: false },
     });
 
