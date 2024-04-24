@@ -1,17 +1,16 @@
 <template>
     <div>
-        <div class="topNav">
-            <div class="logo">comixcraft</div>
+        <div class="top-nav">
+            <div class="top-nav__logo">comixcraft</div>
         </div>
         <div class="container-fluid pt-lg-5">
             <div class="row justify-content-center justify-content-lg-between align-items-center pb-3 pb-lg-0">
                 <div class="col-lg-5">
-                    <div class="welcomeText">
+                    <div class="welcome-text">
                         <div class="welcome">
                             <h1>Welcome to comixcraft!</h1>
                         </div>
-                        <!-- Text for desktop -->
-                        <div class="desktopIntroText d-none d-lg-block">
+                        <div class="desktop-intro-text d-none d-lg-block">
                             <p>
                                 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
                                 piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
@@ -20,8 +19,7 @@
                                 the cites of the word in classical literature, discovered the blah blah.
                             </p>
                         </div>
-                        <!-- Text for mobile -->
-                        <div class="mobileIntroText d-block d-lg-none">
+                        <div class="mobile-intro-text d-block d-lg-none">
                             <p>
                                 With plenty of templates and assets to choose from, the only limit is your imagination!
                                 Get started now by choosing a template!
@@ -30,7 +28,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5 d-flex justify-content-center align-items-center">
-                    <div class="comicImage">
+                    <div class="comic-image">
                         <p>placeholder</p>
                     </div>
                 </div>
@@ -40,25 +38,25 @@
                 <p class="font-italic">start by choosing a template</p>
                 <h3>comic panels</h3>
                 <p>A comic panel is a single frame within a comic strip.</p>
-                <div class="comicPanels">
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
+                <div class="comic-panels">
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
                 </div>
                 <h3>comic strips</h3>
                 <p>A comic strip consists of a series of panels.</p>
-                <div class="comicPanels">
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
-                    <div class="singleTemplate"></div>
+                <div class="comic-panels">
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
+                    <div class="single-template"></div>
                 </div>
             </div>
-            <button class="startBtn">start craftin</button>
+            <button class="start-btn">start crafting</button>
         </div>
     </div>
 </template>
@@ -78,12 +76,10 @@
     }
 
     onMounted(() => {
-        const templateElements = document.querySelectorAll('.singleTemplate');
-        // Select the first template by default
+        const templateElements = document.querySelectorAll('.single-template');
         if (templateElements.length > 0) {
             selectTemplate(templateElements[0]);
         }
-        // Add click event listeners to all template elements
         templateElements.forEach((template) => {
             template.addEventListener('click', () => {
                 selectTemplate(template);
@@ -93,14 +89,14 @@
 </script>
 
 <style scoped lang="scss">
-    .topNav {
+    .top-nav {
         display: flex;
         align-items: center;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
         height: 80px;
         margin: 0;
     }
-    .logo {
+    .top-nav__logo {
         display: flex;
         flex-direction: row;
         margin-left: $spacer-3;
@@ -110,10 +106,10 @@
     }
 
     .templates {
-        background: var(--Off-white-100, #f5f5f5);
+        background: var(--off-white-100, #f5f5f5);
         padding-top: $spacer-4;
     }
-    .welcomeText {
+    .welcome-text {
         display: flex;
         flex-direction: column;
         padding: $spacer-2;
@@ -122,13 +118,13 @@
     .welcome {
         display: flex;
     }
-    .introText {
+    .intro-text {
         display: flex;
         justify-content: left;
         width: 45vw;
         margin-top: $spacer-2;
     }
-    .comicImage {
+    .comic-image {
         text-align: center;
         display: flex;
         justify-content: center;
@@ -136,7 +132,7 @@
         width: 55vw;
     }
 
-    .comicPanels {
+    .comic-panels {
         display: flex;
         gap: $spacer-3;
         width: 100%;
@@ -145,19 +141,19 @@
         margin-top: $spacer-4;
     }
 
-    .singleTemplate {
+    .single-template {
         padding: 100px;
         background-color: gray;
         flex: 0 0 auto;
         margin-bottom: $spacer-4;
         cursor: pointer;
-        border: 4px solid transparent; /* Ensure consistent size */
+        border: 4px solid transparent;
     }
 
-    .singleTemplate.selected {
+    .single-template.selected {
         border-color: blue;
     }
-    .startBtn {
+    .start-btn {
         display: flex;
         padding: $spacer-3;
         padding-left: $spacer-5;
