@@ -10,6 +10,7 @@
         isMirroredHorizontal: Boolean,
         isMirroredVertical: Boolean,
         rotation: Number,
+        isRotated: Boolean,
     });
 
     let elementActive = false;
@@ -17,6 +18,7 @@
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
     let rotation = ref(props.rotation);
+    let isRotated = ref(props.isRotated);
 
     // computed function to set the mirroring of the image
     const setMirroredHorizontal = computed(() => {
@@ -83,14 +85,22 @@
         }
 
         if (direction === 'left') {
-            rotation.value -= 45;
-            if (rotation.value < 0) rotation.value = 315;
+            rotation.value -= 90;
+            if (rotation.value < 0) rotation.value = 270;
             emit('rotateLeftEvent', { id: eId, rotation: rotation.value });
         } else if (direction === 'right') {
-            rotation.value += 45;
-            if (rotation.value > 360) rotation.value = 45;
+            rotation.value += 90;
+            if (rotation.value >= 360) rotation.value = 0;
             emit('rotateRightEvent', { id: eId, rotation: rotation.value });
         }
+
+        if (rotation.value === 0 || rotation.value === 180) {
+            isRotated.value = false;
+        } else {
+            isRotated.value = true;
+        }
+
+        console.log(rotation.value, isRotated);
     }
 </script>
 
