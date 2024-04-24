@@ -1,52 +1,83 @@
 <script setup>
+    const props = defineProps({
+        height: Number,
+        panel: Object,
+    });
+
+    const canvasHeight = computed(() => props.height + 'px');
+    const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+
+    let elements = props.panel.elements;
+    const border = props.panel.border;
+
     function deleteElement(elId) {
-        // all z element
-        changeZIndex(elId);
         // delete last element of map
-        elementsInCanvas.value.delete(elementsInCanvas.value.size);
+        props.panel.deleteElement(elId);
     }
 
-    function changeZIndex(z) {
-        // change all z index
-        if (z > elementsInCanvas.value.size - 1) return; // stop recursive call when reaching second to last element (last one will be deleted)
+    function resizeElement(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.id).setWidth(obj.width);
+        elements.get(obj.id).setHeight(obj.height);
+    }
 
-        let nextElement = elementsInCanvas.value.get(z + 1);
+    function updatePosition(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+    }
 
-        nextElement.setZIndex(z); // change z-index of next element
-        elementsInCanvas.value.set(z, nextElement); // update map element with next element
-        z++; // increment z index
-        changeZIndex(z); // recursive
+    function mirrorElement(obj) {
+        if (!elements.has(obj.id)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+        elements.get(obj.id).setIsMirrored(obj.mirror);
     }
 </script>
 
 <template>
-    <div ref="container" class="wrapper">
-        <CanvasDraggableElement
-            v-for="[key, value] in elementsInCanvas"
-            :key="key"
-            :altText="value.currentState().name"
-            :eId="value.currentState().id"
-            :h="value.currentState().height"
-            :isMirrored="value.currentState().isMirrored"
-            :pos="value.currentState().pos"
-            :url="value.currentState().src"
-            :w="value.currentState().width"
-            :z="value.currentState().z"
-            @delete-event="deleteElement"
-        />
+    <div>
+        <div ref="container" class="panel">
+            <CanvasDraggableElement
+                v-for="[key, value] in elements"
+                :key="key"
+                :altText="value.currentState().name"
+                :eId="value.currentState().id"
+                :h="value.currentState().height"
+                :isMirrored="value.currentState().isMirrored"
+                :pos="value.currentState().pos"
+                :url="value.currentState().src"
+                :w="value.currentState().width"
+                :z="value.currentState().z"
+                @delete-event="deleteElement"
+                @update-event="updatePosition"
+                @resize-event="resizeElement"
+                @mirror-event="mirrorElement"
+            />
+            <img :src="border" class="panel__border" />
+        </div>
     </div>
 </template>
 
-<style>
-    @import 'vue-draggable-resizable/style.css';
+<style scoped lang="scss">
+    .panel {
+        width: v-bind(canvasWidth);
+        height: v-bind(canvasHeight);
+        position: relative;
 
-    .wrapper {
-        /* TODO: should be defined dynamically once the value comes from template */
-        width: 450px;
-        height: 750px;
-
-        border: 1px solid #000;
-        overflow: hidden;
-        display: grid;
+        &__border {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     }
 </style>

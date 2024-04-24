@@ -22,15 +22,6 @@ export default defineEventHandler(async (event) => {
         categories = [categories];
     }
 
-    categories = categories.map((c) => {
-        if (typeof c !== 'string') {
-            return null;
-        }
-        let categoryParts = c.split('-');
-        categoryParts = categoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
-        return categoryParts.join(' ');
-    });
-
     // SubCategory
     let subCategories = body.subCategory;
 
@@ -41,15 +32,6 @@ export default defineEventHandler(async (event) => {
     if (!Array.isArray(subCategories)) {
         subCategories = [subCategories];
     }
-
-    subCategories = subCategories.map((c) => {
-        if (typeof c !== 'string') {
-            return null;
-        }
-        let subCategoryParts = c.split('-');
-        subCategoryParts = subCategoryParts.map((p) => p.charAt(0).toUpperCase() + p.slice(1));
-        return subCategoryParts.join(' ');
-    });
 
     // Filter
     let filter = body.filter;
@@ -62,26 +44,25 @@ export default defineEventHandler(async (event) => {
         filter = [filter];
     }
 
+    filter = filter.map((term) => term.toLowerCase());
+
     for (const [categoryKey, categoryValue] of Object.entries(catalog)) {
         if (categories.length > 0 && !categories.includes(categoryKey)) {
-            return;
+            continue;
         }
 
         for (const [subCategoryKey, subCategoryValue] of Object.entries(catalog[categoryKey])) {
-            if (subCategories.length > 0 && !subCategories.includes(categoryKey)) {
-                return;
+            if (subCategories.length > 0 && !subCategories.includes(subCategoryKey)) {
+                continue;
             }
 
             if (filter.length === 0) {
                 catalogAssets = catalogAssets.concat(subCategoryValue.assets);
+                continue;
             }
 
             for (const asset of subCategoryValue.assets) {
-                let keywords = asset.keywords;
-                keywords = keywords + ' ' + asset.name;
-
-                let assetFilter = filter.filter((f) => keywords.toLowerCase().includes(f.toLowerCase()));
-                if (assetFilter.length > 0) {
+                if (includesAll(asset.keywords, filter)) {
                     catalogAssets.push(asset);
                 }
             }
@@ -90,3 +71,7 @@ export default defineEventHandler(async (event) => {
 
     return catalogAssets;
 });
+
+function includesAll(arr, values) {
+    return values.every((v) => arr.toString().includes(v));
+}
