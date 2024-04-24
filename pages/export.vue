@@ -57,13 +57,15 @@
 
         // draw credit logo at the bottom left
         const credit = {
-            src: '../public/tempCredit.png',
-            width: 450,
-            height: 100,
+            src: '/tempCredit.png',
+            width: 180,
+            height: 40,
         };
-        const creditLogo = new Image(credit.width, credit.height);
+        const creditLogo = new Image();
         creditLogo.src = credit.src;
-        context.drawImage(creditLogo, 0, canvas.height - credit.height, credit.width, credit.height);
+        creditLogo.onload = () => {
+            context.drawImage(creditLogo, 0, canvas.height - credit.height, credit.width, credit.height);
+        };
     }
 
     // not working with the github asset due to CORS problem
