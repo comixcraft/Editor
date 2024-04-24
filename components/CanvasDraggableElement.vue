@@ -10,8 +10,8 @@
         eId: String,
         pos: Object,
         isMirrored: Boolean,
-        type: Object,
-        fontSize: Number,
+        fontSize: Number, // if 0, it's an image, if not, it's text
+        text: String,
     });
 
     let elementActive = false;
@@ -81,15 +81,15 @@
         <div
             tabindex="-1"
             class="textContent__container"
-            v-if="type.name == 'Text'"
+            v-if="fontSize != 0"
             @click="$emit('modifyTextEvent', { active: true, id: eId })"
         >
             <p class="textContent" :style="{ fontSize: fontSize + 'px' }">
-                {{ type.content }}
+                {{ text }}
             </p>
         </div>
 
-        <img :src="url" :alt="altText" :class="{ mirror: mirrored }" v-if="type.name == 'Asset'" />
+        <img :src="url" :alt="altText" :class="{ mirror: mirrored }" v-if="fontSize == 0" />
     </DraggableResizable>
 </template>
 

@@ -10,7 +10,6 @@
     let clicksOnText = ref(0);
     let modifyTextActive = ref(false);
     let textEditor = ref(null);
-    let currentElement = ref(null);
 
     let elements = props.panel.elements;
     const border = props.panel.border;
@@ -52,7 +51,6 @@
         if (clicksOnText.value === 2) {
             modifyTextActive.value = true;
             nextTick(() => {
-                currentElement.value = element;
                 textEditor.value.startModifyText(element);
             });
         }
@@ -82,8 +80,8 @@
                 :url="value.currentState().src"
                 :w="value.currentState().width"
                 :z="value.currentState().z"
-                :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 24"
-                :type="value.currentState().type"
+                :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
+                :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
@@ -92,12 +90,7 @@
                 @reset-clicks-on-text-event="resetClicksOnText"
             />
             <img :src="border" class="panel__border" />
-            <TextEditor
-                ref="textEditor"
-                v-show="modifyTextActive"
-                :currentElement="currentElement"
-                @stop-modify-text-event="stopModifyText"
-            />
+            <TextEditor ref="textEditor" v-show="modifyTextActive" @stop-modify-text-event="stopModifyText" />
         </div>
     </div>
 </template>

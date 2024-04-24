@@ -1,11 +1,6 @@
 <script setup>
     import { ref } from 'vue';
 
-    const props = defineProps({
-        clicksOnText: Number,
-        currentElement: Object,
-    });
-
     const emit = defineEmits(['stopModifyTextEvent']);
 
     const textarea = ref(null);

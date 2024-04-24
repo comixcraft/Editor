@@ -48,7 +48,7 @@
         let width = 200;
         let availableInteger = 1;
         let name = 'text' + availableInteger;
-        let type = new Text(name, 24);
+        let type = new Text(name, 24, 'nunito');
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         addElementToActivePanel(tempEl);
     }

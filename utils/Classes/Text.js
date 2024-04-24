@@ -5,9 +5,10 @@ export default class Text {
     _fontFamily;
     _fontWeight;
 
-    constructor(content, fontSize) {
+    constructor(content, fontSize, fontFamily) {
         this._content = content;
         this._fontSize = fontSize;
+        this._fontFamily = fontFamily;
     }
 
     // GETTERS
@@ -38,7 +39,9 @@ export default class Text {
         this._fontFamily = fF;
     }
     decreaseFontSize() {
-        this._fontSize--;
+        if (this._fontSize > 1) {
+            this._fontSize--;
+        }
     }
 
     set fontWeight(fW) {
