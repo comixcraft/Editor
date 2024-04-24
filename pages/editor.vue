@@ -65,6 +65,7 @@
             <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
         </div>
     </div>
+    <CatalogNavigation />
 
     <button>
         <NuxtLink
