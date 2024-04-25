@@ -10,9 +10,11 @@
     let elements = props.panel.elements;
     const border = props.panel.border;
 
-    function deleteElement(elId) {
+    function deleteElement(id) {
         // delete last element of map
-        props.panel.deleteElement(elId);
+        props.panel.deleteElement(id);
+
+        console.log(props.panel.elements);
     }
 
     function resizeElement(obj) {
