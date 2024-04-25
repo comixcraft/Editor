@@ -54,7 +54,7 @@ export default class Panel {
     }
 
     /**
-     * @returns {{border, elements, width}}
+     * @returns {{border: String, elements: ElementsDS[], width: Number}}
      */
     currentState() {
         return {
