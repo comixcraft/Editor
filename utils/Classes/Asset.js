@@ -1,26 +1,28 @@
 export default class Asset {
+    /** @type {String} */
     _path;
-    _id;
 
-    constructor(path) {
+    /**
+     * @param {String} path
+     */
+    constructor(path = 'undefined') {
         this._path = path;
     }
 
     // GETTERS
+    /** @returns {String} */
     get path() {
         return this._path;
     }
 
+    /** @returns {String} */
     get id() {
         return this._id;
     }
 
     // SETTERS
-    set path(p) {
-        this._path = p;
-    }
-
-    set id(id) {
-        this._id = id;
+    /** @param {String} path */
+    set path(path) {
+        this._path = path;
     }
 }
