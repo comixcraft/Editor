@@ -1,9 +1,10 @@
 <!-- CatalogStructure -->
-
 <script setup>
     import { defineProps } from 'vue';
 
     const emit = defineEmits(['catalogChanged']);
+    const selectedSubCategory = ref([]);
+    const selectedFilter = ref([]);
 
     const props = defineProps({
         iconName: { type: String, default: '' },
@@ -13,37 +14,37 @@
             type: Array,
             default: () => [],
         },
-        selectedCatalog: {
-            type: Array,
-            default: () => [],
+        selectedCategory: {
+            type: Object,
+            default: () => {},
         },
     });
 
-    const selectedCategory = ref([]);
-    const selectedSubCategory = ref([]);
-    const selectedFilter = ref([]);
-
     function emitCatalogChanged() {
         emit('catalogChanged', {
-            category: selectedCategory,
-            subCategory: selectedSubCategory,
+            category: props.selectedCategory.name,
+            subcategory: selectedSubCategory,
             filter: selectedFilter,
         });
     }
+
+    onMounted(() => {
+        emitCatalogChanged();
+    });
 </script>
 
 <template>
-    <PopupOverlay :iconName="iconName" :title="title" :show="show">
+    <PopupOverlay :iconName="props.iconName" :title="props.title" :show="props.show">
         <CatalogSearch
             placeholder="happy, barista, ..."
-            :filters="selectedCategoryAssets"
+            :filters="selectedCategory.subCategories[0].filter"
             @search="
-                (selectedFilter) => {
-                    fetchCatalogElements(selectedCategoryAssets, [], selectedFilter);
+                (selectedFilterFromSearch) => {
+                    selectedFilter = selectedFilterFromSearch;
+                    emitCatalogChanged();
                 }
             "
         />
-        {{ selectedCatalog.subCategories }}
-        <CatalogContainer :assets="selectedCategoryAssets" @add-element="addElementToActivePanel"></CatalogContainer>
+        <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
     </PopupOverlay>
 </template>

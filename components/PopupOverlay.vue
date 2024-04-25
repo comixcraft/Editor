@@ -46,6 +46,7 @@
         gap: 10px;
     }
     .overlay {
+        z-index: 9999999;
         position: fixed;
         top: 5.6%;
         bottom: 0;

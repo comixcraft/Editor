@@ -4,14 +4,11 @@
     const props = defineProps({
         categories: { type: Array },
     });
-    let selectedCategoryAssets = ref([]);
 
     const emit = defineEmits(['categorySelected']);
 
     const selectCategory = (category) => {
-        console.log('catName from emit:', category.name);
-        console.log('assets form emit:', category.assets);
-        emit('categorySelected', category, []);
+        emit('categorySelected', category);
     };
 </script>
 

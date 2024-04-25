@@ -1,5 +1,4 @@
 <!-- CatalogContainer -->
-
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
 

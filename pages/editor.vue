@@ -14,7 +14,7 @@
     const activePanelIndex = ref(0);
 
     let catalogShow = ref(false);
-    let selectedCategory = ref('');
+    let selectedCategory = ref({});
     let selectedCategoryAssets = ref([]);
 
     await useFetch('/api/catalog/structure')
@@ -40,6 +40,7 @@
         })
             .then((response) => {
                 catalogElements.value = response.data.value;
+                console.log(catalogElements.value.length);
             })
             .catch((error) => {
                 createError(error);
@@ -50,36 +51,16 @@
         fetchCatalogElements();
     });
 
-    function updateSelectedCategory(category, assetsName) {
+    function updateSelectedCategory(category) {
         selectedCategory.value = category;
-        console.log('catName', categoryName);
-        console.log('assets', assetsName);
-        selectedCategoryAssets.value = assetsName;
         catalogShow.value = true;
-        fetchCatalogElements(categoryName, assetsName);
+        fetchCatalogElements(category.name, [], []);
     }
 </script>
 
 <template>
     <div class="editor__container">
-        <!-- <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels> -->
-        <p>home page</p>
-        <div>
-            <CatalogSearch
-                placeholder="happy, barista, ..."
-                :filters="catalogStructure.categories[0].subCategories[0].filter"
-                @search="
-                    (selectedFilter) => {
-                        fetchCatalogElements(
-                            catalogStructure.categories[0].name,
-                            catalogStructure.categories[0].subCategories[0].name,
-                            selectedFilter
-                        );
-                    }
-                "
-            />
-            <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
-        </div>
+        <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
     </div>
     <button>
         <NuxtLink
@@ -90,16 +71,15 @@
             >See Preview
         </NuxtLink>
     </button>
-
     <CatalogNavigation :categories="catalogStructure.categories" @categorySelected="updateSelectedCategory" />
     <CatalogStructure
-        :iconName="iconName"
         :title="selectedCategory.name"
         :show="catalogShow"
         :selectedCategoryAssets="catalogElements"
         :selectedCategory="selectedCategory"
         @close="catalogShow = false"
-        @catalogChanged="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+        @add-element="addElementToActivePanel"
+        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
     />
 </template>
 
