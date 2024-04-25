@@ -39,16 +39,11 @@
         })
             .then((response) => {
                 catalogElements.value = response.data.value;
-                console.log(catalogElements.value.length);
             })
             .catch((error) => {
                 createError(error);
             });
     }
-
-    onMounted(() => {
-        fetchCatalogElements();
-    });
 
     function updateSelectedCategory(category) {
         selectedCategory.value = category;

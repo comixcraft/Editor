@@ -3,7 +3,7 @@
     import { defineProps } from 'vue';
 
     const emit = defineEmits(['catalogChanged']);
-    const selectedSubCategory = ref([]);
+    const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
 
     const props = defineProps({
@@ -23,14 +23,14 @@
     function emitCatalogChanged() {
         emit('catalogChanged', {
             category: props.selectedCategory.name,
-            subcategory: selectedSubCategory,
+            subCategory: selectedSubCategory.value.name,
             filter: selectedFilter,
         });
     }
 
     function updateSubSelectedCategory(subCategory) {
         selectedSubCategory.value = subCategory;
-        fetchCatalogElements(subCategory.name);
+        emitCatalogChanged();
     }
 
     onMounted(() => {

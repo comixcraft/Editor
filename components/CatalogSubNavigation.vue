@@ -8,7 +8,7 @@
     const emit = defineEmits(['subCategorySelected']);
 
     const selectSubCategory = (subCategory) => {
-        emit('subCategorySelected', subCategory, []);
+        emit('subCategorySelected', subCategory);
     };
 </script>
 
