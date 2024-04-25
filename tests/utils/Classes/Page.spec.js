@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import Page from '~/utils/Classes/Page.js';
 import Strip from '~/utils/Classes/Strip.js';
 
-describe('Comic', () => {
+describe('Page', () => {
     it('creates an empty page', () => {
         const sut = new Page();
 

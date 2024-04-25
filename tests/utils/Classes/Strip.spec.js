@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import Strip from '~/utils/Classes/Strip.js';
 import Panel from '~/utils/Classes/Panel.js';
 
-describe('Comic', () => {
+describe('Strip', () => {
     it('creates an empty strip', () => {
         const sut = new Strip();
 
