@@ -60,8 +60,8 @@
 
 <template>
     <div>
-        <div ref="container" class="panel">
-            <CanvasDraggableElement
+        <div ref="container" class="panel container">
+            <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
                 :altText="value.currentState().name"
@@ -99,6 +99,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            user-select: none;
         }
     }
 </style>

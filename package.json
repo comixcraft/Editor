@@ -13,6 +13,7 @@
         "lint": "eslint --ignore-pattern **/.nuxt --fix ."
     },
     "dependencies": {
+        "@gausszhou/vue3-drag-resize-rotate": "^3.0.2",
         "@pinia/nuxt": "^0.5.1",
         "bootstrap": "^5.3.3",
         "material-symbols": "^0.17.2",
