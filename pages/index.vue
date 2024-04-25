@@ -10,7 +10,7 @@
                         <div class="welcome">
                             <h1>Welcome to comixcraft!</h1>
                         </div>
-                        <div class="desktop-intro-text d-none d-lg-block">
+                        <div>
                             <p>
                                 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
                                 piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
@@ -19,7 +19,7 @@
                                 the cites of the word in classical literature, discovered the blah blah.
                             </p>
                         </div>
-                        <div class="mobile-intro-text d-block d-lg-none">
+                        <div>
                             <p>
                                 With plenty of templates and assets to choose from, the only limit is your imagination!
                                 Get started now by choosing a template!

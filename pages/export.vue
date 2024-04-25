@@ -8,18 +8,23 @@
         </div>
         <div class="share__body">
             <div class="share__input-group">
-                <label for="project-name">Project Name:</label>
-                <input type="text" id="project-name" placeholder="Enter project name" />
+                <label class="share__input-group-label" for="project-name">Project Name:</label>
+                <input
+                    class="share__input-group-input"
+                    type="text"
+                    id="project-name"
+                    placeholder="Enter project name"
+                />
             </div>
             <div class="share__input-group">
-                <label for="file-type">File Type:</label>
-                <select id="file-type">
+                <label class="share__input-group-label" for="file-type">File Type:</label>
+                <select class="file-type-select">
                     <option value="png">PNG</option>
                 </select>
             </div>
             <div class="share__input-group">
-                <label for="select-panels">Select Panels:</label>
-                <select id="select-panels">
+                <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                <select class="file-type-select">
                     <option value="1">All panels</option>
                 </select>
             </div>
@@ -135,13 +140,13 @@
         margin-bottom: $spacer-4;
     }
 
-    .share__input-group label {
+    .share__input-group-label {
         display: block;
         margin-bottom: 5px;
     }
 
-    .share__input-group input,
-    .share__input-group select {
+    .share__input-group-input,
+    .share__input-group-select {
         padding: $spacer-2;
         padding-right: $spacer-6;
         border: 1px solid #ccc;
@@ -169,11 +174,6 @@
         z-index: 9999;
     }
 
-    .share__temp-thing {
-        position: absolute;
-        bottom: 25%;
-    }
-
     .share__top-nav-item {
         padding: $spacer-3;
         $font-size-phone: 3;
@@ -186,8 +186,6 @@
         justify-self: center;
         align-self: center;
         background-color: white;
-        height: 20vh;
-        width: 20vw;
         justify-items: center;
         align-items: center;
     }
@@ -199,7 +197,7 @@
         width: 100%;
         height: auto;
     }
-    @media (max-width: 991px) {
+    @include media-breakpoint-up(m) {
         .preview__canvas {
             border: 1px solid black;
             width: auto;

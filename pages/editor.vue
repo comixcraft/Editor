@@ -2,20 +2,15 @@
     <div class="editor">
         <div class="editor__top-nav">
             <div class="top-nav__item back-btn icon">
-                <NuxtLink
-                    :to="{ name: 'index', path: '/index' }"
-                    class="share__top-nav-item back-btn icon"
-                    @click="$emit('back')"
-                >
+                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
                     arrow_back
                 </NuxtLink>
             </div>
-            <div class="top-nav__item undo-btn icon" @click="$emit('undo')">undo</div>
-            <div class="top-nav__item redo-btn icon" @click="$emit('redo')">redo</div>
+            <div class="top-nav__item undo-btn icon">undo</div>
+            <div class="top-nav__item redo-btn icon">redo</div>
             <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
             <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
-            <!-- make nuxt link -->
-            <div class="top-nav__item export-btn icon" @click="$emit('export')">
+            <div class="top-nav__item export-btn icon">
                 <NuxtLink
                     :to="{
                         name: 'export',
@@ -27,7 +22,7 @@
         </div>
 
         <div class="editor__canvas">
-            <div><ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels></div>
+            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
         </div>
 
         <div class="bottom-nav__container">
@@ -60,17 +55,11 @@
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
-                    <div class="layer">
-                        <div class="asset-image"></div>
-                        <p class="layer-text">layer 1</p>
-                        <div class="chevrons">
-                            <div class="expand-less icon" @click="$emit('expandLess')">expand_less</div>
-                            <div class="expand-more icon" @click="$emit('expandMore')">expand_more</div>
-                        </div>
-                    </div>
+                    <LayerObject></LayerObject>
                 </div>
             </div>
         </ScreenOverlay>
+
         <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
             <div class="darken-background">
                 <div class="comic-preview"></div>
@@ -84,10 +73,6 @@
 <script setup>
     let layersShow = ref(false);
     let previewShow = ref(false);
-    let popUpShow = ref(false);
-    defineEmits(['back', 'undo', 'redo', 'preview', 'layers', 'export', 'expandLess', 'expandMore']);
-
-    import ComicPanels from '~/components/ComicPanels.vue';
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -134,6 +119,18 @@
 </script>
 
 <style scoped lang="scss">
+    .layer-background {
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+    }
+
+    .layer-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .editor__top-nav {
         display: flex;
         align-items: center;
@@ -143,8 +140,12 @@
         margin: 0;
     }
     .editor__canvas {
-        height: 80vh;
+        display: flex;
         align-items: center;
+        justify-content: flex-end;
+        height: 100vh;
+        width: 70vw;
+        margin-left: auto;
     }
 
     .editor__bottom-nav {
@@ -171,32 +172,6 @@
         background-color: #e0e0e0;
     }
 
-    .swiping-area {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .swiping-indicator {
-        width: 30px;
-        height: 30px;
-        background-color: #ccc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 10px;
-        border-radius: 5px;
-    }
-
-    .swiping-triggers {
-        width: 10px;
-        height: 10px;
-        background-color: pink;
-        border-radius: 50%;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
-
     .darken-background {
         width: 100vw;
         height: 100vh;
@@ -214,49 +189,6 @@
         transform: translate(-50%, -50%);
     }
 
-    .layer-background {
-        width: 100vw;
-        height: 100vh;
-        background-color: white;
-    }
-
-    .layer-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .layer {
-        padding: $spacer-3;
-        width: 90vw;
-        background-color: #ccc;
-        margin-top: $spacer-4;
-        display: flex;
-        align-items: center;
-    }
-
-    .asset-image {
-        width: 60px;
-        height: 60px;
-        background-color: white;
-        margin-right: 10px; /* Adjust margin between images as needed */
-    }
-
-    .layer-content {
-        display: flex;
-        align-items: center;
-    }
-
-    .chevrons {
-        display: flex;
-        flex-direction: column;
-        margin-left: auto;
-    }
-
-    .layer-text {
-        margin: 0;
-    }
-
     .bottom-nav__container {
         position: fixed;
         bottom: 0;
@@ -269,6 +201,9 @@
     .share__top-nav-item {
         color: #fff;
     }
+    .placeholder-rectangle {
+        display: none;
+    }
 
     @include media-breakpoint-up(lg) {
         .editor__top-nav {
@@ -280,13 +215,7 @@
         .mobile {
             display: none;
         }
-        .centered-grey-div {
-            background-color: #ccc;
-            width: 50vw;
-            height: 50vh;
-            display: flex;
-            justify-content: right;
-        }
+
         .editor__canvas {
             align-items: center;
             display: flex;
@@ -314,6 +243,7 @@
         }
 
         .placeholder-rectangle {
+            display: block;
             width: 25vw;
             height: 100vh;
             background-color: #ccc;
@@ -321,24 +251,6 @@
             top: 0px;
             left: 200px;
             z-index: 900;
-        }
-    }
-
-    @media (max-width: 991px) {
-        .placeholder-rectangle {
-            display: none;
-        }
-        .desktop {
-            display: none;
-        }
-        .centered-grey-div {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #ccc;
-            width: 85%;
-            height: 70%;
         }
     }
 </style>
