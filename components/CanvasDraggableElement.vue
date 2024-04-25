@@ -1,4 +1,6 @@
 <script setup>
+    import { modifyText } from '../stores/modifyText.js';
+
     const props = defineProps({
         z: Number,
         w: Number,
@@ -10,23 +12,17 @@
         isMirrored: Boolean,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
+        element: Object,
     });
 
     let elementActive = false;
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
 
-    const emit = defineEmits([
-        'deleteEvent',
-        'updateEvent',
-        'resizeEvent',
-        'mirrorEvent',
-        'modifyTextEvent',
-        'resetClicksOnTextEvent',
-    ]);
+    const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
     function updatePosition(eId) {
-        emit('resetClicksOnTextEvent');
+        modifyText.setClicks(0);
         emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
@@ -50,7 +46,14 @@
 
     function deactivate() {
         elementActive = false;
-        emit('resetClicksOnTextEvent');
+        modifyText.setClicks(0);
+    }
+
+    function startModifyText() {
+        modifyText.incrementClicks();
+        if (modifyText.clicks === 2) {
+            modifyText.setCurrentElement(props.element);
+        }
     }
 </script>
 
@@ -76,12 +79,7 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <div
-            tabindex="-1"
-            class="text"
-            v-if="fontSize != 0"
-            @click="$emit('modifyTextEvent', { active: true, id: eId })"
-        >
+        <div tabindex="-1" class="text" v-if="fontSize != 0" @click="startModifyText">
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
                 {{ text }}
             </p>

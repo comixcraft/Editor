@@ -1,4 +1,6 @@
 <script setup>
+    import { modifyText } from '../stores/modifyText.js';
+
     const props = defineProps({
         height: Number,
         panel: Object,
@@ -7,8 +9,6 @@
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
 
-    let clicksOnText = ref(0);
-    let modifyTextActive = ref(false);
     let textEditor = ref(null);
 
     let elements = props.panel.elements;
@@ -44,26 +44,6 @@
         }
         elements.get(obj.id).setIsMirrored(obj.mirror);
     }
-
-    function startModifyText(obj) {
-        let element = elements.get(obj.id);
-        clicksOnText.value++;
-        if (clicksOnText.value === 2) {
-            modifyTextActive.value = true;
-            nextTick(() => {
-                textEditor.value.startModifyText(element);
-            });
-        }
-    }
-
-    function stopModifyText() {
-        modifyTextActive.value = false;
-        resetClicksOnText();
-    }
-
-    function resetClicksOnText() {
-        clicksOnText.value = 0;
-    }
 </script>
 
 <template>
@@ -82,15 +62,14 @@
                 :z="value.currentState().z"
                 :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
                 :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
+                :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
                 @mirror-event="mirrorElement"
-                @modify-text-event="startModifyText"
-                @reset-clicks-on-text-event="resetClicksOnText"
             />
             <img :src="border" class="panel__border" />
-            <TextEditor ref="textEditor" v-show="modifyTextActive" @stop-modify-text-event="stopModifyText" />
+            <TextEditor ref="textEditor" v-if="modifyText.clicks == 2" />
         </div>
     </div>
 </template>

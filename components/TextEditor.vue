@@ -1,5 +1,5 @@
 <script setup>
-    const emit = defineEmits(['stopModifyTextEvent']);
+    import { modifyText } from '../stores/modifyText.js';
 
     const textarea = ref(null);
     const fontSizeContainer = ref(null);
@@ -7,8 +7,8 @@
     let fontSize = ref(24);
     let element = ref(null);
 
-    function startModifyText(newElement) {
-        element.value = newElement;
+    function startModifyText() {
+        element.value = modifyText.currentElement;
         textarea.value.focus();
         textValue.value = element.value.currentState().type.content;
         fontSize.value = element.value.currentState().type.fontSize;
@@ -23,7 +23,11 @@
         ) {
             element.value.currentState().type.content = textarea.value.value;
             textarea.value.value = '';
-            emit('stopModifyTextEvent');
+            if (e.key === 'Enter') {
+                modifyText.setClicks(1);
+            } else {
+                modifyText.setClicks(0);
+            }
         }
     }
     function saveText() {
@@ -47,11 +51,9 @@
         fontSize.value = element.value.currentState().type.fontSize;
     }
 
-    defineExpose({
-        startModifyText,
+    onMounted(() => {
+        startModifyText();
     });
-
-    onMounted(() => {});
 </script>
 
 <template>
