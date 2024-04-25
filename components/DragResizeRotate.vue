@@ -9,6 +9,7 @@
         pos: Object,
         isMirroredHorizontal: Boolean,
         isMirroredVertical: Boolean,
+        rotation: Number,
     });
 
     let elementActive = false;
@@ -16,7 +17,7 @@
     let mirroredVertical = ref(props.isMirroredVertical);
 
     // Define reactive variables
-    const angle = ref(0);
+    const angle = ref(props.rotation);
     let self = ref(null);
 
     // computed function to set the mirroring of the image
@@ -39,6 +40,7 @@
         'resizeEvent',
         'mirrorHorizontalEvent',
         'mirrorVerticalEvent',
+        'rotateEvent',
     ]);
 
     function updatePosition(eId) {
@@ -52,6 +54,10 @@
             height: self.value.height,
             pos: { x: self.value.left, y: self.value.top },
         });
+    }
+
+    function updateRotation(eId) {
+        emit('rotateEvent', { eId: eId, rotation: angle.value });
     }
 
     function updateMirroring(eId, direction) {
@@ -96,6 +102,7 @@
         @deactivated="() => (elementActive = false)"
         @dragstop="updatePosition(eId)"
         @resizestop="resize(eId)"
+        @rotatestop="updateRotation(eId)"
     >
         <EditionMenu
             v-if="elementActive"

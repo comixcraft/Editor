@@ -47,6 +47,17 @@
         }
         elements.get(obj.eId).setIsMirroredVertical(obj.isMirrored);
     }
+
+    function updateRotation(obj) {
+        if (!elements.has(obj.eId)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+
+        elements.get(obj.eId).setRotation(obj.rotation);
+
+        console.log(elements.get(obj.eId).currentState().rotation);
+    }
 </script>
 
 <template>
@@ -70,6 +81,7 @@
                 @resize-event="resizeElement"
                 @mirror-horizontal-event="updateMirrorValues"
                 @mirror-vertical-event="updateMirrorValues"
+                @rotate-event="updateRotation"
             />
             <img :src="border" class="panel__border" />
         </div>
