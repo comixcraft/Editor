@@ -1,21 +1,26 @@
 <script setup>
+    import { defineProps, defineEmits } from 'vue';
+
     const props = defineProps({
-        show: { type: Boolean, default: false },
-        buttons: { type: Array, default: () => [] },
+        subCategories: { type: Array },
     });
 
-    const emit = defineEmits(['close', 'buttonClick']);
+    const emit = defineEmits(['subCategorySelected']);
 
-    function handleButtonClick(button) {
-        emit('buttonClick', button);
-    }
+    const selectSubCategory = (subCategory) => {
+        emit('subCategorySelected', subCategory, []);
+    };
 </script>
 
 <template>
-    <div v-if="show" class="sub__overlay">
+    <div class="sub__overlay">
         <div class="sub__navigation">
-            <button v-for="(button, index) in buttons" :key="index" @click="handleButtonClick(button)">
-                {{ button.label }}
+            <button
+                v-for="(subCategory, index) in props.subCategories"
+                :key="index"
+                @click="selectSubCategory(subCategory)"
+            >
+                {{ subCategory.name }}
             </button>
         </div>
         <div class="sub_overlay__content"><slot></slot></div>
@@ -49,5 +54,6 @@
     button:hover {
         background-color: $primary;
         color: white;
+        cursor: pointer;
     }
 </style>

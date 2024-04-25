@@ -15,7 +15,6 @@
 
     let catalogShow = ref(false);
     let selectedCategory = ref({});
-    let selectedCategoryAssets = ref([]);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {

@@ -28,6 +28,11 @@
         });
     }
 
+    function updateSubSelectedCategory(subCategory) {
+        selectedSubCategory.value = subCategory;
+        fetchCatalogElements(subCategory.name);
+    }
+
     onMounted(() => {
         emitCatalogChanged();
     });
@@ -45,6 +50,19 @@
                 }
             "
         />
-        <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+        <div>
+            <CatalogContainer class="catalogContainer" :assets="selectedCategoryAssets"></CatalogContainer>
+        </div>
+        <CatalogSubNavigation
+            :subCategories="selectedCategory.subCategories"
+            @subCategorySelected="updateSubSelectedCategory"
+        ></CatalogSubNavigation>
     </PopupOverlay>
 </template>
+
+<style lang="scss" scoped>
+    .catalogContainer {
+        background-color: $primary;
+        max-height: 600px;
+    }
+</style>
