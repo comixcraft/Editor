@@ -1,7 +1,7 @@
 export default class Strip {
-    // @type {Panel[]}
+    /** @type {Panel[]} */
     _panels;
-    // @type {Number}
+    /** @type {Number} */
     _height;
 
     /**

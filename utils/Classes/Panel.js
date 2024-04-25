@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default class Panel {
-    // @type {String}
+    /** @type {String} */
     _border;
-    // @type {Map<String, ElementDS>}
+    /** @type {Map<String, ElementDS>} */
     _elements;
-    // @type {Number}
+    /** @type {Number} */
     _width;
 
     /**
