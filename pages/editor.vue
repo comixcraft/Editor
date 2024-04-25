@@ -1,3 +1,4 @@
+<!-- CatalogEditor -->
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
     import { ref } from 'vue';
@@ -11,6 +12,10 @@
     const catalogStructure = ref([]);
     const comic = reactive(comicStore.comic);
     const activePanelIndex = ref(0);
+
+    let catalogShow = ref(false);
+    let selectedCategory = ref('');
+    let selectedCategoryAssets = ref([]);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -45,19 +50,20 @@
         fetchCatalogElements();
     });
 
-    let catalogShow = ref(false);
-    let selectedCategory = ref('');
-
-    const updateSelectedCategory = (categoryName, show) => {
-        selectedCategory.value = categoryName;
-        catalogShow.value = show;
-        fetchCatalogElements(selectedCategory.value.name);
-    };
+    function updateSelectedCategory(category, assetsName) {
+        selectedCategory.value = category;
+        console.log('catName', categoryName);
+        console.log('assets', assetsName);
+        selectedCategoryAssets.value = assetsName;
+        catalogShow.value = true;
+        fetchCatalogElements(categoryName, assetsName);
+    }
 </script>
 
 <template>
     <div class="editor__container">
         <!-- <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels> -->
+        <p>home page</p>
         <div>
             <CatalogSearch
                 placeholder="happy, barista, ..."
@@ -85,13 +91,15 @@
         </NuxtLink>
     </button>
 
-    <CatalogNavigation :category="catalogStructure.categories" @categorySelected="updateSelectedCategory" />
+    <CatalogNavigation :categories="catalogStructure.categories" @categorySelected="updateSelectedCategory" />
     <CatalogStructure
         :iconName="iconName"
-        :title="selectedCategory"
+        :title="selectedCategory.name"
         :show="catalogShow"
-        :selectedCatalog="selectedCategory"
+        :selectedCategoryAssets="catalogElements"
+        :selectedCategory="selectedCategory"
         @close="catalogShow = false"
+        @catalogChanged="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
     />
 </template>
 

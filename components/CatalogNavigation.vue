@@ -2,22 +2,23 @@
     import { defineProps, defineEmits } from 'vue';
 
     const props = defineProps({
-        category: { type: Array },
+        categories: { type: Array },
     });
+    let selectedCategoryAssets = ref([]);
 
     const emit = defineEmits(['categorySelected']);
 
-    const selectCategory = (categoryName) => {
-        emit('categorySelected', categoryName, true);
+    const selectCategory = (category) => {
+        console.log('catName from emit:', category.name);
+        console.log('assets form emit:', category.assets);
+        emit('categorySelected', category, []);
     };
 </script>
 
 <template>
-    <div>
-        <button v-for="(category, index) in props.category" :key="index" @click="selectCategory(category.name)">
+    <div class="navigation">
+        <button v-for="(category, index) in props.categories" :key="index" @click="selectCategory(category)">
             {{ category.name }}
         </button>
     </div>
 </template>
-
-<style scoped></style>

@@ -1,3 +1,4 @@
+<!-- PopupOverlay -->
 <template>
     <div>
         <div v-if="show" class="overlay">

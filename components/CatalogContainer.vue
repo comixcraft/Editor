@@ -1,7 +1,9 @@
+<!-- CatalogContainer -->
+
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
 
-    defineProps({
+    const props = defineProps({
         assets: Array,
     });
 
@@ -9,10 +11,10 @@
 
     function addNewElementToDisplay(event) {
         let fixedHeight = 200;
+        console.log(props.assets);
         let name = event.target.alt;
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
-
         // width, height, alt, src
         let tempEl = new ElementDS(width, fixedHeight, name, src);
         emit('addElement', tempEl);

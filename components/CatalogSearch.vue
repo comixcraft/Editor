@@ -1,3 +1,5 @@
+<!-- CatalogSearch -->
+
 <script setup>
     let activeFilters = ref([]);
     let searchTerm = ref('');
