@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import Page from '~/utils/Classes/Page.js';
 import Strip from '~/utils/Classes/Strip.js';
 import Panel from '~/utils/Classes/Panel.js';
 
