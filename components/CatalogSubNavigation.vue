@@ -1,4 +1,5 @@
 <script setup>
+    import iconConfig from '../config/iconsConfig';
     import { defineProps, defineEmits } from 'vue';
 
     const props = defineProps({
@@ -20,6 +21,7 @@
                 :key="index"
                 @click="selectSubCategory(subCategory)"
             >
+                <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
                 {{ subCategory.name }}
             </button>
         </div>
@@ -40,7 +42,7 @@
 
     .sub__navigation {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         box-shadow: 3px;
     }
 
@@ -55,5 +57,9 @@
         background-color: $primary;
         color: white;
         cursor: pointer;
+    }
+
+    span {
+        display: block;
     }
 </style>

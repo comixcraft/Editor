@@ -1,5 +1,5 @@
 <script setup>
-    import { defineProps, defineEmits } from 'vue';
+    import iconConfig from '../config/iconsConfig';
 
     const props = defineProps({
         categories: { type: Array },
@@ -15,6 +15,7 @@
 <template>
     <div class="navigation">
         <button v-for="(category, index) in props.categories" :key="index" @click="selectCategory(category)">
+            <span class="icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}
         </button>
     </div>
@@ -23,5 +24,10 @@
 <style style lang="scss" scoped>
     .navigation {
         position: fixed;
+        display: flex;
+    }
+
+    span {
+        display: block;
     }
 </style>
