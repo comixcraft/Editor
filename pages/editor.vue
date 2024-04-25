@@ -35,7 +35,7 @@
                     <div class="scrollable-nav__item scenes-btn">Scenes</div>
                 </div>
             </div>
-            <div class="placeholder-rectangle">
+            <div class="catalogue-container">
                 <CatalogSearch
                     placeholder="happy, barista, ..."
                     :filters="catalogStructure.categories[0].subCategories[0].filter"
@@ -201,7 +201,7 @@
     .share__top-nav-item {
         color: #fff;
     }
-    .placeholder-rectangle {
+    .catalogue-container {
         display: none;
     }
 
@@ -242,7 +242,7 @@
             overflow-y: auto;
         }
 
-        .placeholder-rectangle {
+        .catalogue-container {
             display: block;
             width: 25vw;
             height: 100vh;

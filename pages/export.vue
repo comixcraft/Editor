@@ -1,9 +1,7 @@
 <template>
     <div class="share">
         <div class="share__top-nav">
-            <NuxtLink to="/editor" class="share__top-nav-item back-btn icon" @click="$emit('back')">
-                arrow_back
-            </NuxtLink>
+            <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
@@ -40,8 +38,6 @@
 </template>
 
 <script setup>
-    defineEmits(['back']);
-
     definePageMeta({
         middleware: ['comic-defined'],
     });
