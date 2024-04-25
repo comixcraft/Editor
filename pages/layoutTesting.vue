@@ -39,53 +39,55 @@
                 <h3>comic panels</h3>
                 <p>A comic panel is a single frame within a comic strip.</p>
                 <div class="comic-panels">
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
+                    <TemplateDisplay
+                        @select-template="selectedComicConfiguration = $event"
+                        v-for="option in templatePanelConfig"
+                        :key="option.title"
+                        :title="option.title"
+                        :preview="option.preview"
+                        :config="option.config"
+                        :selected="option.title === selectedComicConfiguration?.title"
+                    />
                 </div>
                 <h3>comic strips</h3>
                 <p>A comic strip consists of a series of panels.</p>
                 <div class="comic-panels">
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
-                    <div class="single-template"></div>
+                    <TemplateDisplay
+                        @select-template="selectedComicConfiguration = $event"
+                        v-for="option in templateStripConfig"
+                        :key="option.title"
+                        :title="option.title"
+                        :preview="option.preview"
+                        :config="option.config"
+                        :selected="option.title === selectedComicConfiguration?.title"
+                    />
                 </div>
             </div>
-            <button class="start-btn">start crafting</button>
+            <button
+                class="start-btn"
+                @click="createComic(selectedComicConfiguration?.config)"
+                :disabled="!selectedComicConfiguration"
+            >
+                Create Comic
+            </button>
         </div>
     </div>
 </template>
 
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import templatePanelConfig from '/config/templatePanelConfig.js';
+    import templateStripConfig from '/config/templateStripConfig.js';
 
-    const selectedTemplate = ref(null);
+    const comicStore = useComicStore();
 
-    function selectTemplate(template) {
-        if (selectedTemplate.value) {
-            selectedTemplate.value.classList.remove('selected');
-        }
+    let selectedComicConfiguration = ref(null);
 
-        template.classList.add('selected');
-        selectedTemplate.value = template;
+    function createComic(config) {
+        if (!config) return;
+
+        comicStore.createComicWithConfig({ ...config });
+        return navigateTo('/editor');
     }
-
-    onMounted(() => {
-        const templateElements = document.querySelectorAll('.single-template');
-        if (templateElements.length > 0) {
-            selectTemplate(templateElements[0]);
-        }
-        templateElements.forEach((template) => {
-            template.addEventListener('click', () => {
-                selectTemplate(template);
-            });
-        });
-    });
 </script>
 
 <style scoped lang="scss">
@@ -142,8 +144,6 @@
     }
 
     .single-template {
-        padding: 100px;
-        background-color: gray;
         flex: 0 0 auto;
         margin-bottom: $spacer-4;
         cursor: pointer;
