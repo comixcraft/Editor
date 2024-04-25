@@ -1,13 +1,29 @@
 <template>
     <div class="editor">
         <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">arrow_back</div>
+            <div class="top-nav__item back-btn icon">
+                <NuxtLink
+                    :to="{ name: 'index', path: '/index' }"
+                    class="share__top-nav-item back-btn icon"
+                    @click="$emit('back')"
+                >
+                    arrow_back
+                </NuxtLink>
+            </div>
             <div class="top-nav__item undo-btn icon" @click="$emit('undo')">undo</div>
             <div class="top-nav__item redo-btn icon" @click="$emit('redo')">redo</div>
             <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
             <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
             <!-- make nuxt link -->
-            <div class="top-nav__item export-btn icon" @click="$emit('export')">download</div>
+            <div class="top-nav__item export-btn icon" @click="$emit('export')">
+                <NuxtLink
+                    :to="{
+                        name: 'export',
+                        path: '/export',
+                    }"
+                    >export
+                </NuxtLink>
+            </div>
         </div>
 
         <div class="editor__canvas">
@@ -158,18 +174,18 @@
     .swiping-area {
         display: flex;
         justify-content: center;
-        margin-top: 20px; /* Adjust as needed */
+        margin-top: 20px;
     }
 
     .swiping-indicator {
-        width: 30px; /* Adjust as needed */
-        height: 30px; /* Adjust as needed */
-        background-color: #ccc; /* Adjust as needed */
+        width: 30px;
+        height: 30px;
+        background-color: #ccc;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0 10px; /* Adjust as needed */
-        border-radius: 5px; /* Adjust as needed */
+        margin: 0 10px;
+        border-radius: 5px;
     }
 
     .swiping-triggers {
@@ -207,7 +223,7 @@
     .layer-container {
         display: flex;
         justify-content: center;
-        align-items: center; /* Center items vertically */
+        align-items: center;
     }
 
     .layer {
@@ -215,8 +231,8 @@
         width: 90vw;
         background-color: #ccc;
         margin-top: $spacer-4;
-        display: flex; /* To make items within .layer align in a row */
-        align-items: center; /* Center items vertically */
+        display: flex;
+        align-items: center;
     }
 
     .asset-image {
@@ -234,11 +250,11 @@
     .chevrons {
         display: flex;
         flex-direction: column;
-        margin-left: auto; /* Push chevrons to the right */
+        margin-left: auto;
     }
 
     .layer-text {
-        margin: 0; /* Remove default margin from paragraph */
+        margin: 0;
     }
 
     .bottom-nav__container {
@@ -246,8 +262,12 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: #fff; // Set background color as needed
-        z-index: 1000; // Ensure it's above other content
+        background-color: #fff;
+        z-index: 1000;
+    }
+
+    .share__top-nav-item {
+        color: #fff;
     }
 
     @include media-breakpoint-up(lg) {
@@ -258,7 +278,7 @@
             height: 100vh;
         }
         .mobile {
-            display: none; /* Hide small circles for desktop screens */
+            display: none;
         }
         .centered-grey-div {
             background-color: #ccc;
@@ -275,11 +295,11 @@
         }
         .bottom-nav__container {
             position: absolute;
-            top: 80px; /* Adjust as needed to place it below the top navigation */
+            top: 80px;
             left: 0;
-            width: 200px; /* Adjust the width as needed */
-            background-color: #fff; /* Set background color as needed */
-            z-index: 1000; /* Ensure it's above other content */
+            width: 200px;
+            background-color: #fff;
+            z-index: 1000;
         }
 
         .bottom-nav__scrollable-nav {
@@ -294,13 +314,13 @@
         }
 
         .placeholder-rectangle {
-            width: 25vw; // Adjust width to match side navigation width
-            height: calc(100vh - 80px); // Adjust height to match available viewport height
-            background-color: #ccc; // Set background color as needed
-            position: fixed;
-            top: 80px; // Adjust as needed to account for top navigation height
-            left: 200px; // Position it to the right of the side navigation
-            z-index: 900; // Ensure it's behind side navigation
+            width: 25vw;
+            height: 100vh;
+            background-color: #ccc;
+            position: absolute;
+            top: 0px;
+            left: 200px;
+            z-index: 900;
         }
     }
 
