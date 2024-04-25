@@ -46,9 +46,8 @@
         let fixedHeight = 200;
         let src = '';
         let width = 200;
-        let availableInteger = 1;
-        let name = 'text' + availableInteger;
-        let type = new Text(name, 24, 'nunito');
+        let name = 'New text.';
+        let type = new Text(name, 24, 'Pangolin');
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         addElementToActivePanel(tempEl);
     }

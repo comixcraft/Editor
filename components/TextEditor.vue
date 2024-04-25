@@ -1,6 +1,4 @@
 <script setup>
-    import { ref } from 'vue';
-
     const emit = defineEmits(['stopModifyTextEvent']);
 
     const textarea = ref(null);
@@ -57,9 +55,9 @@
 </script>
 
 <template>
-    <div class="textEditor__container" @click="stopModifyText">
+    <div class="text-editor" @click="stopModifyText">
         <textarea
-            class="textEditor"
+            class="text-editor__textarea"
             tabindex="0"
             rows="4"
             ref="textarea"
@@ -69,16 +67,16 @@
             @keydown.enter="enterText"
         ></textarea>
 
-        <div class="fontSize__container" ref="fontSizeContainer">
-            <button class="fontSize__button" @click="decreaseFont">-</button>
-            <p class="fontSize">{{ fontSize }}px</p>
-            <button class="fontSize__button" @click="increaseFont">+</button>
+        <div class="font-size" ref="fontSizeContainer">
+            <button class="font-size__button" @click="decreaseFont">-</button>
+            <p class="font-size__text">{{ fontSize }}px</p>
+            <button class="font-size__button" @click="increaseFont">+</button>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-    .textEditor__container {
+    .text-editor {
         position: relative;
         left: 0;
         top: 0;
@@ -88,34 +86,34 @@
         justify-items: center;
         align-items: center;
         z-index: 100;
-        background-color: rgba(184 184 184 / 0.5);
+        background-color: rgba(112 112 112 / 0.5);
 
-        .textEditor {
+        &__textarea {
             max-width: 350px;
         }
-        .fontSize__container {
-            background-color: white;
+        .font-size {
+            background-color: $white;
             display: grid;
             align-self: end;
             grid-template-columns: repeat(3, auto);
-            border: 1px black solid;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
+            border: $border-width $black solid;
+            border-radius: $border-radius;
+            margin-bottom: $spacer-2;
 
-            .fontSize__button {
+            &__button {
                 background: none;
                 border: none;
-                padding: 0.25rem 0.5rem;
+                padding: $spacer-2 $spacer-3;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #f1f1f1;
+                    background-color: $grey-40;
                 }
             }
 
-            .fontSize {
+            &__text {
                 margin: 0;
-                padding: 0.25rem 0.5rem;
+                padding: $spacer-2 $spacer-3;
             }
         }
     }
