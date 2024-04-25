@@ -50,8 +50,8 @@
                 }
             "
         />
-        <div>
-            <CatalogContainer class="catalogContainer" :assets="selectedCategoryAssets"></CatalogContainer>
+        <div class="catalogContainer">
+            <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
         </div>
         <CatalogSubNavigation
             :subCategories="selectedCategory.subCategories"
@@ -62,7 +62,6 @@
 
 <style lang="scss" scoped>
     .catalogContainer {
-        background-color: $primary;
-        max-height: 600px;
+        border: none;
     }
 </style>
