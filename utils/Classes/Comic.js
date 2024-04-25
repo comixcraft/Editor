@@ -13,7 +13,7 @@ export default class Comic {
      * @param {String} title
      * @param {String} creatorName
      */
-    constructor(name, title, creatorName) {
+    constructor(name = 'undefined', title = 'undefined', creatorName = 'undefined') {
         this._name = name;
         this._title = title;
         this._creatorName = creatorName;

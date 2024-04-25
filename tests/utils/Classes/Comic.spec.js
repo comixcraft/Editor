@@ -6,9 +6,9 @@ describe('Comic', () => {
     it('creates an empty comic', () => {
         const sut = new Comic();
 
-        expect(sut.name).toBeUndefined();
-        expect(sut.title).toBeUndefined();
-        expect(sut.creatorName).toBeUndefined();
+        expect(sut.name).toBe('undefined');
+        expect(sut.title).toBe('undefined');
+        expect(sut.creatorName).toBe('undefined');
         expect(sut.pages).toStrictEqual([]);
     });
 
