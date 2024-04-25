@@ -1,39 +1,61 @@
 export default class Text {
+    /** @type {String} */
     _content;
+    /** @type {Number} */
     _fontSize;
-    _fontFamily;
-    _fontWeight;
+    /** @type {String} */
+    _fontFamily = 'sans-serif';
+    /** @type {Number} */
+    _fontWeight = 400;
 
-    constructor(content, fontSize) {
+    /**
+     * @param {String} content
+     * @param {Number} fontSize
+     */
+    constructor(content = 'undefined', fontSize = 16) {
         this._content = content;
         this._fontSize = fontSize;
     }
 
     // GETTERS
+    /** @returns {String} */
     get content() {
         return this._content;
     }
+
+    /** @returns {Number} */
     get fontSize() {
         return this._fontSize;
     }
+
+    /** @returns {String} */
     get fontFamily() {
         return this._fontFamily;
     }
+
+    /** @returns {Number} */
     get fontWeight() {
         return this._fontWeight;
     }
 
     // SETTERS
-    set content(c) {
-        this._content = c;
+    /** @param {String} content */
+    set content(content) {
+        this._content = content;
     }
-    set fontSize(fS) {
-        this._fontSize = fS;
+
+    /** @param {Number} fontSize */
+    set fontSize(fontSize) {
+        this._fontSize = fontSize;
     }
-    set fontFamily(fF) {
-        this._fontFamily = fF;
+
+    /** @param {String} fontFamily */
+    set fontFamily(fontFamily) {
+        this._fontFamily = fontFamily;
     }
-    set fontWeight(fW) {
-        this._fontWeight = fW;
+
+    /** @param {Number} fontWeight */
+    set fontWeight(fontWeight) {
+        this._fontWeight = fontWeight;
     }
 }
