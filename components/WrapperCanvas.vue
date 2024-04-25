@@ -10,53 +10,42 @@
     let elements = props.panel.elements;
     const border = props.panel.border;
 
-    function deleteElement(id) {
+    function deleteElement(eId) {
         // delete last element of map
-        props.panel.deleteElement(id);
-
-        console.log(props.panel.elements);
+        props.panel.deleteElement(eId);
     }
 
     function resizeElement(obj) {
-        if (!elements.has(obj.id)) {
+        if (!elements.has(obj.eId)) {
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
-        elements.get(obj.id).setWidth(obj.width);
-        elements.get(obj.id).setHeight(obj.height);
+        elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.eId).setWidth(obj.width);
+        elements.get(obj.eId).setHeight(obj.height);
+
+        console.log(elements.get(obj.eId).currentState().width, elements.get(obj.eId).currentState().height);
     }
 
     function updatePosition(obj) {
-        if (!elements.has(obj.id)) {
+        if (!elements.has(obj.eId)) {
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
-    function mirrorElementHorizontal(obj) {
-        if (!elements.has(obj.id)) {
+    function updateMirrorValues(obj) {
+        if (!elements.has(obj.eId)) {
             console.log('Error in passing the element id');
             return;
         }
-        elements.get(obj.id).setIsMirroredHorizontal(obj.mirror);
-    }
 
-    function mirrorElementVertical(obj) {
-        if (!elements.has(obj.id)) {
-            console.log('Error in passing the element id');
+        if (obj.direction === 'x') {
+            elements.get(obj.eId).setIsMirroredHorizontal(obj.isMirrored);
             return;
         }
-        elements.get(obj.id).setIsMirroredVertical(obj.mirror);
-    }
-
-    function rotateElement(obj) {
-        if (!elements.has(obj.id)) {
-            console.log('Error in passing the element id');
-            return;
-        }
-        elements.get(obj.id).setRotation(obj.rotation);
+        elements.get(obj.eId).setIsMirroredVertical(obj.isMirrored);
     }
 </script>
 
@@ -79,10 +68,8 @@
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
-                @mirror-horizontal-event="mirrorElementHorizontal"
-                @mirror-vertical-event="mirrorElementVertical"
-                @rotate-left-event="rotateElement"
-                @rotate-right-event="rotateElement"
+                @mirror-horizontal-event="updateMirrorValues"
+                @mirror-vertical-event="updateMirrorValues"
             />
             <img :src="border" class="panel__border" />
         </div>

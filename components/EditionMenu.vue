@@ -5,7 +5,7 @@
         url: String,
     });
 
-    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent', 'rotateLeftEvent', 'rotateRightEvent']);
+    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);
 </script>
 
 <template>
@@ -14,20 +14,11 @@
             <div class="edit-icon edit-icon__top icon" @click="$emit('deleteEvent')">delete</div>
             <div class="edit-icon edit-icon__top icon">flip_to_back</div>
             <div class="edit-icon edit-icon__top icon">flip_to_front</div>
+            <div class="edit-icon edit-icon__top icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
             <div
-                class="edit-icon edit-icon__top icon"
-                :class="{ 'edit-icon--active': showMore }"
-                @click="showMore = !showMore"
+                class="edit-icon edit-icon__top edit-icon:lastChild edit-icon--flipped icon"
+                @click="$emit('mirrorVerticalEvent')"
             >
-                more_vert
-            </div>
-        </div>
-
-        <div v-if="showMore" class="icon-container icon-container__right">
-            <div class="edit-icon edit-icon__right icon" @click="$emit('rotateLeftEvent')">rotate_90_degrees_ccw</div>
-            <div class="edit-icon edit-icon__right icon" @click="$emit('rotateRightEvent')">rotate_90_degrees_cw</div>
-            <div class="edit-icon edit-icon__right icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
-            <div class="edit-icon edit-icon__right edit-icon--flipped icon" @click="$emit('mirrorVerticalEvent')">
                 flip
             </div>
         </div>
@@ -43,19 +34,10 @@
         border: $border-width solid $light-grey-100;
         border-radius: $border-radius;
         background-color: $white;
-
-        &__top {
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: 1fr;
-            right: 0;
-            top: -60px;
-        }
-
-        &__right {
-            grid-template-rows: repeat(4, 1fr);
-            grid-template-columns: 1fr;
-            right: -65px;
-        }
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 1fr;
+        right: 0px;
+        top: -85px;
     }
 
     .edit-icon {
@@ -67,10 +49,6 @@
             border-right: $border-width solid $light-grey-100;
         }
 
-        &__right {
-            border-bottom: $border-width solid $light-grey-100;
-        }
-
         &:last-child {
             border-right: none;
             border-bottom: none;
@@ -78,10 +56,6 @@
 
         &--flipped {
             transform: rotate(-90deg);
-        }
-
-        &--active {
-            background-color: $light-grey-100;
         }
     }
 </style>
