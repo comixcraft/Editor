@@ -3,7 +3,7 @@
     import { defineProps } from 'vue';
 
     const emit = defineEmits(['catalogChanged']);
-    const selectedSubCategory = ref({});
+    const selectedSubCategory = ref([]);
     const selectedFilter = ref([]);
 
     const props = defineProps({
