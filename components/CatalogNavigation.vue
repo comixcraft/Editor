@@ -8,7 +8,7 @@
     const emit = defineEmits(['categorySelected']);
 
     const selectCategory = (category) => {
-        emit('categorySelected', category);
+        emit('categorySelected', category, []);
     };
 </script>
 
@@ -19,3 +19,9 @@
         </button>
     </div>
 </template>
+
+<style style lang="scss" scoped>
+    .navigation {
+        position: fixed;
+    }
+</style>
