@@ -48,6 +48,9 @@
                 // Move the rotation point to the center of the image
                 context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
 
+                // Rotate the canvas to the specified degrees
+                context.rotate((currentState.rotation * Math.PI) / 180);
+
                 // Mirror the canvas around the x-axis or y-axis if necessary
                 if (currentState.isMirroredHorizontal) {
                     context.scale(-1, 1);
@@ -55,9 +58,6 @@
                 if (currentState.isMirroredVertical) {
                     context.scale(1, -1);
                 }
-
-                // Rotate the canvas to the specified degrees
-                context.rotate((currentState.rotation * Math.PI) / 180);
 
                 // Draw the image
                 context.drawImage(
