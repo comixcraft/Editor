@@ -1,42 +1,3 @@
-<template>
-    <div class="share">
-        <div class="share__top-nav">
-            <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
-            <div class="share__top-nav-item download-txt">Download Comic</div>
-        </div>
-        <div class="share__body">
-            <div class="share__input-group">
-                <label class="share__input-group-label" for="project-name">Project Name:</label>
-                <input
-                    class="share__input-group-input"
-                    type="text"
-                    id="project-name"
-                    placeholder="Enter project name"
-                />
-            </div>
-            <div class="share__input-group">
-                <label class="share__input-group-label" for="file-type">File Type:</label>
-                <select class="file-type-select">
-                    <option value="png">PNG</option>
-                </select>
-            </div>
-            <div class="share__input-group">
-                <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                <select class="file-type-select">
-                    <option value="1">All panels</option>
-                </select>
-            </div>
-            <div ref="previewCanvas" class="preview__container">
-                <h3>Preview:</h3>
-                <canvas ref="canvasEl" class="preview__canvas"></canvas>
-            </div>
-        </div>
-        <div class="share__confirm">
-            <button class="share__confirm-btn" @click="download">download</button>
-        </div>
-    </div>
-</template>
-
 <script setup>
     definePageMeta({
         middleware: ['comic-defined'],
@@ -156,6 +117,45 @@
         displayPreview();
     });
 </script>
+
+<template>
+    <div class="share">
+        <div class="share__top-nav">
+            <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
+            <div class="share__top-nav-item download-txt">Download Comic</div>
+        </div>
+        <div class="share__body">
+            <div class="share__input-group">
+                <label class="share__input-group-label" for="project-name">Project Name:</label>
+                <input
+                    class="share__input-group-input"
+                    type="text"
+                    id="project-name"
+                    placeholder="Enter project name"
+                />
+            </div>
+            <div class="share__input-group">
+                <label class="share__input-group-label" for="file-type">File Type:</label>
+                <select class="file-type-select">
+                    <option value="png">PNG</option>
+                </select>
+            </div>
+            <div class="share__input-group">
+                <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                <select class="file-type-select">
+                    <option value="1">All panels</option>
+                </select>
+            </div>
+            <div ref="previewCanvas" class="preview__container">
+                <h3>Preview:</h3>
+                <canvas ref="canvasEl" class="preview__canvas"></canvas>
+            </div>
+        </div>
+        <div class="share__confirm">
+            <button class="share__confirm-btn" @click="download">download</button>
+        </div>
+    </div>
+</template>
 
 <style scoped lang="scss">
     .share__top-nav {
