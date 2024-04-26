@@ -161,7 +161,7 @@
     }
 
     .element--active {
-        border: 1px solid black;
+        border: $border-width solid $info;
     }
 
     .mirror {
