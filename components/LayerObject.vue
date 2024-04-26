@@ -1,10 +1,10 @@
 <template>
     <div class="layer">
         <div class="asset-image"></div>
-        <p class="layer-text">layer 1</p>
+        <p class="layer-text">Layer 1</p>
         <div class="chevrons">
-            <div class="expand-less icon">expand_less</div>
-            <div class="expand-more icon">expand_more</div>
+            <button class="expand-less icon icon-btn">expand_less</button>
+            <button class="expand-more icon icon-btn">expand_more</button>
         </div>
     </div>
     <ScreenOverlay title="Layers" :show="layersShow">
@@ -19,7 +19,8 @@
     .layer {
         padding: $spacer-3;
         width: 90vw;
-        background-color: #ccc;
+        border: $primary 1px solid;
+        border-radius: $border-radius;
         margin-top: $spacer-4;
         display: flex;
         align-items: center;
@@ -28,8 +29,8 @@
     .asset-image {
         width: 60px;
         height: 60px;
-        background-color: white;
-        margin-right: 10px; /* Adjust margin between images as needed */
+        background-color: $primary-30;
+        margin-right: 10px;
     }
 
     .layer-content {
@@ -45,5 +46,16 @@
 
     .layer-text {
         margin: 0;
+    }
+
+    .icon-btn {
+        border: none;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        border-radius: $border-radius;
+        vertical-align: middle;
+        background-color: transparent;
+        color: $grey-80;
     }
 </style>
