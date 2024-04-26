@@ -12,9 +12,9 @@ export default class Text {
      * @param {String} content
      * @param {Number} fontSize
      */
-    constructor(content = 'undefined', fontSize = 16) {
-        this._content = content;
-        this._fontSize = fontSize;
+    constructor(content = null, fontSize = null) {
+        this._content = content ?? 'undefined';
+        this._fontSize = fontSize ?? 16;
     }
 
     // GETTERS

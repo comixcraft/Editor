@@ -7,10 +7,14 @@ import Panel from '~/utils/Classes/Panel.js';
 export const useComicStore = defineStore('comic', () => {
     const comic = new Comic(null, null, null);
 
+    /**
+     * @param {{height:Number, panels:{width: Number, border:String}[]}}config
+     * @returns {Comic}
+     */
     function createComicWithConfig(config) {
         const strip = new Strip(config.height);
 
-        config.panels.forEach((panel) => {
+        config.panels?.forEach((panel) => {
             strip.addPanelToStrip(new Panel(panel.width, panel.border));
         });
 

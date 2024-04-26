@@ -8,9 +8,9 @@ export default class Position {
      * @param {Number} x
      * @param {Number} y
      */
-    constructor(x = 0, y = 0) {
-        this._x = x;
-        this._y = y;
+    constructor(x = null, y = null) {
+        this._x = x ?? 0;
+        this._y = y ?? 0;
     }
 
     // GETTERS

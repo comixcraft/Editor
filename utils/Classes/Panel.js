@@ -12,9 +12,9 @@ export default class Panel {
      * @param {Number} width
      * @param {String} border
      */
-    constructor(width = 0, border = 'undefined') {
-        this._width = width;
-        this._border = border;
+    constructor(width = null, border = null) {
+        this._width = width ?? 0;
+        this._border = border ?? 'undefined';
 
         this.#init();
     }

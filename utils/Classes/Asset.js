@@ -9,8 +9,8 @@ export default class Asset {
     /**
      * @param {String} path
      */
-    constructor(path = 'undefined') {
-        this._path = path;
+    constructor(path = null) {
+        this._path = path ?? 'undefined';
         this._id = uuidv4();
     }
 

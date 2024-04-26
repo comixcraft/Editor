@@ -7,8 +7,8 @@ export default class Strip {
     /**
      * @param {Number} height
      */
-    constructor(height = 0) {
-        this._height = height;
+    constructor(height = null) {
+        this._height = height ?? 0;
         this.#init();
     }
 
