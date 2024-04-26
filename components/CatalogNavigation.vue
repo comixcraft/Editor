@@ -25,6 +25,7 @@
     .navigation {
         position: fixed;
         display: flex;
+        flex-direction: column;
     }
 
     span {

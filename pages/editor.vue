@@ -19,6 +19,20 @@
                     >export
                 </NuxtLink>
             </div>
+
+            <div class="editor__container">
+                <!-- <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"> </ComicPanels> -->
+            </div>
+            <button>
+                <NuxtLink
+                    :to="{
+                        name: 'export',
+                        path: '/export',
+                    }"
+                >
+                    See Preview
+                </NuxtLink>
+            </button>
         </div>
 
         <div class="editor__canvas">
@@ -28,29 +42,22 @@
         <div class="bottom-nav__container">
             <div class="editor__bottom-nav">
                 <div class="bottom-nav__scrollable-nav">
-                    <div class="scrollable-nav__item characters-btn">Characters</div>
-                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
-                    <div class="scrollable-nav__item text-btn">Text</div>
-                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
-                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
+                    <CatalogNavigation
+                        :categories="catalogStructure.categories"
+                        @categorySelected="updateSelectedCategory"
+                    />
+                    <CatalogStructure
+                        :title="selectedCategory.name"
+                        :show="catalogShow"
+                        :selectedCategoryAssets="catalogElements"
+                        :selectedCategory="selectedCategory"
+                        @close="catalogShow = false"
+                        @add-element="addElementToActivePanel"
+                        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                    />
                 </div>
             </div>
-            <div class="catalogue-container">
-                <CatalogSearch
-                    placeholder="happy, barista, ..."
-                    :filters="catalogStructure.categories[0].subCategories[0].filter"
-                    @search="
-                        (selectedFilter) => {
-                            fetchCatalogElements(
-                                catalogStructure.categories[0].name,
-                                catalogStructure.categories[0].subCategories[0].name,
-                                selectedFilter
-                            );
-                        }
-                    "
-                />
-                <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
-            </div>
+            <div class="catalogue-container"></div>
         </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
@@ -138,39 +145,7 @@
         justify-content: center;
         align-items: center;
     }
-    <template
-        > <div
-        class='editor__container'
-        > <ComicPanels
-        :comic='comic'
-        @active-panel-change='activePanelIndex = $event'
-        > </ComicPanels
-        > </div
-        > <button
-        > <NuxtLink
-        :to="{
-                name: 'export',
-                path: '/export',
-            }"
-        > See
-        Preview
-        </NuxtLink
-        > </button
-        > <CatalogNavigation
-        :categories='catalogStructure.categories'
-        @categorySelected='updateSelectedCategory'
-        /
-        > <CatalogStructure
-        :title='selectedCategory.name'
-        :show='catalogShow'
-        :selectedcategoryassets='catalogElements'
-        :selectedcategory='selectedCategory'
-        @close='catalogShow = false'
-        @add-element='addElementToActivePanel'
-        @catalog-changed='(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)'
-        /
-        > </template
-        > .editor__top-nav {
+    .editor__top-nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
