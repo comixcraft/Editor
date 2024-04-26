@@ -17,32 +17,14 @@
     let tL, tR, bR, bL;
     let isRotating = ref(false);
 
-    // Define reactive variables (const first, let after)
+    // Define reactive variables
+    const angle = ref(props.rotation);
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
-    const angle = ref(props.rotation);
     let self = ref(null);
-
     let center = reactive({
         x: undefined,
         y: undefined,
-    });
-
-    onMounted(() => {
-        center = getCenter();
-    });
-
-    let editionMenuStyle = computed(() => ({
-        transform: `rotate(${-angle.value}deg)`,
-    }));
-
-    // computed function to set the mirroring of the image
-    const setMirroredHorizontal = computed(() => {
-        return mirroredHorizontal.value ? '-1' : '1';
-    });
-
-    const setMirroredVertical = computed(() => {
-        return mirroredVertical.value ? '-1' : '1';
     });
 
     // Define emits
@@ -54,6 +36,24 @@
         'mirrorVerticalEvent',
         'rotateEvent',
     ]);
+
+    // onMounted functions
+    onMounted(() => {
+        center = getCenter();
+    });
+
+    // computed functions
+    const editionMenuStyle = computed(() => ({
+        transform: `rotate(${-angle.value}deg)`,
+    }));
+
+    const setMirroredHorizontal = computed(() => {
+        return mirroredHorizontal.value ? '-1' : '1';
+    });
+
+    const setMirroredVertical = computed(() => {
+        return mirroredVertical.value ? '-1' : '1';
+    });
 
     // Define functions
     function rotating(val) {

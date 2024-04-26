@@ -6,9 +6,8 @@
 
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
-
-    let elements = props.panel.elements;
     const border = props.panel.border;
+    let elements = props.panel.elements;
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
