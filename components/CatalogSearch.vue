@@ -137,6 +137,7 @@
 
         &__input {
             flex-grow: 1;
+            height: 40px;
         }
 
         &__tune {

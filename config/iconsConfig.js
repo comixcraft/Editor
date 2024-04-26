@@ -22,6 +22,13 @@ iconConfig.set('Caption Boxes', 'subtitles');
 iconConfig.set('Background', 'source_environment');
 iconConfig.set('Items', 'local_cafe');
 
+// Icons for catalog sub navigation - SPEECH BUBBLE
+iconConfig.set('Arrows', 'arrow_upward');
+iconConfig.set('Circles', 'radio_button_unchecked');
+iconConfig.set('Rectangles', 'crop_7_5');
+iconConfig.set('Lines', 'maximize');
+iconConfig.set('Others', 'shapes');
+
 console.log();
 
 export default iconConfig;
