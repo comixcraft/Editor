@@ -20,6 +20,7 @@
         "nuxt-swiper": "^1.2.2",
         "pinia": "^2.1.7",
         "sass": "^1.74.1",
+        "swiper": "^11.1.1",
         "uuid": "^9.0.1",
         "vue": "^3.4.21",
         "vue-draggable-resizable": "^3.0.0",

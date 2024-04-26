@@ -69,7 +69,7 @@
                 @mirror-event="mirrorElement"
             />
             <img :src="border" class="panel__border" />
-            <TextEditor ref="textEditor" v-if="modifyText.clicks == 2" />
+            <TextEditor ref="textEditor" v-if="modifyText.currentElement != null" />
         </div>
     </div>
 </template>

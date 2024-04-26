@@ -23,11 +23,7 @@
         ) {
             element.value.currentState().type.content = textarea.value.value;
             textarea.value.value = '';
-            if (e.key === 'Enter') {
-                modifyText.setClicks(1);
-            } else {
-                modifyText.setClicks(0);
-            }
+            modifyText.setCurrentElement(null);
         }
     }
     function saveText() {

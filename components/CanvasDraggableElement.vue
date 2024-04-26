@@ -22,7 +22,6 @@
     const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
     function updatePosition(eId) {
-        modifyText.setClicks(0);
         emit('updateEvent', { id: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
@@ -46,17 +45,6 @@
 
     function deactivate() {
         elementActive = false;
-        // needed to let the text editor save the text before closing
-        setTimeout(() => {
-            modifyText.setClicks(0);
-        }, 100);
-    }
-
-    function startModifyText() {
-        modifyText.incrementClicks();
-        if (modifyText.clicks === 2) {
-            modifyText.setCurrentElement(props.element);
-        }
     }
 </script>
 
@@ -82,7 +70,7 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <div tabindex="-1" class="text" v-if="fontSize != 0" @click="startModifyText">
+        <div tabindex="-1" class="text" v-if="fontSize != 0" @dblclick="modifyText.setCurrentElement(props.element)">
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
                 {{ text }}
             </p>
