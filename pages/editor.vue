@@ -1,23 +1,44 @@
 <template>
     <div class="editor">
         <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">
-                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                    arrow_back
-                </NuxtLink>
+            <div class="editor__top-nav__left-btns">
+                <button class="top-nav__item back-btn icon icon-btn">
+                    <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                        arrow_back
+                    </NuxtLink>
+                </button>
+                <div class="undo-redo-container">
+                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
+                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                </div>
             </div>
-            <div class="top-nav__item undo-btn icon">undo</div>
-            <div class="top-nav__item redo-btn icon">redo</div>
-            <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
-            <div class="top-nav__item export-btn icon">
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                    >export
-                </NuxtLink>
+
+            <div class="editor__top-nav__left-btns">
+                <div class="top-nav__item preview-btn">
+                    <button @click="layersShow = true" class="secondary-btn">
+                        <div class="icon">stacks</div>
+                        <span class="display-none">Layers</span>
+                    </button>
+                </div>
+                <div class="top-nav__item layer-btn">
+                    <button @click="previewShow = true" class="secondary-btn">
+                        <div class="icon">preview</div>
+                        <span class="display-none"> Preview </span>
+                    </button>
+                </div>
+                <div class="top-nav__item export-btn">
+                    <button class="secondary-btn">
+                        <NuxtLink
+                            :to="{
+                                name: 'export',
+                                path: '/export',
+                            }"
+                        >
+                            <div class="icon">download</div>
+                            <span class="display-none"> Download</span>
+                        </NuxtLink>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -119,6 +140,39 @@
 </script>
 
 <style scoped lang="scss">
+    .secondary-btn {
+        border: none;
+        background-color: transparent;
+        color: white;
+        column-gap: $spacer-1;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .secondary-btn a {
+        text-decoration: none;
+        color: white;
+        display: flex;
+        column-gap: $spacer-1;
+    }
+
+    .icon-btn {
+        border: none;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        border-radius: $border-radius;
+        vertical-align: middle;
+        background-color: transparent;
+        color: white;
+    }
+
+    .display-none {
+        display: none;
+    }
+
     .layer-background {
         width: 100vw;
         height: 100vh;
@@ -138,7 +192,20 @@
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
         height: 80px;
         margin: 0;
+        padding: 0 $spacer-3;
     }
+
+    .editor__top-nav__left-btns {
+        display: flex;
+        column-gap: $spacer-3;
+    }
+
+    .undo-redo-container {
+        display: flex;
+        column-gap: $spacer-1;
+        color: $white;
+    }
+
     .editor__canvas {
         display: flex;
         align-items: center;
@@ -200,18 +267,44 @@
 
     .share__top-nav-item {
         color: #fff;
+        text-decoration: none;
     }
+
     .catalogue-container {
         display: none;
     }
 
     @include media-breakpoint-up(lg) {
+        .secondary-btn {
+            display: flex;
+            column-gap: $spacer-1;
+            width: 100%;
+            height: 100%;
+            padding: $spacer-3 $spacer-5;
+        }
+
         .editor__top-nav {
+            padding: 0 $spacer-4;
             z-index: 999999;
         }
+
+        .display-none {
+            display: block;
+        }
+
+        .editor__top-nav__left-btns {
+            display: flex;
+            column-gap: $spacer-6;
+        }
+
+        .undo-redo-container {
+            column-gap: $spacer-4;
+        }
+
         .editor__bottom-nav {
             height: 100vh;
         }
+
         .mobile {
             display: none;
         }
@@ -222,6 +315,7 @@
             justify-content: right;
             padding: $spacer-4;
         }
+
         .bottom-nav__container {
             position: absolute;
             top: 80px;
@@ -237,6 +331,7 @@
             padding: 20px;
             gap: 10px;
         }
+
         .bottom-nav__scrollable-nav {
             display: flex;
             overflow-y: auto;
