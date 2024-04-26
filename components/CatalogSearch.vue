@@ -121,6 +121,9 @@
         }
     }
 
+    .icon.pill__close {
+        font-size: 15px;
+    }
     .search {
         position: relative;
         display: flex;
