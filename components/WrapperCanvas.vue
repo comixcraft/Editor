@@ -23,8 +23,6 @@
         elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
         elements.get(obj.eId).setWidth(obj.width);
         elements.get(obj.eId).setHeight(obj.height);
-
-        console.log(elements.get(obj.eId).currentState().width, elements.get(obj.eId).currentState().height);
     }
 
     function updatePosition(obj) {
@@ -55,8 +53,6 @@
         }
 
         elements.get(obj.eId).setRotation(obj.rotation);
-
-        console.log(elements.get(obj.eId).currentState().rotation);
     }
 </script>
 

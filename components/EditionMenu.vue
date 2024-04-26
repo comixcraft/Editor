@@ -10,15 +10,12 @@
 
 <template>
     <div>
-        <div class="icon-container icon-container__top">
-            <div class="edit-icon edit-icon__top icon" @click="$emit('deleteEvent')">delete</div>
-            <div class="edit-icon edit-icon__top icon">flip_to_back</div>
-            <div class="edit-icon edit-icon__top icon">flip_to_front</div>
-            <div class="edit-icon edit-icon__top icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
-            <div
-                class="edit-icon edit-icon__top edit-icon:lastChild edit-icon--flipped icon"
-                @click="$emit('mirrorVerticalEvent')"
-            >
+        <div class="icon-container">
+            <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
+            <div class="edit-icon icon">flip_to_back</div>
+            <div class="edit-icon icon">flip_to_front</div>
+            <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
+            <div class="edit-icon edit-icon:lastChild edit-icon--flipped icon" @click="$emit('mirrorVerticalEvent')">
                 flip
             </div>
         </div>
@@ -34,23 +31,19 @@
         border: $border-width solid $light-grey-100;
         border-radius: $border-radius;
         background-color: $white;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: 1fr;
-        right: 0px;
-        top: -85px;
+        grid-template-rows: repeat(5, 1fr);
+        grid-template-columns: 1fr;
+        right: -85px;
+        top: 0px;
     }
 
     .edit-icon {
         padding: $spacer-1 $spacer-2;
         user-select: none;
         cursor: pointer;
-
-        &__top {
-            border-right: $border-width solid $light-grey-100;
-        }
+        border-bottom: $border-width solid $light-grey-100;
 
         &:last-child {
-            border-right: none;
             border-bottom: none;
         }
 
