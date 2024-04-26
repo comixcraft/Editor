@@ -1,6 +1,4 @@
 <script setup>
-    import { modifyText } from '../stores/modifyText.js';
-
     const props = defineProps({
         z: Number,
         w: Number,
@@ -15,6 +13,7 @@
         element: Object,
     });
 
+    const comicStore = useComicStore();
     let elementActive = false;
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
@@ -70,7 +69,7 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <div tabindex="-1" class="text" v-if="fontSize != 0" @dblclick="modifyText.setCurrentElement(props.element)">
+        <div tabindex="-1" class="text" v-if="fontSize != 0" @dblclick="comicStore.setCurrentElement(props.element)">
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
                 {{ text }}
             </p>

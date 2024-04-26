@@ -1,11 +1,10 @@
 <script setup>
-    import { modifyText } from '../stores/modifyText.js';
-
     const props = defineProps({
         height: Number,
         panel: Object,
     });
 
+    const comicStore = useComicStore();
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
 
@@ -69,7 +68,7 @@
                 @mirror-event="mirrorElement"
             />
             <img :src="border" class="panel__border" />
-            <TextEditor ref="textEditor" v-if="modifyText.currentElement != null" />
+            <TextEditor ref="textEditor" v-if="comicStore.getCurrentElement().value != null" />
         </div>
     </div>
 </template>

@@ -6,6 +6,15 @@ import Panel from '~/utils/Classes/Panel.js';
 
 export const useComicStore = defineStore('comic', () => {
     const comic = new Comic(null, null, null);
+    let currentElement = ref(null);
+
+    function setCurrentElement(element) {
+        currentElement.value = element;
+    }
+
+    function getCurrentElement() {
+        return currentElement;
+    }
 
     function createComicWithConfig(config) {
         const strip = new Strip(config.height);
@@ -21,9 +30,10 @@ export const useComicStore = defineStore('comic', () => {
 
         return comic;
     }
-
     return {
         comic,
         createComicWithConfig,
+        setCurrentElement,
+        getCurrentElement,
     };
 });

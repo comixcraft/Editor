@@ -1,14 +1,13 @@
 <script setup>
-    import { modifyText } from '../stores/modifyText.js';
-
     const textarea = ref(null);
     const fontSizeContainer = ref(null);
     const textValue = ref('');
+    const comicStore = useComicStore();
     let fontSize = ref(24);
     let element = ref(null);
 
     function startModifyText() {
-        element.value = modifyText.currentElement;
+        element.value = comicStore.getCurrentElement().value;
         textarea.value.focus();
         textValue.value = element.value.currentState().type.content;
         fontSize.value = element.value.currentState().type.fontSize;
@@ -23,7 +22,7 @@
         ) {
             element.value.currentState().type.content = textarea.value.value;
             textarea.value.value = '';
-            modifyText.setCurrentElement(null);
+            comicStore.setCurrentElement(null);
         }
     }
     function saveText() {
