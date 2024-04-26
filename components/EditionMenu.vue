@@ -3,6 +3,17 @@
         centerToAlign: Object,
     });
 
+    onMounted(() => {
+        console.log('centerToAlign', prop.centerToAlign);
+    });
+
+    watch(
+        () => prop.centerToAlign,
+        (newVal, oldVal) => {
+            console.log('centerToAlign', newVal, oldVal);
+        }
+    );
+
     defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);
 </script>
 
