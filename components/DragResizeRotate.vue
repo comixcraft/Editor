@@ -15,6 +15,7 @@
     // Define static variable
     let elementActive = false;
     let tL, tR, bR, bL;
+    let isRotating = ref(false);
 
     // Define reactive variables (const first, let after)
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
@@ -57,6 +58,7 @@
     // Define functions
     function rotating(val) {
         angle.value = val;
+        isRotating.value = true;
     }
 
     function resize(eId) {
@@ -77,6 +79,7 @@
     }
 
     function updateRotation(eId) {
+        isRotating.value = false;
         emit('rotateEvent', { eId: eId, rotation: angle.value });
     }
 
@@ -140,7 +143,7 @@
         @rotatestop="updateRotation(eId)"
     >
         <EditionMenu
-            v-if="elementActive"
+            v-if="elementActive && !isRotating"
             :style="editionMenuStyle"
             :centerToAlign="center"
             @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
