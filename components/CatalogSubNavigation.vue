@@ -1,5 +1,5 @@
 <script setup>
-    import iconConfig from '../config/iconsConfig';
+    import iconConfig from '../config/iconsConfig'; // Assuming you use this for icons
     import { defineProps, defineEmits } from 'vue';
 
     const props = defineProps({
@@ -8,7 +8,14 @@
 
     const emit = defineEmits(['subCategorySelected']);
 
+    let selectedSubCategory = ref(null); // Track selected subcategory
+
     const selectSubCategory = (subCategory) => {
+        if (selectedSubCategory.value === subCategory.name) {
+            selectedSubCategory.value = null; // Deselect if already selected
+        } else {
+            selectedSubCategory.value = subCategory.name; // Select if not selected
+        }
         emit('subCategorySelected', subCategory);
     };
 </script>
@@ -20,6 +27,7 @@
                 v-for="(subCategory, index) in props.subCategories"
                 :key="index"
                 @click="selectSubCategory(subCategory)"
+                :class="{ selected: selectedSubCategory === subCategory.name }"
             >
                 <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
                 {{ subCategory.name }}
@@ -47,16 +55,19 @@
     }
 
     button {
-        background: $white;
+        margin-top: $spacer-2;
+        cursor: pointer;
+        padding: $spacer-1 $spacer-2;
         border: none;
         border-radius: $border-radius;
-        padding: 10px;
-    }
+        align-items: center;
+        gap: $spacer-1;
+        background-color: $white;
 
-    button:hover {
-        background-color: $primary;
-        color: white;
-        cursor: pointer;
+        &.selected {
+            background-color: $primary;
+            color: $white;
+        }
     }
 
     span {

@@ -29,7 +29,16 @@
     }
 
     function updateSubSelectedCategory(subCategory) {
-        selectedSubCategory.value = subCategory;
+        // Check if the selected subcategory is already the same as the currently selected one
+        if (selectedSubCategory.value === subCategory) {
+            // If it is, deselect the subcategory and update selectedCategoryAssets with all assets
+            selectedSubCategory.value = [];
+            emitCatalogChanged();
+        } else {
+            // Otherwise, update the selected subcategory
+            selectedSubCategory.value = subCategory;
+            emitCatalogChanged();
+        }
         emitCatalogChanged();
     }
 
