@@ -1,8 +1,6 @@
 <script setup>
-    let showMore = ref(false);
-    defineProps({
-        altText: String,
-        url: String,
+    const prop = defineProps({
+        centerToAlign: Object,
     });
 
     defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);

@@ -12,12 +12,28 @@
         rotation: Number,
     });
 
+    // Define static variable
     let elementActive = false;
-    // Define reactive variables
+    let tL, tR, bR, bL;
+
+    // Define reactive variables (const first, let after)
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     const angle = ref(props.rotation);
     let self = ref(null);
+
+    let center = reactive({
+        x: undefined,
+        y: undefined,
+    });
+
+    onMounted(() => {
+        center = getCenter();
+    });
+
+    let editionMenuStyle = computed(() => ({
+        transform: `rotate(${-angle.value}deg)`,
+    }));
 
     // computed function to set the mirroring of the image
     const setMirroredHorizontal = computed(() => {
@@ -44,6 +60,8 @@
     }
 
     function resize(eId) {
+        center = getCenter();
+
         emit('resizeEvent', {
             eId: eId,
             width: self.value.width,
@@ -53,6 +71,8 @@
     }
 
     function updatePosition(eId) {
+        center = getCenter();
+
         emit('updateEvent', { eId: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
@@ -78,6 +98,21 @@
                 isMirrored: mirroredVertical.value,
             });
         }
+    }
+
+    function updateCornersPosition() {
+        tL = { x: self.value.left, y: self.value.top };
+        tR = { x: self.value.left + self.value.width, y: self.value.top };
+        bR = { x: self.value.left + self.value.width, y: self.value.top + self.value.height };
+        bL = { x: self.value.left, y: self.value.top + self.value.height };
+    }
+
+    function getCenter() {
+        updateCornersPosition();
+        return {
+            x: (tL.x + tR.x + bR.x + bL.x) / 4,
+            y: (tL.y + tR.y + bR.y + bL.y) / 4,
+        };
     }
 </script>
 
@@ -106,6 +141,8 @@
     >
         <EditionMenu
             v-if="elementActive"
+            :style="editionMenuStyle"
+            :centerToAlign="center"
             @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
             @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
             @delete-event="$emit('deleteEvent', eId)"
