@@ -16,9 +16,9 @@
 
     function stopModifyText(e) {
         if (
-            (!e.target.classList.contains('textEditor') &&
-                !e.target.classList.contains('fontSize__button') &&
-                !e.target.classList.contains('fontSize')) ||
+            (!e.target.classList.contains('text-editor__textarea') &&
+                !e.target.classList.contains('font-size__button') &&
+                !e.target.classList.contains('font-size')) ||
             e.key === 'Enter'
         ) {
             element.value.currentState().type.content = textarea.value.value;

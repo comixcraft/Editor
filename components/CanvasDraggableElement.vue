@@ -46,7 +46,10 @@
 
     function deactivate() {
         elementActive = false;
-        modifyText.setClicks(0);
+        // needed to let the text editor save the text before closing
+        setTimeout(() => {
+            modifyText.setClicks(0);
+        }, 100);
     }
 
     function startModifyText() {
