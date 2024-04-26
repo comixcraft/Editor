@@ -10,35 +10,39 @@
     let elements = props.panel.elements;
     const border = props.panel.border;
 
+    function validateElementId(eId) {
+        if (!elements.has(eId)) {
+            console.log('Error in passing the element id');
+            return;
+        }
+    }
+
     function deleteElement(eId) {
         // delete last element of map
         props.panel.deleteElement(eId);
     }
 
     function resizeElement(obj) {
-        if (!elements.has(obj.eId)) {
-            console.log('Error in passing the element id');
-            return;
-        }
+        // validate element id
+        validateElementId(obj.eId);
+        // update element width and height
         elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
         elements.get(obj.eId).setWidth(obj.width);
         elements.get(obj.eId).setHeight(obj.height);
     }
 
     function updatePosition(obj) {
-        if (!elements.has(obj.eId)) {
-            console.log('Error in passing the element id');
-            return;
-        }
+        // validate element id
+        validateElementId(obj.eId);
+        // update element position
         elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
     function updateMirrorValues(obj) {
-        if (!elements.has(obj.eId)) {
-            console.log('Error in passing the element id');
-            return;
-        }
+        // validate element id
+        validateElementId(obj.eId);
 
+        // update element mirror values
         if (obj.direction === 'x') {
             elements.get(obj.eId).setIsMirroredHorizontal(obj.isMirrored);
             return;
@@ -47,11 +51,9 @@
     }
 
     function updateRotation(obj) {
-        if (!elements.has(obj.eId)) {
-            console.log('Error in passing the element id');
-            return;
-        }
-
+        // validate element id
+        validateElementId(obj.eId);
+        // update element rotation
         elements.get(obj.eId).setRotation(obj.rotation);
     }
 </script>

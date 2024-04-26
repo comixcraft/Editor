@@ -13,10 +13,9 @@
     });
 
     let elementActive = false;
+    // Define reactive variables
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
-
-    // Define reactive variables
     const angle = ref(props.rotation);
     let self = ref(null);
 
@@ -29,11 +28,7 @@
         return mirroredVertical.value ? '-1' : '1';
     });
 
-    // Define functions
-    const rotating = (val) => {
-        angle.value = val;
-    };
-
+    // Define emits
     const emit = defineEmits([
         'deleteEvent',
         'updateEvent',
@@ -43,8 +38,9 @@
         'rotateEvent',
     ]);
 
-    function updatePosition(eId) {
-        emit('updateEvent', { eId: eId, pos: { x: self.value.left, y: self.value.top } });
+    // Define functions
+    function rotating(val) {
+        angle.value = val;
     }
 
     function resize(eId) {
@@ -54,6 +50,10 @@
             height: self.value.height,
             pos: { x: self.value.left, y: self.value.top },
         });
+    }
+
+    function updatePosition(eId) {
+        emit('updateEvent', { eId: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
     function updateRotation(eId) {
