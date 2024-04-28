@@ -16,6 +16,7 @@
         "@pinia/nuxt": "^0.5.1",
         "bootstrap": "^5.3.3",
         "material-symbols": "^0.17.2",
+        "mitt": "^3.0.1",
         "nuxt": "^3.11.1",
         "nuxt-swiper": "^1.2.2",
         "pinia": "^2.1.7",

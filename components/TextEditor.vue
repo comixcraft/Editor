@@ -14,6 +14,7 @@
     }
 
     function stopModifyText() {
+        comicStore.bus.emit('updateText', { id: element.value.currentState().id, text: textValue.value });
         element.value.currentState().type.content = textValue.value;
         textarea.value.value = '';
         comicStore.setCurrentElement(null);

@@ -17,6 +17,7 @@
     let elementActive = false;
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
+    let text = ref(props.text);
 
     const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
@@ -45,6 +46,14 @@
     function deactivate() {
         elementActive = false;
     }
+
+    onMounted(() => {
+        comicStore.bus.on('updateText', (obj) => {
+            if (obj.id == props.eId) {
+                text.value = obj.text;
+            }
+        });
+    });
 </script>
 
 <template>
@@ -71,7 +80,7 @@
         />
         <div tabindex="-1" class="text" v-if="fontSize != 0" @dblclick="comicStore.setCurrentElement(props.element)">
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
-                {{ props.element.currentState().type.content }}
+                {{ text }}
             </p>
         </div>
 
