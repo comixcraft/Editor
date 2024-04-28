@@ -10,6 +10,7 @@
 
     const stripHeight = ref(0);
     const activePanelIndex = ref(0);
+    const comicStore = useComicStore();
 
     function updateActivePanel(index) {
         activePanelIndex.value = index;
@@ -21,6 +22,7 @@
 
 <template>
     <div>
+        <TextEditor v-if="comicStore.getCurrentElement().value != null" />
         <swiper
             :initial-slide="activePanelIndex"
             @active-index-change="updateActivePanel($event.activeIndex)"

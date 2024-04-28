@@ -8,8 +8,6 @@
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
 
-    let textEditor = ref(null);
-
     let elements = props.panel.elements;
     const border = props.panel.border;
 
@@ -68,7 +66,7 @@
                 @mirror-event="mirrorElement"
             />
             <img :src="border" class="panel__border" />
-            <TextEditor ref="textEditor" v-if="comicStore.getCurrentElement().value != null" />
+            <!-- <TextEditor v-if="comicStore.getCurrentElement().value != null" /> -->
         </div>
     </div>
 </template>

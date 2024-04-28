@@ -71,7 +71,7 @@
         />
         <div tabindex="-1" class="text" v-if="fontSize != 0" @dblclick="comicStore.setCurrentElement(props.element)">
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
-                {{ text }}
+                {{ props.element.currentState().type.content }}
             </p>
         </div>
 

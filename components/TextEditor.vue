@@ -13,27 +13,10 @@
         fontSize.value = element.value.currentState().type.fontSize;
     }
 
-    function stopModifyText(e) {
-        if (
-            (!e.target.classList.contains('text-editor__textarea') &&
-                !e.target.classList.contains('font-size__button') &&
-                !e.target.classList.contains('font-size')) ||
-            e.key === 'Enter'
-        ) {
-            element.value.currentState().type.content = textarea.value.value;
-            textarea.value.value = '';
-            comicStore.setCurrentElement(null);
-        }
-    }
-    function saveText() {
-        element.value.currentState().type.content = textarea.value.value;
-        textValue.value = textarea.value.value;
-    }
-
-    function enterText(e) {
-        e.preventDefault();
-        saveText(); // needed to update the text in the element
-        stopModifyText(e);
+    function stopModifyText() {
+        element.value.currentState().type.content = textValue.value;
+        textarea.value.value = '';
+        comicStore.setCurrentElement(null);
     }
 
     function increaseFont() {
@@ -59,22 +42,21 @@
             rows="4"
             ref="textarea"
             :style="{ fontSize: fontSize + 'px' }"
-            :value="textValue"
-            @blur="saveText"
-            @keydown.enter="enterText"
+            v-model="textValue"
+            @keydown.enter.prevent="stopModifyText"
         ></textarea>
 
         <div class="font-size" ref="fontSizeContainer">
-            <button class="font-size__button" @click="decreaseFont">-</button>
+            <button class="font-size__button" @click.stop="decreaseFont">-</button>
             <p class="font-size__text">{{ fontSize }}px</p>
-            <button class="font-size__button" @click="increaseFont">+</button>
+            <button class="font-size__button" @click.stop="increaseFont">+</button>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     .text-editor {
-        position: relative;
+        position: absolute;
         left: 0;
         top: 0;
         width: 100%;
