@@ -18,6 +18,7 @@
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
     let text = ref(props.text);
+    let fontSize = ref(props.fontSize);
 
     const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
@@ -51,6 +52,7 @@
         comicStore.bus.on('updateText', (obj) => {
             if (obj.id == props.eId) {
                 text.value = obj.text;
+                fontSize.value = obj.fontSize;
             }
         });
     });

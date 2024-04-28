@@ -14,7 +14,11 @@
     }
 
     function stopModifyText() {
-        comicStore.bus.emit('updateText', { id: element.value.currentState().id, text: textValue.value });
+        comicStore.bus.emit('updateText', {
+            id: element.value.currentState().id,
+            text: textValue.value,
+            fontSize: fontSize.value,
+        });
         element.value.currentState().type.content = textValue.value;
         textarea.value.value = '';
         comicStore.setCurrentElement(null);
@@ -23,11 +27,21 @@
     function increaseFont() {
         element.value.currentState().type.increaseFontSize();
         fontSize.value = element.value.currentState().type.fontSize;
+        comicStore.bus.emit('updateText', {
+            id: element.value.currentState().id,
+            text: textValue.value,
+            fontSize: fontSize.value,
+        });
     }
 
     function decreaseFont() {
         element.value.currentState().type.decreaseFontSize();
         fontSize.value = element.value.currentState().type.fontSize;
+        comicStore.bus.emit('updateText', {
+            id: element.value.currentState().id,
+            text: textValue.value,
+            fontSize: fontSize.value,
+        });
     }
 
     onMounted(() => {
@@ -69,7 +83,7 @@
         background-color: rgba(112 112 112 / 0.5);
 
         &__textarea {
-            max-width: 350px;
+            max-width: 80%;
         }
         .font-size {
             background-color: $white;

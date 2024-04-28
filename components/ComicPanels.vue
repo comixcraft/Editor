@@ -22,7 +22,6 @@
 
 <template>
     <div>
-        <TextEditor v-if="comicStore.getCurrentElement().value != null" />
         <swiper
             :initial-slide="activePanelIndex"
             @active-index-change="updateActivePanel($event.activeIndex)"
@@ -39,6 +38,7 @@
                 },
             }"
         >
+            <TextEditor v-if="comicStore.getCurrentElement().value != null" />
             <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
                 <WrapperCanvas class="swiper-no-swiping" :height="stripHeight" :panel="panel"></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>
