@@ -16,6 +16,7 @@
     let elementActive = false;
     let tL, tR, bR, bL;
     let isRotating = ref(false);
+    let isResizing = ref(false);
 
     // Define reactive variables
     const angle = ref(props.rotation);
@@ -38,9 +39,9 @@
     ]);
 
     // onMounted functions
-    onMounted(() => {
-        center = getCenter();
-    });
+    // onMounted(() => {
+    //     center = getCenter();
+    // });
 
     // computed functions
     const editionMenuStyle = computed(() => ({
@@ -62,7 +63,8 @@
     }
 
     function resize(eId) {
-        center = getCenter();
+        // center = getCenter();
+        isResizing.value = false;
 
         emit('resizeEvent', {
             eId: eId,
@@ -73,7 +75,7 @@
     }
 
     function updatePosition(eId) {
-        center = getCenter();
+        // center = getCenter();
 
         emit('updateEvent', { eId: eId, pos: { x: self.value.left, y: self.value.top } });
     }
@@ -103,20 +105,20 @@
         }
     }
 
-    function updateCornersPosition() {
-        tL = { x: self.value.left, y: self.value.top };
-        tR = { x: self.value.left + self.value.width, y: self.value.top };
-        bR = { x: self.value.left + self.value.width, y: self.value.top + self.value.height };
-        bL = { x: self.value.left, y: self.value.top + self.value.height };
-    }
+    // function updateCornersPosition() {
+    //     tL = { x: self.value.left, y: self.value.top };
+    //     tR = { x: self.value.left + self.value.width, y: self.value.top };
+    //     bR = { x: self.value.left + self.value.width, y: self.value.top + self.value.height };
+    //     bL = { x: self.value.left, y: self.value.top + self.value.height };
+    // }
 
-    function getCenter() {
-        updateCornersPosition();
-        return {
-            x: (tL.x + tR.x + bR.x + bL.x) / 4,
-            y: (tL.y + tR.y + bR.y + bL.y) / 4,
-        };
-    }
+    // function getCenter() {
+    //     updateCornersPosition();
+    //     return {
+    //         x: (tL.x + tR.x + bR.x + bL.x) / 4,
+    //         y: (tL.y + tR.y + bR.y + bL.y) / 4,
+    //     };
+    // }
 </script>
 
 <template>
@@ -136,6 +138,7 @@
         :draggable="true"
         :r="angle"
         @rotating="rotating"
+        @resizing="isResizing = true"
         @activated="() => (elementActive = true)"
         @deactivated="() => (elementActive = false)"
         @dragstop="updatePosition(eId)"
@@ -143,9 +146,9 @@
         @rotatestop="updateRotation(eId)"
     >
         <EditionMenu
-            v-if="elementActive && !isRotating"
+            v-if="elementActive && !isRotating && !isResizing"
             :style="editionMenuStyle"
-            :centerToAlign="center"
+            :rotationAngle="angle"
             @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
             @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
             @delete-event="$emit('deleteEvent', eId)"

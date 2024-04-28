@@ -1,25 +1,36 @@
 <script setup>
     const prop = defineProps({
-        centerToAlign: Object,
+        rotationAngle: Number,
     });
 
-    onMounted(() => {
-        console.log('centerToAlign', prop.centerToAlign);
-    });
-
-    watch(
-        () => prop.centerToAlign,
-        (newVal, oldVal) => {
-            console.log('centerToAlign', newVal, oldVal);
+    let menuStyle = computed(() => {
+        let right, top;
+        if (prop.rotationAngle <= 90) {
+            right = -85 * (1 - prop.rotationAngle / 90);
+            top = -85 * (prop.rotationAngle / 90);
+        } else if (prop.rotationAngle <= 180) {
+            right = -85 * ((prop.rotationAngle - 90) / 90);
+            top = -85 - 85 * ((prop.rotationAngle - 90) / 90);
+        } else if (prop.rotationAngle <= 270) {
+            right = -85 - 85 * ((prop.rotationAngle - 180) / 90);
+            top = -170 + 85 * ((prop.rotationAngle - 180) / 90);
+        } else {
+            right = -170 + 85 * ((prop.rotationAngle - 270) / 90);
+            top = 0 * ((prop.rotationAngle - 270) / 90);
         }
-    );
+
+        return {
+            right: `${right}px`,
+            top: `${top}px`,
+        };
+    });
 
     defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);
 </script>
 
 <template>
     <div>
-        <div class="icon-container">
+        <div class="icon-container" :style="menuStyle">
             <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
             <div class="edit-icon icon">flip_to_back</div>
             <div class="edit-icon icon">flip_to_front</div>
@@ -42,8 +53,6 @@
         background-color: $white;
         grid-template-rows: repeat(5, 1fr);
         grid-template-columns: 1fr;
-        right: -85px;
-        top: 0px;
     }
 
     .edit-icon {
