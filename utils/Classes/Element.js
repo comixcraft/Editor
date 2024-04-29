@@ -29,12 +29,14 @@ export default class ElementDS {
      * @param {Number} height
      * @param {String} alt
      * @param {String} src
+     * @param {String} type
      */
-    constructor(width = null, height = null, alt = null, src = null) {
+    constructor(width = null, height = null, alt = null, src = null, type = null) {
         this._width = width ?? 0;
         this._height = height ?? 0;
         this._src = src ?? 'undefined';
         this._alt = alt ?? 'unknown';
+        this._type = type ?? 'Text';
     }
 
     /**
@@ -52,6 +54,7 @@ export default class ElementDS {
             height: this._height,
             src: this._src,
             alt: this._alt,
+            type: this._type,
         };
     };
 
@@ -96,81 +99,6 @@ export default class ElementDS {
         return this._height;
     }
 
-    /** @returns {String} */
-    get src() {
-        return this._src;
-    }
-
-    /** @returns {String} */
-    get alt() {
-        return this._alt;
-    }
-
-    /** @returns {String} */
-    get type() {
-        return this._type;
-    }
-
-    // SETTER
-    /** @param {String} id */
-    set id(id) {
-        this._id = id;
-    }
-
-    /** @param {Number} z */
-    set z(z) {
-        this._z = z;
-    }
-
-    /** @param {Position} pos */
-    set pos(pos) {
-        this._pos = pos;
-    }
-
-    /** @param {Boolean} isFocused */
-    set isFocused(isFocused) {
-        this._isFocused = isFocused;
-    }
-
-    /** @param {Boolean} isMirrored */
-    set isMirrored(isMirrored) {
-        this._isMirrored = isMirrored;
-    }
-
-    /** @param {Number} rotation */
-    set rotation(rotation) {
-        this._rotation = rotation;
-    }
-
-    /** @param {Number} width */
-    set width(width) {
-        this._width = width;
-    }
-
-    /** @param {Number} height */
-    set height(height) {
-        this._height = height;
-    }
-
-    /** @param {String} src */
-    set src(src) {
-        this._src = src;
-    }
-
-    /** @param {String} alt */
-    set alt(alt) {
-        this._alt = alt;
-    }
-
-    /** @param {String} type */
-    set type(type) {
-        this._type = type;
-    }
-
-    // METHODS
-    /**
-     * @param {{x:Numer, y:Number}} obj
-     */
     setPos = (obj) => {
         this._pos.definePos(obj);
     };

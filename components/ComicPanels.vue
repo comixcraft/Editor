@@ -10,6 +10,7 @@
 
     const stripHeight = ref(0);
     const activePanelIndex = ref(0);
+    const comicStore = useComicStore();
 
     function updateActivePanel(index) {
         activePanelIndex.value = index;
@@ -37,6 +38,7 @@
                 },
             }"
         >
+            <TextEditor v-if="comicStore.getCurrentElement().value != null" />
             <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
                 <WrapperCanvas class="swiper-no-swiping" :height="stripHeight" :panel="panel"></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>

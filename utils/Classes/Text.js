@@ -1,4 +1,5 @@
 export default class Text {
+    _name = 'Text';
     /** @type {String} */
     _content;
     /** @type {Number} */
@@ -11,10 +12,12 @@ export default class Text {
     /**
      * @param {String} content
      * @param {Number} fontSize
+     * @param {Number} fontSize
      */
-    constructor(content = null, fontSize = null) {
+    constructor(content = null, fontSize = null, fontFamily = null) {
         this._content = content ?? 'undefined';
         this._fontSize = fontSize ?? 16;
+        this._fontFamily = fontFamily;
     }
 
     // GETTERS
@@ -38,6 +41,10 @@ export default class Text {
         return this._fontWeight;
     }
 
+    get name() {
+        return this._name;
+    }
+
     // SETTERS
     /** @param {String} content */
     set content(content) {
@@ -57,5 +64,16 @@ export default class Text {
     /** @param {Number} fontWeight */
     set fontWeight(fontWeight) {
         this._fontWeight = fontWeight;
+    }
+
+    // METHODS
+    decreaseFontSize() {
+        if (this._fontSize > 1) {
+            this._fontSize--;
+        }
+    }
+
+    increaseFontSize() {
+        this._fontSize++;
     }
 }

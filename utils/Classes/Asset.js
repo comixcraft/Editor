@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default class Asset {
-    /** @type {String} */
+    _name = 'Asset';
     _path;
     /** @type {String} */
     _id;
@@ -23,6 +23,10 @@ export default class Asset {
     /** @returns {String} */
     get id() {
         return this._id;
+    }
+
+    get name() {
+        return this._name;
     }
 
     // SETTERS
