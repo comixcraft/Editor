@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
     <div class="layer">
         <div class="asset-image"></div>
@@ -13,7 +15,6 @@
         </div>
     </ScreenOverlay>
 </template>
-<script setup></script>
 
 <style scoped lang="scss">
     .layer {

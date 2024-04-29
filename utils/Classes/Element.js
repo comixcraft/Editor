@@ -13,13 +13,15 @@ export default class ElementDS {
     _alt;
     _type;
 
-    constructor(width, height, alt, src) {
+    constructor(width, height, alt, src, type) {
         this._width = width;
         this._height = height;
         this._src = src;
         this._alt = alt;
+        this._type = type;
     }
 
+    // getter
     currentState = () => {
         return this._getCurrentState();
     };
@@ -36,9 +38,11 @@ export default class ElementDS {
             height: this._height,
             src: this._src,
             alt: this._alt,
+            type: this._type,
         };
     }
 
+    // setters
     setPos = (obj) => {
         this._pos.definePos(obj);
     };

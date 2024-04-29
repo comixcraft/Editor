@@ -1,76 +1,7 @@
-<template>
-    <div class="editor">
-        <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">
-                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                    arrow_back
-                </NuxtLink>
-            </div>
-            <div class="top-nav__item undo-btn icon">undo</div>
-            <div class="top-nav__item redo-btn icon">redo</div>
-            <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
-            <div class="top-nav__item export-btn icon">
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                    >export
-                </NuxtLink>
-            </div>
-        </div>
-
-        <div class="editor__canvas">
-            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
-        </div>
-
-        <div class="bottom-nav__container">
-            <div class="editor__bottom-nav">
-                <div class="bottom-nav__scrollable-nav">
-                    <div class="scrollable-nav__item characters-btn">Characters</div>
-                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
-                    <div class="scrollable-nav__item text-btn">Text</div>
-                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
-                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
-                </div>
-            </div>
-            <div class="catalogue-container">
-                <CatalogSearch
-                    placeholder="happy, barista, ..."
-                    :filters="catalogStructure.categories[0].subCategories[0].filter"
-                    @search="
-                        (selectedFilter) => {
-                            fetchCatalogElements(
-                                catalogStructure.categories[0].name,
-                                catalogStructure.categories[0].subCategories[0].name,
-                                selectedFilter
-                            );
-                        }
-                    "
-                />
-                <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
-            </div>
-        </div>
-        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
-            <div class="layer-background">
-                <div class="layer-container">
-                    <LayerObject></LayerObject>
-                </div>
-            </div>
-        </ScreenOverlay>
-
-        <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
-            <div class="darken-background">
-                <div class="comic-preview"></div>
-            </div>
-        </ScreenOverlay>
-    </div>
-</template>
-
-<style scoped lang="scss"></style>
-
 <script setup>
+    import ComicPanels from '~/components/ComicPanels.vue';
+    import ElementDS from '~/utils/Classes/Element.js';
+    import Text from '~/utils/Classes/Text.js';
     let layersShow = ref(false);
     let previewShow = ref(false);
 
@@ -113,10 +44,90 @@
             });
     }
 
+    function addNewTextToDisplay() {
+        let fixedHeight = 200;
+        let src = '';
+        let width = 200;
+        let name = 'New text.';
+        let type = new Text(name, 24, 'Pangolin');
+        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
+        addElementToActivePanel(tempEl);
+    }
+
     onMounted(() => {
         fetchCatalogElements();
     });
 </script>
+
+<template>
+    <div class="editor">
+        <div class="editor__top-nav">
+            <div class="top-nav__item back-btn icon">
+                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                    arrow_back
+                </NuxtLink>
+            </div>
+            <div class="top-nav__item undo-btn icon">undo</div>
+            <div class="top-nav__item redo-btn icon">redo</div>
+            <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
+            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
+            <div class="top-nav__item export-btn icon">
+                <NuxtLink
+                    :to="{
+                        name: 'export',
+                        path: '/export',
+                    }"
+                    >export
+                </NuxtLink>
+            </div>
+        </div>
+
+        <div class="editor__canvas">
+            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+        </div>
+
+        <div class="bottom-nav__container">
+            <div class="editor__bottom-nav">
+                <div class="bottom-nav__scrollable-nav">
+                    <div class="scrollable-nav__item characters-btn">Characters</div>
+                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
+                    <div class="scrollable-nav__item text-btn" @click="addNewTextToDisplay">Text</div>
+                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
+                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
+                </div>
+            </div>
+            <div class="catalogue-container">
+                <CatalogSearch
+                    placeholder="happy, barista, ..."
+                    :filters="catalogStructure.categories[0].subCategories[0].filter"
+                    @search="
+                        (selectedFilter) => {
+                            fetchCatalogElements(
+                                catalogStructure.categories[0].name,
+                                catalogStructure.categories[0].subCategories[0].name,
+                                selectedFilter
+                            );
+                        }
+                    "
+                />
+                <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
+            </div>
+        </div>
+        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
+            <div class="layer-background">
+                <div class="layer-container">
+                    <LayerObject></LayerObject>
+                </div>
+            </div>
+        </ScreenOverlay>
+
+        <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
+            <div class="darken-background">
+                <div class="comic-preview"></div>
+            </div>
+        </ScreenOverlay>
+    </div>
+</template>
 
 <style scoped lang="scss">
     .layer-background {

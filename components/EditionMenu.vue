@@ -34,6 +34,7 @@
     .edit-icon {
         padding: $spacer-1 $spacer-2;
         border-right: $border-width solid $light-grey-100;
+        cursor: pointer;
 
         &:last-child {
             border-right: none;

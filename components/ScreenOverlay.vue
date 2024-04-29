@@ -1,3 +1,12 @@
+<script setup>
+    const props = defineProps({
+        title: { type: String, default: '' },
+        show: { type: Boolean, default: false },
+    });
+
+    defineEmits(['close']);
+</script>
+
 <template>
     <div v-if="show" class="overlay">
         <div class="navigation">
@@ -7,14 +16,7 @@
         <div class="overlay__content"><slot></slot></div>
     </div>
 </template>
-<script setup>
-    const props = defineProps({
-        title: { type: String, default: '' },
-        show: { type: Boolean, default: false },
-    });
 
-    defineEmits(['close']);
-</script>
 <style lang="scss" scoped>
     .navigation {
         display: flex;

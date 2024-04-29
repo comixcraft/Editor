@@ -8,11 +8,17 @@
         eId: String,
         pos: Object,
         isMirrored: Boolean,
+        fontSize: Number, // if 0, it's an image, if not, it's text
+        text: String,
+        element: Object,
     });
 
+    const comicStore = useComicStore();
     let elementActive = false;
     let mirrored = ref(props.isMirrored);
     let self = ref(null);
+    let text = ref(props.text);
+    let fontSize = ref(props.fontSize);
 
     const emit = defineEmits(['deleteEvent', 'updateEvent', 'resizeEvent', 'mirrorEvent']);
 
@@ -37,6 +43,19 @@
             mirror: this.mirrored,
         });
     }
+
+    function deactivate() {
+        elementActive = false;
+    }
+
+    onMounted(() => {
+        comicStore.bus.on('updateText', (obj) => {
+            if (obj.id == props.eId) {
+                text.value = obj.text;
+                fontSize.value = obj.fontSize;
+            }
+        });
+    });
 </script>
 
 <template>
@@ -52,7 +71,7 @@
         :z="z"
         class-name-active="element--active"
         @activated="() => (elementActive = true)"
-        @deactivated="() => (elementActive = false)"
+        @deactivated="deactivate"
         @drag-stop="updatePosition(eId)"
         @resize-stop="resize(eId)"
     >
@@ -61,7 +80,19 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <img :alt="altText" :class="{ mirror: mirrored }" :src="url" />
+        <div 
+            tabindex="-1" 
+            class="text" 
+            :class="{ mirror: mirrored }"
+            v-if="fontSize != 0" 
+            @dblclick="comicStore.setCurrentElement(props.element)"
+        >
+            <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
+                {{ text }}
+            </p>
+        </div>
+
+        <img :src="url" :alt="altText" :class="{ mirror: mirrored }" v-if="fontSize == 0" />
     </DraggableResizable>
 </template>
 
@@ -77,5 +108,17 @@
 
     .mirror {
         transform: scaleX(-1);
+    }
+
+    .text {
+        width: 100%;
+        height: 100%;
+
+        &__content {
+            width: 100%;
+            height: 100%;
+            font-family: 'Pangolin';
+            word-break: break-word;
+        }
     }
 </style>
