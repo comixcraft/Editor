@@ -4,7 +4,6 @@
         panel: Object,
     });
 
-    const comicStore = useComicStore();
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
     const border = props.panel.border;

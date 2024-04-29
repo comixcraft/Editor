@@ -35,12 +35,14 @@
                     drawAsset(context, currentState, pos);
                     break;
                 case 'Text':
-                    drawText(context, canvas, currentState, pos);
+                    drawText(context, currentState, pos);
                     break;
                 default:
                     console.log('Element type not recognized');
             }
         });
+
+        drawCredit(canvas, context);
     }
 
     function drawAsset(context, currentState, pos) {
@@ -97,14 +99,16 @@
         return lines;
     }
 
-    function drawText(context, canvas, currentState, pos) {
+    function drawText(context, currentState, pos) {
         context.font = `${currentState.type.fontSize}px ${currentState.type.fontFamily}`;
         context.fillStyle = 'black';
         context.textBaseline = 'top';
         getLines(context, currentState.type.content, currentState.width).forEach((line, i) => {
             context.fillText(line, pos.x, pos.y + i * currentState.type.fontSize);
         });
+    }
 
+    function drawCredit(canvas, context) {
         // draw credit logo at the bottom left
         const credit = {
             src: '/tempCredit.png',

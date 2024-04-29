@@ -63,6 +63,12 @@
     });
 
     // Define functions
+    function updateCenterValues({ x, y }) {
+        comicStore.bus.emit('updateCenter', {
+            center: { x: x, y: y },
+        });
+    }
+
     function rotating(val) {
         angle.value = val;
         isRotating.value = true;
@@ -81,7 +87,8 @@
     }
 
     function updatePosition(eId) {
-        // center = getCenter();
+        center = getCenter();
+        updateCenterValues(center);
 
         emit('updateEvent', { eId: eId, pos: { x: self.value.left, y: self.value.top } });
     }
@@ -92,7 +99,6 @@
     }
 
     function updateMirroring(eId, direction) {
-        console.log(direction);
         if (direction === 'x') {
             // mirror the image on editor
             mirroredHorizontal.value = !mirroredHorizontal.value;
@@ -121,20 +127,20 @@
         });
     });
 
-    // function updateCornersPosition() {
-    //     tL = { x: self.value.left, y: self.value.top };
-    //     tR = { x: self.value.left + self.value.width, y: self.value.top };
-    //     bR = { x: self.value.left + self.value.width, y: self.value.top + self.value.height };
-    //     bL = { x: self.value.left, y: self.value.top + self.value.height };
-    // }
+    function updateCornersPosition() {
+        tL = { x: self.value.left, y: self.value.top };
+        tR = { x: self.value.left + self.value.width, y: self.value.top };
+        bR = { x: self.value.left + self.value.width, y: self.value.top + self.value.height };
+        bL = { x: self.value.left, y: self.value.top + self.value.height };
+    }
 
-    // function getCenter() {
-    //     updateCornersPosition();
-    //     return {
-    //         x: (tL.x + tR.x + bR.x + bL.x) / 4,
-    //         y: (tL.y + tR.y + bR.y + bL.y) / 4,
-    //     };
-    // }
+    function getCenter() {
+        updateCornersPosition();
+        return {
+            x: (tL.x + tR.x + bR.x + bL.x) / 4,
+            y: (tL.y + tR.y + bR.y + bL.y) / 4,
+        };
+    }
 </script>
 
 <template>
@@ -165,6 +171,7 @@
             v-if="elementActive && !isRotating && !isResizing"
             :style="editionMenuStyle"
             :rotationAngle="angle"
+            :centerToAlign="center"
             @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
             @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
             @delete-event="$emit('deleteEvent', eId)"
