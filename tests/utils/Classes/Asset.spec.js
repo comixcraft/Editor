@@ -7,6 +7,7 @@ describe('Asset', () => {
 
         expect(sut.path).toBe('undefined');
         expect(sut.id).toBeDefined();
+        expect(sut.name).toBe('Asset');
     });
 
     it('creates an asset with passed properties', () => {
@@ -14,5 +15,6 @@ describe('Asset', () => {
 
         expect(sut.path).toBe('path');
         expect(sut.id).toBeDefined();
+        expect(sut.name).toBe('Asset');
     });
 });

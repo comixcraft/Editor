@@ -1,23 +1,24 @@
 export default class Text {
+    /** @type {String} */
     _name = 'Text';
     /** @type {String} */
     _content;
     /** @type {Number} */
     _fontSize;
     /** @type {String} */
-    _fontFamily = 'sans-serif';
+    _fontFamily;
     /** @type {Number} */
     _fontWeight = 400;
 
     /**
      * @param {String} content
      * @param {Number} fontSize
-     * @param {Number} fontSize
+     * @param {Number} fontFamily
      */
     constructor(content = null, fontSize = null, fontFamily = null) {
         this._content = content ?? 'undefined';
         this._fontSize = fontSize ?? 16;
-        this._fontFamily = fontFamily;
+        this._fontFamily = fontFamily ?? 'Nunito';
     }
 
     // GETTERS
@@ -41,6 +42,7 @@ export default class Text {
         return this._fontWeight;
     }
 
+    /** @returns {String} */
     get name() {
         return this._name;
     }

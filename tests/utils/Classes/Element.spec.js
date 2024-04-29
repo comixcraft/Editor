@@ -18,11 +18,11 @@ describe('Element', () => {
         expect(sut.height).toBe(0);
         expect(sut.src).toBe('undefined');
         expect(sut.alt).toBe('unknown');
-        expect(sut.type).toBe(undefined);
+        expect(sut.type).toBe('Text');
     });
 
     it('creates an Element with passed properties', () => {
-        const sut = new Element(300, 400, 'alt', 'src');
+        const sut = new Element(300, 400, 'alt', 'src', 'Asset');
 
         expect(sut.id).toBe(undefined);
         expect(sut.z).toBe(0);
@@ -36,7 +36,7 @@ describe('Element', () => {
         expect(sut.height).toBe(400);
         expect(sut.src).toBe('src');
         expect(sut.alt).toBe('alt');
-        expect(sut.type).toBe(undefined);
+        expect(sut.type).toBe('Asset');
     });
 
     it('sets the Element position', () => {
@@ -62,6 +62,7 @@ describe('Element', () => {
             height: 0,
             src: 'undefined',
             alt: 'unknown',
+            type: 'Text',
         });
     });
 });

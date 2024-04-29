@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default class Asset {
+    /** @type {String} */
     _name = 'Asset';
+    /** @type {String} */
     _path;
     /** @type {String} */
     _id;
@@ -25,6 +27,7 @@ export default class Asset {
         return this._id;
     }
 
+    /** @returns {String} */
     get name() {
         return this._name;
     }
