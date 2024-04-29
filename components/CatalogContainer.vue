@@ -10,7 +10,6 @@
 
     function addNewElementToDisplay(event) {
         let fixedHeight = 200;
-        console.log(props.assets);
         let name = event.target.alt;
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
@@ -34,14 +33,13 @@
 
 <style lang="scss" scoped>
     .catalog__scroll-container {
-        width: 350px;
-        height: 700px;
         padding: $spacer-4 0;
         display: flex;
+        width: auto;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: $spacer-4;
+        gap: $spacer-3;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;

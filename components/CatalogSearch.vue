@@ -1,5 +1,3 @@
-<!-- CatalogSearch -->
-
 <script setup>
     let activeFilters = ref([]);
     let searchTerm = ref('');
@@ -122,7 +120,7 @@
     }
 
     .icon.pill__close {
-        font-size: 15px;
+        $font-size-phone: 2;
     }
     .search {
         position: relative;
@@ -140,7 +138,6 @@
 
         &__input {
             flex-grow: 1;
-            height: 40px;
         }
 
         &__tune {

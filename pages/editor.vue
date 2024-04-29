@@ -1,88 +1,6 @@
-<template>
-    <div class="editor">
-        <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">
-                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                    arrow_back
-                </NuxtLink>
-            </div>
-            <div class="top-nav__item undo-btn icon">undo</div>
-            <div class="top-nav__item redo-btn icon">redo</div>
-            <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
-            <div class="top-nav__item export-btn icon">
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                    >export
-                </NuxtLink>
-            </div>
-
-            <div class="editor__container">
-                <!-- <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"> </ComicPanels> -->
-            </div>
-            <button>
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                >
-                    See Preview
-                </NuxtLink>
-            </button>
-        </div>
-
-        <div class="editor__canvas">
-            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
-        </div>
-
-        <div class="bottom-nav__container">
-            <div class="editor__bottom-nav">
-                <div class="bottom-nav__scrollable-nav">
-                    <CatalogNavigation
-                        :categories="catalogStructure.categories"
-                        @categorySelected="updateSelectedCategory"
-                    />
-                    <CatalogStructure
-                        :title="selectedCategory.name"
-                        :show="catalogShow"
-                        :selectedCategoryAssets="catalogElements"
-                        :selectedCategory="selectedCategory"
-                        @close="catalogShow = false"
-                        @add-element="addElementToActivePanel"
-                        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                    />
-                </div>
-            </div>
-            <div class="catalogue-container"></div>
-        </div>
-        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
-            <div class="layer-background">
-                <div class="layer-container">
-                    <LayerObject></LayerObject>
-                </div>
-            </div>
-        </ScreenOverlay>
-
-        <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
-            <div class="darken-background">
-                <div class="comic-preview"></div>
-            </div>
-        </ScreenOverlay>
-    </div>
-</template>
-
-<style scoped lang="scss"></style>
-
-<!-- CatalogEditor -->
 <script setup>
     let layersShow = ref(false);
     let previewShow = ref(false);
-    import ComicPanels from '~/components/ComicPanels.vue';
-    import { ref } from 'vue';
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -133,6 +51,68 @@
     }
 </script>
 
+<template>
+    <div class="editor">
+        <div class="editor__top-nav">
+            <div class="top-nav__item back-btn icon">
+                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                    arrow_back
+                </NuxtLink>
+            </div>
+            <div class="top-nav__item undo-btn icon">undo</div>
+            <div class="top-nav__item redo-btn icon">redo</div>
+            <div class="top-nav__item preview-btn"><button @click="previewShow = true">preview</button></div>
+            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
+            <div class="top-nav__item export-btn icon">
+                <NuxtLink
+                    :to="{
+                        name: 'export',
+                        path: '/export',
+                    }"
+                    >export
+                </NuxtLink>
+            </div>
+        </div>
+        <div class="editor__canvas">
+            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+        </div>
+
+        <div class="bottom-nav__container">
+            <div class="editor__bottom-nav">
+                <div class="bottom-nav__scrollable-nav">
+                    <CatalogNavigation
+                        :categories="catalogStructure.categories"
+                        @categorySelected="updateSelectedCategory"
+                    />
+                    <CatalogStructure
+                        :title="selectedCategory.name"
+                        :show="catalogShow"
+                        :selectedCategoryAssets="catalogElements"
+                        :selectedCategory="selectedCategory"
+                        @close="catalogShow = false"
+                        @add-element="addElementToActivePanel"
+                        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                    />
+                </div>
+            </div>
+            <div class="catalogue-container"></div>
+        </div>
+        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
+            <div class="layer-background">
+                <div class="layer-container">
+                    <LayerObject></LayerObject>
+                </div>
+            </div>
+        </ScreenOverlay>
+
+        <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
+            <div class="darken-background">
+                <div class="comic-preview"></div>
+            </div>
+        </ScreenOverlay>
+    </div>
+</template>
+
 <style scoped lang="scss">
     .layer-background {
         width: 100vw;
@@ -161,6 +141,7 @@
         height: 100vh;
         width: 70vw;
         margin-left: auto;
+        background-color: #6360f4;
     }
 
     .editor__bottom-nav {

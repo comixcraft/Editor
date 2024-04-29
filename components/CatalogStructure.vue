@@ -1,7 +1,4 @@
-<!-- CatalogStructure -->
 <script setup>
-    import { defineProps } from 'vue';
-
     const emit = defineEmits(['catalogChanged']);
     const selectedSubCategory = ref([]);
     const selectedFilter = ref([]);
@@ -29,15 +26,10 @@
     }
 
     function updateSubSelectedCategory(subCategory) {
-        // Check if the selected subcategory is already the same as the currently selected one
         if (selectedSubCategory.value === subCategory) {
-            // If it is, deselect the subcategory and update selectedCategoryAssets with all assets
             selectedSubCategory.value = [];
-            emitCatalogChanged();
         } else {
-            // Otherwise, update the selected subcategory
             selectedSubCategory.value = subCategory;
-            emitCatalogChanged();
         }
         emitCatalogChanged();
     }
@@ -48,7 +40,7 @@
 </script>
 
 <template>
-    <PopupOverlay :iconName="props.iconName" :title="props.title" :show="props.show">
+    <PopupOverlay :iconName="selectedCategory.name" :title="props.title" :show="props.show">
         <CatalogSearch
             placeholder="happy, barista, ..."
             :filters="selectedCategory.subCategories[0].filter"
@@ -70,7 +62,7 @@
 </template>
 
 <style lang="scss" scoped>
-    .catalogContainer {
+    .catalog__container {
         border: none;
     }
 </style>

@@ -1,10 +1,23 @@
-<!-- PopupOverlay -->
+<script setup>
+    import iconConfig from '../config/iconsConfig';
+
+    const props = defineProps({
+        iconName: { type: String, default: '' },
+        title: { type: String },
+        show: { type: Boolean, default: false },
+    });
+
+    const emit = defineEmits(['close']);
+</script>
+
 <template>
     <div>
         <div v-if="show" class="overlay">
             <div class="navigation">
                 <div class="category__description">
-                    <span class="edit-icon icon text-primary">{{ iconName }}</span>
+                    <span class="edit-icon icon text-primary">
+                        {{ iconConfig.get(props.iconName) || 'default_icon' }}
+                    </span>
                     <div class="navigation__title h1">
                         {{ title }}
                     </div>
@@ -17,18 +30,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-    import { defineProps, defineEmits } from 'vue';
-
-    const props = defineProps({
-        iconName: { type: String, default: '' },
-        title: { type: String },
-        show: { type: Boolean, default: false },
-    });
-
-    const emit = defineEmits(['close']);
-</script>
 
 <style lang="scss" scoped>
     .navigation {
@@ -43,7 +44,7 @@
     }
     .category__description {
         display: flex;
-        gap: 10px;
+        gap: $spacer-2;
     }
     .overlay {
         z-index: 9999999;
@@ -52,7 +53,7 @@
         bottom: 0;
         right: 0;
         left: 0;
-        padding: 16px;
+        padding: $spacer-3;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
         background-color: $white;

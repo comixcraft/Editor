@@ -1,6 +1,5 @@
 <script setup>
-    import iconConfig from '../config/iconsConfig'; // Assuming you use this for icons
-    import { defineProps, defineEmits } from 'vue';
+    import iconConfig from '../config/iconsConfig';
 
     const props = defineProps({
         subCategories: { type: Array },
@@ -8,13 +7,13 @@
 
     const emit = defineEmits(['subCategorySelected']);
 
-    let selectedSubCategory = ref(null); // Track selected subcategory
+    let selectedSubCategory = ref(null);
 
     const selectSubCategory = (subCategory) => {
         if (selectedSubCategory.value === subCategory.name) {
-            selectedSubCategory.value = null; // Deselect if already selected
+            selectedSubCategory.value = null;
         } else {
-            selectedSubCategory.value = subCategory.name; // Select if not selected
+            selectedSubCategory.value = subCategory.name;
         }
         emit('subCategorySelected', subCategory);
     };
@@ -27,13 +26,13 @@
                 v-for="(subCategory, index) in props.subCategories"
                 :key="index"
                 @click="selectSubCategory(subCategory)"
+                class="sub__btn"
                 :class="{ selected: selectedSubCategory === subCategory.name }"
             >
                 <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
                 {{ subCategory.name }}
             </button>
         </div>
-        <div class="sub_overlay__content"><slot></slot></div>
     </div>
 </template>
 
@@ -43,9 +42,9 @@
         bottom: 0;
         right: 0;
         left: 0;
-        padding: 16px;
+        padding: $spacer-3;
         background-color: $white;
-        box-shadow: 0 3px 10px $grey-60;
+        box-shadow: $box-shadow-light;
     }
 
     .sub__navigation {
@@ -54,7 +53,7 @@
         box-shadow: 3px;
     }
 
-    button {
+    .sub__btn {
         margin-top: $spacer-2;
         cursor: pointer;
         padding: $spacer-1 $spacer-2;

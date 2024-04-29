@@ -18,14 +18,15 @@
             <span class="icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}
         </button>
+        <button>Text</button>
+        <button @click="selectAll">All Assets</button>
     </div>
 </template>
 
-<style style lang="scss" scoped>
+<style lang="scss" scoped>
     .navigation {
         position: fixed;
         display: flex;
-        flex-direction: column;
     }
 
     span {

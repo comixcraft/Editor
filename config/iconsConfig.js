@@ -29,6 +29,4 @@ iconConfig.set('Rectangles', 'crop_7_5');
 iconConfig.set('Lines', 'maximize');
 iconConfig.set('Others', 'shapes');
 
-console.log();
-
 export default iconConfig;
