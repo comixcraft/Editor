@@ -10,19 +10,16 @@
         x: undefined,
         y: undefined,
     });
+    let eMStyle = ref(undefined);
 
     onMounted(() => {
         center = prop.centerToAlign;
+        eMStyle.value = `top: ${center.y - editionMenu.value.clientHeight / 2}px;`;
         comicStore.bus.on('updateCenter', (c) => {
             center = c.center;
-            console.log(menuStyle.value);
+            eMStyle.value = `top: ${center.y - editionMenu.value.clientHeight / 2}px;`;
+            console.log(editionMenu.value.clientHeight, eMStyle.value);
         });
-    });
-
-    let menuStyle = computed(() => {
-        return {
-            top: `${center.y}px`,
-        };
     });
 
     // let menuStyle = computed(() => {
@@ -52,7 +49,7 @@
 
 <template>
     <div>
-        <div class="icon-container" ref="editionMenu" :style="`top: ${center.y}`">
+        <div class="icon-container" ref="editionMenu" :style="eMStyle">
             <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
             <div class="edit-icon icon">flip_to_back</div>
             <div class="edit-icon icon">flip_to_front</div>

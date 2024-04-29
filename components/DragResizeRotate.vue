@@ -67,6 +67,7 @@
         comicStore.bus.emit('updateCenter', {
             center: { x: x, y: y },
         });
+        comicStore.bus.all.clear();
     }
 
     function rotating(val) {
@@ -75,7 +76,8 @@
     }
 
     function resize(eId) {
-        // center = getCenter();
+        center = getCenter();
+        updateCenterValues(center);
         isResizing.value = false;
 
         emit('resizeEvent', {
