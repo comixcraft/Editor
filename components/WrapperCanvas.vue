@@ -4,6 +4,7 @@
         panel: Object,
     });
 
+    const comicStore = useComicStore();
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
     const border = props.panel.border;
@@ -73,6 +74,9 @@
                 :url="value.currentState().src"
                 :w="value.currentState().width"
                 :z="value.currentState().z"
+                :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
+                :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
+                :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"

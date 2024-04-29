@@ -10,13 +10,19 @@
         isMirroredHorizontal: Boolean,
         isMirroredVertical: Boolean,
         rotation: Number,
+        fontSize: Number, // if 0, it's an image, if not, it's text
+        text: String,
+        element: Object,
     });
 
+    const comicStore = useComicStore();
     // Define static variable
     let elementActive = false;
     let tL, tR, bR, bL;
     let isRotating = ref(false);
     let isResizing = ref(false);
+    let text = ref(props.text);
+    let fontSize = ref(props.fontSize);
 
     // Define reactive variables
     const angle = ref(props.rotation);
@@ -86,6 +92,7 @@
     }
 
     function updateMirroring(eId, direction) {
+        console.log(direction);
         if (direction === 'x') {
             // mirror the image on editor
             mirroredHorizontal.value = !mirroredHorizontal.value;
@@ -104,6 +111,15 @@
             });
         }
     }
+
+    onMounted(() => {
+        comicStore.bus.on('updateText', (obj) => {
+            if (obj.id == props.eId) {
+                text.value = obj.text;
+                fontSize.value = obj.fontSize;
+            }
+        });
+    });
 
     // function updateCornersPosition() {
     //     tL = { x: self.value.left, y: self.value.top };
@@ -153,7 +169,24 @@
             @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <img :alt="altText" :class="{ mirror: mirroredHorizontal || mirroredVertical }" :src="url" />
+        <div
+            tabindex="-1"
+            class="text"
+            :class="{ mirror: mirroredHorizontal || mirroredVertical }"
+            v-if="fontSize != 0"
+            @dblclick="comicStore.setCurrentElement(props.element)"
+        >
+            <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
+                {{ text }}
+            </p>
+        </div>
+
+        <img
+            :src="url"
+            :alt="altText"
+            :class="{ mirror: mirroredHorizontal || mirroredVertical }"
+            v-if="fontSize == 0"
+        />
     </VueDragResizeRotate>
 </template>
 
@@ -169,5 +202,17 @@
 
     .mirror {
         transform: scale(v-bind(setMirroredHorizontal), v-bind(setMirroredVertical));
+    }
+
+    .text {
+        width: 100%;
+        height: 100%;
+
+        &__content {
+            width: 100%;
+            height: 100%;
+            font-family: 'Pangolin';
+            word-break: break-word;
+        }
     }
 </style>
