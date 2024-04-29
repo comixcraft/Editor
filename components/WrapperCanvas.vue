@@ -66,7 +66,6 @@
                 @mirror-event="mirrorElement"
             />
             <img :src="border" class="panel__border" />
-            <!-- <TextEditor v-if="comicStore.getCurrentElement().value != null" /> -->
         </div>
     </div>
 </template>

@@ -1,6 +1,5 @@
 <script setup>
     const textarea = ref(null);
-    const fontSizeContainer = ref(null);
     const textValue = ref('');
     const comicStore = useComicStore();
     let fontSize = ref(24);
@@ -20,7 +19,7 @@
             fontSize: fontSize.value,
         });
         element.value.currentState().type.content = textValue.value;
-        textarea.value.value = '';
+        textValue.value = '';
         comicStore.setCurrentElement(null);
     }
 
@@ -59,12 +58,13 @@
             :style="{ fontSize: fontSize + 'px' }"
             v-model="textValue"
             @keydown.enter.prevent="stopModifyText"
+            @click.stop="true"
         ></textarea>
 
-        <div class="font-size" ref="fontSizeContainer">
-            <button class="font-size__button" @click.stop="decreaseFont">-</button>
+        <div class="font-size" @click.stop="true">
+            <button class="font-size__button" @click="decreaseFont">-</button>
             <p class="font-size__text">{{ fontSize }}px</p>
-            <button class="font-size__button" @click.stop="increaseFont">+</button>
+            <button class="font-size__button" @click="increaseFont">+</button>
         </div>
     </div>
 </template>

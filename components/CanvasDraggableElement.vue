@@ -80,7 +80,13 @@
             @mirror-event="updateMirroring(eId)"
             @delete-event="$emit('deleteEvent', eId)"
         />
-        <div tabindex="-1" class="text" v-if="fontSize != 0" @dblclick="comicStore.setCurrentElement(props.element)">
+        <div 
+            tabindex="-1" 
+            class="text" 
+            :class="{ mirror: mirrored }"
+            v-if="fontSize != 0" 
+            @dblclick="comicStore.setCurrentElement(props.element)"
+        >
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
                 {{ text }}
             </p>
