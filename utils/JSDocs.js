@@ -65,7 +65,8 @@
  * @property {Asset | Text} type
  * @property {Boolean} isFocused
  * @property {number} rotation
- * @property {Boolean} isMirrored
+ * @property {Boolean} isMirroredHorizontal
+ * @property {Boolean} isMirroredVertical
  * @property {positiveNumber} width
  * @property {positiveNumber} height
  */

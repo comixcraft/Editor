@@ -41,19 +41,41 @@
                     console.log('Element type not recognized');
             }
         });
+
+        drawCredit(canvas, context);
     }
 
     function drawAsset(context, currentState, pos) {
         const img = new Image();
         img.onload = () => {
-            if (currentState.isMirrored) {
+            // Save the current context
+            context.save();
+
+            // Move the rotation point to the center of the image
+            context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
+
+            // Rotate the canvas to the specified degrees
+            context.rotate((currentState.rotation * Math.PI) / 180);
+
+            // Mirror the canvas around the x-axis or y-axis if necessary
+            if (currentState.isMirroredHorizontal) {
                 context.scale(-1, 1);
-                context.translate(-currentState.width - pos.x, pos.y);
-                context.drawImage(img, 0, 0, currentState.width, currentState.height);
-                context.resetTransform();
-            } else {
-                context.drawImage(img, pos.x, pos.y, currentState.width, currentState.height);
             }
+            if (currentState.isMirroredVertical) {
+                context.scale(1, -1);
+            }
+
+            // Draw the image
+            context.drawImage(
+                img,
+                -currentState.width / 2,
+                -currentState.height / 2,
+                currentState.width,
+                currentState.height
+            );
+
+            // Restore the saved context
+            context.restore();
         };
         img.src = currentState.src;
     }
@@ -78,13 +100,38 @@
     }
 
     function drawText(context, currentState, pos) {
+        // Save the current context
+        context.save();
         context.font = `${currentState.type.fontSize}px ${currentState.type.fontFamily}`;
         context.fillStyle = 'black';
         context.textBaseline = 'top';
+
+        // Move the rotation point to the center of the element
+        context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
+
+        // Rotate the canvas to the specified degrees
+        context.rotate((currentState.rotation * Math.PI) / 180);
+
+        // Mirror the canvas around the x-axis or y-axis if necessary
+        if (currentState.isMirroredHorizontal) {
+            context.scale(-1, 1);
+        }
+        if (currentState.isMirroredVertical) {
+            context.scale(1, -1);
+        }
+
+        // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
+        context.translate(-currentState.width / 2, -currentState.height / 2);
+
         getLines(context, currentState.type.content, currentState.width).forEach((line, i) => {
-            context.fillText(line, pos.x, pos.y + i * currentState.type.fontSize);
+            context.fillText(line, 0, i * currentState.type.fontSize);
         });
 
+        // Restore the saved context
+        context.restore();
+    }
+
+    function drawCredit(canvas, context) {
         // draw credit logo at the bottom left
         const credit = {
             src: '/tempCredit.png',

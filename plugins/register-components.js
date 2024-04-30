@@ -1,5 +1,5 @@
-import DraggableResizable from 'vue-draggable-resizable';
+import VueDragResizeRotate from '@gausszhou/vue3-drag-resize-rotate';
 
 export default defineNuxtPlugin((nuxtApp) => {
-    nuxtApp.vueApp.component('DraggableResizable', DraggableResizable);
+    nuxtApp.vueApp.component('VueDragResizeRotate', VueDragResizeRotate);
 });
