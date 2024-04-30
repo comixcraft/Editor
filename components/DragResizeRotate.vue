@@ -43,10 +43,6 @@
     ]);
 
     // computed functions
-    const editionMenuStyle = computed(() => ({
-        transform: `rotate(${-angle.value}deg)`,
-    }));
-
     const setMirroredHorizontal = computed(() => {
         return mirroredHorizontal.value ? '-1' : '1';
     });
@@ -104,6 +100,7 @@
 
     onMounted(() => {
         updateBB();
+        counterRotation.value = `${-angle.value}deg`;
         comicStore.bus.on('updateText', (obj) => {
             if (obj.id == props.eId) {
                 text.value = obj.text;
