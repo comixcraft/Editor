@@ -9,20 +9,23 @@
     const canvasHeight = ref(0);
     const canvasEl = ref(null);
     let activePanel = ref(null);
+    const gap = 10;
+    const creditHeight = 40;
 
     async function displayPreview() {
         const canvas = canvasEl.value;
-        let canvasWidth = 0;
+        canvasWidth.value = gap;
+        canvasHeight.value = gap + comicStore.comic.getPage(0).getStrip(0).height + creditHeight;
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
-        const strips = comicStore.comic.getPage(0).strips;
+        const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
 
         for (let i = 0; i < panels.length; i++) {
-            canvasWidth += panels[i].width;
+            canvasWidth.value += panels[i].width + gap;
         }
 
-        canvas.width = canvasWidth;
-        canvas.height = strips[0].height;
+        canvas.width = canvasWidth.value;
+        canvas.height = canvasHeight.value;
 
         let context = canvas.getContext('2d');
 
@@ -33,11 +36,11 @@
         context.fill();
         context.restore();
 
-        let startPos = 0;
+        let startPos = gap;
         // draw the panels
         for (let i = 0; i < panels.length; i++) {
-            drawPanel(context, panels[i], startPos, canvas.height);
-            startPos += panels[i].width;
+            drawPanel(context, panels[i], startPos, stripsHeight);
+            startPos += panels[i].width + gap;
         }
 
         drawCredit(canvas, context);
@@ -134,7 +137,7 @@
         const credit = {
             src: '/tempCredit.png',
             width: 180,
-            height: 40,
+            height: creditHeight,
         };
         const creditLogo = new Image();
         creditLogo.src = credit.src;
@@ -165,7 +168,7 @@
             // Save the current context
             context.save();
 
-            context.translate(startPos, 0);
+            context.translate(startPos, gap);
 
             // Draw the image
             context.drawImage(img, 0, 0, panel.width, height);
