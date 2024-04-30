@@ -38,7 +38,7 @@ describe('Text', () => {
         expect(sut.fontSize).toBe(19);
     });
 
-    it('oes not decrease the font size if already at 1', () => {
+    it('does not decrease the font size if already at 1', () => {
         const sut = new Text('content', 1);
 
         sut.decreaseFontSize();
