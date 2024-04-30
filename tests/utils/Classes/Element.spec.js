@@ -1,33 +1,68 @@
 import { describe, expect, it } from 'vitest';
-import ElementDS from '~/utils/Classes/Element.js';
+import Element from '~/utils/Classes/Element.js';
+import Position from '~/utils/Classes/Position.js';
 
 describe('Element', () => {
-    it('creates an element with passed and default properties', () => {
-        const sut = new ElementDS(0.2, 0.5, 'Image description', 'example.png');
+    it('creates an empty Element', () => {
+        const sut = new Element();
 
-        const currentSutState = sut.currentState();
+        expect(sut.id).toBe(undefined);
+        expect(sut.z).toBe(0);
+        expect(sut.pos).toBeDefined();
+        expect(sut.pos.x).toBe(0);
+        expect(sut.pos.y).toBe(0);
+        expect(sut.isFocused).toBe(false);
+        expect(sut.isMirrored).toBe(false);
+        expect(sut.rotation).toBe(0);
+        expect(sut.width).toBe(0);
+        expect(sut.height).toBe(0);
+        expect(sut.src).toBe('undefined');
+        expect(sut.alt).toBe('unknown');
+        expect(sut.type).toBe('Text');
+    });
 
-        expect(currentSutState).hasOwnProperty('id');
-        expect(currentSutState).hasOwnProperty('z');
-        expect(currentSutState).hasOwnProperty('pos');
-        expect(currentSutState).hasOwnProperty('isFocused');
-        expect(currentSutState).hasOwnProperty('isMirroredHorizontal');
-        expect(currentSutState).hasOwnProperty('isMirroredVertical');
-        expect(currentSutState).hasOwnProperty('rotation');
-        expect(currentSutState).hasOwnProperty('width');
-        expect(currentSutState).hasOwnProperty('height');
-        expect(currentSutState).hasOwnProperty('src');
-        expect(currentSutState).hasOwnProperty('alt');
+    it('creates an Element with passed properties', () => {
+        const sut = new Element(300, 400, 'alt', 'src', 'Asset');
 
-        expect(currentSutState.id).toBe(1);
-        expect(currentSutState.z).toBe(1);
-        expect(currentSutState.isFocused).toBe(false);
-        expect(currentSutState.isMirroredHorizontal).toBe(false);
-        expect(currentSutState.isMirroredVertical).toBe(false);
-        expect(currentSutState.rotation).toBe(0);
-        expect(currentSutState.width).toBe(0.2);
-        expect(currentSutState.height).toBe(0.5);
-        expect(currentSutState.src).toBe('example.png');
-        expect(currentSutState.alt).toBe('Image description');
+        expect(sut.id).toBe(undefined);
+        expect(sut.z).toBe(0);
+        expect(sut.pos).toBeDefined();
+        expect(sut.pos.x).toBe(0);
+        expect(sut.pos.y).toBe(0);
+        expect(sut.isFocused).toBe(false);
+        expect(sut.isMirrored).toBe(false);
+        expect(sut.rotation).toBe(0);
+        expect(sut.width).toBe(300);
+        expect(sut.height).toBe(400);
+        expect(sut.src).toBe('src');
+        expect(sut.alt).toBe('alt');
+        expect(sut.type).toBe('Asset');
+    });
+
+    it('sets the Element position', () => {
+        const sut = new Element();
+
+        sut.setPos({ x: 100, y: 200 });
+
+        expect(sut.pos.x).toBe(100);
+        expect(sut.pos.y).toBe(200);
+    });
+
+    it('returns a JSON representation of the Element', () => {
+        const sut = new Element();
+
+        expect(sut.currentState()).toStrictEqual({
+            id: undefined,
+            z: 0,
+            pos: new Position(0, 0),
+            isFocused: false,
+            isMirrored: false,
+            rotation: 0,
+            width: 0,
+            height: 0,
+            src: 'undefined',
+            alt: 'unknown',
+            type: 'Text',
+        });
     });
 });

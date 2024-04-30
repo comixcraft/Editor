@@ -10,7 +10,8 @@
         "postinstall": "nuxt prepare",
         "prepare": "husky",
         "prettier": "prettier --write .",
-        "lint": "eslint --ignore-pattern **/.nuxt --fix ."
+        "lint": "eslint --ignore-pattern **/.nuxt --fix .",
+        "test": "vitest"
     },
     "dependencies": {
         "@gausszhou/vue3-drag-resize-rotate": "^3.0.2",
