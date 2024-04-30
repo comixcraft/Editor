@@ -12,7 +12,8 @@ describe('Element', () => {
         expect(sut.pos.x).toBe(0);
         expect(sut.pos.y).toBe(0);
         expect(sut.isFocused).toBe(false);
-        expect(sut.isMirrored).toBe(false);
+        expect(sut.isMirroredHorizontal).toBe(false);
+        expect(sut.isMirroredVertical).toBe(false);
         expect(sut.rotation).toBe(0);
         expect(sut.width).toBe(0);
         expect(sut.height).toBe(0);
@@ -30,7 +31,8 @@ describe('Element', () => {
         expect(sut.pos.x).toBe(0);
         expect(sut.pos.y).toBe(0);
         expect(sut.isFocused).toBe(false);
-        expect(sut.isMirrored).toBe(false);
+        expect(sut.isMirroredHorizontal).toBe(false);
+        expect(sut.isMirroredVertical).toBe(false);
         expect(sut.rotation).toBe(0);
         expect(sut.width).toBe(300);
         expect(sut.height).toBe(400);
@@ -56,7 +58,8 @@ describe('Element', () => {
             z: 0,
             pos: new Position(0, 0),
             isFocused: false,
-            isMirrored: false,
+            isMirroredHorizontal: false,
+            isMirroredVertical: false,
             rotation: 0,
             width: 0,
             height: 0,
@@ -64,5 +67,32 @@ describe('Element', () => {
             alt: 'unknown',
             type: 'Text',
         });
+    });
+
+    it('sets the mirroring on the x axis of the Element', () => {
+        const sut = new Element();
+        const isMirroredHorizontal = true;
+
+        sut.setIsMirroredHorizontal(isMirroredHorizontal);
+
+        expect(sut.isMirroredHorizontal).toBe(true);
+    });
+
+    it('sets the mirroring on the y axis of the Element', () => {
+        const sut = new Element();
+        const isMirroredVertical = false;
+
+        sut.setIsMirroredVertical(isMirroredVertical);
+
+        expect(sut.isMirroredVertical).toBe(false);
+    });
+
+    it('sets the rotation of the Element', () => {
+        const sut = new Element();
+        const rotation = 90;
+
+        sut.setRotation(rotation);
+
+        expect(sut._rotation).toBe(rotation);
     });
 });

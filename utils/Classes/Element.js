@@ -13,8 +13,6 @@ export default class ElementDS {
     _isMirroredHorizontal = false;
     /** @type {Boolean} */
     _isMirroredVertical = false;
-    /** @type {Boolean} */
-    _isMirrored = false;
     /** @type {Number} */
     _rotation = 0;
     /** @type {Number} */
@@ -44,7 +42,7 @@ export default class ElementDS {
     }
 
     /**
-     * @returns {{id:String, z:Number, pos:Position, isFocused:Boolean, isMirrored:Boolean, isMirroredHorizontal:Boolean, isMirroredVertical:Boolean, rotation:Number, width:Number, height:Number, src:String, alt:String, type:String}}
+     * @returns {{id:String, z:Number, pos:Position, isFocused:Boolean, isMirroredHorizontal:Boolean, isMirroredVertical:Boolean, rotation:Number, width:Number, height:Number, src:String, alt:String, type:String}}
      */
     currentState = () => {
         return {
@@ -52,7 +50,6 @@ export default class ElementDS {
             z: this._z,
             pos: this._pos,
             isFocused: this._isFocused,
-            isMirrored: this._isMirrored,
             isMirroredHorizontal: this._isMirroredHorizontal,
             isMirroredVertical: this._isMirroredVertical,
             rotation: this._rotation,
@@ -86,8 +83,13 @@ export default class ElementDS {
     }
 
     /** @returns {Boolean} */
-    get isMirrored() {
-        return this._isMirrored;
+    get isMirroredHorizontal() {
+        return this._isMirroredHorizontal;
+    }
+
+    /** @returns {Boolean} */
+    get isMirroredVertical() {
+        return this._isMirroredVertical;
     }
 
     /** @returns {Number} */
@@ -140,9 +142,14 @@ export default class ElementDS {
         this._isFocused = isFocused;
     }
 
-    /** @param {Boolean} isMirrored */
-    set isMirrored(isMirrored) {
-        this._isMirrored = isMirrored;
+    /** @param {Boolean} isMirroredHorizontal */
+    set isMirroredHorizontal(isMirroredHorizontal) {
+        this._isMirroredHorizontal = isMirroredHorizontal;
+    }
+
+    /** @param {Boolean} isMirroredVertical */
+    set isMirroredVertical(isMirroredVertical) {
+        this._isMirroredVertical = isMirroredVertical;
     }
 
     /** @param {Number} rotation */
@@ -192,13 +199,6 @@ export default class ElementDS {
      */
     setId = (id) => {
         this._id = id;
-    };
-
-    /**
-     * @param {Boolean} isMirrored
-     */
-    setIsMirrored = (isMirrored) => {
-        this._isMirrored = isMirrored;
     };
 
     /**
