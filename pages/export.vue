@@ -12,9 +12,17 @@
 
     async function displayPreview() {
         const canvas = canvasEl.value;
+        let canvasWidth = 0;
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
-        canvas.width = canvasWidth.value;
-        canvas.height = canvasHeight.value;
+        const strips = comicStore.comic.getPage(0).strips;
+        const panels = comicStore.comic.getPage(0).getStrip(0).panels;
+
+        for (let i = 0; i < panels.length; i++) {
+            canvasWidth += panels[i].width;
+        }
+
+        canvas.width = canvasWidth;
+        canvas.height = strips[0].height;
 
         let context = canvas.getContext('2d');
 
@@ -25,22 +33,12 @@
         context.fill();
         context.restore();
 
-        // draw each element on the canvas
-        activePanel.value.elements.forEach((element, key) => {
-            const currentState = element.currentState();
-            const pos = currentState.pos.currPos();
-            const type = currentState.type.name;
-            switch (type) {
-                case 'Asset':
-                    drawAsset(context, currentState, pos);
-                    break;
-                case 'Text':
-                    drawText(context, currentState, pos);
-                    break;
-                default:
-                    console.log('Element type not recognized');
-            }
-        });
+        let startPos = 0;
+        // draw the panels
+        for (let i = 0; i < panels.length; i++) {
+            drawPanel(context, panels[i], startPos, canvas.height);
+            startPos += panels[i].width;
+        }
 
         drawCredit(canvas, context);
     }
@@ -142,6 +140,36 @@
         creditLogo.src = credit.src;
         creditLogo.onload = () => {
             context.drawImage(creditLogo, 0, canvas.height - credit.height, credit.width, credit.height);
+        };
+    }
+
+    function drawPanel(context, panel, startPos, height) {
+        panel.elements.forEach((element, key) => {
+            const currentState = element.currentState();
+            const pos = currentState.pos.currPos();
+            const type = currentState.type.name;
+            switch (type) {
+                case 'Asset':
+                    drawAsset(context, currentState, pos);
+                    break;
+                case 'Text':
+                    drawText(context, currentState, pos);
+                    break;
+                default:
+                    console.log('Element type not recognized');
+            }
+        });
+        const img = new Image();
+        img.src = panel.border;
+        img.onload = () => {
+            // Save the current context
+            context.save();
+
+            context.translate(startPos, 0);
+
+            // Draw the image
+            context.drawImage(img, 0, 0, panel.width, height);
+            context.restore();
         };
     }
 
