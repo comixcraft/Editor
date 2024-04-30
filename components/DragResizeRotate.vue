@@ -23,16 +23,14 @@
     let isResizing = ref(false);
     let text = ref(props.text);
     let fontSize = ref(props.fontSize);
+    let maxDiagonal = ref('0px');
+    let counterRotation = ref('0deg');
 
     // Define reactive variables
     const angle = ref(props.rotation);
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
-    let center = reactive({
-        x: undefined,
-        y: undefined,
-    });
 
     // Define emits
     const emit = defineEmits([
@@ -43,11 +41,6 @@
         'mirrorVerticalEvent',
         'rotateEvent',
     ]);
-
-    // onMounted functions
-    // onMounted(() => {
-    //     center = getCenter();
-    // });
 
     // computed functions
     const editionMenuStyle = computed(() => ({
@@ -62,24 +55,14 @@
         return mirroredVertical.value ? '-1' : '1';
     });
 
-    // Define functions
-    function updateCenterValues({ x, y }) {
-        comicStore.bus.emit('updateCenter', {
-            center: { x: x, y: y },
-        });
-        comicStore.bus.all.clear();
-    }
-
     function rotating(val) {
         angle.value = val;
         isRotating.value = true;
     }
 
     function resize(eId) {
-        center = getCenter();
-        updateCenterValues(center);
         isResizing.value = false;
-
+        updateBB();
         emit('resizeEvent', {
             eId: eId,
             width: self.value.width,
@@ -89,14 +72,13 @@
     }
 
     function updatePosition(eId) {
-        center = getCenter();
-        updateCenterValues(center);
-
+        updateBB();
         emit('updateEvent', { eId: eId, pos: { x: self.value.left, y: self.value.top } });
     }
 
     function updateRotation(eId) {
         isRotating.value = false;
+        counterRotation.value = `${-angle.value}deg`;
         emit('rotateEvent', { eId: eId, rotation: angle.value });
     }
 
@@ -121,6 +103,7 @@
     }
 
     onMounted(() => {
+        updateBB();
         comicStore.bus.on('updateText', (obj) => {
             if (obj.id == props.eId) {
                 text.value = obj.text;
@@ -136,12 +119,13 @@
         bL = { x: self.value.left, y: self.value.top + self.value.height };
     }
 
-    function getCenter() {
+    // d=√((x2 – x1)² + (y2 – y1)²).
+    function updateBB() {
         updateCornersPosition();
-        return {
-            x: (tL.x + tR.x + bR.x + bL.x) / 4,
-            y: (tL.y + tR.y + bR.y + bL.y) / 4,
-        };
+        let d1 = Math.sqrt(Math.pow(tL.x - bR.x, 2) + Math.pow(tL.y - bR.y, 2));
+        let d2 = Math.sqrt(Math.pow(tR.x - bL.x, 2) + Math.pow(tR.y - bL.y, 2));
+
+        maxDiagonal.value = `${Math.max(d1, d2)}px`;
     }
 </script>
 
@@ -152,6 +136,7 @@
         :h="h"
         :eId="eId"
         class-name-active="element--active"
+        class="vrr"
         ref="self"
         :disableUserSelect="true"
         :x="pos.currPos().x"
@@ -169,15 +154,14 @@
         @resizestop="resize(eId)"
         @rotatestop="updateRotation(eId)"
     >
-        <EditionMenu
-            v-if="elementActive && !isRotating && !isResizing"
-            :style="editionMenuStyle"
-            :rotationAngle="angle"
-            :centerToAlign="center"
-            @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
-            @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
-            @delete-event="$emit('deleteEvent', eId)"
-        />
+        <div class="edition-menu--container">
+            <EditionMenu
+                v-if="elementActive && !isRotating && !isResizing"
+                @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
+                @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
+                @delete-event="$emit('deleteEvent', eId)"
+            />
+        </div>
         <div
             tabindex="-1"
             class="text"
@@ -207,6 +191,23 @@
 
     .element--active {
         border: $border-width solid $info;
+    }
+
+    .vrr {
+        position: relative;
+        overflow: visible;
+    }
+
+    .edition-menu--container {
+        position: absolute;
+        z-index: -1;
+        display: flex;
+        justify-content: end;
+        width: v-bind(maxDiagonal);
+        height: v-bind(maxDiagonal);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(v-bind(counterRotation));
     }
 
     .mirror {

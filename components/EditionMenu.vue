@@ -1,55 +1,10 @@
 <script setup>
-    const prop = defineProps({
-        rotationAngle: Number,
-        centerToAlign: Object,
-    });
-
-    const comicStore = useComicStore();
-    let editionMenu = ref(null);
-    let center = reactive({
-        x: undefined,
-        y: undefined,
-    });
-    let eMStyle = ref(undefined);
-
-    onMounted(() => {
-        center = prop.centerToAlign;
-        eMStyle.value = `top: ${center.y - editionMenu.value.clientHeight / 2}px;`;
-        comicStore.bus.on('updateCenter', (c) => {
-            center = c.center;
-            eMStyle.value = `top: ${center.y - editionMenu.value.clientHeight / 2}px;`;
-            console.log(editionMenu.value.clientHeight, eMStyle.value);
-        });
-    });
-
-    // let menuStyle = computed(() => {
-    //     let right, top;
-    //     if (prop.rotationAngle <= 90) {
-    //         right = -85 * (1 - prop.rotationAngle / 90);
-    //         top = -85 * (prop.rotationAngle / 90);
-    //     } else if (prop.rotationAngle <= 180) {
-    //         right = -85 * ((prop.rotationAngle - 90) / 90);
-    //         top = -85 - 85 * ((prop.rotationAngle - 90) / 90);
-    //     } else if (prop.rotationAngle <= 270) {
-    //         right = -85 - 85 * ((prop.rotationAngle - 180) / 90);
-    //         top = -170 + 85 * ((prop.rotationAngle - 180) / 90);
-    //     } else {
-    //         right = -170 + 85 * ((prop.rotationAngle - 270) / 90);
-    //         top = 0 * ((prop.rotationAngle - 270) / 90);
-    //     }
-
-    //     return {
-    //         right: `${right}px`,
-    //         top: `${top}px`,
-    //     };
-    // });
-
     defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);
 </script>
 
 <template>
     <div>
-        <div class="icon-container" ref="editionMenu" :style="eMStyle">
+        <div class="icon-container">
             <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
             <div class="edit-icon icon">flip_to_back</div>
             <div class="edit-icon icon">flip_to_front</div>
@@ -65,6 +20,8 @@
     .icon-container {
         z-index: 99999;
         position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
         padding: $spacer-1 $spacer-1;
         display: grid;
         border: $border-width solid $light-grey-100;
