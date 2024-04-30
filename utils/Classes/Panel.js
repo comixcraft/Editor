@@ -159,6 +159,22 @@ export default class Panel {
         element.setZIndex(zIndex);
     }
 
+    switchZIndexBetweenTwoElement(eId1, eId2) {
+        if (!this.getElement(eId1) || !this.getElement(eId2)) {
+            console.log('Rendering error in the layers panel.');
+            return;
+        }
+
+        let element1 = this.getElement(eId1);
+        let elementZIndex1 = element1.z;
+        let element2 = this.getElement(eId2);
+        let elementZIndex2 = element2.z;
+
+        let tempZIndex = elementZIndex1;
+        element1.z = element2.z;
+        element2.z = tempZIndex;
+    }
+
     getHighestZIndex() {
         let potentialZIndex = 0;
         this._elements.forEach((element) => {

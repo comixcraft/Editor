@@ -63,6 +63,10 @@
         comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).moveZIndexDown(eId);
     }
 
+    function switchZIndex(obj) {
+        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).switchZIndexBetweenTwoElement(obj.eId1, obj.eId2);
+    }
+
     onMounted(() => {
         fetchCatalogElements();
     });
@@ -125,7 +129,8 @@
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
-                    <LayerObject @front-event="upZIndex" @back-event="downZIndex"> </LayerObject>
+                    <LayerObject @front-event="upZIndex" @back-event="downZIndex" @switch-event="switchZIndex">
+                    </LayerObject>
                 </div>
             </div>
         </ScreenOverlay>

@@ -1,9 +1,10 @@
 <script setup>
-    import { watch } from 'vue';
+    import Sortable from 'sortablejs';
 
-    const emit = defineEmits(['frontEvent', 'backEvent']);
+    const emit = defineEmits(['frontEvent', 'backEvent', 'switchEvent']);
 
     const comicStore = useComicStore();
+    let ul;
 
     // create a reactive array from map element
     let arrayZ = ref(Array.from(comicStore.getElementMap().value, ([key, value]) => value));
@@ -11,6 +12,20 @@
     // sort Array with z-index
     const arrayZSorted = computed(() => {
         return arrayZ.value.slice().sort((a, b) => a.z - b.z);
+    });
+
+    onMounted(() => {
+        ul = document.getElementsByClassName('layers')[0];
+        let sortable = Sortable.create(ul, {
+            animation: 150,
+            onEnd: function (evt) {
+                //console.log(evt.oldIndex, evt.newIndex)
+                emit('switchEvent', {
+                    eId1: arrayZSorted.value[evt.oldIndex].id,
+                    eId2: arrayZSorted.value[evt.newIndex].id,
+                });
+            },
+        });
     });
 
     function sendEmitBack(eId) {
@@ -30,7 +45,7 @@
 
 <template>
     <ul class="layers">
-        <li v-for="element in arrayZSorted" :key="element.id" class="layer">
+        <li v-for="element in arrayZSorted" :key="element.id" class="layer" :accessKey="element.id">
             <div class="asset-image">
                 <img :src="element.src" :alt="element.alt" />
             </div>
