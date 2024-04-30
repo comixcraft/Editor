@@ -58,12 +58,10 @@
 
     function upElement(eId) {
         props.panel.moveZIndexUp(eId);
-        console.log(elements);
     }
 
     function downElement(eId) {
         props.panel.moveZIndexDown(eId);
-        console.log(elements);
     }
 </script>
 

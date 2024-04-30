@@ -25,6 +25,7 @@
 
     function addElementToActivePanel(element) {
         comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
+        comicStore.setElementMap(comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).elements);
     }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
@@ -52,6 +53,14 @@
         let type = new Text(name, 24, 'Pangolin');
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         addElementToActivePanel(tempEl);
+    }
+
+    function upZIndex(eId) {
+        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).moveZIndexUp(eId);
+    }
+
+    function downZIndex(eId) {
+        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).moveZIndexDown(eId);
     }
 
     onMounted(() => {
@@ -116,7 +125,7 @@
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
-                    <LayerObject></LayerObject>
+                    <LayerObject @front-event="upZIndex" @back-event="downZIndex"> </LayerObject>
                 </div>
             </div>
         </ScreenOverlay>
@@ -138,6 +147,7 @@
 
     .layer-container {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     }

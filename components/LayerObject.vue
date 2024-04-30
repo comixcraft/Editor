@@ -1,19 +1,46 @@
-<script setup></script>
+<script setup>
+    import { watch } from 'vue';
+
+    const emit = defineEmits(['frontEvent', 'backEvent']);
+
+    const comicStore = useComicStore();
+
+    // create a reactive array from map element
+    let arrayZ = ref(Array.from(comicStore.getElementMap().value, ([key, value]) => value));
+
+    // sort Array with z-index
+    const arrayZSorted = computed(() => {
+        return arrayZ.value.slice().sort((a, b) => a.z - b.z);
+    });
+
+    function sendEmitBack(eId) {
+        emit('backEvent', eId);
+        updateArrayZ();
+    }
+
+    function sendEmitFront(eId) {
+        emit('frontEvent', eId);
+        updateArrayZ();
+    }
+
+    function updateArrayZ() {
+        arrayZ.value = Array.from(comicStore.getElementMap().value, ([key, value]) => value);
+    }
+</script>
 
 <template>
-    <div class="layer">
-        <div class="asset-image"></div>
-        <p class="layer-text">layer 1</p>
-        <div class="chevrons">
-            <div class="expand-less icon">expand_less</div>
-            <div class="expand-more icon">expand_more</div>
-        </div>
-    </div>
-    <ScreenOverlay title="Layers" :show="layersShow">
-        <div class="layer-background">
-            <div class="layer-container"></div>
-        </div>
-    </ScreenOverlay>
+    <ul class="layers">
+        <li v-for="element in arrayZSorted" :key="element.id" class="layer">
+            <div class="asset-image">
+                <img :src="element.src" :alt="element.alt" />
+            </div>
+            <p class="layer-text">{{ element.alt }}</p>
+            <div class="chevrons">
+                <div class="expand-less icon" @click="sendEmitBack(element.id)">expand_less</div>
+                <div class="expand-more icon" @click="sendEmitFront(element.id)">expand_more</div>
+            </div>
+        </li>
+    </ul>
 </template>
 
 <style scoped lang="scss">
@@ -31,6 +58,14 @@
         height: 60px;
         background-color: white;
         margin-right: 10px; /* Adjust margin between images as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .asset-image > img {
+        max-height: 90%;
+        max-width: 90%;
     }
 
     .layer-content {
@@ -42,6 +77,9 @@
         display: flex;
         flex-direction: column;
         margin-left: auto;
+        & :hover {
+            cursor: pointer;
+        }
     }
 
     .layer-text {
