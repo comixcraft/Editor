@@ -61,3 +61,7 @@ Only colors that are defined in `./assets/scss/_variables.scss` should be used.
 This also applies to spacers, borders, and other design elements.
 When you need any new size or a setting that might be used multiple times,
 always define it in the `_variables.scss` file.
+
+## Hosting
+The content of this repository is hosted on https://comixcraft.com/ over [Netlify](https://www.netlify.com/).
+Updates on the website are done automatically on update of the `main`-branch.
