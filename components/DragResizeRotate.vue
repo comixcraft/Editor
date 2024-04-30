@@ -150,7 +150,7 @@
         @resizestop="resize(eId)"
         @rotatestop="updateRotation(eId)"
     >
-        <div class="edition-menu--container">
+        <div class="edition-menu">
             <EditionMenu
                 v-if="elementActive && !isRotating && !isResizing"
                 @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
@@ -189,7 +189,7 @@
         border: $border-width solid $info;
     }
 
-    .edition-menu--container {
+    .edition-menu {
         position: absolute;
         z-index: -1;
         display: flex;
