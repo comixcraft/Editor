@@ -10,12 +10,12 @@
     const canvasEl = ref(null);
     let activePanel = ref(null);
     const gap = 10;
-    const creditHeight = 40;
+    const creditSize = { w: 180, h: 40 };
 
     async function displayPreview() {
         const canvas = canvasEl.value;
         canvasWidth.value = gap;
-        canvasHeight.value = gap + comicStore.comic.getPage(0).getStrip(0).height + creditHeight;
+        canvasHeight.value = gap + comicStore.comic.getPage(0).getStrip(0).height + creditSize.h;
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
@@ -46,11 +46,12 @@
         drawCredit(canvas, context);
     }
 
-    function drawAsset(context, currentState, pos) {
+    function drawAsset(context, startPos, currentState, pos) {
         const img = new Image();
         img.onload = () => {
             // Save the current context
             context.save();
+            context.translate(startPos, gap);
 
             // Move the rotation point to the center of the image
             context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
@@ -100,9 +101,11 @@
         return lines;
     }
 
-    function drawText(context, currentState, pos) {
+    function drawText(context, startPos, currentState, pos) {
         // Save the current context
         context.save();
+        context.translate(startPos, gap);
+
         context.font = `${currentState.type.fontSize}px ${currentState.type.fontFamily}`;
         context.fillStyle = 'black';
         context.textBaseline = 'top';
@@ -136,13 +139,13 @@
         // draw credit logo at the bottom left
         const credit = {
             src: '/tempCredit.png',
-            width: 180,
-            height: creditHeight,
+            width: creditSize.w,
+            height: creditSize.h,
         };
         const creditLogo = new Image();
         creditLogo.src = credit.src;
         creditLogo.onload = () => {
-            context.drawImage(creditLogo, 0, canvas.height - credit.height, credit.width, credit.height);
+            context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
         };
     }
 
@@ -153,10 +156,10 @@
             const type = currentState.type.name;
             switch (type) {
                 case 'Asset':
-                    drawAsset(context, currentState, pos);
+                    drawAsset(context, startPos, currentState, pos);
                     break;
                 case 'Text':
-                    drawText(context, currentState, pos);
+                    drawText(context, startPos, currentState, pos);
                     break;
                 default:
                     console.log('Element type not recognized');
@@ -203,6 +206,7 @@
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
+            <!--
             <div class="share__input-group">
                 <label class="share__input-group-label" for="project-name">Project Name:</label>
                 <input
@@ -224,6 +228,7 @@
                     <option value="1">All panels</option>
                 </select>
             </div>
+        -->
             <div ref="previewCanvas" class="preview__container">
                 <h3>Preview:</h3>
                 <canvas ref="canvasEl" class="preview__canvas"></canvas>

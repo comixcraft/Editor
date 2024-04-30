@@ -93,6 +93,7 @@
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
         position: relative;
+        padding: 0;
 
         &__border {
             width: 100%;
