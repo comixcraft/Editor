@@ -10,7 +10,8 @@
         "postinstall": "nuxt prepare",
         "prepare": "husky",
         "prettier": "prettier --write .",
-        "lint": "eslint --ignore-pattern **/.nuxt --fix ."
+        "lint": "eslint --ignore-pattern **/.nuxt --fix .",
+        "test": "vitest"
     },
     "dependencies": {
         "@pinia/nuxt": "^0.5.1",

@@ -18,10 +18,14 @@ export const useComicStore = defineStore('comic', () => {
         return currentElement;
     }
 
+    /**
+     * @param {{height:Number, panels:{width: Number, border:String}[]}}config
+     * @returns {Comic}
+     */
     function createComicWithConfig(config) {
         const strip = new Strip(config.height);
 
-        config.panels.forEach((panel) => {
+        config.panels?.forEach((panel) => {
             strip.addPanelToStrip(new Panel(panel.width, panel.border));
         });
 

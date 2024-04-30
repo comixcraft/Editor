@@ -1,50 +1,81 @@
 export default class Text {
+    /** @type {String} */
     _name = 'Text';
+    /** @type {String} */
     _content;
+    /** @type {Number} */
     _fontSize;
+    /** @type {String} */
     _fontFamily;
-    _fontWeight;
+    /** @type {Number} */
+    _fontWeight = 400;
 
-    constructor(content, fontSize, fontFamily) {
-        this._content = content;
-        this._fontSize = fontSize;
-        this._fontFamily = fontFamily;
+    /**
+     * @param {String} content
+     * @param {Number} fontSize
+     * @param {Number} fontFamily
+     */
+    constructor(content = null, fontSize = null, fontFamily = null) {
+        this._content = content ?? 'undefined';
+        this._fontSize = fontSize ?? 16;
+        this._fontFamily = fontFamily ?? 'Nunito';
     }
 
     // GETTERS
+    /** @returns {String} */
     get content() {
         return this._content;
     }
+
+    /** @returns {Number} */
     get fontSize() {
         return this._fontSize;
     }
+
+    /** @returns {String} */
     get fontFamily() {
         return this._fontFamily;
     }
+
+    /** @returns {Number} */
     get fontWeight() {
         return this._fontWeight;
     }
+
+    /** @returns {String} */
     get name() {
         return this._name;
     }
 
     // SETTERS
-    set content(c) {
-        this._content = c;
+    /** @param {String} content */
+    set content(content) {
+        this._content = content;
     }
-    increaseFontSize() {
-        this._fontSize++;
+
+    /** @param {Number} fontSize */
+    set fontSize(fontSize) {
+        this._fontSize = fontSize;
     }
-    set fontFamily(fF) {
-        this._fontFamily = fF;
+
+    /** @param {String} fontFamily */
+    set fontFamily(fontFamily) {
+        this._fontFamily = fontFamily;
     }
+
+    /** @param {Number} fontWeight */
+    set fontWeight(fontWeight) {
+        this._fontWeight = fontWeight;
+    }
+
+    // METHODS
     decreaseFontSize() {
         if (this._fontSize > 1) {
             this._fontSize--;
         }
     }
 
-    set fontWeight(fW) {
-        this._fontWeight = fW;
+    increaseFontSize() {
+        this._fontSize++;
     }
 }
