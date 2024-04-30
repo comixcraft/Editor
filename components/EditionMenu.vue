@@ -29,6 +29,7 @@
         background-color: $white;
         grid-template-rows: repeat(5, 1fr);
         grid-template-columns: 1fr;
+        pointer-events: auto;
     }
 
     .edit-icon {

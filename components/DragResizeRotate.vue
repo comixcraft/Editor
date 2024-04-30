@@ -136,7 +136,6 @@
         :h="h"
         :eId="eId"
         class-name-active="element--active"
-        class="vrr"
         ref="self"
         :disableUserSelect="true"
         :x="pos.currPos().x"
@@ -193,21 +192,17 @@
         border: $border-width solid $info;
     }
 
-    .vrr {
-        position: relative;
-        overflow: visible;
-    }
-
     .edition-menu--container {
         position: absolute;
         z-index: -1;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         width: v-bind(maxDiagonal);
         height: 100%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(v-bind(counterRotation));
+        pointer-events: none;
     }
 
     .mirror {
