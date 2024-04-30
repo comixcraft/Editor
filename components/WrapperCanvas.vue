@@ -55,6 +55,16 @@
         // update element rotation
         elements.get(obj.eId).setRotation(obj.rotation);
     }
+
+    function upElement(eId) {
+        props.panel.moveZIndexUp(eId);
+        console.log(elements);
+    }
+
+    function downElement(eId) {
+        props.panel.moveZIndexDown(eId);
+        console.log(elements);
+    }
 </script>
 
 <template>
@@ -82,6 +92,8 @@
                 @mirror-horizontal-event="updateMirrorValues"
                 @mirror-vertical-event="updateMirrorValues"
                 @rotate-event="updateRotation"
+                @front-event="upElement"
+                @back-event="downElement"
             />
             <img :src="border" class="panel__border" />
         </div>

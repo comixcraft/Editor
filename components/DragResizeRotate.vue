@@ -40,6 +40,8 @@
         'mirrorHorizontalEvent',
         'mirrorVerticalEvent',
         'rotateEvent',
+        'backEvent',
+        'frontEvent',
     ]);
 
     // computed functions
@@ -50,6 +52,14 @@
     const setMirroredVertical = computed(() => {
         return mirroredVertical.value ? '-1' : '1';
     });
+
+    function upZIndex(eId) {
+        emit('frontEvent', eId);
+    }
+
+    function downZIndex(eId) {
+        emit('backEvent', eId);
+    }
 
     function rotating(val) {
         angle.value = val;
@@ -116,7 +126,6 @@
         bL = { x: self.value.left, y: self.value.top + self.value.height };
     }
 
-    // d=√((x2 – x1)² + (y2 – y1)²).
     function updateBB() {
         updateCornersPosition();
         let d1 = Math.sqrt(Math.pow(tL.x - bR.x, 2) + Math.pow(tL.y - bR.y, 2));
@@ -156,6 +165,8 @@
                 @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
                 @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
                 @delete-event="$emit('deleteEvent', eId)"
+                @front-event="upZIndex(eId)"
+                @back-event="downZIndex(eId)"
             />
         </div>
         <div
