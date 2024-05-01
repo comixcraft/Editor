@@ -17,10 +17,14 @@
         }
         emit('subCategorySelected', subCategory);
     };
+
+    function showSubNavigation() {
+        return selectedSubCategory.value !== null && props.subCategories[0].name !== 'All assets';
+    }
 </script>
 
 <template>
-    <div class="sub__overlay">
+    <div class="sub__overlay" v-if="showSubNavigation">
         <div class="sub__navigation">
             <button
                 v-for="(subCategory, index) in props.subCategories"

@@ -6,7 +6,7 @@ iconConfig.set('Speech Bubbles', 'chat_bubble');
 iconConfig.set('Text', 'sticky_note');
 iconConfig.set('Annotation Elements', 'category');
 iconConfig.set('Scenes', 'scene');
-iconConfig.set('All assets', 'image_search');
+iconConfig.set('All Assets', 'image_search');
 
 // Icons for catalog sub navigation - CHARACTERS
 iconConfig.set('Single', 'emoji_people');

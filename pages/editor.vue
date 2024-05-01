@@ -15,6 +15,8 @@
     let catalogShow = ref(false);
     let selectedCategory = ref({});
 
+    const allAssetsCategoryName = 'All Assets';
+
     await useFetch('/api/catalog/structure')
         .then((response) => {
             catalogStructure.value = response.data.value;
@@ -28,13 +30,7 @@
     }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
-        // console.log('fetch', {
-        //     category: category,
-        //     subCategory: subCategory,
-        //     filter: filter,
-        // });
-
-        if (category === 'All assets') category = [];
+        if (category === allAssetsCategoryName) category = [];
 
         useFetch('/api/catalog/', {
             method: 'POST',
@@ -54,37 +50,17 @@
 
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
-        console.log('DEBUG', category);
+        // console.log('DEBUG', category);
         catalogShow.value = true;
         fetchCatalogElements(category.name, [], []);
     }
 
     function handleSelectAllAssets() {
-        // Implement logic to handle selection of all assets here
-
-        // const tmp = catalogStructure.value.categories[0].subCategories;
-        // allAssetsCategory.subCategories.push(tmp);
-
-        // catalogStructure.value.categories.forEach((cat) => {
-        //     cat.subCategories.forEach((subCat) => {
-        //         // console.log(subCat);
-        //         allAssetsCategory.subCategories.push(subCat);
-        //     });
-        // });
-
         selectedCategory.value = {
-            name: 'All assets',
+            name: allAssetsCategoryName,
             subCategories: catalogStructure.value.categories[0].subCategories,
         };
         catalogShow.value = true;
-        // fetchCatalogElements([], [], []);
-
-        // console.log('All assets selected!');
-        // console.log(catalogStructure.value);
-        // console.log(catalogStructure.value.categories);
-
-        // fetchCatalogElements([], [], []);
-        // console.log('DATA', catalogElements);
     }
 </script>
 

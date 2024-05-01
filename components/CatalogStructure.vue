@@ -55,6 +55,7 @@
             <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
         </div>
         <CatalogSubNavigation
+            v-if="selectedCategory.name !== 'All Assets'"
             :subCategories="selectedCategory.subCategories"
             @subCategorySelected="updateSubSelectedCategory"
         ></CatalogSubNavigation>

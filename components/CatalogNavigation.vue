@@ -3,6 +3,8 @@
 
     const props = defineProps({
         categories: { type: Array },
+        textButtonName: { type: String, default: 'Text' },
+        allAssetsButtonName: { type: String, default: 'All Assets' },
     });
 
     const emit = defineEmits(['categorySelected', 'selectAllAssets']);
@@ -22,7 +24,14 @@
             <span class="icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}
         </button>
-        <button @click="selectAllAssets()">All Assets</button>
+        <button>
+            <span class="icon"> {{ iconConfig.get(props.textButtonName) || 'default_icon' }} </span
+            >{{ props.textButtonName }}
+        </button>
+        <button @click="selectAllAssets()">
+            <span class="icon"> {{ iconConfig.get(props.allAssetsButtonName) || 'default_icon' }} </span
+            >{{ props.allAssetsButtonName }}
+        </button>
     </div>
 </template>
 
