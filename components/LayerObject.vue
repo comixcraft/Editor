@@ -18,6 +18,7 @@
         ul = document.getElementsByClassName('layers')[0];
         let sortable = Sortable.create(ul, {
             animation: 150,
+            ghostClass: 'left-over',
             onEnd: function (evt) {
                 //console.log(evt.oldIndex, evt.newIndex)
                 emit('switchEvent', {
@@ -99,5 +100,16 @@
 
     .layer-text {
         margin: 0;
+    }
+
+    .left-over {
+        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
+        opacity: 0.3;
+        & :nth-child(1) {
+            opacity: 0;
+        }
+        & :nth-child(2) {
+            opacity: 0;
+        }
     }
 </style>
