@@ -50,7 +50,7 @@ export default class Panel {
      * @returns {ElementDS | undefined}
      */
     getElement(id) {
-        return this._elements.get(id);
+        return this.elements.get(id);
     }
 
     /**
@@ -84,30 +84,24 @@ export default class Panel {
      * @param {String} id - key of the element in the map.
      */
     deleteElement(id) {
-        this._elements.delete(id);
-    }
-
-    getElement(id) {
-        return this._elements.get(id);
+        this.elements.delete(id);
     }
 
     hasElement(id) {
-        return this._elements.has(id);
+        return this.elements.has(id);
     }
 
     moveZIndexUp(id) {
         // check if map size allow z-index change
-        if (this._elements.size <= 1) {
-            console.log("Can't change the z-index when only one element is in the panel.");
+        if (this.elements.size <= 1) {
             return;
         }
 
         let element = this.getElement(id);
-        let elementZIndex = element.currentState().z;
+        let elementZIndex = element.z;
 
         // check if z-index the highest
         if (elementZIndex === this.getHighestZIndex()) {
-            console.log('the element is already the highest z-index of the panel.');
             return;
         }
 
@@ -115,9 +109,9 @@ export default class Panel {
         let zIndex = this.getHighestZIndex();
         let topElement = null;
         // look for z > elementZ starting from highest
-        this._elements.forEach((el) => {
-            if (el.currentState().z <= zIndex && el.currentState().z > elementZIndex) {
-                zIndex = el.currentState().z;
+        this.elements.forEach((el) => {
+            if (el.z <= zIndex && el.z > elementZIndex) {
+                zIndex = el.z;
                 topElement = el;
             }
         });
@@ -129,17 +123,15 @@ export default class Panel {
 
     moveZIndexDown(id) {
         // check if map size allow z-index change
-        if (this._elements.size <= 1) {
-            console.log("Can't change the z-index when only one element is in the panel.");
+        if (this.elements.size <= 1) {
             return;
         }
 
         let element = this.getElement(id);
-        let elementZIndex = element.currentState().z;
+        let elementZIndex = element.z;
 
         // check if z-index the lowest
         if (elementZIndex === this.getLowestZIndex()) {
-            console.log('the element is already the lowest z-index of the panel.');
             return;
         }
 
@@ -147,9 +139,9 @@ export default class Panel {
         let zIndex = this.getLowestZIndex();
         let downElement = null;
         // look for z > elementZ starting from highest
-        this._elements.forEach((el) => {
-            if (el.currentState().z >= zIndex && el.currentState().z < elementZIndex) {
-                zIndex = el.currentState().z;
+        this.elements.forEach((el) => {
+            if (el.z >= zIndex && el.z < elementZIndex) {
+                zIndex = el.z;
                 downElement = el;
             }
         });
@@ -161,14 +153,12 @@ export default class Panel {
 
     switchZIndexBetweenTwoElement(eId1, eId2) {
         if (!this.getElement(eId1) || !this.getElement(eId2)) {
-            console.log('Rendering error in the layers panel.');
             return;
         }
 
         let element1 = this.getElement(eId1);
         let elementZIndex1 = element1.z;
         let element2 = this.getElement(eId2);
-        let elementZIndex2 = element2.z;
 
         let tempZIndex = elementZIndex1;
         element1.z = element2.z;
@@ -177,9 +167,9 @@ export default class Panel {
 
     getHighestZIndex() {
         let potentialZIndex = 0;
-        this._elements.forEach((element) => {
-            if (element.currentState().z > potentialZIndex) {
-                potentialZIndex = element.currentState().z;
+        this.elements.forEach((element) => {
+            if (element.z > potentialZIndex) {
+                potentialZIndex = element.z;
             }
         });
         return potentialZIndex;
@@ -188,9 +178,9 @@ export default class Panel {
     getLowestZIndex() {
         let lowestZIndex = this.getHighestZIndex();
 
-        this._elements.forEach((element) => {
-            if (element.currentState().z < lowestZIndex) {
-                lowestZIndex = element.currentState().z;
+        this.elements.forEach((element) => {
+            if (element.z < lowestZIndex) {
+                lowestZIndex = element.z;
             }
         });
         return lowestZIndex;

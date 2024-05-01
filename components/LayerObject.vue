@@ -4,6 +4,7 @@
     const emit = defineEmits(['frontEvent', 'backEvent', 'switchEvent']);
 
     const comicStore = useComicStore();
+
     let ul;
 
     // create a reactive array from map element
@@ -20,11 +21,10 @@
             animation: 150,
             ghostClass: 'left-over',
             onEnd: function (evt) {
-                //console.log(evt.oldIndex, evt.newIndex)
-                emit('switchEvent', {
-                    eId1: arrayZSorted.value[evt.oldIndex].id,
-                    eId2: arrayZSorted.value[evt.newIndex].id,
-                });
+                // emit('switchEvent', {
+                //     eId1: arrayZSorted.value[evt.oldIndex].id,
+                //     eId2: arrayZSorted.value[evt.newIndex].id,
+                // });
             },
         });
     });
@@ -46,14 +46,29 @@
 
 <template>
     <ul class="layers">
-        <li v-for="element in arrayZSorted" :key="element.id" class="layer" :accessKey="element.id">
+        <li v-for="(element, index) in arrayZSorted" :key="element.id" class="layer" :accessKey="element.id">
             <div class="asset-image">
-                <img :src="element.src" :alt="element.alt" />
+                <img class="img" :src="element.src" :alt="element.alt" />
             </div>
             <p class="layer-text">{{ element.alt }}</p>
             <div class="chevrons">
-                <div class="expand-less icon" @click="sendEmitBack(element.id)">expand_less</div>
-                <div class="expand-more icon" @click="sendEmitFront(element.id)">expand_more</div>
+                <div
+                    class="expand-less icon"
+                    :style="{ opacity: index > 0 ? 1 : 0.25, cursor: index > 0 ? 'pointer' : 'not-allowed' }"
+                    @click="sendEmitBack(element.id)"
+                >
+                    expand_less
+                </div>
+                <div
+                    class="expand-more icon"
+                    :style="{
+                        opacity: index < arrayZSorted.length - 1 ? 1 : 0.25,
+                        cursor: index < arrayZSorted.length - 1 ? 'pointer' : 'not-allowed',
+                    }"
+                    @click="sendEmitFront(element.id)"
+                >
+                    expand_more
+                </div>
             </div>
         </li>
     </ul>
@@ -79,7 +94,7 @@
         align-items: center;
     }
 
-    .asset-image > img {
+    .asset-image > .img {
         max-height: 90%;
         max-width: 90%;
     }
