@@ -1,6 +1,7 @@
 <!-- CatalogContainer -->
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
+    import Asset from '~/utils/Classes/Asset.js';
 
     const props = defineProps({
         assets: Array,
@@ -13,8 +14,8 @@
         let name = event.target.alt;
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
-        // width, height, alt, src
-        let tempEl = new ElementDS(width, fixedHeight, name, src);
+        let newAsset = new Asset(src);
+        let tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
         emit('addElement', tempEl);
     }
 </script>

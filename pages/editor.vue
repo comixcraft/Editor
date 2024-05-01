@@ -1,4 +1,65 @@
 <script setup>
+    import ComicPanels from '~/components/ComicPanels.vue';
+    import ElementDS from '~/utils/Classes/Element.js';
+    import Text from '~/utils/Classes/Text.js';
+    let layersShow = ref(false);
+    let previewShow = ref(false);
+
+    definePageMeta({
+        middleware: ['comic-defined'],
+    });
+
+    const comicStore = useComicStore();
+    const catalogElements = ref([]);
+    const catalogStructure = ref([]);
+    const comic = reactive(comicStore.comic);
+    const activePanelIndex = ref(0);
+
+    await useFetch('/api/catalog/structure')
+        .then((response) => {
+            catalogStructure.value = response.data.value;
+        })
+        .catch((error) => {
+            createError(error);
+        });
+
+    function addElementToActivePanel(element) {
+        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
+    }
+
+    function fetchCatalogElements(category = [], subCategory = [], filter = []) {
+        useFetch('/api/catalog/', {
+            method: 'POST',
+            body: {
+                category: category,
+                subCategory: subCategory,
+                filter: filter,
+            },
+        })
+            .then((response) => {
+                catalogElements.value = response.data.value;
+            })
+            .catch((error) => {
+                createError(error);
+            });
+    }
+
+    function addNewTextToDisplay() {
+        let fixedHeight = 200;
+        let src = '';
+        let width = 200;
+        let name = 'New text.';
+        let type = new Text(name, 24, 'Pangolin');
+        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
+        addElementToActivePanel(tempEl);
+    }
+
+    onMounted(() => {
+        fetchCatalogElements();
+    });
+</script>
+
+<script setup>
     let layersShow = ref(false);
     let previewShow = ref(false);
 
@@ -93,6 +154,11 @@
         <div class="bottom-nav__container">
             <div class="editor__bottom-nav">
                 <div class="bottom-nav__scrollable-nav">
+                    <div class="scrollable-nav__item characters-btn">Characters</div>
+                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
+                    <div class="scrollable-nav__item text-btn" @click="addNewTextToDisplay">Text</div>
+                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
+                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
                     <CatalogNavigation
                         :categories="catalogStructure.categories"
                         @categorySelected="updateSelectedCategory"

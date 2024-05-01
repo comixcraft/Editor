@@ -1,13 +1,20 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default class Panel {
+    /** @type {String} */
     _border;
+    /** @type {Map<String, ElementDS>} */
     _elements;
+    /** @type {Number} */
     _width;
 
-    constructor(width, border) {
-        this._width = width;
-        this._border = border;
+    /**
+     * @param {Number} width
+     * @param {String} border
+     */
+    constructor(width = null, border = null) {
+        this._width = width ?? 0;
+        this._border = border ?? 'undefined';
 
         this.#init();
     }
@@ -17,19 +24,38 @@ export default class Panel {
     }
 
     // GETTERS
-
+    /**
+     * @returns {String}
+     */
     get border() {
         return this._border;
     }
 
+    /**
+     * @returns {Map<String, ElementDS>}
+     */
     get elements() {
         return this._elements;
     }
 
+    /**
+     * @returns {Number}
+     */
     get width() {
         return this._width;
     }
 
+    /**
+     * @param {String} id
+     * @returns {ElementDS | undefined}
+     */
+    getElement(id) {
+        return this._elements.get(id);
+    }
+
+    /**
+     * @returns {{border: String, elements: ElementsDS[], width: Number}}
+     */
     currentState() {
         return {
             border: this._border,
@@ -40,7 +66,7 @@ export default class Panel {
 
     // SETTERS
     /**
-     * @param {ElementDS} element - An instance of the ElementDS class.
+     * @param {ElementDS} element
      */
     addElement(element) {
         // find available integer
@@ -54,11 +80,17 @@ export default class Panel {
         this._elements.set(myUuid, element);
     }
 
+    /**
+     * @param {String} id - key of the element in the map.
+     */
     deleteElement(id) {
         this._elements.delete(id);
     }
-    // switch element
 
+    // Switch element
+    /**
+     * @returns {Number}
+     */
     getHighestZIndex() {
         let potentialZIndex = 0;
         this._elements.forEach((element) => {
