@@ -5,11 +5,15 @@
         categories: { type: Array },
     });
 
-    const emit = defineEmits(['categorySelected']);
+    const emit = defineEmits(['categorySelected', 'selectAllAssets']);
 
-    const selectCategory = (category) => {
+    function selectCategory(category) {
         emit('categorySelected', category, []);
-    };
+    }
+
+    function selectAllAssets() {
+        emit('selectAllAssets');
+    }
 </script>
 
 <template>
@@ -18,17 +22,11 @@
             <span class="icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}
         </button>
-        <button>Text</button>
-        <button @click="selectAll">All Assets</button>
+        <button @click="selectAllAssets()">All Assets</button>
     </div>
 </template>
 
 <style lang="scss" scoped>
-    .navigation {
-        position: fixed;
-        display: flex;
-    }
-
     span {
         display: block;
     }
