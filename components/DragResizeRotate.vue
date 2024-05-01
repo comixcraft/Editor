@@ -13,11 +13,12 @@
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
         element: Object,
+        selectedId: String,
     });
 
     const comicStore = useComicStore();
     // Define static variable
-    let elementActive = false;
+    let elementActive = ref(false);
     let tL, tR, bR, bL;
     let isRotating = ref(false);
     let isResizing = ref(false);
@@ -117,7 +118,22 @@
                 fontSize.value = obj.fontSize;
             }
         });
+        activateElement();
     });
+
+    onUpdated(() => {
+        activateElement();
+    });
+
+    function activateElement() {
+        if (!props.selectedId) {
+            return;
+        } else {
+            if (props.selectedId === props.eId) {
+                elementActive.value = true;
+            }
+        }
+    }
 
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };
@@ -137,13 +153,14 @@
 
 <template>
     <VueDragResizeRotate
+        :id="eId"
         :z="z"
         :w="w"
         :h="h"
         :eId="eId"
         class-name-active="element--active"
         ref="self"
-        :disableUserSelect="true"
+        :active="elementActive"
         :x="pos.currPos().x"
         :y="pos.currPos().y"
         :parent="true"
@@ -151,6 +168,12 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
+        @click="
+            () => {
+                console.log(activateElement);
+                lastClickOutside = false;
+            }
+        "
         @rotating="rotating"
         @resizing="isResizing = true"
         @activated="() => (elementActive = true)"

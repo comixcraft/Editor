@@ -2,6 +2,7 @@
     const props = defineProps({
         height: Number,
         panel: Object,
+        selectedId: String,
     });
 
     const canvasHeight = computed(() => props.height + 'px');
@@ -71,7 +72,7 @@
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
-                :altText="value.currentState().name"
+                :altText="value.alt"
                 :eId="value.currentState().id"
                 :h="value.currentState().height"
                 :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
@@ -84,6 +85,7 @@
                 :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
                 :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
                 :element="value"
+                :selectedId="props.selectedId"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"

@@ -6,6 +6,10 @@
             type: Object,
             default: () => {},
         },
+        selectedId: {
+            type: String,
+            default: () => null,
+        },
     });
 
     const stripHeight = ref(0);
@@ -40,7 +44,12 @@
         >
             <TextEditor v-if="comicStore.getCurrentElement().value != null" />
             <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
-                <WrapperCanvas class="swiper-no-swiping" :height="stripHeight" :panel="panel"></WrapperCanvas>
+                <WrapperCanvas
+                    class="swiper-no-swiping"
+                    :height="stripHeight"
+                    :panel="panel"
+                    :selectedId="props.selectedId"
+                ></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>
             </swiper-slide>
         </swiper>

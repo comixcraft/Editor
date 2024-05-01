@@ -4,6 +4,7 @@
     import Text from '~/utils/Classes/Text.js';
     let layersShow = ref(false);
     let previewShow = ref(false);
+    let selectedElementId = ref(null);
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -67,6 +68,10 @@
         comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).switchZIndexBetweenTwoElement(obj.eId1, obj.eId2);
     }
 
+    function selectElement(eId) {
+        selectedElementId.value = eId;
+    }
+
     onMounted(() => {
         fetchCatalogElements();
     });
@@ -96,7 +101,11 @@
         </div>
 
         <div class="editor__canvas">
-            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+            <ComicPanels
+                :comic="comic"
+                :selectedId="selectedElementId"
+                @active-panel-change="activePanelIndex = $event"
+            ></ComicPanels>
         </div>
 
         <div class="bottom-nav__container">
@@ -129,7 +138,12 @@
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
-                    <LayerObject @front-event="upZIndex" @back-event="downZIndex" @switch-event="switchZIndex">
+                    <LayerObject
+                        @front-event="upZIndex"
+                        @back-event="downZIndex"
+                        @switch-event="switchZIndex"
+                        @selection-event="selectElement"
+                    >
                     </LayerObject>
                 </div>
             </div>

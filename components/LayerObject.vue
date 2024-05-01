@@ -1,11 +1,12 @@
 <script setup>
     import Sortable from 'sortablejs';
 
-    const emit = defineEmits(['frontEvent', 'backEvent', 'switchEvent']);
+    const emit = defineEmits(['frontEvent', 'backEvent', 'switchEvent', 'selectionEvent']);
 
     const comicStore = useComicStore();
 
     let ul;
+    let selection = ref(undefined);
 
     // create a reactive array from map element
     let arrayZ = ref(Array.from(comicStore.getElementMap().value, ([key, value]) => value));
@@ -17,16 +18,16 @@
 
     onMounted(() => {
         ul = document.getElementsByClassName('layers')[0];
-        let sortable = Sortable.create(ul, {
-            animation: 150,
-            ghostClass: 'left-over',
-            onEnd: function (evt) {
-                // emit('switchEvent', {
-                //     eId1: arrayZSorted.value[evt.oldIndex].id,
-                //     eId2: arrayZSorted.value[evt.newIndex].id,
-                // });
-            },
-        });
+        // let sortable = Sortable.create(ul, {
+        //     animation: 150,
+        //     ghostClass: 'left-over',
+        //     onEnd: function (evt) {
+        //         emit('switchEvent', {
+        //             eId1: arrayZSorted.value[evt.oldIndex].id,
+        //             eId2: arrayZSorted.value[evt.newIndex].id,
+        //         });
+        //     },
+        // });
     });
 
     function sendEmitBack(eId) {
@@ -42,11 +43,23 @@
     function updateArrayZ() {
         arrayZ.value = Array.from(comicStore.getElementMap().value, ([key, value]) => value);
     }
+
+    function selectLayer(eId, index) {
+        selection.value = index;
+        emit('selectionEvent', eId);
+    }
 </script>
 
 <template>
     <ul class="layers">
-        <li v-for="(element, index) in arrayZSorted" :key="element.id" class="layer" :accessKey="element.id">
+        <li
+            v-for="(element, index) in arrayZSorted"
+            :key="element.id"
+            class="layer"
+            :accessKey="element.id"
+            @click="selectLayer(element.id, index)"
+            :style="{ border: index === selection ? '1px solid black' : 'none' }"
+        >
             <div class="asset-image">
                 <img class="img" :src="element.src" :alt="element.alt" />
             </div>
