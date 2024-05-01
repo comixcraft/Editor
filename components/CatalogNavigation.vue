@@ -7,7 +7,7 @@
         allAssetsButtonName: { type: String, default: 'All Assets' },
     });
 
-    const emit = defineEmits(['categorySelected', 'selectAllAssets']);
+    const emit = defineEmits(['categorySelected', 'selectAllAssets', 'addNewTextToDisplay']);
 
     function selectCategory(category) {
         emit('categorySelected', category, []);
@@ -15,6 +15,11 @@
 
     function selectAllAssets() {
         emit('selectAllAssets');
+    }
+
+    // Functionality to add new text to display
+    function addNewTextToDisplay() {
+        emit('addNewTextToDisplay');
     }
 </script>
 
@@ -24,7 +29,7 @@
             <span class="icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}
         </button>
-        <button>
+        <button @click="addNewTextToDisplay()">
             <span class="icon"> {{ iconConfig.get(props.textButtonName) || 'default_icon' }} </span
             >{{ props.textButtonName }}
         </button>
