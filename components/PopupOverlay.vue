@@ -1,32 +1,81 @@
 <script setup>
     import iconConfig from '../config/iconsConfig';
 
+    const selectedSubCategory = ref([]);
+    const selectedFilter = ref([]);
+
+    const emit = defineEmits(['close', 'catalogChanged']);
+
     const props = defineProps({
         iconName: { type: String, default: '' },
         title: { type: String },
         show: { type: Boolean, default: false },
+        selectedCategoryAssets: {
+            type: Array,
+            default: () => [],
+        },
+        selectedCategory: {
+            type: Object,
+            default: () => {},
+        },
     });
 
-    const emit = defineEmits(['close']);
+    function emitCatalogChanged() {
+        emit('catalogChanged', {
+            category: props.selectedCategory.name,
+            subCategory: selectedSubCategory.value.name,
+            filter: selectedFilter,
+        });
+    }
+
+    function updateSubSelectedCategory(subCategory) {
+        if (selectedSubCategory.value === subCategory) {
+            selectedSubCategory.value = [];
+        } else {
+            selectedSubCategory.value = subCategory;
+        }
+        emitCatalogChanged();
+    }
+
+    onMounted(() => {
+        emitCatalogChanged();
+    });
 </script>
 
 <template>
     <div>
         <div v-if="show" class="overlay">
-            <div class="navigation">
-                <div class="category__description">
-                    <span class="edit-icon icon text-primary">
-                        {{ iconConfig.get(props.iconName) || 'default_icon' }}
-                    </span>
-                    <div class="navigation__title h1">
-                        {{ title }}
-                    </div>
-                </div>
-                <div class="navigation__icon icon" @click="$emit('close')">close</div>
-            </div>
             <div class="overlay__content">
-                <slot></slot>
+                <div class="navigation">
+                    <div class="category__description">
+                        <span class="edit-icon icon text-primary">
+                            {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
+                        </span>
+                        <div class="navigation__title h4">
+                            {{ title }}
+                        </div>
+                    </div>
+                    <div class="navigation__icon icon" @click="$emit('close')">close</div>
+                </div>
+                <CatalogSearch
+                    placeholder="happy, barista, ..."
+                    :filters="selectedCategory.subCategories[0].filter"
+                    @search="
+                        (selectedFilterFromSearch) => {
+                            selectedFilter = selectedFilterFromSearch;
+                            emitCatalogChanged();
+                        }
+                    "
+                />
+                <div class="catalog__container">
+                    <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+                </div>
             </div>
+            <CatalogSubNavigation
+                v-if="selectedCategory.name !== 'All Assets'"
+                :subCategories="selectedCategory.subCategories"
+                @subCategorySelected="updateSubSelectedCategory"
+            ></CatalogSubNavigation>
         </div>
     </div>
 </template>
@@ -37,26 +86,27 @@
         align-items: center;
         justify-content: space-between;
         background-color: $white;
-        height: 80px;
-        margin: 0;
+        margin: $spacer-2;
         color: $primary;
         cursor: pointer;
     }
+
     .category__description {
         display: flex;
         gap: $spacer-2;
     }
     .overlay {
-        z-index: 9999999;
-        position: fixed;
-        top: 5.6%;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        padding: $spacer-3;
+        background-color: $white;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
-        background-color: $white;
+        padding-top: $spacer-2;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .overlay__content {
+        height: 100%;
     }
 
     .icon {

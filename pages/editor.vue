@@ -3,6 +3,8 @@
     import ElementDS from '~/utils/Classes/Element.js';
     import Text from '~/utils/Classes/Text.js';
 
+    const emit = defineEmits(['addElementToPanel']);
+
     let layersShow = ref(false);
     let previewShow = ref(false);
 
@@ -27,6 +29,10 @@
         .catch((error) => {
             createError(error);
         });
+
+    function onAddElementToPanel(element) {
+        emit('addElementToPanel', element);
+    }
 
     function addElementToActivePanel(element) {
         comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
@@ -115,18 +121,19 @@
                         @selectAllAssets="handleSelectAllAssets"
                         @addNewTextToDisplay="addNewTextToDisplay"
                     />
-                    <CatalogStructure
-                        :title="selectedCategory.name"
-                        :show="catalogShow"
-                        :selectedCategoryAssets="catalogElements"
-                        :selectedCategory="selectedCategory"
-                        @close="catalogShow = false"
-                        @add-element="addElementToActivePanel"
-                        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                    />
                 </div>
             </div>
-            <div class="catalogue-container"></div>
+            <div class="catalogue-container">
+                <PopupOverlay
+                    :title="selectedCategory.name"
+                    :show="catalogShow"
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @close="catalogShow = false"
+                    :add-element="addElementToActivePanel"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                />
+            </div>
         </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
@@ -145,6 +152,10 @@
 </template>
 
 <style scoped lang="scss">
+    .layer {
+        height: 100vh;
+        width: 100%;
+    }
     .layer-background {
         width: 100vw;
         height: 100vh;
@@ -228,7 +239,11 @@
         color: #fff;
     }
     .catalogue-container {
-        display: none;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background-color: $grey-90;
     }
 
     @include media-breakpoint-up(lg) {
@@ -271,12 +286,12 @@
         .catalogue-container {
             display: block;
             width: 25vw;
-            height: 100vh;
-            background-color: #ccc;
+            background-color: $white;
             position: absolute;
             top: 0px;
             left: 200px;
             z-index: 900;
+            height: 100vh;
         }
     }
 </style>

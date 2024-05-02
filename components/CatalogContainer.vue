@@ -37,6 +37,7 @@
         padding: $spacer-4 0;
         display: flex;
         width: auto;
+        height: 80vh;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;

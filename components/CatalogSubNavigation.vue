@@ -42,10 +42,10 @@
 
 <style lang="scss" scoped>
     .sub__overlay {
-        position: fixed;
+        position: absolute;
         bottom: 0;
-        right: 0;
         left: 0;
+        right: 0;
         padding: $spacer-3;
         background-color: $white;
         box-shadow: $box-shadow-light;
@@ -55,6 +55,9 @@
         display: flex;
         justify-content: space-around;
         box-shadow: 3px;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
     }
 
     .sub__btn {
@@ -66,6 +69,7 @@
         align-items: center;
         gap: $spacer-1;
         background-color: $white;
+        font-size: 16px;
 
         &.selected {
             background-color: $primary;
