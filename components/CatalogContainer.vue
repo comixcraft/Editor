@@ -1,24 +1,22 @@
-<!-- CatalogContainer -->
 <script setup>
     import ElementDS from '~/utils/Classes/Element.js';
     import Asset from '~/utils/Classes/Asset.js';
 
-    const props = defineProps({
+    defineProps({
         assets: Array,
     });
 
     const emit = defineEmits(['addElement']);
-    const comicStore = useComicStore();
 
     function addNewElementToDisplay(event) {
         let fixedHeight = 200;
         let name = event.target.alt;
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
+
         let newAsset = new Asset(src);
         let tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
-        //emit('addElement', tempEl);
-        comicStore.bus.emit('add-element', tempEl);
+        emit('addElement', tempEl);
     }
 </script>
 
@@ -36,17 +34,17 @@
 
 <style lang="scss" scoped>
     .catalog__scroll-container {
-        padding: $spacer-3 0;
-        display: flex;
         width: auto;
+        height: calc(100vh - 80px);
+        padding: $spacer-4 0;
+        border: none;
+        display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        padding-bottom: 100px;
         align-items: center;
         gap: $spacer-4;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
-        mask-image: linear-gradient(to bottom, black calc(100% - 48px), transparent 100%);
     }
 </style>

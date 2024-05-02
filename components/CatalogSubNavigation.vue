@@ -84,9 +84,6 @@
     @include media-breakpoint-up(lg) {
         .sub__overlay {
             font-size: map-get($font-size-phone, 4);
-        }
-
-        .sub__overlay {
             position: absolute;
         }
     }
