@@ -12,12 +12,14 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
-        element: Object,
+        selectedId: String,
+        lockAspectRatio: Boolean,
+        panel: Object,
     });
 
     const comicStore = useComicStore();
     // Define static variable
-    let elementActive = false;
+    let elementActive = ref(false);
     let tL, tR, bR, bL;
     let isRotating = ref(false);
     let isResizing = ref(false);
@@ -31,6 +33,7 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
+    let zIndex = ref(props.z);
 
     // Define emits
     const emit = defineEmits([
@@ -40,6 +43,8 @@
         'mirrorHorizontalEvent',
         'mirrorVerticalEvent',
         'rotateEvent',
+        'backEvent',
+        'frontEvent',
     ]);
 
     // computed functions
@@ -50,6 +55,14 @@
     const setMirroredVertical = computed(() => {
         return mirroredVertical.value ? '-1' : '1';
     });
+
+    function upZIndex(eId) {
+        emit('frontEvent', eId);
+    }
+
+    function downZIndex(eId) {
+        emit('backEvent', eId);
+    }
 
     function rotating(val) {
         angle.value = val;
@@ -109,6 +122,20 @@
         });
     });
 
+    // onUpdated(() => {
+    //     activateElement();
+    // });
+
+    // function activateElement() {
+    //     if (!props.selectedId) {
+    //         return;
+    //     } else {
+    //         if (props.selectedId === props.eId) {
+    //             elementActive.value = true;
+    //         }
+    //     }
+    // }
+
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };
         tR = { x: self.value.left + self.value.width, y: self.value.top };
@@ -116,7 +143,6 @@
         bL = { x: self.value.left, y: self.value.top + self.value.height };
     }
 
-    // d=√((x2 – x1)² + (y2 – y1)²).
     function updateBB() {
         updateCornersPosition();
         let d1 = Math.sqrt(Math.pow(tL.x - bR.x, 2) + Math.pow(tL.y - bR.y, 2));
@@ -124,17 +150,18 @@
 
         maxDiagonal.value = `${Math.max(d1, d2)}px`;
     }
+    //  :active="elementActive"
 </script>
 
 <template>
     <VueDragResizeRotate
+        :id="eId"
         :z="z"
         :w="w"
         :h="h"
         :eId="eId"
         class-name-active="element--active"
         ref="self"
-        :disableUserSelect="true"
         :x="pos.currPos().x"
         :y="pos.currPos().y"
         :parent="true"
@@ -142,6 +169,8 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
+        :lockAspectRatio="props.lockAspectRatio"
+        :style="{ zIndex: zIndex }"
         @rotating="rotating"
         @resizing="isResizing = true"
         @activated="() => (elementActive = true)"
@@ -156,6 +185,8 @@
                 @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
                 @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
                 @delete-event="$emit('deleteEvent', eId)"
+                @front-event="upZIndex(eId)"
+                @back-event="downZIndex(eId)"
             />
         </div>
         <div

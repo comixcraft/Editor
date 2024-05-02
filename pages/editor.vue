@@ -4,6 +4,8 @@
     import Text from '~/utils/Classes/Text.js';
     let layersShow = ref(false);
     let previewShow = ref(false);
+    let selectedElementId = ref(null);
+    let lockAspectRatio = ref(false);
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -48,11 +50,26 @@
         let fixedHeight = 200;
         let src = '';
         let width = 200;
-        let name = 'New text.';
+        let name = 'Double-click to edit me.';
         let type = new Text(name, 24, 'Pangolin');
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         addElementToActivePanel(tempEl);
     }
+
+    function selectElement(eId) {
+        selectedElementId.value = eId;
+    }
+
+    window.onkeydown = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            lockAspectRatio.value = true;
+        }
+    };
+    window.onkeyup = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            lockAspectRatio.value = false;
+        }
+    };
 
     onMounted(() => {
         fetchCatalogElements();
@@ -83,7 +100,12 @@
         </div>
 
         <div class="editor__canvas">
-            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+            <ComicPanels
+                :lockAspectRatio="lockAspectRatio"
+                :comic="comic"
+                :selectedId="selectedElementId"
+                @active-panel-change="activePanelIndex = $event"
+            ></ComicPanels>
         </div>
 
         <div class="bottom-nav__container">
@@ -116,7 +138,11 @@
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
-                    <LayerObject></LayerObject>
+                    <LayerObject
+                        :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"
+                        @selection-event="selectElement"
+                    >
+                    </LayerObject>
                 </div>
             </div>
         </ScreenOverlay>
@@ -138,6 +164,7 @@
 
     .layer-container {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     }
