@@ -87,7 +87,7 @@
             <div class="top-nav__item undo-btn icon d-none">undo</div>
             <div class="top-nav__item redo-btn icon d-none">redo</div>
             <div class="top-nav__item preview-btn d-none"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn d-none"><button @click="layersShow = true">layers</button></div>
+            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
             <div class="top-nav__item export-btn icon">
                 <NuxtLink
                     :to="{
