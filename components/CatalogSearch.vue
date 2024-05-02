@@ -95,6 +95,7 @@
         &__pill {
             margin-top: $spacer-2;
             cursor: pointer;
+            $font-size-phone: 4;
             padding: $spacer-1 $spacer-2;
             border: $border-width solid $secondary;
             color: $secondary;
@@ -153,6 +154,19 @@
     .pill {
         &__close {
             display: none;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .filter {
+            display: flex;
+            gap: $spacer-2;
+            flex-wrap: wrap;
+            &__pill {
+                margin-top: $spacer-2;
+                cursor: pointer;
+                font-size: 16px;
+            }
         }
     }
 </style>

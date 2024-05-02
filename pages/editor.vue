@@ -30,10 +30,6 @@
             createError(error);
         });
 
-    function onAddElementToPanel(element) {
-        emit('addElementToPanel', element);
-    }
-
     function addElementToActivePanel(element) {
         comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
     }

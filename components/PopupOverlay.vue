@@ -4,7 +4,7 @@
     const selectedSubCategory = ref([]);
     const selectedFilter = ref([]);
 
-    const emit = defineEmits(['close', 'catalogChanged']);
+    const emit = defineEmits(['close', 'catalogChanged', 'addElementToActivePanel']);
 
     const props = defineProps({
         iconName: { type: String, default: '' },
@@ -37,6 +37,11 @@
         emitCatalogChanged();
     }
 
+    // Functionality to add new element to display
+    function addElementToActivePanel() {
+        emit('addElementToActivePanel');
+    }
+
     onMounted(() => {
         emitCatalogChanged();
     });
@@ -51,7 +56,7 @@
                         <span class="edit-icon icon text-primary">
                             {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
                         </span>
-                        <div class="navigation__title h4">
+                        <div class="navigation__title h3">
                             {{ title }}
                         </div>
                     </div>
@@ -68,7 +73,10 @@
                     "
                 />
                 <div class="catalog__container">
-                    <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+                    <CatalogContainer
+                        :assets="selectedCategoryAssets"
+                        @click="addElementToActivePanel"
+                    ></CatalogContainer>
                 </div>
             </div>
             <CatalogSubNavigation
@@ -91,6 +99,10 @@
         cursor: pointer;
     }
 
+    .navigation__title {
+        font-size: 16px;
+    }
+
     .category__description {
         display: flex;
         gap: $spacer-2;
@@ -111,5 +123,11 @@
 
     .icon {
         color: $grey-70;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .navigation__title {
+            font-size: 18px;
+        }
     }
 </style>

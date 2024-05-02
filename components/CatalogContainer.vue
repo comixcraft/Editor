@@ -37,13 +37,21 @@
         padding: $spacer-4 0;
         display: flex;
         width: auto;
-        height: 80vh;
+        height: 75vh;
         flex-wrap: wrap;
         justify-content: center;
+        padding-bottom: 100px;
         align-items: center;
         gap: $spacer-3;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        mask-image: linear-gradient(to bottom, black calc(100% - 48px), transparent 100%);
+    }
+
+    @include media-breakpoint-up(lg) {
+        .catalog__scroll-container {
+            height: 85vh;
+        }
     }
 </style>

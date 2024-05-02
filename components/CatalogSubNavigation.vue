@@ -58,6 +58,7 @@
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        font-size: 14px;
     }
 
     .sub__btn {
@@ -69,7 +70,6 @@
         align-items: center;
         gap: $spacer-1;
         background-color: $white;
-        font-size: 16px;
 
         &.selected {
             background-color: $primary;
@@ -79,5 +79,11 @@
 
     span {
         display: block;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .sub__overlay {
+            font-size: 14px;
+        }
     }
 </style>
