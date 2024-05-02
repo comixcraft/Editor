@@ -59,7 +59,7 @@
 
 <template>
     <div>
-        <div ref="container" class="panel container">
+        <div ref="container" class="panel">
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"

@@ -82,37 +82,43 @@
             </div>
         </div>
 
-        <div class="editor__canvas">
-            <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
-        </div>
+        <div class="row g-0">
+            <div class="editor__canvas col-12 col-lg-8">
+                <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+            </div>
 
-        <div class="bottom-nav__container">
-            <div class="editor__bottom-nav">
-                <div class="bottom-nav__scrollable-nav">
-                    <div class="scrollable-nav__item characters-btn">Characters</div>
-                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
-                    <div class="scrollable-nav__item text-btn" @click="addNewTextToDisplay">Text</div>
-                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
-                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
+            <div class="bottom-nav__container order-lg-first col-12 col-lg-4">
+                <div class="editor__bottom-nav">
+                    <div class="bottom-nav__scrollable-nav">
+                        <div class="scrollable-nav__item characters-btn">Characters</div>
+                        <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
+                        <div class="scrollable-nav__item text-btn" @click="addNewTextToDisplay">Text</div>
+                        <div class="scrollable-nav__item shapes-btn">Shapes</div>
+                        <div class="scrollable-nav__item scenes-btn">Scenes</div>
+                    </div>
+                </div>
+                <div class="catalogue-container">
+                    <CatalogSearch
+                        placeholder="happy, barista, ..."
+                        :filters="catalogStructure.categories[0].subCategories[0].filter"
+                        @search="
+                            (selectedFilter) => {
+                                fetchCatalogElements(
+                                    catalogStructure.categories[0].name,
+                                    catalogStructure.categories[0].subCategories[0].name,
+                                    selectedFilter
+                                );
+                            }
+                        "
+                    />
+                    <CatalogContainer
+                        :assets="catalogElements"
+                        @add-element="addElementToActivePanel"
+                    ></CatalogContainer>
                 </div>
             </div>
-            <div class="catalogue-container">
-                <CatalogSearch
-                    placeholder="happy, barista, ..."
-                    :filters="catalogStructure.categories[0].subCategories[0].filter"
-                    @search="
-                        (selectedFilter) => {
-                            fetchCatalogElements(
-                                catalogStructure.categories[0].name,
-                                catalogStructure.categories[0].subCategories[0].name,
-                                selectedFilter
-                            );
-                        }
-                    "
-                />
-                <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
-            </div>
         </div>
+
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
@@ -153,10 +159,9 @@
     .editor__canvas {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        height: 100vh;
-        width: 70vw;
-        margin-left: auto;
+        justify-content: center;
+        height: calc(100vh - 80px - 80px);
+        flex-grow: 1;
     }
 
     .editor__bottom-nav {
@@ -201,10 +206,8 @@
     }
 
     .bottom-nav__container {
-        position: fixed;
         bottom: 0;
         left: 0;
-        width: 100%;
         background-color: #fff;
         z-index: 1000;
     }
@@ -221,23 +224,17 @@
             z-index: 999999;
         }
         .editor__bottom-nav {
-            height: 100vh;
+            height: calc(100vh - 80px);
         }
-        .mobile {
-            display: none;
-        }
-
         .editor__canvas {
             align-items: center;
             display: flex;
-            justify-content: right;
-            padding: $spacer-4;
+            justify-content: center;
+            height: calc(100vh - 80px);
         }
         .bottom-nav__container {
-            position: absolute;
-            top: 80px;
-            left: 0;
-            width: 200px;
+            position: static;
+            display: flex;
             background-color: #fff;
             z-index: 1000;
         }
@@ -255,11 +252,9 @@
 
         .catalogue-container {
             display: block;
-            width: 25vw;
-            height: 100vh;
+            flex-grow: 1;
+            height: calc(100vh - 80px);
             background-color: #ccc;
-            position: absolute;
-            top: 0px;
             left: 200px;
             z-index: 900;
         }
