@@ -131,12 +131,12 @@ export default class Panel {
         let elementZIndex = element.z;
 
         // check if z-index the lowest
-        if (elementZIndex === this.getLowestZIndex()) {
+        if (elementZIndex === this.getLowestZIndex(id)) {
             return;
         }
 
         // return closest lower Z-Index element
-        let zIndex = this.getLowestZIndex();
+        let zIndex = this.getLowestZIndex(id);
         let downElement = null;
         // look for z > elementZ starting from highest
         this.elements.forEach((el) => {
@@ -151,19 +151,19 @@ export default class Panel {
         element.setZIndex(zIndex);
     }
 
-    switchZIndexBetweenTwoElement(eId1, eId2) {
-        if (!this.getElement(eId1) || !this.getElement(eId2)) {
-            return;
-        }
+    // switchZIndexBetweenTwoElement(eId1, eId2) {
+    //     if (!this.getElement(eId1) || !this.getElement(eId2)) {
+    //         return;
+    //     }
 
-        let element1 = this.getElement(eId1);
-        let elementZIndex1 = element1.z;
-        let element2 = this.getElement(eId2);
+    //     let element1 = this.getElement(eId1);
+    //     let elementZIndex1 = element1.z;
+    //     let element2 = this.getElement(eId2);
 
-        let tempZIndex = elementZIndex1;
-        element1.z = element2.z;
-        element2.z = tempZIndex;
-    }
+    //     let tempZIndex = elementZIndex1;
+    //     element1.z = element2.z;
+    //     element2.z = tempZIndex;
+    // }
 
     getHighestZIndex() {
         let potentialZIndex = 0;
@@ -175,8 +175,8 @@ export default class Panel {
         return potentialZIndex;
     }
 
-    getLowestZIndex() {
-        let lowestZIndex = this.getHighestZIndex();
+    getLowestZIndex(id) {
+        let lowestZIndex = this.getElement(id).z;
 
         this.elements.forEach((element) => {
             if (element.z < lowestZIndex) {
