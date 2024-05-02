@@ -30,9 +30,10 @@
             createError(error);
         });
 
-    function addElementToActivePanel(element) {
-        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
-    }
+    // function addElementToActivePanel(element) {
+    //     comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
+    //     console.log(element);
+    // }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
@@ -126,7 +127,6 @@
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
                     @close="catalogShow = false"
-                    :add-element="addElementToActivePanel"
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
                 />
             </div>

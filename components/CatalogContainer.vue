@@ -8,6 +8,7 @@
     });
 
     const emit = defineEmits(['addElement']);
+    const comicStore = useComicStore();
 
     function addNewElementToDisplay(event) {
         let fixedHeight = 200;
@@ -16,7 +17,8 @@
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
         let newAsset = new Asset(src);
         let tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
-        emit('addElement', tempEl);
+        //emit('addElement', tempEl);
+        comicStore.bus.emit('add-element', tempEl);
     }
 </script>
 

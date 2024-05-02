@@ -4,7 +4,7 @@
     const selectedSubCategory = ref([]);
     const selectedFilter = ref([]);
 
-    const emit = defineEmits(['close', 'catalogChanged', 'addElementToActivePanel']);
+    const emit = defineEmits(['close', 'catalogChanged']);
 
     const props = defineProps({
         iconName: { type: String, default: '' },
@@ -37,10 +37,10 @@
         emitCatalogChanged();
     }
 
-    // Functionality to add new element to display
-    function addElementToActivePanel() {
-        emit('addElementToActivePanel');
-    }
+    // // Functionality to add new element to display
+    // function addElementToActivePanel() {
+    //     emit('addElementToActivePanel');
+    // }
 
     onMounted(() => {
         emitCatalogChanged();
@@ -100,7 +100,7 @@
     }
 
     .navigation__title {
-        font-size: 16px;
+        $font-size-phone: 4;
     }
 
     .category__description {
@@ -127,7 +127,7 @@
 
     @include media-breakpoint-up(lg) {
         .navigation__title {
-            font-size: 18px;
+            $font-size-phone: 3;
         }
     }
 </style>

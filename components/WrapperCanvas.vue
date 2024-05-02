@@ -6,6 +6,7 @@
 
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+    const comicStore = useComicStore();
     const border = props.panel.border;
     let elements = props.panel.elements;
 
@@ -15,6 +16,10 @@
             return;
         }
     }
+
+    comicStore.bus.on('add-element', (el) => {
+        props.panel.addElement(el);
+    });
 
     function deleteElement(eId) {
         // delete last element of map
