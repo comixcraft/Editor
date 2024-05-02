@@ -30,10 +30,9 @@
             createError(error);
         });
 
-    // function addElementToActivePanel(element) {
-    //     comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
-    //     console.log(element);
-    // }
+    function addElementToActivePanel(element) {
+        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
+    }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
