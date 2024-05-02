@@ -14,7 +14,7 @@
         let src = event.target.src;
         let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
 
-        let newAsset = new Asset(src, event.target.naturalWidth, event.target.naturalHeight);
+        let newAsset = new Asset(src);
         let tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
         emit('addElement', tempEl);
     }

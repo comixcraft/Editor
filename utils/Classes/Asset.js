@@ -7,19 +7,13 @@ export default class Asset {
     _path;
     /** @type {String} */
     _id;
-    /** @naturalWidth {Number} */
-    _naturalWidth;
-    /** @naturalHeight {Number} */
-    _naturalHeight;
 
     /**
      * @param {String} path
      */
-    constructor(path = null, naturalWidth = null, naturalHeight = null) {
+    constructor(path = null) {
         this._path = path ?? 'undefined';
         this._id = uuidv4();
-        this._naturalWidth = naturalWidth ?? 0;
-        this._naturalHeight = naturalHeight ?? 0;
     }
 
     // GETTERS
@@ -36,14 +30,6 @@ export default class Asset {
     /** @returns {String} */
     get name() {
         return this._name;
-    }
-    /** @returns {Number} */
-    get naturalWidth() {
-        return this._naturalWidth;
-    }
-    /** @returns {Number} */
-    get naturalHeight() {
-        return this._naturalHeight;
     }
 
     // SETTERS
