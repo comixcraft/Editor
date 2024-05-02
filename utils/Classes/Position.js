@@ -1,28 +1,50 @@
 export default class Position {
+    /** @type {Number} */
     _x;
+    /** @type {Number} */
     _y;
 
-    constructor(x, y) {
-        this._x = x;
-        this._y = y;
+    /**
+     * @param {Number} x
+     * @param {Number} y
+     */
+    constructor(x = null, y = null) {
+        this._x = x ?? 0;
+        this._y = y ?? 0;
     }
 
-    // getter
-    currPos = () => {
-        return this._getCurrentPosition();
-    };
+    // GETTERS
+    /** @returns {Number} */
+    get x() {
+        return this._x;
+    }
 
-    _getCurrentPosition() {
+    /** @returns {Number} */
+    get y() {
+        return this._y;
+    }
+
+    /** @returns {{x: Number, y: Number}} */
+    currPos() {
         return { x: this._x, y: this._y };
     }
 
-    // setter
-    definePos = (obj) => {
-        return this._definePosition(obj);
-    };
+    // SETTERS
+    /** @param {Number} x */
+    set x(x) {
+        this._x = x;
+    }
 
-    _definePosition = (obj) => {
+    /** @param {Number} y */
+    set y(y) {
+        this._y = y;
+    }
+
+    /**
+     * @param {{x:Number, y:Number}} obj
+     */
+    definePos(obj) {
         this._x = obj.x;
         this._y = obj.y;
-    };
+    }
 }

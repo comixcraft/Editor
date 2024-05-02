@@ -1,4 +1,5 @@
 export default class Page {
+    /** @type {Strip[]} */
     _strips;
 
     constructor() {
@@ -10,17 +11,25 @@ export default class Page {
     }
 
     // GETTER
-
+    /**
+     * @returns {Strip[]}
+     */
     get strips() {
         return this._strips;
     }
 
+    /**
+     * @param {Number} index
+     * @returns {Strip | undefined}
+     */
     getStrip(index) {
         return this._strips[index];
     }
 
     // SETTER
-
+    /**
+     * @param {Strip} strip
+     */
     addStripToPage(strip) {
         this._strips.push(strip);
     }

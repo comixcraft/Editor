@@ -10,19 +10,23 @@
         "postinstall": "nuxt prepare",
         "prepare": "husky",
         "prettier": "prettier --write .",
-        "lint": "eslint --ignore-pattern **/.nuxt --fix ."
+        "lint": "eslint --ignore-pattern **/.nuxt --fix .",
+        "test": "vitest"
     },
     "dependencies": {
+        "@gausszhou/vue3-drag-resize-rotate": "^3.0.2",
         "@pinia/nuxt": "^0.5.1",
         "bootstrap": "^5.3.3",
         "material-symbols": "^0.17.2",
+        "mitt": "^3.0.1",
         "nuxt": "^3.11.1",
         "nuxt-swiper": "^1.2.2",
         "pinia": "^2.1.7",
         "sass": "^1.74.1",
+        "sortablejs": "^1.15.2",
+        "swiper": "^11.1.1",
         "uuid": "^9.0.1",
         "vue": "^3.4.21",
-        "vue-draggable-resizable": "^3.0.0",
         "vue-router": "^4.3.0"
     },
     "devDependencies": {

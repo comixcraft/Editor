@@ -1,3 +1,19 @@
+<script setup>
+    import templatePanelConfig from '/config/templatePanelConfig.js';
+    import templateStripConfig from '/config/templateStripConfig.js';
+
+    const comicStore = useComicStore();
+
+    let selectedComicConfiguration = ref(null);
+
+    function createComic(config) {
+        if (!config) return;
+
+        comicStore.createComicWithConfig({ ...config });
+        return navigateTo('/editor');
+    }
+</script>
+
 <template>
     <div>
         <div class="top-nav">
@@ -77,22 +93,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-    import templatePanelConfig from '/config/templatePanelConfig.js';
-    import templateStripConfig from '/config/templateStripConfig.js';
-
-    const comicStore = useComicStore();
-
-    let selectedComicConfiguration = ref(null);
-
-    function createComic(config) {
-        if (!config) return;
-
-        comicStore.createComicWithConfig({ ...config });
-        return navigateTo('/editor');
-    }
-</script>
 
 <style scoped lang="scss">
     h2 {
