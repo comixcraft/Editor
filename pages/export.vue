@@ -5,136 +5,69 @@
 
     const comicStore = useComicStore();
 
-    const canvasWidth = ref(0);
-    const canvasHeight = ref(0);
     const canvasEl = ref(null);
-    let activePanel = ref(null);
-    let panelHeight;
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
 
     async function displayPreview() {
         const canvas = canvasEl.value;
-        canvasWidth.value = gap;
-        panelHeight = comicStore.comic.getPage(0).getStrip(0).height;
-        canvasHeight.value = gap + comicStore.comic.getPage(0).getStrip(0).height + creditSize.h;
+        canvas.width = gap;
+        canvas.height = gap + comicStore.comic.getPage(0).getStrip(0).height + creditSize.h;
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
 
+        // set the width of the canvas according to the width of the panels
         for (let i = 0; i < panels.length; i++) {
-            canvasWidth.value += panels[i].width + gap;
+            canvas.width += panels[i].width + gap;
         }
-
-        canvas.width = canvasWidth.value;
-        canvas.height = canvasHeight.value;
 
         let context = canvas.getContext('2d');
 
         // draw a white background
+        context.save();
         context.beginPath();
         context.fillStyle = 'white';
-        context.rect(0, 0, canvasWidth.value, canvasHeight.value);
+        context.rect(0, 0, canvas.width, canvas.height);
         context.fill();
         context.restore();
 
-        let startPos = gap;
         // draw the panels
+        let startPoint = gap;
         for (let i = 0; i < panels.length; i++) {
-            drawPanel(context, panels[i], startPos, stripsHeight);
-            startPos += panels[i].width + gap;
+            drawPanel(context, panels[i], startPoint, stripsHeight);
+            startPoint += panels[i].width + gap;
         }
 
+        // draw the credit logo
         drawCredit(canvas, context);
     }
 
-    function drawAsset(context, startPos, element, panel) {
-        console.log(panelHeight);
+    function drawAsset(context, element) {
         const img = new Image();
-        img.onload = () => {
-            // Save the current context
-            context.save();
-            context.translate(startPos, gap);
-
-            // element outside left of the canvas
-            if (element.pos.x < 0) {
-                element.sStartX = (-element.pos.x * element.type.naturalWidth) / element.width;
-                element.sWidth = ((element.width + element.pos.x) * element.type.naturalWidth) / element.width;
-                element.dX = 0;
-                element.dWidth = element.width + element.pos.x;
-            }
-            // element outside right of the canvas
-            else if (element.pos.x + element.width > panel.width) {
-                element.sStartX = 0;
-                element.sWidth =
-                    ((element.width - (element.pos.x + element.width - panel.width)) * element.type.naturalWidth) /
-                    element.width;
-                element.dX = element.pos.x;
-                element.dWidth = panel.width - element.pos.x;
-            } else {
-                element.sStartX = 0;
-                element.sWidth = (element.width * element.type.naturalWidth) / element.width;
-                element.dX = element.pos.x;
-                element.dWidth = element.width;
-            }
-
-            // element outside top of the canvas
-            if (element.pos.y < 0) {
-                element.sStartY = (-element.pos.y * element.type.naturalHeight) / element.height;
-                element.sHeight = ((element.height + element.pos.y) * element.type.naturalHeight) / element.height;
-                element.dY = 0;
-                element.dHeight = element.height + element.pos.y;
-            }
-            // element outside bottom of the canvas
-            else if (element.pos.y + element.height > panelHeight) {
-                element.sStartY = 0;
-                element.sHeight =
-                    ((element.height - (element.pos.y + element.height - panelHeight)) * element.type.naturalHeight) /
-                    element.height;
-                element.dY = element.pos.y;
-                element.dHeight = panelHeight - element.pos.y;
-            } else {
-                element.sStartY = 0;
-                element.sHeight = element.type.naturalHeight;
-                element.dY = element.pos.y;
-                element.dHeight = element.height;
-            }
-
-            // Move the rotation point to the center of the image
-            // context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
-
-            // Rotate the canvas to the specified degrees
-            // context.rotate((element.rotation * Math.PI) / 180);
-
-            // context.translate(element.dX, element.dY);
-
-            // Mirror the canvas around the x-axis or y-axis if necessary
-            if (element.isMirroredHorizontal) {
-                context.scale(-1, 1);
-            }
-            if (element.isMirroredVertical) {
-                context.scale(1, -1);
-            }
-
-            context.translate(element.dX, element.dY);
-
-            // Draw the image
-            context.drawImage(
-                img,
-                element.sStartX, // src x
-                element.sStartY, // src y
-                element.sWidth, // src width
-                element.sHeight, // src height
-                0, // dest x
-                0, // dest y
-                element.dWidth, // dest width
-                element.dHeight // dest height
-            );
-
-            // Restore the saved context
-            context.restore();
-        };
         img.src = element.src;
+        // Save the current context
+        context.save();
+
+        // Move the rotation point to the center of the image
+        context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
+
+        // Rotate the canvas to the specified degrees
+        context.rotate((element.rotation * Math.PI) / 180);
+
+        // Mirror the canvas around the x-axis or y-axis if necessary
+        if (element.isMirroredHorizontal) {
+            context.scale(-1, 1);
+        }
+        if (element.isMirroredVertical) {
+            context.scale(1, -1);
+        }
+
+        // Draw the image
+        context.drawImage(img, -element.width / 2, -element.height / 2, element.width, element.height);
+
+        // Restore the saved context
+        context.restore();
     }
 
     function getLines(context, text, maxWidth) {
@@ -142,6 +75,7 @@
         let lines = [];
         let currentLine = words[0];
 
+        // Loop through each word and add it to the current line if it fits
         for (let i = 1; i < words.length; i++) {
             let word = words[i];
             let width = context.measureText(currentLine + ' ' + word).width;
@@ -156,11 +90,11 @@
         return lines;
     }
 
-    function drawText(context, startPos, element, panelWidth) {
+    function drawText(context, element) {
         // Save the current context
         context.save();
-        context.translate(startPos, gap);
 
+        // Set the font properties
         context.font = `${element.type.fontSize}px ${element.type.fontFamily}`;
         context.fillStyle = 'black';
         context.textBaseline = 'top';
@@ -182,6 +116,7 @@
         // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
         context.translate(-element.width / 2, -element.height / 2);
 
+        // Draw the text once the lines are created
         getLines(context, element.type.content, element.width).forEach((line, i) => {
             context.fillText(line, 0, i * element.type.fontSize);
         });
@@ -204,30 +139,31 @@
         };
     }
 
-    function drawPanel(context, panel, startPos, height) {
+    function drawPanel(context, panel, startPoint, height) {
+        // create a canvas to prerender the panel
+        const newCanvas = document.createElement('canvas');
+        newCanvas.width = panel.width;
+        newCanvas.height = height;
+        const newContext = newCanvas.getContext('2d');
+
+        // draw the panels
         panel.elements.forEach((element, key) => {
-            switch (element.type.name) {
-                case 'Asset':
-                    drawAsset(context, startPos, element, panel);
-                    break;
-                case 'Text':
-                    drawText(context, startPos, element, panel.width);
-                    break;
-                default:
-                    console.log('Element type not recognized');
+            if (element.type.name === 'Asset') {
+                drawAsset(newContext, element);
+            } else if (element.type.name === 'Text') {
+                drawText(newContext, element);
+            } else {
+                console.log('Element not recognized in drawPanel in export.vue.');
             }
         });
+
+        // draw the border of the panel
         const img = new Image();
         img.src = panel.border;
-        img.onload = () => {
-            // Save the current context
-            context.save();
-            context.translate(startPos, gap);
+        newContext.drawImage(img, 0, 0, panel.width, height);
 
-            // Draw the image
-            context.drawImage(img, 0, 0, panel.width, height);
-            context.restore();
-        };
+        // draw the panel on the preview canvas
+        context.drawImage(newCanvas, startPoint, gap);
     }
 
     function download() {
@@ -241,10 +177,6 @@
         link.click();
     }
 
-    activePanel.value = comicStore.comic.getPage(0).getStrip(0).getPanel(0);
-    canvasWidth.value = activePanel.value.width;
-    canvasHeight.value = comicStore.comic.getPage(0).getStrip(0).height;
-
     onMounted(() => {
         displayPreview();
     });
@@ -257,7 +189,7 @@
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
-            <!--
+            <!-- NOT IMPLEMENTED YET
             <div class="share__input-group">
                 <label class="share__input-group-label" for="project-name">Project Name:</label>
                 <input
