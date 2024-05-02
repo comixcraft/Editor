@@ -50,7 +50,7 @@ export default class Panel {
      * @returns {ElementDS | undefined}
      */
     getElement(id) {
-        return this._elements.get(id);
+        return this.elements.get(id);
     }
 
     /**
@@ -84,20 +84,105 @@ export default class Panel {
      * @param {String} id - key of the element in the map.
      */
     deleteElement(id) {
-        this._elements.delete(id);
+        this.elements.delete(id);
     }
 
-    // Switch element
-    /**
-     * @returns {Number}
-     */
+    hasElement(id) {
+        return this.elements.has(id);
+    }
+
+    moveZIndexUp(id) {
+        // check if map size allow z-index change
+        if (this.elements.size <= 1) {
+            return;
+        }
+
+        let element = this.getElement(id);
+        let elementZIndex = element.z;
+
+        // check if z-index the highest
+        if (elementZIndex === this.getHighestZIndex()) {
+            return;
+        }
+
+        // return closest higher Z-Index element
+        let zIndex = this.getHighestZIndex();
+        let topElement = null;
+        // look for z > elementZ starting from highest
+        this.elements.forEach((el) => {
+            if (el.z <= zIndex && el.z > elementZIndex) {
+                zIndex = el.z;
+                topElement = el;
+            }
+        });
+
+        // switch this element
+        topElement.setZIndex(elementZIndex);
+        element.setZIndex(zIndex);
+    }
+
+    moveZIndexDown(id) {
+        // check if map size allow z-index change
+        if (this.elements.size <= 1) {
+            return;
+        }
+
+        let element = this.getElement(id);
+        let elementZIndex = element.z;
+
+        // check if z-index the lowest
+        if (elementZIndex === this.getLowestZIndex(id)) {
+            return;
+        }
+
+        // return closest lower Z-Index element
+        let zIndex = this.getLowestZIndex(id);
+        let downElement = null;
+        // look for z > elementZ starting from highest
+        this.elements.forEach((el) => {
+            if (el.z >= zIndex && el.z < elementZIndex) {
+                zIndex = el.z;
+                downElement = el;
+            }
+        });
+
+        // switch this element
+        downElement.setZIndex(elementZIndex);
+        element.setZIndex(zIndex);
+    }
+
+    // switchZIndexBetweenTwoElement(eId1, eId2) {
+    //     if (!this.getElement(eId1) || !this.getElement(eId2)) {
+    //         return;
+    //     }
+
+    //     let element1 = this.getElement(eId1);
+    //     let elementZIndex1 = element1.z;
+    //     let element2 = this.getElement(eId2);
+
+    //     let tempZIndex = elementZIndex1;
+    //     element1.z = element2.z;
+    //     element2.z = tempZIndex;
+    // }
+
     getHighestZIndex() {
         let potentialZIndex = 0;
-        this._elements.forEach((element) => {
-            if (element.currentState().z > potentialZIndex) {
-                potentialZIndex = element.currentState().z;
+        this.elements.forEach((element) => {
+            if (element.z > potentialZIndex) {
+                potentialZIndex = element.z;
             }
         });
         return potentialZIndex;
+    }
+
+    getLowestZIndex(id) {
+        let lowestZIndex = this.getElement(id).z;
+
+        this.elements.forEach((element) => {
+            if (element.z < lowestZIndex) {
+                lowestZIndex = element.z;
+            }
+        });
+        return lowestZIndex;
     }
 }
