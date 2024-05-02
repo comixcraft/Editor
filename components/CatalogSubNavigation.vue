@@ -58,7 +58,7 @@
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
-        font-size: 14px;
+        font-size: map-get($font-size-phone, 5);
     }
 
     .sub__btn {
@@ -83,7 +83,7 @@
 
     @include media-breakpoint-up(lg) {
         .sub__overlay {
-            font-size: 14px;
+            font-size: map-get($font-size-phone, 4);
         }
     }
 </style>

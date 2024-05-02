@@ -20,8 +20,21 @@
         },
     });
 
+    watch(
+        () => props.filters,
+        (newFilters) => {
+            if (newFilters.length == 0) {
+                showAllFilters.value = false;
+            }
+        }
+    );
+
     const visibleFilters = computed(() => {
         return showAllFilters.value ? props.filters : activeFilters.value;
+    });
+
+    const canFilter = computed(() => {
+        return props.filters.length && props.filterable;
     });
 
     function toggleFilter(filter) {
@@ -45,7 +58,7 @@
             <span
                 v-if="filterable"
                 class="icon search__tune"
-                :class="{ 'search__tune--active': showAllFilters }"
+                :class="{ 'search__tune--active': showAllFilters, 'search__tune--disabled': !canFilter }"
                 @click="showAllFilters = !showAllFilters"
                 >tune</span
             >
@@ -121,13 +134,14 @@
     }
 
     .icon.pill__close {
-        $font-size-phone: 2;
+        font-size: map-get($font-size-phone, 5);
     }
     .search {
         position: relative;
         display: flex;
         gap: $spacer-2;
         align-items: center;
+        padding-top: $spacer-3;
 
         &__clear {
             position: absolute;
@@ -139,6 +153,7 @@
 
         &__input {
             flex-grow: 1;
+            width: 50px;
         }
 
         &__tune {
@@ -147,6 +162,11 @@
 
             &--active {
                 color: $secondary;
+            }
+
+            &--disabled {
+                color: $grey-100;
+                pointer-events: none;
             }
         }
     }
@@ -165,8 +185,12 @@
             &__pill {
                 margin-top: $spacer-2;
                 cursor: pointer;
-                font-size: 16px;
+                font-size: map-get($font-size-phone, 5);
             }
+        }
+
+        .icon.pill__close {
+            font-size: map-get($font-size-phone, 5);
         }
     }
 </style>

@@ -7,6 +7,9 @@
 
     let layersShow = ref(false);
     let previewShow = ref(false);
+    let catalogShow = ref(false);
+
+    let selectedCategory = ref({});
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -18,9 +21,6 @@
     const catalogStructure = ref([]);
     const comic = reactive(comicStore.comic);
     const activePanelIndex = ref(0);
-
-    let catalogShow = ref(false);
-    let selectedCategory = ref({});
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -72,9 +72,10 @@
     function handleSelectAllAssets() {
         selectedCategory.value = {
             name: allAssetsCategoryName,
-            subCategories: catalogStructure.value.categories[0].subCategories,
+            subCategories: [],
         };
         catalogShow.value = true;
+        fetchCatalogElements([], [], []);
     }
 
     onMounted(() => {
@@ -120,15 +121,21 @@
                 </div>
             </div>
             <div class="catalogue-container">
-                <PopupOverlay
+                <CatalogLayout
                     :title="selectedCategory.name"
-                    :show="catalogShow"
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
-                    @close="catalogShow = false"
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
                 />
             </div>
+        </div>
+        <div class="modal-container">
+            <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+                <CatalogLayout
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+            /></OverlayModal>
         </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
@@ -137,7 +144,6 @@
                 </div>
             </div>
         </ScreenOverlay>
-
         <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
             <div class="darken-background">
                 <div class="comic-preview"></div>
@@ -234,11 +240,7 @@
         color: #fff;
     }
     .catalogue-container {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 100%;
-        background-color: $grey-90;
+        display: none;
     }
 
     @include media-breakpoint-up(lg) {
@@ -251,7 +253,6 @@
         .mobile {
             display: none;
         }
-
         .editor__canvas {
             align-items: center;
             display: flex;
@@ -287,6 +288,9 @@
             left: 200px;
             z-index: 900;
             height: 100vh;
+        }
+        .modal-container {
+            display: none;
         }
     }
 </style>

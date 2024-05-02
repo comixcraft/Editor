@@ -36,24 +36,17 @@
 
 <style lang="scss" scoped>
     .catalog__scroll-container {
-        padding: $spacer-4 0;
+        padding: $spacer-3 0;
         display: flex;
         width: auto;
-        height: 75vh;
         flex-wrap: wrap;
         justify-content: center;
         padding-bottom: 100px;
         align-items: center;
-        gap: $spacer-3;
+        gap: $spacer-4;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
         mask-image: linear-gradient(to bottom, black calc(100% - 48px), transparent 100%);
-    }
-
-    @include media-breakpoint-up(lg) {
-        .catalog__scroll-container {
-            height: 85vh;
-        }
     }
 </style>
