@@ -111,10 +111,6 @@
         }
     }
 
-    comicStore.bus.on('z-indexChange', () => {
-        zIndex.value = props.panel.elements.get(props.eId).z;
-    });
-
     onMounted(() => {
         updateBB();
         counterRotation.value = `${-angle.value}deg`;
@@ -126,19 +122,19 @@
         });
     });
 
-    onUpdated(() => {
-        activateElement();
-    });
+    // onUpdated(() => {
+    //     activateElement();
+    // });
 
-    function activateElement() {
-        if (!props.selectedId) {
-            return;
-        } else {
-            if (props.selectedId === props.eId) {
-                elementActive.value = true;
-            }
-        }
-    }
+    // function activateElement() {
+    //     if (!props.selectedId) {
+    //         return;
+    //     } else {
+    //         if (props.selectedId === props.eId) {
+    //             elementActive.value = true;
+    //         }
+    //     }
+    // }
 
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };

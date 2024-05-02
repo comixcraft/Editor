@@ -16,7 +16,7 @@
 
     // sort Array with z-index
     const arrayZSorted = computed(() => {
-        return arrayZ.value.slice().sort((a, b) => a.z - b.z);
+        return arrayZ.value.slice().sort((a, b) => b.z - a.z);
     });
 
     onMounted(() => {
@@ -31,11 +31,6 @@
         //         });
         //     },
         // });
-    });
-
-    onBeforeUnmount(() => {
-        comicStore.bus.emit('pop-closed');
-        comicStore.bus.off('elementMoved');
     });
 
     function sendEmitBack(eId, index) {
@@ -78,7 +73,7 @@
                 <div
                     class="expand-less icon"
                     :style="{ opacity: index > 0 ? 1 : 0.25, cursor: index > 0 ? 'pointer' : 'not-allowed' }"
-                    @click="sendEmitBack(element.id, index)"
+                    @click="sendEmitFront(element.id, index)"
                 >
                     expand_less
                 </div>
@@ -88,7 +83,7 @@
                         opacity: index < arrayZSorted.length - 1 ? 1 : 0.25,
                         cursor: index < arrayZSorted.length - 1 ? 'pointer' : 'not-allowed',
                     }"
-                    @click="sendEmitFront(element.id, index)"
+                    @click="sendEmitBack(element.id, index)"
                 >
                     expand_more
                 </div>
