@@ -42,7 +42,7 @@
 
 <style lang="scss" scoped>
     .sub__overlay {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
@@ -84,6 +84,10 @@
     @include media-breakpoint-up(lg) {
         .sub__overlay {
             font-size: map-get($font-size-phone, 4);
+        }
+
+        .sub__overlay {
+            position: absolute;
         }
     }
 </style>

@@ -49,17 +49,21 @@
 
 <template>
     <div class="catalog__container">
-        <CatalogSearch
-            placeholder="happy, barista, ..."
-            :filters="selectedSubCategory.filter"
-            @search="
-                (selectedFilterFromSearch) => {
-                    selectedFilter = selectedFilterFromSearch;
-                    emitCatalogChanged();
-                }
-            "
-        />
-        <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+        <div class="search-container">
+            <CatalogSearch
+                placeholder="happy, barista, ..."
+                :filters="selectedSubCategory.filter"
+                @search="
+                    (selectedFilterFromSearch) => {
+                        selectedFilter = selectedFilterFromSearch;
+                        emitCatalogChanged();
+                    }
+                "
+            />
+        </div>
+        <div class="assets-container">
+            <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+        </div>
         <CatalogSubNavigation
             v-if="selectedCategory.name !== 'All Assets'"
             :subCategories="selectedCategory.subCategories"

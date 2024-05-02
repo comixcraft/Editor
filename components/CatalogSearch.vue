@@ -153,7 +153,6 @@
 
         &__input {
             flex-grow: 1;
-            width: 50px;
         }
 
         &__tune {

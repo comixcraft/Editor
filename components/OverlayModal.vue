@@ -38,6 +38,7 @@
         justify-content: space-between;
         color: $primary;
         cursor: pointer;
+        background-color: $white;
     }
 
     .navigation__title {
