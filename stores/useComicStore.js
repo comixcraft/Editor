@@ -8,16 +8,7 @@ import mitt from 'mitt';
 export const useComicStore = defineStore('comic', () => {
     const comic = new Comic(null, null, null);
     let currentElement = ref(null);
-    let elementMap = ref(null);
     let bus = mitt();
-
-    function setElementMap(map) {
-        elementMap.value = map;
-    }
-
-    function getElementMap() {
-        return elementMap;
-    }
 
     function setCurrentElement(element) {
         currentElement.value = element;
@@ -51,7 +42,5 @@ export const useComicStore = defineStore('comic', () => {
         createComicWithConfig,
         setCurrentElement,
         getCurrentElement,
-        setElementMap,
-        getElementMap,
     };
 });

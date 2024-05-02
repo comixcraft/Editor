@@ -12,7 +12,6 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
-        element: Object,
         selectedId: String,
     });
 
@@ -168,12 +167,6 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
-        @click="
-            () => {
-                console.log(activateElement);
-                lastClickOutside = false;
-            }
-        "
         @rotating="rotating"
         @resizing="isResizing = true"
         @activated="() => (elementActive = true)"

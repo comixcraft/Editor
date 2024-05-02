@@ -1,15 +1,18 @@
 <script setup>
     import Sortable from 'sortablejs';
 
-    const emit = defineEmits(['frontEvent', 'backEvent', 'switchEvent', 'selectionEvent']);
-
     const comicStore = useComicStore();
+    const props = defineProps({
+        panel: Object,
+    });
+
+    const emit = defineEmits(['selectionEvent']);
 
     let ul;
     let selection = ref(undefined);
 
     // create a reactive array from map element
-    let arrayZ = ref(Array.from(comicStore.getElementMap().value, ([key, value]) => value));
+    let arrayZ = ref(Array.from(props.panel.elements, ([key, value]) => value));
 
     // sort Array with z-index
     const arrayZSorted = computed(() => {
@@ -30,22 +33,32 @@
         // });
     });
 
-    function sendEmitBack(eId) {
-        emit('backEvent', eId);
+    onBeforeUnmount(() => {
+        comicStore.bus.off('elementMoved');
+    });
+
+    comicStore.bus.on('elementMoved', () => {
         updateArrayZ();
+    });
+
+    function sendEmitBack(eId, index) {
+        updateArrayZ();
+        selection.value = index;
+        comicStore.bus.emit('putLayerBack', eId);
     }
 
-    function sendEmitFront(eId) {
-        emit('frontEvent', eId);
+    function sendEmitFront(eId, index) {
         updateArrayZ();
+        selection.value = index;
+        comicStore.bus.emit('putLayerFront', eId);
     }
 
     function updateArrayZ() {
-        arrayZ.value = Array.from(comicStore.getElementMap().value, ([key, value]) => value);
+        arrayZ.value = Array.from(Array.from(props.panel.elements, ([key, value]) => value));
     }
 
     function selectLayer(eId, index) {
-        selection.value = index;
+        selection.value === index ? (selection.value = undefined) : (selection.value = index);
         emit('selectionEvent', eId);
     }
 </script>
@@ -68,7 +81,7 @@
                 <div
                     class="expand-less icon"
                     :style="{ opacity: index > 0 ? 1 : 0.25, cursor: index > 0 ? 'pointer' : 'not-allowed' }"
-                    @click="sendEmitBack(element.id)"
+                    @click="sendEmitBack(element.id, index)"
                 >
                     expand_less
                 </div>
@@ -78,7 +91,7 @@
                         opacity: index < arrayZSorted.length - 1 ? 1 : 0.25,
                         cursor: index < arrayZSorted.length - 1 ? 'pointer' : 'not-allowed',
                     }"
-                    @click="sendEmitFront(element.id)"
+                    @click="sendEmitFront(element.id, index)"
                 >
                     expand_more
                 </div>
@@ -128,16 +141,5 @@
 
     .layer-text {
         margin: 0;
-    }
-
-    .left-over {
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        opacity: 0.3;
-        & :nth-child(1) {
-            opacity: 0;
-        }
-        & :nth-child(2) {
-            opacity: 0;
-        }
     }
 </style>

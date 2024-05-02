@@ -5,6 +5,7 @@
         selectedId: String,
     });
 
+    const comicStore = useComicStore();
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
     const border = props.panel.border;
@@ -12,7 +13,6 @@
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
-            console.log('Error in passing the element id');
             return;
         }
     }
@@ -57,13 +57,29 @@
         elements.get(obj.eId).setRotation(obj.rotation);
     }
 
+    comicStore.bus.on('putLayerBack', (eId) => {
+        console.log(eId);
+        downElement(eId);
+    });
+
+    comicStore.bus.on('putLayerFront', (eId) => {
+        upElement(eId);
+    });
+
     function upElement(eId) {
         props.panel.moveZIndexUp(eId);
+        comicStore.bus.emit('elementMoved');
     }
 
     function downElement(eId) {
         props.panel.moveZIndexDown(eId);
+        comicStore.bus.emit('elementMoved');
     }
+
+    onBeforeUnmount(() => {
+        comicStore.bus.off('putLayerBack');
+        comicStore.bus.off('putLayerFront');
+    });
 </script>
 
 <template>
@@ -84,7 +100,6 @@
                 :z="value.currentState().z"
                 :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
                 :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
-                :element="value"
                 :selectedId="props.selectedId"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
