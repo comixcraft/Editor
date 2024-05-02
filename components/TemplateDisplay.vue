@@ -49,7 +49,7 @@
             cursor: pointer;
             border: $border-width-lg solid $primary;
 
-            &__title {
+            .template__title {
                 color: $primary !important;
             }
         }
