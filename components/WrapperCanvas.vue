@@ -2,6 +2,8 @@
     const props = defineProps({
         height: Number,
         panel: Object,
+        selectedId: String,
+        lockAspectRatio: Boolean,
     });
 
     const canvasHeight = computed(() => props.height + 'px');
@@ -12,7 +14,6 @@
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
-            console.log('Error in passing the element id');
             return;
         }
     }
@@ -60,6 +61,33 @@
         // update element rotation
         elements.get(obj.eId).setRotation(obj.rotation);
     }
+
+    comicStore.bus.on('putLayerBack', (eId) => {
+        downElement(eId);
+    });
+
+    comicStore.bus.on('putLayerFront', (eId) => {
+        upElement(eId);
+    });
+
+    comicStore.bus.on('pop-closed', () => {
+        // logic
+    });
+
+    function upElement(eId) {
+        props.panel.moveZIndexUp(eId);
+        comicStore.bus.emit('z-indexChange');
+    }
+
+    function downElement(eId) {
+        props.panel.moveZIndexDown(eId);
+        comicStore.bus.emit('z-indexChange');
+    }
+
+    onBeforeUnmount(() => {
+        comicStore.bus.off('putLayerBack');
+        comicStore.bus.off('putLayerFront');
+    });
 </script>
 
 <template>
@@ -68,7 +96,7 @@
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
-                :altText="value.currentState().name"
+                :altText="value.alt"
                 :eId="value.currentState().id"
                 :h="value.currentState().height"
                 :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
@@ -77,16 +105,20 @@
                 :pos="value.currentState().pos"
                 :url="value.currentState().src"
                 :w="value.currentState().width"
-                :z="value.currentState().z"
+                :z="value.z"
                 :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
                 :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
-                :element="value"
+                :selectedId="props.selectedId"
+                :lockAspectRatio="props.lockAspectRatio"
+                :panel="props.panel"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
                 @mirror-horizontal-event="updateMirrorValues"
                 @mirror-vertical-event="updateMirrorValues"
                 @rotate-event="updateRotation"
+                @front-event="upElement"
+                @back-event="downElement"
             />
             <img :src="border" class="panel__border" />
         </div>
