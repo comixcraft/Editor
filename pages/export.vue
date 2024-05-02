@@ -9,12 +9,14 @@
     const canvasHeight = ref(0);
     const canvasEl = ref(null);
     let activePanel = ref(null);
+    let panelHeight;
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
 
     async function displayPreview() {
         const canvas = canvasEl.value;
         canvasWidth.value = gap;
+        panelHeight = comicStore.comic.getPage(0).getStrip(0).height;
         canvasHeight.value = gap + comicStore.comic.getPage(0).getStrip(0).height + creditSize.h;
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
@@ -46,40 +48,93 @@
         drawCredit(canvas, context);
     }
 
-    function drawAsset(context, startPos, currentState, pos) {
+    function drawAsset(context, startPos, element, panel) {
+        console.log(panelHeight);
         const img = new Image();
         img.onload = () => {
             // Save the current context
             context.save();
             context.translate(startPos, gap);
 
+            // element outside left of the canvas
+            if (element.pos.x < 0) {
+                element.sStartX = (-element.pos.x * element.type.naturalWidth) / element.width;
+                element.sWidth = ((element.width + element.pos.x) * element.type.naturalWidth) / element.width;
+                element.dX = 0;
+                element.dWidth = element.width + element.pos.x;
+            }
+            // element outside right of the canvas
+            else if (element.pos.x + element.width > panel.width) {
+                element.sStartX = 0;
+                element.sWidth =
+                    ((element.width - (element.pos.x + element.width - panel.width)) * element.type.naturalWidth) /
+                    element.width;
+                element.dX = element.pos.x;
+                element.dWidth = panel.width - element.pos.x;
+            } else {
+                element.sStartX = 0;
+                element.sWidth = (element.width * element.type.naturalWidth) / element.width;
+                element.dX = element.pos.x;
+                element.dWidth = element.width;
+            }
+
+            // element outside top of the canvas
+            if (element.pos.y < 0) {
+                element.sStartY = (-element.pos.y * element.type.naturalHeight) / element.height;
+                element.sHeight = ((element.height + element.pos.y) * element.type.naturalHeight) / element.height;
+                element.dY = 0;
+                element.dHeight = element.height + element.pos.y;
+            }
+            // element outside bottom of the canvas
+            else if (element.pos.y + element.height > panelHeight) {
+                element.sStartY = 0;
+                element.sHeight =
+                    ((element.height - (element.pos.y + element.height - panelHeight)) * element.type.naturalHeight) /
+                    element.height;
+                element.dY = element.pos.y;
+                element.dHeight = panelHeight - element.pos.y;
+            } else {
+                element.sStartY = 0;
+                element.sHeight = element.type.naturalHeight;
+                element.dY = element.pos.y;
+                element.dHeight = element.height;
+            }
+
             // Move the rotation point to the center of the image
-            context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
+            // context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
 
             // Rotate the canvas to the specified degrees
-            context.rotate((currentState.rotation * Math.PI) / 180);
+            // context.rotate((element.rotation * Math.PI) / 180);
+
+            // context.translate(element.dX, element.dY);
 
             // Mirror the canvas around the x-axis or y-axis if necessary
-            if (currentState.isMirroredHorizontal) {
+            if (element.isMirroredHorizontal) {
                 context.scale(-1, 1);
             }
-            if (currentState.isMirroredVertical) {
+            if (element.isMirroredVertical) {
                 context.scale(1, -1);
             }
+
+            context.translate(element.dX, element.dY);
 
             // Draw the image
             context.drawImage(
                 img,
-                -currentState.width / 2,
-                -currentState.height / 2,
-                currentState.width,
-                currentState.height
+                element.sStartX, // src x
+                element.sStartY, // src y
+                element.sWidth, // src width
+                element.sHeight, // src height
+                0, // dest x
+                0, // dest y
+                element.dWidth, // dest width
+                element.dHeight // dest height
             );
 
             // Restore the saved context
             context.restore();
         };
-        img.src = currentState.src;
+        img.src = element.src;
     }
 
     function getLines(context, text, maxWidth) {
@@ -101,34 +156,34 @@
         return lines;
     }
 
-    function drawText(context, startPos, currentState, pos) {
+    function drawText(context, startPos, element, panelWidth) {
         // Save the current context
         context.save();
         context.translate(startPos, gap);
 
-        context.font = `${currentState.type.fontSize}px ${currentState.type.fontFamily}`;
+        context.font = `${element.type.fontSize}px ${element.type.fontFamily}`;
         context.fillStyle = 'black';
         context.textBaseline = 'top';
 
         // Move the rotation point to the center of the element
-        context.translate(pos.x + currentState.width / 2, pos.y + currentState.height / 2);
+        context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
 
         // Rotate the canvas to the specified degrees
-        context.rotate((currentState.rotation * Math.PI) / 180);
+        context.rotate((element.rotation * Math.PI) / 180);
 
         // Mirror the canvas around the x-axis or y-axis if necessary
-        if (currentState.isMirroredHorizontal) {
+        if (element.isMirroredHorizontal) {
             context.scale(-1, 1);
         }
-        if (currentState.isMirroredVertical) {
+        if (element.isMirroredVertical) {
             context.scale(1, -1);
         }
 
         // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-        context.translate(-currentState.width / 2, -currentState.height / 2);
+        context.translate(-element.width / 2, -element.height / 2);
 
-        getLines(context, currentState.type.content, currentState.width).forEach((line, i) => {
-            context.fillText(line, 0, i * currentState.type.fontSize);
+        getLines(context, element.type.content, element.width).forEach((line, i) => {
+            context.fillText(line, 0, i * element.type.fontSize);
         });
 
         // Restore the saved context
@@ -151,15 +206,12 @@
 
     function drawPanel(context, panel, startPos, height) {
         panel.elements.forEach((element, key) => {
-            const currentState = element.currentState();
-            const pos = currentState.pos.currPos();
-            const type = currentState.type.name;
-            switch (type) {
+            switch (element.type.name) {
                 case 'Asset':
-                    drawAsset(context, startPos, currentState, pos);
+                    drawAsset(context, startPos, element, panel);
                     break;
                 case 'Text':
-                    drawText(context, startPos, currentState, pos);
+                    drawText(context, startPos, element, panel.width);
                     break;
                 default:
                     console.log('Element type not recognized');
@@ -170,7 +222,6 @@
         img.onload = () => {
             // Save the current context
             context.save();
-
             context.translate(startPos, gap);
 
             // Draw the image
