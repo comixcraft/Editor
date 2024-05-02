@@ -10,6 +10,7 @@
             type: String,
             default: () => null,
         },
+        lockAspectRatio: Boolean,
     });
 
     const stripHeight = ref(0);
@@ -46,6 +47,7 @@
             <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
                 <WrapperCanvas
                     class="swiper-no-swiping"
+                    :lockAspectRatio="props.lockAspectRatio"
                     :height="stripHeight"
                     :panel="panel"
                     :selectedId="props.selectedId"

@@ -5,6 +5,7 @@
     let layersShow = ref(false);
     let previewShow = ref(false);
     let selectedElementId = ref(null);
+    let lockAspectRatio = ref(false);
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -49,7 +50,7 @@
         let fixedHeight = 200;
         let src = '';
         let width = 200;
-        let name = 'New text.';
+        let name = 'Double-click to edit me.';
         let type = new Text(name, 24, 'Pangolin');
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         addElementToActivePanel(tempEl);
@@ -58,6 +59,17 @@
     function selectElement(eId) {
         selectedElementId.value = eId;
     }
+
+    window.onkeydown = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            lockAspectRatio.value = true;
+        }
+    };
+    window.onkeyup = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            lockAspectRatio.value = false;
+        }
+    };
 
     onMounted(() => {
         fetchCatalogElements();
@@ -89,6 +101,7 @@
 
         <div class="editor__canvas">
             <ComicPanels
+                :lockAspectRatio="lockAspectRatio"
                 :comic="comic"
                 :selectedId="selectedElementId"
                 @active-panel-change="activePanelIndex = $event"

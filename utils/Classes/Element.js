@@ -4,7 +4,7 @@ export default class ElementDS {
     /** @type {String} */
     _id;
     /** @type {Number} */
-    _z = 0;
+    _z = ref(0);
     /** @type {Position} */
     _pos = new Position(0, 0);
     /** @type {Boolean} */

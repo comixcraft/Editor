@@ -34,22 +34,19 @@
     });
 
     onBeforeUnmount(() => {
+        comicStore.bus.emit('pop-closed');
         comicStore.bus.off('elementMoved');
-    });
-
-    comicStore.bus.on('elementMoved', () => {
-        updateArrayZ();
     });
 
     function sendEmitBack(eId, index) {
         updateArrayZ();
-        selection.value = index;
+        //selection.value = index;
         comicStore.bus.emit('putLayerBack', eId);
     }
 
     function sendEmitFront(eId, index) {
         updateArrayZ();
-        selection.value = index;
+        //selection.value = index;
         comicStore.bus.emit('putLayerFront', eId);
     }
 
@@ -58,7 +55,7 @@
     }
 
     function selectLayer(eId, index) {
-        selection.value === index ? (selection.value = undefined) : (selection.value = index);
+        //selection.value === index ? (selection.value = undefined) : (selection.value = index);
         emit('selectionEvent', eId);
     }
 </script>

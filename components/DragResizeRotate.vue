@@ -13,6 +13,8 @@
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
         selectedId: String,
+        lockAspectRatio: Boolean,
+        panel: Object,
     });
 
     const comicStore = useComicStore();
@@ -31,6 +33,7 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
+    let zIndex = ref(props.z);
 
     // Define emits
     const emit = defineEmits([
@@ -108,6 +111,10 @@
         }
     }
 
+    comicStore.bus.on('z-indexChange', () => {
+        zIndex.value = props.panel.elements.get(props.eId).z;
+    });
+
     onMounted(() => {
         updateBB();
         counterRotation.value = `${-angle.value}deg`;
@@ -117,7 +124,6 @@
                 fontSize.value = obj.fontSize;
             }
         });
-        activateElement();
     });
 
     onUpdated(() => {
@@ -148,6 +154,7 @@
 
         maxDiagonal.value = `${Math.max(d1, d2)}px`;
     }
+    //  :active="elementActive"
 </script>
 
 <template>
@@ -159,7 +166,6 @@
         :eId="eId"
         class-name-active="element--active"
         ref="self"
-        :active="elementActive"
         :x="pos.currPos().x"
         :y="pos.currPos().y"
         :parent="true"
@@ -167,6 +173,8 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
+        :lockAspectRatio="props.lockAspectRatio"
+        :style="{ zIndex: zIndex }"
         @rotating="rotating"
         @resizing="isResizing = true"
         @activated="() => (elementActive = true)"
