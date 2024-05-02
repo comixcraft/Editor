@@ -143,30 +143,26 @@
     .secondary-btn {
         border: none;
         background-color: transparent;
-        color: white;
+        color: $white;
         column-gap: $spacer-1;
-        height: 40px;
-        width: 40px;
         text-align: center;
         vertical-align: middle;
     }
 
     .secondary-btn a {
         text-decoration: none;
-        color: white;
+        color: $white;
         display: flex;
         column-gap: $spacer-1;
     }
 
     .icon-btn {
         border: none;
-        height: 40px;
-        width: 40px;
         text-align: center;
         border-radius: $border-radius;
         vertical-align: middle;
         background-color: transparent;
-        color: white;
+        color: $white;
     }
 
     .display-none {
@@ -176,7 +172,7 @@
     .layer-background {
         width: 100vw;
         height: 100vh;
-        background-color: white;
+        background-color: $white;
     }
 
     .layer-container {
@@ -190,9 +186,8 @@
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
         margin: 0;
-        padding: 0 $spacer-3;
+        padding: $spacer-4 $spacer-3;
     }
 
     .editor__top-nav__left-btns {
@@ -226,30 +221,29 @@
     }
 
     .scrollable-nav__item {
-        padding: 8px 16px;
-        margin-right: 10px;
-        font-size: 16px;
-        color: #333;
+        padding: $spacer-2 $spacer-3;
+        margin-right: $spacer-2;
+        color: $grey-70;
         cursor: pointer;
-        border-radius: 4px;
-        background-color: #fff;
+        border-radius: $border-radius;
+        background-color: $white;
     }
 
     .scrollable-nav__item:hover {
-        background-color: #e0e0e0;
+        background-color: $grey-60;
     }
 
     .darken-background {
         width: 100vw;
         height: 100vh;
-        background-color: black;
+        background-color: $black;
         opacity: 60%;
     }
 
     .comic-preview {
         width: 60vw;
         height: 20vh;
-        background-color: #ccc;
+        background-color: $grey-70;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -261,12 +255,12 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: #fff;
+        background-color: $white;
         z-index: 1000;
     }
 
     .share__top-nav-item {
-        color: #fff;
+        color: $white;
         text-decoration: none;
     }
 
@@ -284,7 +278,7 @@
         }
 
         .editor__top-nav {
-            padding: 0 $spacer-4;
+            padding: $spacer-2 $spacer-3;
             z-index: 999999;
         }
 
@@ -321,7 +315,7 @@
             top: 80px;
             left: 0;
             width: 200px;
-            background-color: #fff;
+            background-color: $white;
             z-index: 1000;
         }
 
@@ -341,7 +335,7 @@
             display: block;
             width: 25vw;
             height: 100vh;
-            background-color: #ccc;
+            background-color: $grey-60;
             position: absolute;
             top: 0px;
             left: 200px;

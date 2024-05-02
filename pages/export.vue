@@ -123,15 +123,15 @@
         flex-direction: row;
         align-items: center;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
+        padding: $spacer-1 $spacer-3;
         margin: 0;
-        color: white;
+        color: $white;
     }
 
     .share__body {
         padding: $spacer-3;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
     }
 
@@ -146,14 +146,14 @@
 
     .share__input-group-label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: $spacer-1;
     }
 
     .share__input-group-input,
     .share__input-group-select {
         padding: $spacer-2 $spacer-6 $spacer-2 $spacer-2;
-        border: 1px solid $grey-60;
-        border-radius: 5px;
+        border: $border-width solid $grey-60;
+        border-radius: $border-radius;
     }
 
     .share__preview {
@@ -170,6 +170,7 @@
         border-radius: $border-radius-lg;
         border: none;
         bottom: $spacer-6;
+        width: calc(100% - $spacer-6);
         left: 50%;
         transform: translateX(-50%);
     }
@@ -182,7 +183,7 @@
     .share__top-nav-item {
         padding: $spacer-3;
         $font-size-phone: 3;
-        color: #eee;
+        color: $white;
         text-decoration: none;
     }
 
@@ -193,22 +194,19 @@
     }
 
     .preview__canvas {
-        border: 1px solid black;
+        border: $border-width solid black;
+        border-radius: $border-radius;
+        width: auto;
+        height: 100%;
     }
 
-    @media (max-width: 769px) {
-        .preview__canvas {
-            border: 1px solid black;
-            width: auto;
-            height: 100%;
-        }
-
+    @include media-breakpoint-up(lg) {
         .share__confirm-btn {
-            width: calc(100% - $spacer-6);
+            width: auto;
         }
 
         .share__body {
-            flex-direction: column;
+            flex-direction: row;
         }
     }
 </style>

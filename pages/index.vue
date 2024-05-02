@@ -3,7 +3,7 @@
         <div class="top-nav">
             <div class="top-nav__logo">comixcraft</div>
         </div>
-        <div class="container-fluid px-0">
+        <div class="container-fluid">
             <div class="intro">
                 <div class="col-lg-5">
                     <div class="welcome-text">
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 justify-content-center">
+                <div class="col-lg-5 justify-content-center" style="display: flex">
                     <div class="comic-image">
                         <img src="/public/comic-image@2x.png" alt="" />
                     </div>
@@ -102,8 +102,8 @@
         display: flex;
         align-items: center;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
         margin: 0;
+        padding: $spacer-3 $spacer-3;
     }
 
     .top-nav__logo {
@@ -112,7 +112,7 @@
         margin-left: $spacer-3;
         justify-content: flex-start;
         justify-content: center;
-        color: #fff;
+        color: $white;
     }
 
     .intro {
@@ -124,7 +124,6 @@
     }
 
     .templates {
-        background: var(--off-white-100, #f5f5f5);
         padding: $spacer-4 $spacer-5;
     }
 
@@ -154,7 +153,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        max-width: 24vw;
+        max-width: 32vw !important;
     }
 
     .comic-sections {
@@ -182,6 +181,7 @@
         padding: $spacer-3 $spacer-5;
         border-radius: $border-radius-lg;
         border: none;
+        width: calc(100% - $spacer-6);
     }
 
     .start-btn:hover {
@@ -194,13 +194,17 @@
         cursor: not-allowed;
     }
 
-    @media (max-width: 769px) {
+    @include media-breakpoint-up(lg) {
         .comic-image {
-            max-width: 32vw !important;
+            max-width: 24vw !important;
         }
 
         .start-btn {
-            width: calc(100% - $spacer-6);
+            width: auto;
+        }
+
+        .top-nav {
+            padding: $spacer-4 $spacer-3;
         }
     }
 </style>
