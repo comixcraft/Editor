@@ -177,6 +177,10 @@
         link.click();
     }
 
+    function saveDraft() {
+        let comicJson = comicStore.comic.toJSON();
+    }
+
     onMounted(() => {
         displayPreview();
     });
@@ -217,7 +221,10 @@
                 <canvas ref="canvasEl" class="preview__canvas"></canvas>
             </div>
         </div>
-        <button class="share__confirm-btn" @click="download">Download</button>
+        <div class="btn-container">
+            <button class="share__confirm-btn" @click="saveDraft">Save Draft</button>
+            <button class="share__confirm-btn" @click="download">Download</button>
+        </div>
     </div>
 </template>
 
@@ -264,19 +271,25 @@
         margin-top: $spacer-5;
     }
 
-    .share__confirm-btn {
-        position: fixed;
-        text-align: center;
+    .btn-container {
         z-index: 1;
+        width: calc(100% - $spacer-6);
+        position: fixed;
+        left: 50%;
+        bottom: calc(0% + $spacer-6);
+        transform: translateX(-50%);
+        display: flex;
+        gap: $spacer-3;
+    }
+
+    .share__confirm-btn {
+        flex-grow: 1;
+        text-align: center;
         background-color: $secondary-100;
         color: $grey-0;
         padding: $spacer-3 $spacer-5;
         border-radius: $border-radius-lg;
         border: none;
-        bottom: $spacer-6;
-        width: calc(100% - $spacer-6);
-        left: 50%;
-        transform: translateX(-50%);
     }
 
     .share__confirm-btn:hover {
