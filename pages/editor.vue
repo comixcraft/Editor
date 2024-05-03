@@ -79,23 +79,44 @@
 <template>
     <div class="editor">
         <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">
-                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                    arrow_back
-                </NuxtLink>
+            <div class="editor__top-nav__left-btns">
+                <button class="top-nav__item back-btn icon icon-btn">
+                    <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                        arrow_back
+                    </NuxtLink>
+                </button>
+                <div class="undo-redo-container d-none">
+                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
+                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                </div>
             </div>
-            <div class="top-nav__item undo-btn icon d-none">undo</div>
-            <div class="top-nav__item redo-btn icon d-none">redo</div>
-            <div class="top-nav__item preview-btn d-none"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
-            <div class="top-nav__item export-btn icon">
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                    >export
-                </NuxtLink>
+
+            <div class="editor__top-nav__left-btns">
+                <div class="top-nav__item layer-btn">
+                    <button @click="layersShow = true" class="secondary-btn">
+                        <div class="icon">stacks</div>
+                        <span class="display-none">Layers</span>
+                    </button>
+                </div>
+                <div class="top-nav__item preview-btn d-none">
+                    <button @click="previewShow = true" class="secondary-btn">
+                        <div class="icon">preview</div>
+                        <span class="display-none"> Preview </span>
+                    </button>
+                </div>
+                <div class="top-nav__item export-btn">
+                    <button class="secondary-btn">
+                        <NuxtLink
+                            :to="{
+                                name: 'export',
+                                path: '/export',
+                            }"
+                        >
+                            <div class="icon">download</div>
+                            <span class="display-none"> Download</span>
+                        </NuxtLink>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -156,10 +177,39 @@
 </template>
 
 <style scoped lang="scss">
+    .secondary-btn {
+        border: none;
+        background-color: transparent;
+        color: $white;
+        column-gap: $spacer-1;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .secondary-btn a {
+        text-decoration: none;
+        color: $white;
+        display: flex;
+        column-gap: $spacer-1;
+    }
+
+    .icon-btn {
+        border: none;
+        text-align: center;
+        border-radius: $border-radius;
+        vertical-align: middle;
+        background-color: transparent;
+        color: $white;
+    }
+
+    .display-none {
+        display: none;
+    }
+
     .layer-background {
         width: 100vw;
         height: 100vh;
-        background-color: white;
+        background-color: $white;
     }
 
     .layer-container {
@@ -174,9 +224,21 @@
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
         margin: 0;
+        padding: $spacer-4 $spacer-3;
     }
+
+    .editor__top-nav__left-btns {
+        display: flex;
+        column-gap: $spacer-3;
+    }
+
+    .undo-redo-container {
+        display: flex;
+        column-gap: $spacer-1;
+        color: $white;
+    }
+
     .editor__canvas {
         display: flex;
         align-items: center;
@@ -197,30 +259,29 @@
     }
 
     .scrollable-nav__item {
-        padding: 8px 16px;
-        margin-right: 10px;
-        font-size: 16px;
-        color: #333;
+        padding: $spacer-2 $spacer-3;
+        margin-right: $spacer-2;
+        color: $grey-70;
         cursor: pointer;
-        border-radius: 4px;
-        background-color: #fff;
+        border-radius: $border-radius;
+        background-color: $white;
     }
 
     .scrollable-nav__item:hover {
-        background-color: #e0e0e0;
+        background-color: $grey-60;
     }
 
     .darken-background {
         width: 100vw;
         height: 100vh;
-        background-color: black;
+        background-color: $black;
         opacity: 60%;
     }
 
     .comic-preview {
         width: 60vw;
         height: 20vh;
-        background-color: #ccc;
+        background-color: $grey-70;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -232,24 +293,50 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: #fff;
+        background-color: $white;
         z-index: 1000;
     }
 
     .share__top-nav-item {
-        color: #fff;
+        color: $white;
+        text-decoration: none;
     }
+
     .catalogue-container {
         display: none;
     }
 
     @include media-breakpoint-up(lg) {
+        .secondary-btn {
+            display: flex;
+            column-gap: $spacer-1;
+            width: 100%;
+            height: 100%;
+            padding: $spacer-3 $spacer-5;
+        }
+
         .editor__top-nav {
+            padding: $spacer-2 $spacer-3;
             z-index: 999999;
         }
+
+        .display-none {
+            display: block;
+        }
+
+        .editor__top-nav__left-btns {
+            display: flex;
+            column-gap: $spacer-6;
+        }
+
+        .undo-redo-container {
+            column-gap: $spacer-4;
+        }
+
         .editor__bottom-nav {
             height: 100vh;
         }
+
         .mobile {
             display: none;
         }
@@ -260,12 +347,13 @@
             justify-content: right;
             padding: $spacer-4;
         }
+
         .bottom-nav__container {
             position: absolute;
             top: 80px;
             left: 0;
             width: 200px;
-            background-color: #fff;
+            background-color: $white;
             z-index: 1000;
         }
 
@@ -275,6 +363,7 @@
             padding: 20px;
             gap: 10px;
         }
+
         .bottom-nav__scrollable-nav {
             display: flex;
             overflow-y: auto;
@@ -284,7 +373,7 @@
             display: block;
             width: 25vw;
             height: 100vh;
-            background-color: #ccc;
+            background-color: $grey-60;
             position: absolute;
             top: 0px;
             left: 200px;
