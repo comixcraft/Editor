@@ -63,22 +63,22 @@
             class="layer"
             :accessKey="element.id"
             @click="selectLayer(element.id, index)"
-            :style="{ border: index === selection ? '1px solid black' : 'none' }"
+            :style="{ border: index === selection ? `3px solid ${$primary}` : `1px solid ${$primary}` }"
         >
             <div class="asset-image">
                 <img class="img" :src="element.src" :alt="element.alt" />
             </div>
             <p class="layer-text">{{ element.alt }}</p>
             <div class="chevrons">
-                <div
-                    class="expand-less icon"
+                <button
+                    class="expand-less icon icon-btn"
                     :style="{ opacity: index > 0 ? 1 : 0.25, cursor: index > 0 ? 'pointer' : 'not-allowed' }"
                     @click="sendEmitFront(element.id, index)"
                 >
                     expand_less
-                </div>
-                <div
-                    class="expand-more icon"
+                </button>
+                <button
+                    class="expand-more icon icon-btn"
                     :style="{
                         opacity: index < arrayZSorted.length - 1 ? 1 : 0.25,
                         cursor: index < arrayZSorted.length - 1 ? 'pointer' : 'not-allowed',
@@ -86,7 +86,7 @@
                     @click="sendEmitBack(element.id, index)"
                 >
                     expand_more
-                </div>
+                </button>
             </div>
         </li>
     </ul>
@@ -103,10 +103,14 @@
         align-items: center;
     }
 
+    ul {
+        padding-inline-start: 0px;
+    }
+
     .asset-image {
         width: 60px;
         height: 60px;
-        background-color: $primary-30;
+        background-color: $white;
         margin-right: 10px;
         display: flex;
         justify-content: center;

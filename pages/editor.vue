@@ -79,23 +79,44 @@
 <template>
     <div class="editor">
         <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">
-                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                    arrow_back
-                </NuxtLink>
+            <div class="editor__top-nav__left-btns">
+                <button class="top-nav__item back-btn icon icon-btn">
+                    <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                        arrow_back
+                    </NuxtLink>
+                </button>
+                <div class="undo-redo-container d-none">
+                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
+                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                </div>
             </div>
-            <div class="top-nav__item undo-btn icon d-none">undo</div>
-            <div class="top-nav__item redo-btn icon d-none">redo</div>
-            <div class="top-nav__item preview-btn d-none"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn"><button @click="layersShow = true">layers</button></div>
-            <div class="top-nav__item export-btn icon">
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                    >export
-                </NuxtLink>
+
+            <div class="editor__top-nav__left-btns">
+                <div class="top-nav__item layer-btn">
+                    <button @click="layersShow = true" class="secondary-btn">
+                        <div class="icon">stacks</div>
+                        <span class="display-none">Layers</span>
+                    </button>
+                </div>
+                <div class="top-nav__item preview-btn d-none">
+                    <button @click="previewShow = true" class="secondary-btn">
+                        <div class="icon">preview</div>
+                        <span class="display-none"> Preview </span>
+                    </button>
+                </div>
+                <div class="top-nav__item export-btn">
+                    <button class="secondary-btn">
+                        <NuxtLink
+                            :to="{
+                                name: 'export',
+                                path: '/export',
+                            }"
+                        >
+                            <div class="icon">download</div>
+                            <span class="display-none"> Download</span>
+                        </NuxtLink>
+                    </button>
+                </div>
             </div>
         </div>
 
