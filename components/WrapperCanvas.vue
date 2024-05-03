@@ -114,6 +114,7 @@
                 :selectedId="props.selectedId"
                 :lockAspectRatio="props.lockAspectRatio"
                 :panel="props.panel"
+                :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
