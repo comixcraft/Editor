@@ -179,6 +179,8 @@
 
     function saveDraft() {
         let comicJson = comicStore.comic.toJSON();
+        comicStore.saveDraft(comicJson);
+        console.log('comic is saved');
     }
 
     onMounted(() => {

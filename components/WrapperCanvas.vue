@@ -1,4 +1,6 @@
 <script setup>
+    import Comic from '~/utils/Classes/Comic';
+
     const props = defineProps({
         height: Number,
         panel: Object,

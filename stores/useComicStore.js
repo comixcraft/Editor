@@ -10,6 +10,28 @@ export const useComicStore = defineStore('comic', () => {
     let currentElement = ref(null);
     let bus = mitt();
 
+    const draft = ref(null);
+    function saveDraft(json) {
+        draft.value = json;
+    }
+    function getDraft() {
+        return draft;
+    }
+
+    if (process.client) {
+        if (localStorage.getItem('draft')) {
+            draft.value = Comic.fromJSON(localStorage.getItem('draft'));
+        }
+
+        watch(
+            draft,
+            (draftVal) => {
+                localStorage.setItem('draft', draftVal);
+            },
+            { deep: true }
+        );
+    }
+
     function setCurrentElement(element) {
         currentElement.value = element;
     }
@@ -39,6 +61,8 @@ export const useComicStore = defineStore('comic', () => {
     return {
         comic,
         bus,
+        getDraft,
+        saveDraft,
         createComicWithConfig,
         setCurrentElement,
         getCurrentElement,

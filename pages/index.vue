@@ -3,6 +3,11 @@
     import templateStripConfig from '/config/templateStripConfig.js';
 
     const comicStore = useComicStore();
+    const draft = ref(null);
+
+    onMounted(() => {
+        draft.value = comicStore.getDraft();
+    });
 
     let selectedComicConfiguration = ref(null);
 
@@ -48,6 +53,7 @@
                     </div>
                 </div>
             </div>
+            <pre lang="json">{{ draft }}</pre>
             <div class="templates">
                 <h2>Templates</h2>
                 <p class="font-italic">Start by choosing a template</p>
