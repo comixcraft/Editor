@@ -111,6 +111,7 @@
                 :selectedId="props.selectedId"
                 :lockAspectRatio="props.lockAspectRatio"
                 :panel="props.panel"
+                :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
@@ -130,6 +131,7 @@
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
         position: relative;
+        padding: 0;
 
         &__border {
             width: 100%;
