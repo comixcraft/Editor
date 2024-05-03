@@ -18,10 +18,14 @@
         },
     });
 
+    // Watch for changes in selectedCategory
     watch(
         () => props.selectedCategory,
         () => {
             selectedSubCategory.value = {};
+            // Reset selected filters when category changes
+            selectedFilter.value = [];
+            emitCatalogChanged();
         }
     );
 
@@ -29,13 +33,14 @@
         emit('catalogChanged', {
             category: props.selectedCategory.name,
             subCategory: selectedSubCategory.value.name,
-            filter: selectedFilter,
+            filter: selectedFilter.value,
         });
     }
 
     function updateSubSelectedCategory(subCategory) {
         if (selectedSubCategory.value === subCategory) {
             selectedSubCategory.value = {};
+            selectedFilter.value = [];
         } else {
             selectedSubCategory.value = subCategory;
         }
@@ -65,7 +70,7 @@
             <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
         </div>
         <CatalogSubNavigation
-            v-if="selectedCategory.name !== 'All Assets'"
+            v-if="selectedCategory.name && selectedCategory.name !== 'All Assets'"
             :subCategories="selectedCategory.subCategories"
             @subCategorySelected="updateSubSelectedCategory"
         ></CatalogSubNavigation>

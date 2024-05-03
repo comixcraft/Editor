@@ -3,8 +3,6 @@
     import ElementDS from '~/utils/Classes/Element.js';
     import Text from '~/utils/Classes/Text.js';
 
-    const emit = defineEmits(['addElementToPanel']);
-
     let layersShow = ref(false);
     let previewShow = ref(false);
     let catalogShow = ref(false);
@@ -211,6 +209,7 @@
         height: 100vh;
         width: 70vw;
         margin-left: auto;
+        background-color: $grey-60;
     }
 
     .editor__bottom-nav {

@@ -25,6 +25,8 @@
         (newFilters) => {
             if (newFilters.length == 0) {
                 showAllFilters.value = false;
+                searchTerm.value = ''; // Reset search term
+                activeFilters.value = []; // Reset active filters
             }
         }
     );
@@ -85,7 +87,7 @@
             <span
                 v-for="filter in visibleFilters"
                 :key="filter"
-                class="filter__pill"
+                class="filter__pill p5"
                 :class="{ 'filter__pill--selected': activeFilters.includes(filter) }"
                 @click="
                     () => {
@@ -94,7 +96,7 @@
                     }
                 "
             >
-                {{ filter }} <span class="icon pill__close">close</span>
+                {{ filter }} <span class="icon pill__close p5">close</span>
             </span>
         </div>
     </div>
@@ -108,7 +110,6 @@
         &__pill {
             margin-top: $spacer-2;
             cursor: pointer;
-            $font-size-phone: 4;
             padding: $spacer-1 $spacer-2;
             border: $border-width solid $secondary;
             color: $secondary;
@@ -133,9 +134,6 @@
         }
     }
 
-    .icon.pill__close {
-        font-size: map-get($font-size-phone, 5);
-    }
     .search {
         position: relative;
         display: flex;
@@ -153,6 +151,8 @@
 
         &__input {
             flex-grow: 1;
+            width: 100%;
+            margin-right: $spacer-2;
         }
 
         &__tune {
@@ -173,23 +173,6 @@
     .pill {
         &__close {
             display: none;
-        }
-    }
-
-    @include media-breakpoint-up(lg) {
-        .filter {
-            display: flex;
-            gap: $spacer-2;
-            flex-wrap: wrap;
-            &__pill {
-                margin-top: $spacer-2;
-                cursor: pointer;
-                font-size: map-get($font-size-phone, 5);
-            }
-        }
-
-        .icon.pill__close {
-            font-size: map-get($font-size-phone, 5);
         }
     }
 </style>

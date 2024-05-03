@@ -40,10 +40,6 @@
         cursor: pointer;
         background-color: $white;
     }
-
-    .navigation__title {
-        $font-size-desktop: 2;
-    }
     .category__description {
         display: flex;
         gap: $spacer-2;

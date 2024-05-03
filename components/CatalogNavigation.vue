@@ -41,7 +41,7 @@
 </template>
 
 <style lang="scss" scoped>
-    span {
+    .icon {
         display: block;
     }
 </style>

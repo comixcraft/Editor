@@ -9,23 +9,27 @@
 
     let selectedSubCategory = ref(null);
 
-    const selectSubCategory = (subCategory) => {
-        if (selectedSubCategory.value === subCategory.name) {
-            selectedSubCategory.value = null;
-        } else {
-            selectedSubCategory.value = subCategory.name;
-        }
+    function selectSubCategory(subCategory) {
+        selectedSubCategory.value = subCategory.name;
         emit('subCategorySelected', subCategory);
-    };
+    }
 
     function showSubNavigation() {
-        return selectedSubCategory.value !== null && props.subCategories[0].name !== 'All assets';
+        // Check if any subcategory is selected and not "All assets"
+        return selectedSubCategory.value !== null && !props.subCategories[0].name === 'All assets';
     }
+
+    onMounted(() => {
+        // Set selectedSubCategory based on initial props
+        if (props.subCategories.length > 0) {
+            selectedSubCategory.value = props.subCategories[0].name; // Select the first subcategory by default
+        }
+    });
 </script>
 
 <template>
-    <div class="sub__overlay" v-if="showSubNavigation">
-        <div class="sub__navigation">
+    <div class="sub__overlay p5" v-if="showSubNavigation">
+        <div class="sub__navigation p5">
             <button
                 v-for="(subCategory, index) in props.subCategories"
                 :key="index"
@@ -54,11 +58,9 @@
     .sub__navigation {
         display: flex;
         justify-content: space-around;
-        box-shadow: 3px;
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
-        font-size: map-get($font-size-phone, 5);
     }
 
     .sub__btn {
@@ -77,13 +79,12 @@
         }
     }
 
-    span {
+    .icon {
         display: block;
     }
 
     @include media-breakpoint-up(lg) {
         .sub__overlay {
-            font-size: map-get($font-size-phone, 4);
             position: absolute;
         }
     }
