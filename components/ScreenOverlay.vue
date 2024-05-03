@@ -11,7 +11,7 @@
     <div v-if="show" class="overlay">
         <div class="navigation">
             <div class="navigation__title">{{ title }}</div>
-            <button class="navigation__icon icon" @click="$emit('close')">close</button>
+            <button class="navigation__icon icon icon-btn" @click="$emit('close')">close</button>
         </div>
         <div class="overlay__content"><slot></slot></div>
     </div>
@@ -26,6 +26,8 @@
         height: 80px;
         padding: 0 $spacer-5;
         color: white;
+        position: fixed;
+        width: 100%;
     }
 
     .overlay {
@@ -34,19 +36,25 @@
         z-index: 999999;
         top: 0;
         left: 0;
+        overflow-y: scroll;
+        background-color: white;
     }
 
-    .navigation__icon {
+    .overlay__content {
+        margin-top: $spacer-7;
+    }
+
+    .navigation__icon:hover {
+        cursor: pointer;
+    }
+    .icon-btn {
         border: none;
-        height: 40px;
-        width: 40px;
+        height: $spacer-6;
+        width: $spacer-6;
         text-align: center;
         border-radius: $border-radius;
         vertical-align: middle;
         background-color: transparent;
-        color: white;
-    }
-    .navigation__icon:hover {
-        cursor: pointer;
+        color: $white;
     }
 </style>

@@ -104,7 +104,7 @@
     }
 
     ul {
-        padding-inline-start: 0px;
+        padding-inline-start: 0;
     }
 
     .asset-image {
