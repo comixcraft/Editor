@@ -1,3 +1,5 @@
+import Panel from './Panel.js';
+
 export default class Strip {
     /** @type {Panel[]} */
     _panels;
@@ -52,5 +54,21 @@ export default class Strip {
      */
     addPanelToStrip(panel) {
         this._panels.push(panel);
+    }
+
+    // JSON transforms
+    toJSON() {
+        return JSON.stringify({
+            panels: this.panels,
+            height: this.height,
+        });
+    }
+
+    static fromJSON(str) {
+        let parsedStr = JSON.parse(str);
+        // parsedStr.panels is an array of [x]
+        console.log(parsedStr.panels);
+        // console.log(JSON.parse(parsedStr.panels))
+        // console.log(Panel.fromJSON(parsedStr.panels))
     }
 }

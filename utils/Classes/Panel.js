@@ -151,20 +151,6 @@ export default class Panel {
         element.setZIndex(zIndex);
     }
 
-    // switchZIndexBetweenTwoElement(eId1, eId2) {
-    //     if (!this.getElement(eId1) || !this.getElement(eId2)) {
-    //         return;
-    //     }
-
-    //     let element1 = this.getElement(eId1);
-    //     let elementZIndex1 = element1.z;
-    //     let element2 = this.getElement(eId2);
-
-    //     let tempZIndex = elementZIndex1;
-    //     element1.z = element2.z;
-    //     element2.z = tempZIndex;
-    // }
-
     getHighestZIndex() {
         let potentialZIndex = 0;
         this.elements.forEach((element) => {
@@ -184,5 +170,26 @@ export default class Panel {
             }
         });
         return lowestZIndex;
+    }
+
+    toJSON() {
+        return JSON.stringify({
+            border: this.border,
+            width: this.width,
+            elements: JSON.stringify(Array.from(this.elements.entries())),
+        });
+    }
+
+    static fromJSON(str) {
+        let returnObj = JSON.parse(str);
+        let tempArr = [];
+        JSON.parse(returnObj.elements).forEach((el, index) => {
+            tempArr.push([
+                JSON.parse(returnObj.elements)[index][0],
+                JSON.parse(JSON.parse(returnObj.elements)[index][1]),
+            ]);
+        });
+        returnObj.elements = new Map(tempArr);
+        return returnObj;
     }
 }

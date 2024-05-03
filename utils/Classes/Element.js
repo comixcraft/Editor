@@ -182,6 +182,23 @@ export default class ElementDS {
         this._type = type;
     }
 
+    toJSON = () => {
+        return JSON.stringify({
+            id: this.id,
+            z: this.z,
+            pos: this.pos,
+            isFocused: this.isFocused,
+            isMirroredHorizontal: this.isMirroredHorizontal,
+            isMirroredVertical: this.isMirroredVertical,
+            rotation: this.rotation,
+            width: this.width,
+            height: this.height,
+            src: this.src,
+            alt: this.alt,
+            type: this.type,
+        });
+    };
+
     /** @param {{x:Number, y:Number}} */
     setPos = (obj) => {
         this._pos.definePos(obj);
