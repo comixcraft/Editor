@@ -108,10 +108,10 @@
     }
 
     .asset-image {
-        width: 60px;
-        height: 60px;
+        width: $spacer-8;
+        height: $spacer-8;
         background-color: $white;
-        margin-right: 10px;
+        margin-right: $spacer-2;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -142,8 +142,8 @@
 
     .icon-btn {
         border: none;
-        height: 40px;
-        width: 40px;
+        height: $spacer-6;
+        width: $spacer-6;
         text-align: center;
         border-radius: $border-radius;
         vertical-align: middle;

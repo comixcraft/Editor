@@ -23,9 +23,8 @@
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
-        padding: 0 $spacer-5;
-        color: white;
+        padding: $spacer-4 $spacer-3;
+        color: $white;
         position: fixed;
         width: 100%;
     }
@@ -37,7 +36,7 @@
         top: 0;
         left: 0;
         overflow-y: scroll;
-        background-color: white;
+        background-color: $white;
     }
 
     .overlay__content {
