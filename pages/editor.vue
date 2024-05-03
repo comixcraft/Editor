@@ -251,7 +251,8 @@
         }
 
         .catalogue-container {
-            display: block;
+            display: flex;
+            flex-direction: column;
             flex-grow: 1;
             height: calc(100vh - 80px);
             background-color: #ccc;
