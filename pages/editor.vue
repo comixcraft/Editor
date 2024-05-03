@@ -208,7 +208,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        height: 100vh;
+        height: calc(100vh - 80px);
         width: 70vw;
         margin-left: auto;
     }
@@ -275,7 +275,7 @@
             z-index: 999999;
         }
         .editor__bottom-nav {
-            height: 100vh;
+            height: calc(100vh - 80px);
         }
         .mobile {
             display: none;
@@ -314,7 +314,7 @@
             top: 0px;
             left: 200px;
             z-index: 900;
-            height: 100vh;
+            height: calc(100vh - 80px);
         }
         .modal-container {
             display: none;

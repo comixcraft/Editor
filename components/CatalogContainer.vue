@@ -35,7 +35,6 @@
 <style lang="scss" scoped>
     .catalog__scroll-container {
         width: auto;
-        height: calc(100vh - 80px);
         padding: $spacer-4 0;
         border: none;
         display: flex;
