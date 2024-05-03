@@ -66,9 +66,7 @@
                 "
             />
         </div>
-        <div class="assets-container">
-            <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
-        </div>
+        <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
         <CatalogSubNavigation
             v-if="selectedCategory.name && selectedCategory.name !== 'All Assets'"
             :subCategories="selectedCategory.subCategories"
