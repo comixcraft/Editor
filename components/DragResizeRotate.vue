@@ -15,6 +15,7 @@
         selectedId: String,
         lockAspectRatio: Boolean,
         panel: Object,
+        element: Object,
     });
 
     const comicStore = useComicStore();
