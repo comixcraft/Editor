@@ -64,11 +64,14 @@ export default class Strip {
         });
     }
 
-    static fromJSON(str) {
+    fromJSON(str) {
         let parsedStr = JSON.parse(str);
-        // parsedStr.panels is an array of [x]
-        console.log(parsedStr.panels);
-        // console.log(JSON.parse(parsedStr.panels))
-        // console.log(Panel.fromJSON(parsedStr.panels))
+        let tempArr = [];
+        // parsedStr.panels is an array of [x] that need to change.
+        parsedStr.panels.forEach((el, index) => {
+            tempArr.push(Panel.fromJSON(el));
+        });
+        parsedStr.panels = tempArr;
+        return parsedStr;
     }
 }
