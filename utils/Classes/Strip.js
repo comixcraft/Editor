@@ -64,7 +64,7 @@ export default class Strip {
         });
     }
 
-    fromJSON(str) {
+    static fromJSON(str) {
         let parsedStr = JSON.parse(str);
         let tempArr = [];
         // parsedStr.panels is an array of [x] that need to change.

@@ -2,7 +2,7 @@
     const props = defineProps({
         height: Number,
         panel: Object,
-        strip: Object, // Testing purpose
+        comic: Object, // testing purpose
         selectedId: String,
         lockAspectRatio: Boolean,
     });
@@ -81,11 +81,7 @@
         comicStore.bus.emit('z-indexChange');
     }
 
-    onUpdated(() => {
-        // let str = props.panel.toJSON()
-        // console.log(props.panel.fromJSON(str))
-        props.strip.fromJSON(props.strip.toJSON());
-    });
+    onUpdated(() => {});
 
     onBeforeUnmount(() => {
         comicStore.bus.off('putLayerBack');

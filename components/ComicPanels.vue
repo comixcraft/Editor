@@ -23,8 +23,6 @@
     }
 
     stripHeight.value = props.comic.getPage(0).getStrip(0).height;
-
-    onUpdated(() => {});
 </script>
 
 <template>
@@ -52,7 +50,7 @@
                     :lockAspectRatio="props.lockAspectRatio"
                     :height="stripHeight"
                     :panel="panel"
-                    :strip="props.comic.getPage(0).getStrip(0)"
+                    :comic="props.comic"
                     :selectedId="props.selectedId"
                 ></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>

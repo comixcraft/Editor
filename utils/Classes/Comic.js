@@ -85,4 +85,7 @@ export default class Comic {
     addPageToComic(page) {
         this.pages.push(page);
     }
+
+    // JSON transforms
+    toJSON() {}
 }
