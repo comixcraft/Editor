@@ -209,7 +209,6 @@
         height: calc(100vh - 80px);
         width: 70vw;
         margin-left: auto;
-        background-color: $grey-60;
     }
 
     .editor__bottom-nav {
