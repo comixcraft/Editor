@@ -3,10 +3,13 @@
     import templateStripConfig from '/config/templateStripConfig.js';
 
     const comicStore = useComicStore();
-    const draft = ref(null);
+    const showDraftContainer = ref(false);
 
     onMounted(() => {
-        draft.value = comicStore.getDraft();
+        !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
+            ? (showDraftContainer.value = false)
+            : (showDraftContainer.value = true);
+        console.log(showDraftContainer.value);
     });
 
     let selectedComicConfiguration = ref(null);
@@ -14,7 +17,7 @@
 
     function deleteDraft() {
         comicStore.deleteDraft();
-        draft.value = null;
+        showDraftContainer.value = false;
     }
 
     function createComic(config) {
@@ -29,7 +32,7 @@
     }
 
     function createComicFromDraft() {
-        if (!draft.value) return;
+        if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
 
         comicStore.createComicFromDraft();
         return navigateTo('/editor');
@@ -80,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="draft-container">
+            <div v-if="showDraftContainer" class="draft-container">
                 <h2>Draft</h2>
                 <p class="font-italic">Continue working on your previous draft</p>
                 <div
