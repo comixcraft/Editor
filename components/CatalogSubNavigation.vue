@@ -9,21 +9,21 @@
 
     let selectedSubCategory = ref(null);
 
-    function selectSubCategory(subCategory) {
-        selectedSubCategory.value = subCategory.name;
+    const selectSubCategory = (subCategory) => {
+        if (selectedSubCategory.value === subCategory.name) {
+            selectedSubCategory.value = null; // Deselect if already selected
+        } else {
+            selectedSubCategory.value = subCategory.name; // Select if not selected
+        }
         emit('subCategorySelected', subCategory);
-    }
-
+    };
     function showSubNavigation() {
         // Check if any subcategory is selected and not "All assets"
         return selectedSubCategory.value !== null && !props.subCategories[0].name === 'All assets';
     }
 
     onMounted(() => {
-        // Set selectedSubCategory based on initial props
-        if (props.subCategories.length > 0) {
-            selectedSubCategory.value = props.subCategories[0].name; // Select the first subcategory by default
-        }
+        props.subCategories.length > 0;
     });
 </script>
 
