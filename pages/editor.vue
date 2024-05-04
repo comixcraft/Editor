@@ -155,7 +155,8 @@
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-            /></OverlayModal>
+                />
+            </OverlayModal>
         </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
