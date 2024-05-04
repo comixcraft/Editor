@@ -35,14 +35,13 @@
     .catalog__scroll-container {
         width: auto;
         height: 100vh;
-        padding: $spacer-4 0;
+        padding: $spacer-4 0 300px 0;
         border: none;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        align-items: start;
+        align-items: flex-start;
         gap: $spacer-4;
-        padding-bottom: 300px;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
