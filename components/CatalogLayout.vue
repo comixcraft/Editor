@@ -29,6 +29,15 @@
         }
     );
 
+    // Watch for changes in selectedSubCategory
+    watch(
+        () => selectedSubCategory.value,
+        () => {
+            selectedFilter.value = [];
+            emitCatalogChanged();
+        }
+    );
+
     function emitCatalogChanged() {
         emit('catalogChanged', {
             category: props.selectedCategory.name,
@@ -40,7 +49,6 @@
     function updateSubSelectedCategory(subCategory) {
         if (selectedSubCategory.value === subCategory) {
             selectedSubCategory.value = {};
-            selectedFilter.value = [];
         } else {
             selectedSubCategory.value = subCategory;
         }
