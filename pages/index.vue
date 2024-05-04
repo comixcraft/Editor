@@ -1,12 +1,4 @@
 <script setup>
-    import Comic from '~/utils/Classes/Comic';
-    import Page from '~/utils/Classes/Page';
-    import Strip from '~/utils/Classes/Strip';
-    import Panel from '~/utils/Classes/Panel';
-    import ElementDS from '~/utils/Classes/Element';
-    import Asset from '~/utils/Classes/Asset';
-    import Text from '~/utils/Classes/Text';
-    import Position from '~/utils/Classes/Position';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
@@ -30,7 +22,6 @@
     }
 
     function createNewComic(config) {
-        console.log('new');
         if (!config) return;
 
         comicStore.createComicWithConfig({ ...config });
@@ -38,57 +29,9 @@
     }
 
     function createComicFromDraft() {
-        console.log('creation...');
-        const refComic = comicStore.getDraft().value;
-        const validateUndefinedAndNull = (value) => {
-            // Check if the value is 'undefined' or 'null' as a string
-            if (value === 'undefined' || value === 'null') {
-                return value === 'undefined' ? undefined : null;
-            }
-            return value;
-        };
+        if (!draft.value) return;
 
-        // create comic from localStorage reference
-        let generatedComic = reactive(new Comic(refComic.name, refComic.title, refComic.creatorName));
-        // create page(s) and add them to comic through class method
-        refComic.pages.forEach((page, iPage) => {
-            let tempPage = new Page();
-            generatedComic.addPageToComic(tempPage);
-            let currPage = generatedComic.pages[iPage];
-            page.strips.forEach((strip, iStrip) => {
-                let tempStrip = new Strip(strip.height);
-                currPage.addStripToPage(tempStrip);
-                let currStrip = currPage.strips[iStrip];
-                strip.panels.forEach((panel, iPanel) => {
-                    let tempPanel = new Panel(panel.width, panel.border);
-                    currStrip.addPanelToStrip(tempPanel);
-                    let currPanel = currStrip.panels[iPanel];
-                    panel.elements.forEach((element) => {
-                        let tempType;
-                        if (element.type._name === 'Asset') {
-                            tempType = new Asset(element.type._path);
-                        } else {
-                            tempType = new Text(
-                                element.type._content,
-                                element.type._fontSize,
-                                element.type._fontFamily
-                            );
-                        }
-                        let tempElement = new ElementDS(
-                            element.width,
-                            element.height,
-                            element.alt,
-                            element.src,
-                            tempType
-                        );
-                        tempElement.pos = new Position(element.pos._x, element.pos._y);
-                        currPanel.addElement(tempElement);
-                    });
-                });
-            });
-        });
-        console.log(generatedComic);
-        comicStore.setComic(generatedComic);
+        comicStore.createComicFromDraft();
         return navigateTo('/editor');
     }
 
@@ -137,7 +80,6 @@
                     </div>
                 </div>
             </div>
-            <pre lang="json">{{ draft }}</pre>
             <div class="draft-container">
                 <h2>Draft</h2>
                 <p class="font-italic">Continue working on your previous draft</p>

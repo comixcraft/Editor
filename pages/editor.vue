@@ -72,7 +72,6 @@
     };
 
     onMounted(() => {
-        console.log('editor');
         fetchCatalogElements();
     });
 </script>

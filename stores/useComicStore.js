@@ -1,8 +1,12 @@
 import { defineStore } from 'pinia';
-import Comic from '~/utils/Classes/Comic.js';
-import Page from '~/utils/Classes/Page.js';
-import Strip from '~/utils/Classes/Strip.js';
-import Panel from '~/utils/Classes/Panel.js';
+import Comic from '~/utils/Classes/Comic';
+import Page from '~/utils/Classes/Page';
+import Strip from '~/utils/Classes/Strip';
+import Panel from '~/utils/Classes/Panel';
+import ElementDS from '~/utils/Classes/Element';
+import Asset from '~/utils/Classes/Asset';
+import Text from '~/utils/Classes/Text';
+import Position from '~/utils/Classes/Position';
 import mitt from 'mitt';
 
 export const useComicStore = defineStore('comic', () => {
@@ -65,18 +69,78 @@ export const useComicStore = defineStore('comic', () => {
         return comic;
     }
 
-    function setComic(draft) {
-        comic = draft;
-        console.log(comic);
+    function createComicFromDraft() {
+        const refComic = getDraft().value;
+        const validateUndefinedAndNull = (value) => {
+            // Check if the value is 'undefined' or 'null' as a string
+            if (value === 'undefined' || value === 'null') {
+                return value === 'undefined' ? undefined : null;
+            }
+            return value;
+        };
+
+        comic.name = refComic.name;
+        comic.title = refComic.title;
+        comic.creatorName = refComic.creatorName;
+
+        // create page(s) and add them to comic through class method
+        refComic.pages.forEach((page, iPage) => {
+            let tempPage = new Page();
+            comic.addPageToComic(tempPage);
+            let currPage = comic.pages[iPage];
+            page.strips.forEach((strip, iStrip) => {
+                // for each strip, add them to corresponding pages
+                let tempStrip = new Strip(strip.height);
+                currPage.addStripToPage(tempStrip);
+                let currStrip = currPage.strips[iStrip];
+                strip.panels.forEach((panel, iPanel) => {
+                    // add panels to corresponding strip
+                    let tempPanel = new Panel(panel.width, panel.border);
+                    currStrip.addPanelToStrip(tempPanel);
+                    let currPanel = currStrip.panels[iPanel];
+                    panel.elements.forEach((element) => {
+                        // add element to corresponding panel
+                        let tempType;
+                        // check what type of element it is
+                        if (element.type._name === 'Asset') {
+                            tempType = new Asset(element.type._path);
+                        } else {
+                            tempType = new Text(
+                                element.type._content,
+                                element.type._fontSize,
+                                element.type._fontFamily
+                            );
+                        }
+                        // create new element
+                        let tempElement = new ElementDS(
+                            element.width,
+                            element.height,
+                            element.alt,
+                            element.src,
+                            tempType
+                        );
+                        // set non-constructor proprieties
+                        tempElement.z = element.z;
+                        tempElement.isFocused = element.isFocused;
+                        tempElement.isMirroredHorizontal = element.isMirroredHorizontal;
+                        tempElement.isMirroredVertical = element.isMirroredVertical;
+                        tempElement.rotation = element.rotation;
+                        tempElement.pos = new Position(element.pos._x, element.pos._y);
+                        currPanel.addElement(tempElement);
+                    });
+                });
+            });
+        });
     }
+
     return {
         comic,
         bus,
-        setComic,
         getDraft,
         saveDraft,
         deleteDraft,
         createComicWithConfig,
+        createComicFromDraft,
         setCurrentElement,
         getCurrentElement,
     };
