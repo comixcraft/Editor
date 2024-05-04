@@ -1,4 +1,12 @@
 <script setup>
+    import Comic from '~/utils/Classes/Comic';
+    import Page from '~/utils/Classes/Page';
+    import Strip from '~/utils/Classes/Strip';
+    import Panel from '~/utils/Classes/Panel';
+    import ElementDS from '~/utils/Classes/Element';
+    import Asset from '~/utils/Classes/Asset';
+    import Text from '~/utils/Classes/Text';
+    import Position from '~/utils/Classes/Position';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
@@ -10,12 +18,88 @@
     });
 
     let selectedComicConfiguration = ref(null);
+    let draftSelected = ref(false);
+
+    function deleteDraft() {
+        comicStore.deleteDraft();
+        draft.value = null;
+    }
 
     function createComic(config) {
+        draftSelected.value ? createComicFromDraft() : createNewComic(config);
+    }
+
+    function createNewComic(config) {
+        console.log('new');
         if (!config) return;
 
         comicStore.createComicWithConfig({ ...config });
         return navigateTo('/editor');
+    }
+
+    function createComicFromDraft() {
+        console.log('creation...');
+        const refComic = comicStore.getDraft().value;
+        const validateUndefinedAndNull = (value) => {
+            // Check if the value is 'undefined' or 'null' as a string
+            if (value === 'undefined' || value === 'null') {
+                return value === 'undefined' ? undefined : null;
+            }
+            return value;
+        };
+
+        // create comic from localStorage reference
+        let generatedComic = reactive(new Comic(refComic.name, refComic.title, refComic.creatorName));
+        // create page(s) and add them to comic through class method
+        refComic.pages.forEach((page, iPage) => {
+            let tempPage = new Page();
+            generatedComic.addPageToComic(tempPage);
+            let currPage = generatedComic.pages[iPage];
+            page.strips.forEach((strip, iStrip) => {
+                let tempStrip = new Strip(strip.height);
+                currPage.addStripToPage(tempStrip);
+                let currStrip = currPage.strips[iStrip];
+                strip.panels.forEach((panel, iPanel) => {
+                    let tempPanel = new Panel(panel.width, panel.border);
+                    currStrip.addPanelToStrip(tempPanel);
+                    let currPanel = currStrip.panels[iPanel];
+                    panel.elements.forEach((element) => {
+                        let tempType;
+                        if (element.type._name === 'Asset') {
+                            tempType = new Asset(element.type._path);
+                        } else {
+                            tempType = new Text(
+                                element.type._content,
+                                element.type._fontSize,
+                                element.type._fontFamily
+                            );
+                        }
+                        let tempElement = new ElementDS(
+                            element.width,
+                            element.height,
+                            element.alt,
+                            element.src,
+                            tempType
+                        );
+                        tempElement.pos = new Position(element.pos._x, element.pos._y);
+                        currPanel.addElement(tempElement);
+                    });
+                });
+            });
+        });
+        console.log(generatedComic);
+        comicStore.setComic(generatedComic);
+        return navigateTo('/editor');
+    }
+
+    function selectTemplate(e) {
+        selectedComicConfiguration.value = e;
+        draftSelected.value = false;
+    }
+
+    function selectDraftToContinue() {
+        selectedComicConfiguration.value = null;
+        draftSelected.value = true;
     }
 </script>
 
@@ -54,6 +138,18 @@
                 </div>
             </div>
             <pre lang="json">{{ draft }}</pre>
+            <div class="draft-container">
+                <h2>Draft</h2>
+                <p class="font-italic">Continue working on your previous draft</p>
+                <div
+                    class="draft-preview"
+                    :class="{ 'draft-preview--selected': draftSelected }"
+                    @click="selectDraftToContinue"
+                >
+                    <canvas class="draft-canvas"></canvas>
+                    <button class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
+                </div>
+            </div>
             <div class="templates">
                 <h2>Templates</h2>
                 <p class="font-italic">Start by choosing a template</p>
@@ -63,7 +159,7 @@
                     <p>A comic panel is a single frame within a comic strip.</p>
                     <div class="comic-panels">
                         <TemplateDisplay
-                            @select-template="selectedComicConfiguration = $event"
+                            @select-template="selectTemplate"
                             v-for="option in templatePanelConfig"
                             :key="option.title"
                             :title="option.title"
@@ -78,7 +174,7 @@
                     <p>A comic strip consists of a series of panels.</p>
                     <div class="comic-panels">
                         <TemplateDisplay
-                            @select-template="selectedComicConfiguration = $event"
+                            @select-template="selectTemplate"
                             v-for="option in templateStripConfig"
                             :key="option.title"
                             :title="option.title"
@@ -89,11 +185,7 @@
                     </div>
                 </div>
             </div>
-            <button
-                class="start-btn"
-                @click="createComic(selectedComicConfiguration?.config)"
-                :disabled="!selectedComicConfiguration"
-            >
+            <button class="start-btn" @click="createComic(selectedComicConfiguration?.config)" :disabled="false">
                 Start Comic Crafting
             </button>
         </div>
@@ -126,7 +218,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: $spacer-4 $spacer-5;
+        padding: $spacer-2 $spacer-5;
     }
 
     .templates {
@@ -198,6 +290,52 @@
     .start-btn:disabled {
         background-color: $secondary-30;
         cursor: not-allowed;
+    }
+
+    .draft-container {
+        position: relative;
+        width: calc(100% - $spacer-3);
+        height: 22vh;
+        padding: $spacer-2 $spacer-5 0 $spacer-5;
+        margin-bottom: $spacer-2;
+    }
+
+    .draft-preview {
+        width: 90%;
+        height: 80%;
+        border: $border-width-lg solid $grey-100;
+        border-radius: $border-radius;
+        overflow: hidden;
+        padding: $spacer-2 $spacer-3;
+        &:hover,
+        &--selected {
+            cursor: pointer;
+            border: $border-width-lg solid $primary;
+
+            .template__title {
+                color: $primary !important;
+            }
+        }
+    }
+
+    .draft-canvas {
+        width: 100%;
+        height: 100%;
+        border: 1px solid pink;
+    }
+
+    .icon {
+        padding: $spacer-1 $spacer-2;
+        user-select: none;
+        cursor: pointer;
+        border: $border-width-lg solid $grey-60;
+        border-radius: $border-radius;
+    }
+
+    .draft-btn--cancel {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 
     @include media-breakpoint-up(lg) {

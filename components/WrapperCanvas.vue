@@ -83,7 +83,9 @@
         comicStore.bus.emit('z-indexChange');
     }
 
-    onUpdated(() => {});
+    onUpdated(() => {
+        console.log(comicStore.comic);
+    });
 
     onBeforeUnmount(() => {
         comicStore.bus.off('putLayerBack');

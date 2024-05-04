@@ -105,6 +105,7 @@ export default class Comic {
             tempArr.push(Page.fromJSON(page));
         });
         parsedStr.pages = tempArr;
+
         return parsedStr;
     }
 }
