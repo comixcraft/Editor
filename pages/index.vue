@@ -235,19 +235,19 @@
     }
 
     .draft-container {
-        position: relative;
         width: calc(100% - $spacer-3);
         height: 22vh;
         padding: $spacer-2 $spacer-5 0 $spacer-5;
         margin-bottom: $spacer-2;
+        overflow: visible;
     }
 
     .draft-preview {
+        position: relative;
         width: 90%;
         height: 80%;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
-        overflow: hidden;
         padding: $spacer-2 $spacer-3;
         &:hover,
         &--selected {
@@ -275,9 +275,11 @@
     }
 
     .draft-btn--cancel {
+        z-index: 2;
         position: absolute;
         top: 0;
         right: 0;
+        transform: translate(50%, 10%);
     }
 
     @include media-breakpoint-up(lg) {
