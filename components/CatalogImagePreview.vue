@@ -16,7 +16,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: $border-width solid black;
     }
 
     .card > img {

@@ -23,6 +23,10 @@
     }
 
     stripHeight.value = props.comic.getPage(0).getStrip(0).height;
+
+    comicStore.bus.on('add-element', (el) => {
+        props.comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(el);
+    });
 </script>
 
 <template>
@@ -50,6 +54,7 @@
                     :lockAspectRatio="props.lockAspectRatio"
                     :height="stripHeight"
                     :panel="panel"
+                    :activePanel="comic.getPage(0).getStrip(0).panels[activePanelIndex]"
                     :selectedId="props.selectedId"
                 ></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>

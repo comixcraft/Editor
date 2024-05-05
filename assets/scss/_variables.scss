@@ -63,7 +63,7 @@ $grey-100: $grey-60;
 $light-grey-100: $grey-50;
 $ultra-light-grey-100: $grey-40;
 $off-white-100: $grey-30;
-$owhite-100: $grey-0;
+$white-100: $grey-0;
 
 $black: $grey-100;
 $white: $grey-0;
@@ -158,9 +158,12 @@ $spacers: (
 // Border
 $border-radius: 4px;
 $border-radius-lg: 8px;
+$border-radius-xl: 16px;
 
 $border-width: 1px;
 $border-width-lg: 2px;
+
+$box-shadow-light: 0 3px 10px $grey-60;
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/mixins';
