@@ -129,7 +129,11 @@
                     </div>
                 </div>
             </div>
-            <button class="start-btn" @click="createComic(selectedComicConfiguration?.config)" :disabled="false">
+            <button
+                class="start-btn"
+                @click="createComic(selectedComicConfiguration?.config)"
+                :disabled="!draftSelected && !selectedComicConfiguration"
+            >
                 Start Comic Crafting
             </button>
         </div>
