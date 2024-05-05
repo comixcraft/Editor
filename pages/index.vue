@@ -9,7 +9,6 @@
         !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
             ? (showDraftContainer.value = false)
             : (showDraftContainer.value = true);
-        console.log(showDraftContainer.value);
     });
 
     let selectedComicConfiguration = ref(null);
@@ -253,9 +252,8 @@
 
     .draft-preview {
         position: relative;
-        width: 90%;
-        min-height: 15vh;
-        max-height: 20vh;
+        width: fit-content;
+        max-height: 18vh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
         padding: $spacer-2 $spacer-3;
@@ -271,7 +269,7 @@
     }
 
     .draft-canvas {
-        width: 100%;
+        max-width: 100%;
         height: 100%;
         border: 1px solid pink;
     }
