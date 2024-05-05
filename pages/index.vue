@@ -205,7 +205,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        max-width: 32vw !important;
+        max-width: 24vw !important;
     }
 
     .comic-sections {
