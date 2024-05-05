@@ -92,7 +92,7 @@
                     @click="selectDraftToContinue"
                 >
                     <canvas class="draft-canvas"></canvas>
-                    <button class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
+                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
                 </div>
             </div>
             <div class="templates">
@@ -156,6 +156,12 @@
         justify-content: flex-start;
         justify-content: center;
         color: $white;
+    }
+
+    .container-fluid {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
     }
 
     .intro {
@@ -239,7 +245,7 @@
 
     .draft-container {
         width: calc(100% - $spacer-3);
-        height: 22vh;
+        height: fit-content;
         padding: $spacer-2 $spacer-5 0 $spacer-5;
         margin-bottom: $spacer-2;
         overflow: visible;
@@ -248,7 +254,8 @@
     .draft-preview {
         position: relative;
         width: 90%;
-        height: 80%;
+        min-height: 15vh;
+        max-height: 20vh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
         padding: $spacer-2 $spacer-3;
