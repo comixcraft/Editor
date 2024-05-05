@@ -2,15 +2,20 @@
     import ComicPanels from '~/components/ComicPanels.vue';
     import ElementDS from '~/utils/Classes/Element.js';
     import Text from '~/utils/Classes/Text.js';
+
     let layersShow = ref(false);
     let previewShow = ref(false);
+    let catalogShow = ref(false);
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
+
+    let selectedCategory = ref({});
 
     definePageMeta({
         middleware: ['comic-defined'],
     });
 
+    const allAssetsCategoryName = 'All Assets';
     const comicStore = useComicStore();
     const catalogElements = ref([]);
     const catalogStructure = ref([]);
@@ -31,6 +36,8 @@
     }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
+        if (category === allAssetsCategoryName) category = [];
+
         useFetch('/api/catalog/', {
             method: 'POST',
             body: {
@@ -55,6 +62,21 @@
         let type = new Text(name, 24, 'Pangolin');
         let tempEl = new ElementDS(width, fixedHeight, name, src, type);
         addElementToActivePanel(tempEl);
+    }
+
+    function updateSelectedCategory(category) {
+        selectedCategory.value = category;
+        catalogShow.value = true;
+        fetchCatalogElements(category.name, [], []);
+    }
+
+    function handleSelectAllAssets() {
+        selectedCategory.value = {
+            name: allAssetsCategoryName,
+            subCategories: [],
+        };
+        catalogShow.value = true;
+        fetchCatalogElements([], [], []);
     }
 
     function selectElement(eId) {
@@ -120,7 +142,6 @@
                 </div>
             </div>
         </div>
-
         <div class="editor__canvas">
             <ComicPanels
                 :lockAspectRatio="lockAspectRatio"
@@ -133,29 +154,31 @@
         <div class="bottom-nav__container">
             <div class="editor__bottom-nav">
                 <div class="bottom-nav__scrollable-nav">
-                    <div class="scrollable-nav__item characters-btn">Characters</div>
-                    <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
-                    <div class="scrollable-nav__item text-btn" @click="addNewTextToDisplay">Text</div>
-                    <div class="scrollable-nav__item shapes-btn">Shapes</div>
-                    <div class="scrollable-nav__item scenes-btn">Scenes</div>
+                    <CatalogNavigation
+                        :categories="catalogStructure.categories"
+                        @categorySelected="updateSelectedCategory"
+                        @selectAllAssets="handleSelectAllAssets"
+                        @addNewTextToDisplay="addNewTextToDisplay"
+                    />
                 </div>
             </div>
             <div class="catalogue-container">
-                <CatalogSearch
-                    placeholder="happy, barista, ..."
-                    :filters="catalogStructure.categories[0].subCategories[0].filter"
-                    @search="
-                        (selectedFilter) => {
-                            fetchCatalogElements(
-                                catalogStructure.categories[0].name,
-                                catalogStructure.categories[0].subCategories[0].name,
-                                selectedFilter
-                            );
-                        }
-                    "
+                <CatalogLayout
+                    :title="selectedCategory.name"
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
                 />
-                <CatalogContainer :assets="catalogElements" @add-element="addElementToActivePanel"></CatalogContainer>
             </div>
+        </div>
+        <div class="modal-container">
+            <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+                <CatalogLayout
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                />
+            </OverlayModal>
         </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
@@ -168,7 +191,6 @@
                 </div>
             </div>
         </ScreenOverlay>
-
         <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
             <div class="darken-background">
                 <div class="comic-preview"></div>
@@ -207,6 +229,10 @@
         display: none;
     }
 
+    .layer {
+        height: 100vh;
+        width: 100%;
+    }
     .layer-background {
         width: 100vw;
         height: 100vh;
@@ -219,13 +245,13 @@
         justify-content: center;
         align-items: center;
     }
-
     .editor__top-nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
         margin: 0;
+        background-color: $primary;
         padding: $spacer-4 $spacer-3;
     }
 
@@ -244,7 +270,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        height: 100vh;
+        height: calc(100vh - 80px);
         width: 70vw;
         margin-left: auto;
     }
@@ -335,13 +361,12 @@
         }
 
         .editor__bottom-nav {
-            height: 100vh;
+            height: calc(100vh - 80px);
         }
 
         .mobile {
             display: none;
         }
-
         .editor__canvas {
             align-items: center;
             display: flex;
@@ -373,12 +398,15 @@
         .catalogue-container {
             display: block;
             width: 25vw;
-            height: 100vh;
-            background-color: $grey-60;
+            background-color: $white;
             position: absolute;
             top: 0px;
             left: 200px;
             z-index: 900;
+            height: calc(100vh - 80px);
+        }
+        .modal-container {
+            display: none;
         }
     }
 </style>

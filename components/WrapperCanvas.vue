@@ -10,9 +10,9 @@
         lockAspectRatio: Boolean,
     });
 
-    const comicStore = useComicStore();
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+    const comicStore = useComicStore();
     const border = props.panel.border;
     let elements = props.panel.elements;
     let widthPanel = ref(props.panel.width);
@@ -35,6 +35,10 @@
             return;
         }
     }
+
+    onBeforeUnmount(() => {
+        comicStore.bus.off('add-element');
+    });
 
     function deleteElement(eId) {
         // delete last element of map
