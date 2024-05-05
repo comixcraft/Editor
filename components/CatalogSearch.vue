@@ -25,7 +25,6 @@
         (newFilters) => {
             if (newFilters.length == 0) {
                 showAllFilters.value = false;
-                searchTerm.value = ''; // Reset search term
                 activeFilters.value = []; // Reset active filters
             }
         }
