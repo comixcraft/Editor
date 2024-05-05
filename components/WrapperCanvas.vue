@@ -16,11 +16,18 @@
     const border = props.panel.border;
     let elements = props.panel.elements;
     let widthPanel = ref(props.panel.width);
+    let heightPanel = ref(props.height);
+
+    onMounted(() => {
+        let el = document.getElementsByClassName('panel')[0];
+        widthPanel.value = el.getBoundingClientRect().width;
+        heightPanel.value = el.getBoundingClientRect().height;
+    });
 
     onUpdated(() => {
         props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
-            ? console.log('true')
-            : console.log('false');
+            ? console.log(widthPanel.value, heightPanel.value)
+            : console.log('');
     });
 
     function validateElementId(eId) {
@@ -47,7 +54,6 @@
         // validate element id
         validateElementId(obj.eId);
         // update element position
-        console.log(props.panel.width);
         elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
