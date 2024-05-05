@@ -18,6 +18,10 @@
         }
     }
 
+    onBeforeUnmount(() => {
+        comicStore.bus.off('add-element');
+    });
+
     function deleteElement(eId) {
         // delete last element of map
         props.panel.deleteElement(eId);

@@ -8,6 +8,8 @@
 
     const comicStore = useComicStore();
 
+    let unsubscribeFromAddElement; // Store the unsubscribe function
+
     function addNewElementToDisplay(event) {
         let fixedHeight = 200;
         let name = event.target.alt;
