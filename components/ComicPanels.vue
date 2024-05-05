@@ -50,6 +50,7 @@
                     :lockAspectRatio="props.lockAspectRatio"
                     :height="stripHeight"
                     :panel="panel"
+                    :activePanelIndex="activePanelIndex"
                     :comic="props.comic"
                     :selectedId="props.selectedId"
                 ></WrapperCanvas>

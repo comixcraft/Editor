@@ -26,6 +26,7 @@
         });
 
     function addElementToActivePanel(element) {
+        console.log(element.width / comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).width + ' %');
         comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
     }
 

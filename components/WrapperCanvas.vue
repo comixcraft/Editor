@@ -4,7 +4,8 @@
     const props = defineProps({
         height: Number,
         panel: Object,
-        comic: Object, // testing purpose
+        activePanelIndex: Number,
+        comic: Object,
         selectedId: String,
         lockAspectRatio: Boolean,
     });
@@ -14,6 +15,13 @@
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
     const border = props.panel.border;
     let elements = props.panel.elements;
+    let widthPanel = ref(props.panel.width);
+
+    onUpdated(() => {
+        props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
+            ? console.log('true')
+            : console.log('false');
+    });
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
@@ -39,6 +47,7 @@
         // validate element id
         validateElementId(obj.eId);
         // update element position
+        console.log(props.panel.width);
         elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
     }
 
