@@ -22,6 +22,13 @@
         return selectedSubCategory.value !== null && !props.subCategories[0].name === 'All assets';
     }
 
+    watch(
+        () => props.subCategories,
+        () => {
+            selectedSubCategory.value = null;
+        }
+    );
+
     onMounted(() => {
         props.subCategories.length > 0;
     });
