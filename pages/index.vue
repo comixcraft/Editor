@@ -12,6 +12,10 @@
         comicStore.createComicWithConfig({ ...config });
         return navigateTo('/editor');
     }
+
+    onMounted(() => {
+        selectedComicConfiguration.value = templatePanelConfig[0];
+    });
 </script>
 
 <template>
