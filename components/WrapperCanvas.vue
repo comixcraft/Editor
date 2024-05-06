@@ -109,7 +109,6 @@
     });
 
     // functions
-
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.comic.getPage(0).getStrip(0).panels[props.panelIndex].moveZIndexUp(eId);
