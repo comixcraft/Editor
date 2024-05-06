@@ -7,21 +7,15 @@
         panelIsActive: Boolean,
         comic: Object,
         lockAspectRatio: Boolean,
+        panelIndex: Number,
+        arrayBB: Object,
     });
 
-    const canvasHeight = computed(() => props.height + 'px');
-    const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+    const canvasHeight = computed(() => props.arrayBB[props.panelIndex].height + 'px');
+    const canvasWidth = computed(() => props.arrayBB[props.panelIndex].width + 'px');
     const comicStore = useComicStore();
-    const border = props.panel.border;
-    let elements = props.panel.elements;
-    let widthPanel = ref(props.panel.width);
-    let heightPanel = ref(props.height);
-
-    onMounted(() => {
-        let el = document.getElementsByClassName('panel')[0];
-        widthPanel.value = el.getBoundingClientRect().width;
-        heightPanel.value = el.getBoundingClientRect().height;
-    });
+    const border = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].border;
+    const elements = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].elements;
 
     onUpdated(() => {
         // props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
@@ -41,7 +35,7 @@
 
     function deleteElement(eId) {
         // delete last element of map
-        props.panel.deleteElement(eId);
+        props.comic.getPage(0).getStrip(0).panels[props.panelIndex].deleteElement(eId);
     }
 
     function resizeElement(obj) {
@@ -79,6 +73,7 @@
         elements.get(obj.eId).setRotation(obj.rotation);
     }
 
+    // Bus listeners
     comicStore.bus.on('putLayerBack', (eId) => {
         downElement(eId);
     });
@@ -91,14 +86,21 @@
         // logic
     });
 
+    comicStore.bus.on('add-element', (el) => {
+        if (!props.panelIsActive) return;
+        props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).addElement(el);
+    });
+
+    // functions
+
     function upElement(eId) {
         if (!props.panelIsActive) return;
-        props.panel.moveZIndexUp(eId);
+        props.comic.getPage(0).getStrip(0).panels[props.panelIndex].moveZIndexUp(eId);
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
-        props.panel.moveZIndexDown(eId);
+        props.comic.getPage(0).getStrip(0).panels[props.panelIndex].moveZIndexDown(eId);
     }
 
     onUpdated(() => {});
@@ -116,20 +118,19 @@
                 v-for="[key, value] in elements"
                 :key="key"
                 :altText="value.alt"
-                :eId="value.currentState().id"
-                :h="value.currentState().height"
-                :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
-                :isMirroredVertical="value.currentState().isMirroredVertical"
-                :rotation="value.currentState().rotation"
-                :pos="value.currentState().pos"
-                :url="value.currentState().src"
-                :w="value.currentState().width"
+                :eId="value.id"
+                :h="value.height"
+                :isMirroredHorizontal="value.isMirroredHorizontal"
+                :isMirroredVertical="value.isMirroredVertical"
+                :rotation="value.rotation"
+                :pos="value.pos"
+                :url="value.src"
+                :w="value.width"
                 :z="value.z"
-                :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
-                :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
+                :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
+                :text="value.type.content == undefined ? '' : value.type.content"
                 :selectedId="props.selectedId"
                 :lockAspectRatio="props.lockAspectRatio"
-                :panel="props.panel"
                 :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"

@@ -1,7 +1,5 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
-    import ElementDS from '~/utils/Classes/Element.js';
-    import Text from '~/utils/Classes/Text.js';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -30,11 +28,6 @@
             createError(error);
         });
 
-    function addElementToActivePanel(element) {
-        console.log(element.width / comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).width + ' %');
-        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
-    }
-
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
 
@@ -52,16 +45,6 @@
             .catch((error) => {
                 createError(error);
             });
-    }
-
-    function addNewTextToDisplay() {
-        let fixedHeight = 200;
-        let src = '';
-        let width = 200;
-        let name = 'Double-click to edit me.';
-        let type = new Text(name, 24, 'Pangolin');
-        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
-        addElementToActivePanel(tempEl);
     }
 
     function updateSelectedCategory(category) {
@@ -157,7 +140,6 @@
                         :categories="catalogStructure.categories"
                         @categorySelected="updateSelectedCategory"
                         @selectAllAssets="handleSelectAllAssets"
-                        @addNewTextToDisplay="addNewTextToDisplay"
                     />
                 </div>
             </div>

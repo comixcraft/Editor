@@ -1,5 +1,7 @@
 <script setup>
     import iconConfig from '../config/iconsConfig';
+    import ElementDS from '~/utils/Classes/Element.js';
+    import Text from '~/utils/Classes/Text.js';
 
     const props = defineProps({
         categories: { type: Array },
@@ -8,6 +10,7 @@
     });
 
     const emit = defineEmits(['categorySelected', 'selectAllAssets', 'addNewTextToDisplay']);
+    const comicStore = useComicStore();
 
     function selectCategory(category) {
         emit('categorySelected', category, []);
@@ -19,7 +22,13 @@
 
     // Functionality to add new text to display
     function addNewTextToDisplay() {
-        emit('addNewTextToDisplay');
+        let fixedHeight = 200;
+        let src = '';
+        let width = 200;
+        let name = 'Double-click to edit me.';
+        let type = new Text(name, 24, 'Pangolin');
+        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
+        comicStore.bus.emit('add-element', tempEl);
     }
 </script>
 
