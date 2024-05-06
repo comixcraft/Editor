@@ -3,6 +3,8 @@
         z: Number,
         w: Number,
         h: Number,
+        x: Number,
+        y: Number,
         altText: String,
         url: String,
         eId: String,
@@ -161,8 +163,8 @@
         :eId="eId"
         class-name-active="element--active"
         ref="self"
-        :x="pos.currPos().x"
-        :y="pos.currPos().y"
+        :x="x"
+        :y="y"
         :parent="true"
         :rotatable="true"
         :resizable="true"

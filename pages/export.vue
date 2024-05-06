@@ -51,8 +51,8 @@
 
         // Move the rotation point to the center of the image
         context.translate(
-            element.pos.x + (element.width * panelDimension.width) / 2,
-            element.pos.y + (element.height * panelDimension.height) / 2
+            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
         );
 
         // Rotate the canvas to the specified degrees
@@ -110,8 +110,8 @@
 
         // Move the rotation point to the center of the element
         context.translate(
-            (element.pos.x + element.width * panelDimension.width) / 2,
-            (element.pos.y + element.height * panelDimension.height) / 2
+            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
         );
 
         // Rotate the canvas to the specified degrees

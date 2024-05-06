@@ -40,7 +40,7 @@
         // validate element id
         validateElementId(obj.eId);
         // update element width and height
-        elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.eId).pos = { x: obj.pos.x / panelDimensions.width, y: obj.pos.y / panelDimensions.height };
         elements.get(obj.eId).setWidth(obj.width / panelDimensions.width);
         elements.get(obj.eId).setHeight(obj.height / panelDimensions.height);
     }
@@ -49,7 +49,7 @@
         // validate element id
         validateElementId(obj.eId);
         // update element position
-        elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.eId).pos = { x: obj.pos.x / panelDimensions.width, y: obj.pos.y / panelDimensions.height };
     }
 
     function updateMirrorValues(obj) {
@@ -142,6 +142,8 @@
                 :rotation="value.rotation"
                 :pos="value.pos"
                 :url="value.type.path"
+                :x="value.pos.x * panelDimensions.width"
+                :y="value.pos.y * panelDimensions.height"
                 :w="value.width * panelDimensions.width"
                 :z="value.z"
                 :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"

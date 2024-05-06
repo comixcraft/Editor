@@ -193,11 +193,6 @@ export default class ElementDS {
         });
     };
 
-    /** @param {{x:Number, y:Number}} */
-    setPos = (obj) => {
-        this._pos.definePos(obj);
-    };
-
     /**
      * @param {Boolean} isMirroredHorizontal
      */
