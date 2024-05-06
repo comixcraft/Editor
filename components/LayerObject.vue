@@ -74,9 +74,17 @@
             :style="{ border: index === selection ? `3px solid ${$primary}` : `1px solid ${$primary}` }"
         >
             <div class="asset-image">
-                <img class="img" :src="element.src" :alt="element.alt" />
+                <img
+                    class="img"
+                    :src="
+                        element.type.name === 'Asset'
+                            ? element.src
+                            : 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true'
+                    "
+                    :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
+                />
             </div>
-            <p class="layer-text">{{ element.alt }}</p>
+            <p class="layer-text">{{ element.type.name === 'Asset' ? element.alt : element.type.content }}</p>
             <div class="chevrons">
                 <button
                     class="expand-less icon icon-btn"

@@ -6,10 +6,6 @@
             type: Object,
             default: () => {},
         },
-        selectedId: {
-            type: String,
-            default: () => null,
-        },
         lockAspectRatio: Boolean,
     });
 
@@ -54,10 +50,8 @@
                     :lockAspectRatio="props.lockAspectRatio"
                     :height="stripHeight"
                     :panel="panel"
-                    :activePanelIndex="activePanelIndex"
+                    :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
                     :comic="props.comic"
-                    :activePanel="comic.getPage(0).getStrip(0).panels[activePanelIndex]"
-                    :selectedId="props.selectedId"
                 ></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>
             </swiper-slide>
