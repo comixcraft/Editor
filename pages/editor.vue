@@ -241,6 +241,7 @@
         justify-content: center;
         align-items: center;
     }
+
     .editor__top-nav {
         display: flex;
         align-items: center;
@@ -318,6 +319,9 @@
         width: 100%;
         background-color: $white;
         z-index: 1000;
+        overflow-x: scroll;
+        white-space: nowrap;
+        scroll-behavior: smooth;
     }
 
     .share__top-nav-item {
@@ -363,6 +367,7 @@
         .mobile {
             display: none;
         }
+
         .editor__canvas {
             align-items: center;
             display: flex;
@@ -401,8 +406,13 @@
             z-index: 900;
             height: calc(100vh - 80px);
         }
+
         .modal-container {
             display: none;
+        }
+        .bottom-nav__container {
+            overflow-x: visible;
+            white-space: wrap;
         }
     }
 </style>
