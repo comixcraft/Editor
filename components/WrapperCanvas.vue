@@ -17,7 +17,7 @@
     const canvasHeight = computed(() => props.arrayBB[props.panelIndex].height + 'px');
     const canvasWidth = computed(() => props.arrayBB[props.panelIndex].width + 'px');
     const comicStore = useComicStore();
-    const panelDimensions = toRaw(props.arrayBB[props.panelIndex]);
+    const panelDimensions = props.arrayBB[props.panelIndex];
     const border = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].border;
     const elements = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].elements;
 

@@ -28,15 +28,22 @@
 
     function updatePanelBB() {
         if (panelBBArray.length !== DOMElementArray.length) return;
+
         DOMElementArray.forEach((DOMElement, index) => {
             panelBBArray[index].height = DOMElement.getBoundingClientRect().height;
             panelBBArray[index].width = DOMElement.getBoundingClientRect().width;
+            props.comic.getPage(0).getStrip(0).panels[index].width = toRaw(panelBBArray[index]).width;
+            props.comic.getPage(0).getStrip(0).height = toRaw(panelBBArray[index]).height;
         });
     }
 
     function updateActivePanel(index) {
         activePanelIndex.value = index;
         emit('active-panel-change', index);
+    }
+
+    function changeSize() {
+        panelBBArray[0].height = panelBBArray[0].height / 2;
     }
 </script>
 
@@ -60,6 +67,7 @@
         >
             <TextEditor v-if="comicStore.getCurrentElement().value != null" />
             <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
+                <button @click="changeSize">ChangeSize</button>
                 <WrapperCanvas
                     class="swiper-no-swiping"
                     :lockAspectRatio="props.lockAspectRatio"

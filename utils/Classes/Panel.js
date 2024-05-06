@@ -43,6 +43,15 @@ export default class Panel {
         return this._width;
     }
 
+    // SETTERS
+    set width(num) {
+        this._width = num;
+    }
+
+    set borders(str) {
+        this._border = str;
+    }
+
     /**
      * @param {String} id
      * @returns {ElementDS | undefined}
