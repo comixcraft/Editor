@@ -213,20 +213,6 @@ export default class ElementDS {
     };
 
     /**
-     * @param {Number} z
-     */
-    setZIndex = (z) => {
-        this._z = z;
-    };
-
-    /**
-     * @param {Number} id
-     */
-    setId = (id) => {
-        this._id = id;
-    };
-
-    /**
      * @param {Boolean} isMirroredHorizontal
      */
     setIsMirroredHorizontal = (isMirroredHorizontal) => {

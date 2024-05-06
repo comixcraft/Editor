@@ -17,14 +17,9 @@
     const canvasHeight = computed(() => props.arrayBB[props.panelIndex].height + 'px');
     const canvasWidth = computed(() => props.arrayBB[props.panelIndex].width + 'px');
     const comicStore = useComicStore();
+    const panelDimensions = toRaw(props.arrayBB[props.panelIndex]);
     const border = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].border;
     const elements = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].elements;
-
-    onUpdated(() => {
-        // props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
-        //     ? console.log(widthPanel.value, heightPanel.value)
-        //     : console.log('');
-    });
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
@@ -46,8 +41,8 @@
         validateElementId(obj.eId);
         // update element width and height
         elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
-        elements.get(obj.eId).setWidth(obj.width);
-        elements.get(obj.eId).setHeight(obj.height);
+        elements.get(obj.eId).setWidth(obj.width / panelDimensions.width);
+        elements.get(obj.eId).setHeight(obj.height / panelDimensions.height);
     }
 
     function updatePosition(obj) {
@@ -94,16 +89,19 @@
 
         let tempEl;
         if (event) {
-            let fixedHeight = 200;
+            let fixedHeight = 200 / panelDimensions.height;
             let name = event.target.alt;
             let src = event.target.src;
-            let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
+            let width =
+                (fixedHeight * panelDimensions.height * event.target.naturalWidth) /
+                event.target.naturalHeight /
+                panelDimensions.width;
             let newAsset = new Asset(src);
             tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
         } else {
-            let fixedHeight = 200;
+            let fixedHeight = 200 / panelDimensions.height;
             let src = 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true';
-            let width = 200;
+            let width = 200 / panelDimensions.width;
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
             tempEl = new ElementDS(width, fixedHeight, name, src, type);
@@ -139,13 +137,13 @@
                 :key="key"
                 :altText="value.alt"
                 :eId="value.id"
-                :h="value.height"
+                :h="value.height * panelDimensions.height"
                 :isMirroredHorizontal="value.isMirroredHorizontal"
                 :isMirroredVertical="value.isMirroredVertical"
                 :rotation="value.rotation"
                 :pos="value.pos"
                 :url="value.src"
-                :w="value.width"
+                :w="value.width * panelDimensions.width"
                 :z="value.z"
                 :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                 :text="value.type.content == undefined ? '' : value.type.content"
