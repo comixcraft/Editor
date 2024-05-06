@@ -112,13 +112,7 @@ export const useComicStore = defineStore('comic', () => {
                             );
                         }
                         // create new element
-                        let tempElement = new ElementDS(
-                            element.width,
-                            element.height,
-                            element.alt,
-                            element.src,
-                            tempType
-                        );
+                        let tempElement = new ElementDS(element.width, element.height, element.alt, tempType);
                         // set non-constructor proprieties
                         tempElement.z = element.z;
                         tempElement.isFocused = element.isFocused;
