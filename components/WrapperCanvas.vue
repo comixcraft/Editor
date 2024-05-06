@@ -97,14 +97,13 @@
                 event.target.naturalHeight /
                 panelDimensions.width;
             let newAsset = new Asset(src);
-            tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
+            tempEl = new ElementDS(width, fixedHeight, name, newAsset);
         } else {
             let fixedHeight = 200 / panelDimensions.height;
-            let src = 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true';
             let width = 200 / panelDimensions.width;
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
-            tempEl = new ElementDS(width, fixedHeight, name, src, type);
+            tempEl = new ElementDS(width, fixedHeight, name, type);
         }
         props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).addElement(tempEl);
     });
@@ -142,7 +141,7 @@
                 :isMirroredVertical="value.isMirroredVertical"
                 :rotation="value.rotation"
                 :pos="value.pos"
-                :url="value.src"
+                :url="value.type.path"
                 :w="value.width * panelDimensions.width"
                 :z="value.z"
                 :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"

@@ -74,7 +74,11 @@
             :style="{ border: index === selection ? `3px solid ${$primary}` : `1px solid ${$primary}` }"
         >
             <div class="asset-image">
-                <img class="img" :src="element.src" :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'" />
+                <img
+                    class="img"
+                    :src="element.type.path"
+                    :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
+                />
             </div>
             <p class="layer-text">{{ element.type.name === 'Asset' ? element.alt : element.type.content }}</p>
             <div class="chevrons">

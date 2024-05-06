@@ -8,7 +8,7 @@ export default class Text {
     /** @type {String} */
     _fontFamily;
     /** @type {String} */
-    _path;
+    _path = 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true';
     /** @type {Number} */
     _fontWeight = 400;
 

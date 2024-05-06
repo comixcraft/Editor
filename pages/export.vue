@@ -45,15 +45,11 @@
 
     function drawAsset(context, element, panelDimension) {
         const img = new Image();
-        img.src = element.src;
+        img.src = element.type.path;
         // Save the current context
         context.save();
 
         // Move the rotation point to the center of the image
-        console.log({
-            x: element.pos.x + (element.width * panelDimension.width) / 2,
-            y: element.pos.y + (element.height * panelDimension.height) / 2,
-        });
         context.translate(
             element.pos.x + (element.width * panelDimension.width) / 2,
             element.pos.y + (element.height * panelDimension.height) / 2
