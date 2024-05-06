@@ -93,13 +93,14 @@
     });
 
     function upElement(eId) {
+        if (!props.panelIsActive) return;
+        console.log(props.panelIsActive);
         props.panel.moveZIndexUp(eId);
-        props.panel.elements.forEach((el) => console.log(el.alt, el.z));
     }
 
     function downElement(eId) {
+        if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
-        props.panel.elements.forEach((el) => console.log(el.alt, el.z));
     }
 
     onUpdated(() => {});

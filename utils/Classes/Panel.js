@@ -96,8 +96,10 @@ export default class Panel {
         if (this.elements.size <= 1) {
             return;
         }
+        console.log(id);
 
         let element = this.getElement(id);
+        console.log(element);
         let elementZIndex = element.z;
 
         // check if z-index the highest
