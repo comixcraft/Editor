@@ -24,8 +24,8 @@
     });
 
     onMounted(() => {
-        navHeight.value = ul.parentNode.parentNode.parentNode.parentNode.firstChild.getBoundingClientRect().height;
         ul = document.getElementsByClassName('layers')[0];
+        navHeight.value = ul.parentNode.parentNode.parentNode.parentNode.firstChild.getBoundingClientRect().height;
         // let sortable = Sortable.create(ul, {
         //     animation: 150,
         //     ghostClass: 'left-over',
