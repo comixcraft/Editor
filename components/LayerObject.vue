@@ -10,6 +10,10 @@
 
     let ul;
     let selection = ref(undefined);
+    let navHeight = ref(0);
+    let navHeightPx = computed(() => {
+        return navHeight.value + 'px';
+    });
 
     // create a reactive array from map element
     let arrayZ = ref(Array.from(props.panel.elements, ([key, value]) => value));
@@ -20,6 +24,7 @@
     });
 
     onMounted(() => {
+        navHeight.value = ul.parentNode.parentNode.parentNode.parentNode.firstChild.getBoundingClientRect().height;
         ul = document.getElementsByClassName('layers')[0];
         // let sortable = Sortable.create(ul, {
         //     animation: 150,
@@ -64,7 +69,7 @@
             <button class="canvas-btn">Canvas</button>
         </div>
     </div>
-    <ul class="layers">
+    <ul class="layers" :style="{ 'margin-top': navHeightPx }">
         <li
             v-for="(element, index) in arrayZSorted"
             :key="element.id"
