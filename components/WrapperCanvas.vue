@@ -6,9 +6,9 @@
         lockAspectRatio: Boolean,
     });
 
-    const comicStore = useComicStore();
     const canvasHeight = computed(() => props.height + 'px');
     const canvasWidth = computed(() => props.panel.currentState().width + 'px');
+    const comicStore = useComicStore();
     const border = props.panel.border;
     let elements = props.panel.elements;
 
@@ -17,6 +17,10 @@
             return;
         }
     }
+
+    onBeforeUnmount(() => {
+        comicStore.bus.off('add-element');
+    });
 
     function deleteElement(eId) {
         // delete last element of map
@@ -107,6 +111,7 @@
                 :selectedId="props.selectedId"
                 :lockAspectRatio="props.lockAspectRatio"
                 :panel="props.panel"
+                :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
                 @resize-event="resizeElement"
@@ -126,6 +131,7 @@
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
         position: relative;
+        padding: 0;
 
         &__border {
             width: 100%;
