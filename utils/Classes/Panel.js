@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export default class Panel {
     /** @type {String} */
     _border;
@@ -69,15 +67,10 @@ export default class Panel {
      * @param {ElementDS} element
      */
     addElement(element) {
-        // find available integer
-        let myUuid = uuidv4();
-
-        // set id and z index of element
-        element.setId(myUuid);
-        element.setZIndex(this.getHighestZIndex() + 1);
-
+        // set z index of element
+        element.z = this.getHighestZIndex() + 1;
         // set the element in map
-        this._elements.set(myUuid, element);
+        this.elements.set(element.id, element);
     }
 
     /**

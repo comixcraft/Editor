@@ -1,5 +1,8 @@
 <script setup>
     import Comic from '~/utils/Classes/Comic';
+    import ElementDS from '~/utils/Classes/Element';
+    import Text from '~/utils/Classes/Text';
+    import Asset from '~/utils/Classes/Asset';
 
     const props = defineProps({
         height: Number,
@@ -86,9 +89,26 @@
         // logic
     });
 
-    comicStore.bus.on('add-element', (el) => {
+    comicStore.bus.on('add-element', (event) => {
         if (!props.panelIsActive) return;
-        props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).addElement(el);
+
+        let tempEl;
+        if (event) {
+            let fixedHeight = 200;
+            let name = event.target.alt;
+            let src = event.target.src;
+            let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
+            let newAsset = new Asset(src);
+            tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
+        } else {
+            let fixedHeight = 200;
+            let src = 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true';
+            let width = 200;
+            let name = 'Double-click to edit me.';
+            let type = new Text(name, 24, 'Pangolin');
+            tempEl = new ElementDS(width, fixedHeight, name, src, type);
+        }
+        props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).addElement(tempEl);
     });
 
     // functions

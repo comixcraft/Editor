@@ -1,4 +1,5 @@
 import Position from './Position.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class ElementDS {
     /** @type {String} */
@@ -39,6 +40,13 @@ export default class ElementDS {
         this._src = src ?? 'undefined';
         this._alt = alt ?? 'unknown';
         this._type = type ?? 'Text';
+
+        this.#init();
+    }
+
+    #init() {
+        let myUuid = uuidv4();
+        this.id = myUuid;
     }
 
     /**

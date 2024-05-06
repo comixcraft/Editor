@@ -22,13 +22,7 @@
 
     // Functionality to add new text to display
     function addNewTextToDisplay() {
-        let fixedHeight = 200;
-        let src = '';
-        let width = 200;
-        let name = 'Double-click to edit me.';
-        let type = new Text(name, 24, 'Pangolin');
-        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
-        comicStore.bus.emit('add-element', tempEl);
+        comicStore.bus.emit('add-element', null);
     }
 </script>
 

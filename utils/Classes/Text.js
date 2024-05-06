@@ -7,6 +7,8 @@ export default class Text {
     _fontSize;
     /** @type {String} */
     _fontFamily;
+    /** @type {String} */
+    _path;
     /** @type {Number} */
     _fontWeight = 400;
 
@@ -47,6 +49,11 @@ export default class Text {
         return this._name;
     }
 
+    /** @returns {String} */
+    get path() {
+        return this._path;
+    }
+
     // SETTERS
     /** @param {String} content */
     set content(content) {
@@ -66,6 +73,11 @@ export default class Text {
     /** @param {Number} fontWeight */
     set fontWeight(fontWeight) {
         this._fontWeight = fontWeight;
+    }
+
+    /** @param {String} content */
+    set path(content) {
+        this._path = content;
     }
 
     // METHODS
