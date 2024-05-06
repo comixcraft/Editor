@@ -27,7 +27,6 @@
         // props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
         //     ? console.log(widthPanel.value, heightPanel.value)
         //     : console.log('');
-        console.log(props.panelIsActive);
     });
 
     function validateElementId(eId) {
@@ -94,7 +93,6 @@
 
     function upElement(eId) {
         if (!props.panelIsActive) return;
-        console.log(props.panelIsActive);
         props.panel.moveZIndexUp(eId);
     }
 
