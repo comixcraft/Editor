@@ -12,7 +12,6 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
-        selectedId: String,
         lockAspectRatio: Boolean,
         panel: Object,
         element: Object,

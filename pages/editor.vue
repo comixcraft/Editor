@@ -146,7 +146,6 @@
             <ComicPanels
                 :lockAspectRatio="lockAspectRatio"
                 :comic="comic"
-                :selectedId="selectedElementId"
                 @active-panel-change="activePanelIndex = $event"
             ></ComicPanels>
         </div>

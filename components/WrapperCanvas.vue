@@ -4,9 +4,8 @@
     const props = defineProps({
         height: Number,
         panel: Object,
-        activePanelIndex: Number,
+        panelIsActive: Boolean,
         comic: Object,
-        selectedId: String,
         lockAspectRatio: Boolean,
     });
 
@@ -25,9 +24,10 @@
     });
 
     onUpdated(() => {
-        props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
-            ? console.log(widthPanel.value, heightPanel.value)
-            : console.log('');
+        // props.panel === props.comic.getPage(0).getStrip(0).panels[props.activePanelIndex]
+        //     ? console.log(widthPanel.value, heightPanel.value)
+        //     : console.log('');
+        console.log(props.panelIsActive);
     });
 
     function validateElementId(eId) {
@@ -94,12 +94,12 @@
 
     function upElement(eId) {
         props.panel.moveZIndexUp(eId);
-        comicStore.bus.emit('z-indexChange');
+        props.panel.elements.forEach((el) => console.log(el.alt, el.z));
     }
 
     function downElement(eId) {
         props.panel.moveZIndexDown(eId);
-        comicStore.bus.emit('z-indexChange');
+        props.panel.elements.forEach((el) => console.log(el.alt, el.z));
     }
 
     onUpdated(() => {});
