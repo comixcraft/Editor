@@ -32,7 +32,7 @@
 </template>
 
 <style lang="scss" scoped>
-    .overay-container {
+    .overlay-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
