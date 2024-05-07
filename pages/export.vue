@@ -43,14 +43,17 @@
         drawCredit(canvas, context);
     }
 
-    function drawAsset(context, element) {
+    function drawAsset(context, element, panelDimension) {
         const img = new Image();
-        img.src = element.src;
+        img.src = element.type.path;
         // Save the current context
         context.save();
 
         // Move the rotation point to the center of the image
-        context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
+        context.translate(
+            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+        );
 
         // Rotate the canvas to the specified degrees
         context.rotate((element.rotation * Math.PI) / 180);
@@ -64,7 +67,13 @@
         }
 
         // Draw the image
-        context.drawImage(img, -element.width / 2, -element.height / 2, element.width, element.height);
+        context.drawImage(
+            img,
+            (-element.width * panelDimension.width) / 2,
+            (-element.height * panelDimension.height) / 2,
+            element.width * panelDimension.width,
+            element.height * panelDimension.height
+        );
 
         // Restore the saved context
         context.restore();
@@ -90,7 +99,7 @@
         return lines;
     }
 
-    function drawText(context, element) {
+    function drawText(context, element, panelDimension) {
         // Save the current context
         context.save();
 
@@ -100,7 +109,10 @@
         context.textBaseline = 'top';
 
         // Move the rotation point to the center of the element
-        context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
+        context.translate(
+            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+        );
 
         // Rotate the canvas to the specified degrees
         context.rotate((element.rotation * Math.PI) / 180);
@@ -114,10 +126,10 @@
         }
 
         // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-        context.translate(-element.width / 2, -element.height / 2);
+        context.translate((-element.width * panelDimension.width) / 2, (-element.height * panelDimension.height) / 2);
 
         // Draw the text once the lines are created
-        getLines(context, element.type.content, element.width).forEach((line, i) => {
+        getLines(context, element.type.content, element.width * panelDimension.width).forEach((line, i) => {
             context.fillText(line, 0, i * element.type.fontSize);
         });
 
@@ -149,9 +161,9 @@
         // draw the panels
         panel.elements.forEach((element, key) => {
             if (element.type.name === 'Asset') {
-                drawAsset(newContext, element);
+                drawAsset(newContext, element, { width: panel.width, height });
             } else if (element.type.name === 'Text') {
-                drawText(newContext, element);
+                drawText(newContext, element, { width: panel.width, height });
             } else {
                 console.log('Element not recognized in drawPanel in export.vue.');
             }

@@ -56,6 +56,14 @@
 </script>
 
 <template>
+    <div class="empty-display" v-if="arrayZ.length === 0">
+        <img src="/public/Barista explaining6.png" alt="" />
+        <div class="empty-display_text">
+            <h1>No layers to display</h1>
+            <p>Start by adding an asset to the canvas.</p>
+            <button class="canvas-btn">Canvas</button>
+        </div>
+    </div>
     <ul class="layers">
         <li
             v-for="(element, index) in arrayZSorted"
@@ -68,11 +76,7 @@
             <div class="asset-image">
                 <img
                     class="img"
-                    :src="
-                        element.type.name === 'Asset'
-                            ? element.src
-                            : 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true'
-                    "
+                    :src="element.type.path"
                     :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
                 />
             </div>
@@ -101,6 +105,46 @@
 </template>
 
 <style scoped lang="scss">
+    .empty-display {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        row-gap: $spacer-5;
+        margin-top: $spacer-9;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .empty-display img {
+        z-index: 10;
+        max-width: 24vw !important;
+    }
+
+    .empty-display h1 {
+        color: $primary;
+    }
+
+    .empty-display_text {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        row-gap: $spacer-4;
+    }
+
+    .canvas-btn {
+        text-align: center;
+        background-color: $secondary-100;
+        color: $grey-0;
+        padding: $spacer-3 $spacer-5;
+        border-radius: $border-radius-lg;
+        border: none;
+        width: calc(100% - $spacer-6);
+    }
+
     .layer {
         padding: $spacer-3;
         width: 90vw;
@@ -157,5 +201,11 @@
         vertical-align: middle;
         background-color: transparent;
         color: $grey-80;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .canvas-btn {
+            width: auto;
+        }
     }
 </style>

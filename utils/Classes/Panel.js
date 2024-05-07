@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export default class Panel {
     /** @type {String} */
     _border;
@@ -7,13 +5,16 @@ export default class Panel {
     _elements;
     /** @type {Number} */
     _width;
+    /** @type {Number} */
+    _height;
 
     /**
      * @param {Number} width
      * @param {String} border
      */
-    constructor(width = null, border = null) {
+    constructor(width = null, height = null, border = null) {
         this._width = width ?? 0;
+        this._height = height ?? 0;
         this._border = border ?? 'undefined';
 
         this.#init();
@@ -46,6 +47,26 @@ export default class Panel {
     }
 
     /**
+     * @returns {Number}
+     */
+    get height() {
+        return this._height;
+    }
+
+    // SETTERS
+    set width(num) {
+        this._width = num;
+    }
+
+    set borders(str) {
+        this._border = str;
+    }
+
+    set height(num) {
+        this._height = num;
+    }
+
+    /**
      * @param {String} id
      * @returns {ElementDS | undefined}
      */
@@ -69,15 +90,10 @@ export default class Panel {
      * @param {ElementDS} element
      */
     addElement(element) {
-        // find available integer
-        let myUuid = uuidv4();
-
-        // set id and z index of element
-        element.setId(myUuid);
-        element.setZIndex(this.getHighestZIndex() + 1);
-
+        // set z index of element
+        element.z = this.getHighestZIndex() + 1;
         // set the element in map
-        this._elements.set(myUuid, element);
+        this.elements.set(element.id, element);
     }
 
     /**
@@ -119,8 +135,8 @@ export default class Panel {
         });
 
         // switch this element
-        topElement.setZIndex(elementZIndex);
-        element.setZIndex(zIndex);
+        topElement.z = elementZIndex;
+        element.z = zIndex;
     }
 
     moveZIndexDown(id) {
@@ -149,8 +165,8 @@ export default class Panel {
         });
 
         // switch this element
-        downElement.setZIndex(elementZIndex);
-        element.setZIndex(zIndex);
+        downElement.z = elementZIndex;
+        element.z = zIndex;
     }
 
     getHighestZIndex() {

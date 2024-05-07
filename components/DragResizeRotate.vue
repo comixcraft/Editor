@@ -3,6 +3,8 @@
         z: Number,
         w: Number,
         h: Number,
+        x: Number,
+        y: Number,
         altText: String,
         url: String,
         eId: String,
@@ -13,7 +15,6 @@
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
         lockAspectRatio: Boolean,
-        panel: Object,
         element: Object,
     });
 
@@ -33,7 +34,6 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
-    let zIndex = ref(props.z);
 
     // Define emits
     const emit = defineEmits([
@@ -46,6 +46,12 @@
         'backEvent',
         'frontEvent',
     ]);
+
+    watch(
+        () => props.z,
+        () => console.log('z change'),
+        { deep: true }
+    );
 
     // computed functions
     const setMirroredHorizontal = computed(() => {
@@ -162,15 +168,15 @@
         :eId="eId"
         class-name-active="element--active"
         ref="self"
-        :x="pos.currPos().x"
-        :y="pos.currPos().y"
+        :x="x"
+        :y="y"
         :parent="true"
         :rotatable="true"
         :resizable="true"
         :draggable="true"
         :r="angle"
         :lockAspectRatio="props.lockAspectRatio"
-        :style="{ zIndex: zIndex }"
+        :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
         @activated="() => (elementActive = true)"
