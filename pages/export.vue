@@ -233,10 +233,11 @@
             <div ref="previewCanvas" class="preview__container">
                 <canvas ref="canvasEl" class="preview__canvas"></canvas>
             </div>
-        </div>
-        <div class="btn-container">
-            <button class="share__confirm-btn" @click="saveDraft">Save Draft</button>
-            <button class="share__confirm-btn" @click="download">Download</button>
+
+            <div class="btn-container">
+                <button class="share__confirm-btn" @click="saveDraft">Save Draft</button>
+                <button class="share__confirm-btn" @click="download">Download</button>
+            </div>
         </div>
     </div>
 </template>

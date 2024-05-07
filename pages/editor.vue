@@ -1,5 +1,6 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
+    import iconConfig from '../config/iconsConfig';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -154,6 +155,12 @@
         </div>
         <div class="modal-container">
             <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+                <div class="category__description">
+                    <div class="edit-icon icon text-primary">
+                        {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
+                    </div>
+                    <div class="navigation__title h1">{{ selectedCategory.name }}</div>
+                </div>
                 <CatalogLayout
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
@@ -312,6 +319,13 @@
 
     .catalogue-container {
         display: none;
+    }
+
+    .category__description {
+        margin-left: $spacer-2;
+        color: $primary;
+        display: flex;
+        gap: $spacer-2;
     }
 
     @include media-breakpoint-up(lg) {

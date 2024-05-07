@@ -12,18 +12,9 @@
 
 <template>
     <div>
+        <div v-if="show" class="background"></div>
         <div v-if="show" class="overlay">
-            <div class="container">
-                <div class="category__description">
-                    <span class="edit-icon icon text-primary">
-                        {{ iconConfig.get(props.title) || 'default_icon' }}
-                    </span>
-                    <div class="navigation__title h1">
-                        {{ title }}
-                    </div>
-                </div>
-                <div class="navigation__icon icon" @click="$emit('close')">close</div>
-            </div>
+            <div class="navigation__icon icon" @click="$emit('close')">close</div>
             <div class="overlay__content">
                 <slot></slot>
             </div>
@@ -32,25 +23,22 @@
 </template>
 
 <style lang="scss" scoped>
-    .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: $primary;
-        cursor: pointer;
-        background-color: $white;
+    .background {
+        position: absolute;
+        top: 0;
+        background-color: $black-100;
+        height: 100vh;
+        width: 100%;
+        opacity: 40%;
     }
-    .category__description {
-        display: flex;
-        gap: $spacer-2;
-    }
+
     .overlay {
         z-index: 9999999;
         padding: $spacer-3;
         background-color: $white;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
-        height: calc(100vh - 10px);
+        height: calc(100vh - $spacer-8);
         width: 100vw;
         left: 0;
         bottom: 0;
@@ -60,5 +48,10 @@
 
     .icon {
         color: $grey-70;
+    }
+
+    .navigation__icon {
+        position: absolute;
+        right: $spacer-4;
     }
 </style>
