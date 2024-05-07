@@ -137,7 +137,7 @@
 
 <template>
     <div>
-        <div ref="container" class="panel container" @resize="updatePanelBoundingBox">
+        <div ref="container" class="panel container">
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
