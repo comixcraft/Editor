@@ -1,13 +1,11 @@
-// Color
-
 $primary-100: #6360f4;
 $primary-50: #b1b0fa;
 $primary-30: #d1d0fc;
 $primary: $primary-100;
 
-$secondary-100: #f460b7;
-$secondary-50: #fab0db;
-$secondary-30: #fcd0ea;
+$secondary-100: #eb44b8;
+$secondary-50: #f17dce;
+$secondary-30: #f9c7ea;
 $secondary: $secondary-100;
 
 $accent-100: #07b8ba;
@@ -142,6 +140,8 @@ $spacer-4: 24px;
 $spacer-5: 32px;
 $spacer-6: 40px;
 $spacer-7: 48px;
+$spacer-8: 56px;
+$spacer-9: 64px;
 
 $spacer: $spacer-1;
 $spacers: (
@@ -153,6 +153,8 @@ $spacers: (
     5: $spacer-5,
     6: $spacer-6,
     7: $spacer-7,
+    8: $spacer-8,
+    9: $spacer-9,
 );
 
 // Border

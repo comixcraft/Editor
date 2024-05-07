@@ -43,14 +43,17 @@
         drawCredit(canvas, context);
     }
 
-    function drawAsset(context, element) {
+    function drawAsset(context, element, panelDimension) {
         const img = new Image();
-        img.src = element.src;
+        img.src = element.type.path;
         // Save the current context
         context.save();
 
         // Move the rotation point to the center of the image
-        context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
+        context.translate(
+            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+        );
 
         // Rotate the canvas to the specified degrees
         context.rotate((element.rotation * Math.PI) / 180);
@@ -64,7 +67,13 @@
         }
 
         // Draw the image
-        context.drawImage(img, -element.width / 2, -element.height / 2, element.width, element.height);
+        context.drawImage(
+            img,
+            (-element.width * panelDimension.width) / 2,
+            (-element.height * panelDimension.height) / 2,
+            element.width * panelDimension.width,
+            element.height * panelDimension.height
+        );
 
         // Restore the saved context
         context.restore();
@@ -90,7 +99,7 @@
         return lines;
     }
 
-    function drawText(context, element) {
+    function drawText(context, element, panelDimension) {
         // Save the current context
         context.save();
 
@@ -100,7 +109,10 @@
         context.textBaseline = 'top';
 
         // Move the rotation point to the center of the element
-        context.translate(element.pos.x + element.width / 2, element.pos.y + element.height / 2);
+        context.translate(
+            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+        );
 
         // Rotate the canvas to the specified degrees
         context.rotate((element.rotation * Math.PI) / 180);
@@ -114,10 +126,10 @@
         }
 
         // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-        context.translate(-element.width / 2, -element.height / 2);
+        context.translate((-element.width * panelDimension.width) / 2, (-element.height * panelDimension.height) / 2);
 
         // Draw the text once the lines are created
-        getLines(context, element.type.content, element.width).forEach((line, i) => {
+        getLines(context, element.type.content, element.width * panelDimension.width).forEach((line, i) => {
             context.fillText(line, 0, i * element.type.fontSize);
         });
 
@@ -149,9 +161,9 @@
         // draw the panels
         panel.elements.forEach((element, key) => {
             if (element.type.name === 'Asset') {
-                drawAsset(newContext, element);
+                drawAsset(newContext, element, { width: panel.width, height });
             } else if (element.type.name === 'Text') {
-                drawText(newContext, element);
+                drawText(newContext, element, { width: panel.width, height });
             } else {
                 console.log('Element not recognized in drawPanel in export.vue.');
             }
@@ -177,6 +189,11 @@
         link.click();
     }
 
+    function saveDraft() {
+        let comicJson = comicStore.comic.toJSON();
+        comicStore.saveDraft(comicJson);
+    }
+
     onMounted(() => {
         displayPreview();
     });
@@ -189,36 +206,37 @@
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
-            <!-- NOT IMPLEMENTED YET
-            <div class="share__input-group">
-                <label class="share__input-group-label" for="project-name">Project Name:</label>
-                <input
-                    class="share__input-group-input"
-                    type="text"
-                    id="project-name"
-                    placeholder="Enter project name"
-                />
+            <div class="export__details">
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="project-name">Project Name:</label>
+                    <input
+                        class="share__input-group-input"
+                        type="text"
+                        id="project-name"
+                        placeholder="Enter project name"
+                    />
+                </div>
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="file-type">File Type:</label>
+                    <select class="share__input-group-select">
+                        <option value="png">PNG</option>
+                    </select>
+                </div>
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                    <select class="share__input-group-select">
+                        <option value="1">All panels</option>
+                    </select>
+                </div>
             </div>
-            <div class="share__input-group">
-                <label class="share__input-group-label" for="file-type">File Type:</label>
-                <select class="file-type-select">
-                    <option value="png">PNG</option>
-                </select>
-            </div>
-            <div class="share__input-group">
-                <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                <select class="file-type-select">
-                    <option value="1">All panels</option>
-                </select>
-            </div>
-        -->
+
             <div ref="previewCanvas" class="preview__container">
-                <h3>Preview:</h3>
                 <canvas ref="canvasEl" class="preview__canvas"></canvas>
             </div>
         </div>
-        <div class="share__confirm">
-            <button class="share__confirm-btn" @click="download">download</button>
+        <div class="btn-container">
+            <!-- <button class="share__confirm-btn" @click="saveDraft">Save Draft</button> -->
+            <button class="share__confirm-btn" @click="download">Download</button>
         </div>
     </div>
 </template>
@@ -229,13 +247,21 @@
         flex-direction: row;
         align-items: center;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
+        padding: $spacer-1 $spacer-3;
         margin: 0;
-        color: white;
+        color: $white;
     }
 
     .share__body {
         padding: $spacer-3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .export__details {
+        flex: 1;
+        padding-bottom: $spacer-3;
     }
 
     .share__input-group {
@@ -244,70 +270,73 @@
 
     .share__input-group-label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: $spacer-1;
     }
 
     .share__input-group-input,
     .share__input-group-select {
-        padding: $spacer-2;
-        padding-right: $spacer-6;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+        padding: $spacer-2 $spacer-6 $spacer-2 $spacer-2;
+        border: $border-width solid $grey-60;
+        border-radius: $border-radius;
     }
 
     .share__preview {
         margin-top: $spacer-5;
     }
 
-    .share__confirm {
-        position: absolute;
-        bottom: 10%;
-        right: 7%;
-        padding: $spacer-3;
-        z-index: 999;
+    .btn-container {
+        z-index: 1;
+        width: calc(100% - $spacer-6);
+        position: fixed;
+        left: 50%;
+        bottom: calc(0% + $spacer-6);
+        transform: translateX(-50%);
+        display: flex;
+        gap: $spacer-3;
     }
 
     .share__confirm-btn {
-        position: absolute;
-        bottom: 10%;
-        right: 7%;
-        padding: $spacer-3;
-        background-color: #f460b7;
-        z-index: 9999;
+        flex-grow: 1;
+        text-align: center;
+        background-color: $secondary-100;
+        color: $grey-0;
+        padding: $spacer-3 $spacer-5;
+        border-radius: $border-radius-lg;
+        border: none;
+    }
+
+    .share__confirm-btn:hover {
+        background-color: $secondary-50;
+        cursor: pointer;
     }
 
     .share__top-nav-item {
         padding: $spacer-3;
         $font-size-phone: 3;
-        color: #eee;
+        color: $white;
         text-decoration: none;
     }
 
     .preview__container {
-        z-index: 1000;
-        justify-self: center;
-        align-self: center;
-        background-color: white;
-        justify-items: center;
-        align-items: center;
+        flex: 1;
+        display: flex;
+        justify-content: center;
     }
 
     .preview__canvas {
-        border: 1px solid black;
-        background-color: white;
-        box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.75);
-        width: 100%;
-        height: auto;
+        border: $border-width solid black;
+        border-radius: $border-radius;
+        width: auto;
+        height: 100%;
     }
-    @include media-breakpoint-up(m) {
-        .preview__canvas {
-            border: 1px solid black;
+
+    @include media-breakpoint-up(lg) {
+        .share__confirm-btn {
             width: auto;
-            height: 100%;
         }
-        .preview__container {
-            height: 25vh;
-            width: 25vw;
+
+        .share__body {
+            flex-direction: row;
         }
     }
 </style>

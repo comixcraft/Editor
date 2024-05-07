@@ -56,6 +56,14 @@
 </script>
 
 <template>
+    <div class="empty-display" v-if="arrayZ.length === 0">
+        <img src="/public/Barista explaining6.png" alt="" />
+        <div class="empty-display_text">
+            <h1>No layers to display</h1>
+            <p>Start by adding an asset to the canvas.</p>
+            <button class="canvas-btn">Canvas</button>
+        </div>
+    </div>
     <ul class="layers">
         <li
             v-for="(element, index) in arrayZSorted"
@@ -63,22 +71,26 @@
             class="layer"
             :accessKey="element.id"
             @click="selectLayer(element.id, index)"
-            :style="{ border: index === selection ? '1px solid black' : 'none' }"
+            :style="{ border: index === selection ? `3px solid ${$primary}` : `1px solid ${$primary}` }"
         >
             <div class="asset-image">
-                <img class="img" :src="element.src" :alt="element.alt" />
+                <img
+                    class="img"
+                    :src="element.type.path"
+                    :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
+                />
             </div>
-            <p class="layer-text">{{ element.alt }}</p>
+            <p class="layer-text">{{ element.type.name === 'Asset' ? element.alt : element.type.content }}</p>
             <div class="chevrons">
-                <div
-                    class="expand-less icon"
+                <button
+                    class="expand-less icon icon-btn"
                     :style="{ opacity: index > 0 ? 1 : 0.25, cursor: index > 0 ? 'pointer' : 'not-allowed' }"
                     @click="sendEmitFront(element.id, index)"
                 >
                     expand_less
-                </div>
-                <div
-                    class="expand-more icon"
+                </button>
+                <button
+                    class="expand-more icon icon-btn"
                     :style="{
                         opacity: index < arrayZSorted.length - 1 ? 1 : 0.25,
                         cursor: index < arrayZSorted.length - 1 ? 'pointer' : 'not-allowed',
@@ -86,27 +98,72 @@
                     @click="sendEmitBack(element.id, index)"
                 >
                     expand_more
-                </div>
+                </button>
             </div>
         </li>
     </ul>
 </template>
 
 <style scoped lang="scss">
+    .empty-display {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        row-gap: $spacer-5;
+        margin-top: $spacer-9;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .empty-display img {
+        z-index: 10;
+        max-width: 24vw !important;
+    }
+
+    .empty-display h1 {
+        color: $primary;
+    }
+
+    .empty-display_text {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        row-gap: $spacer-4;
+    }
+
+    .canvas-btn {
+        text-align: center;
+        background-color: $secondary-100;
+        color: $grey-0;
+        padding: $spacer-3 $spacer-5;
+        border-radius: $border-radius-lg;
+        border: none;
+        width: calc(100% - $spacer-6);
+    }
+
     .layer {
         padding: $spacer-3;
         width: 90vw;
-        background-color: #ccc;
+        border: $primary 1px solid;
+        border-radius: $border-radius;
         margin-top: $spacer-4;
         display: flex;
         align-items: center;
     }
 
+    ul {
+        padding-inline-start: 0;
+    }
+
     .asset-image {
-        width: 60px;
-        height: 60px;
-        background-color: white;
-        margin-right: 10px; /* Adjust margin between images as needed */
+        width: $spacer-8;
+        height: $spacer-8;
+        background-color: $white;
+        margin-right: $spacer-2;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -133,5 +190,22 @@
 
     .layer-text {
         margin: 0;
+    }
+
+    .icon-btn {
+        border: none;
+        height: $spacer-6;
+        width: $spacer-6;
+        text-align: center;
+        border-radius: $border-radius;
+        vertical-align: middle;
+        background-color: transparent;
+        color: $grey-80;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .canvas-btn {
+            width: auto;
+        }
     }
 </style>

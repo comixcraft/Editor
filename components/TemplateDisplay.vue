@@ -48,6 +48,10 @@
         &--selected {
             cursor: pointer;
             border: $border-width-lg solid $primary;
+
+            .template__title {
+                color: $primary !important;
+            }
         }
 
         &__preview {

@@ -6,14 +6,9 @@
             type: Object,
             default: () => {},
         },
-        selectedId: {
-            type: String,
-            default: () => null,
-        },
         lockAspectRatio: Boolean,
     });
 
-    const stripHeight = ref(0);
     const activePanelIndex = ref(0);
     const comicStore = useComicStore();
 
@@ -21,12 +16,6 @@
         activePanelIndex.value = index;
         emit('active-panel-change', index);
     }
-
-    stripHeight.value = props.comic.getPage(0).getStrip(0).height;
-
-    comicStore.bus.on('add-element', (el) => {
-        props.comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(el);
-    });
 </script>
 
 <template>
@@ -52,10 +41,8 @@
                 <WrapperCanvas
                     class="swiper-no-swiping"
                     :lockAspectRatio="props.lockAspectRatio"
-                    :height="stripHeight"
                     :panel="panel"
-                    :activePanel="comic.getPage(0).getStrip(0).panels[activePanelIndex]"
-                    :selectedId="props.selectedId"
+                    :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
                 ></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>
             </swiper-slide>
