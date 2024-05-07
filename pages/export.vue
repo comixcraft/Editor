@@ -329,8 +329,7 @@
     .preview__canvas {
         border: $border-width solid black;
         border-radius: $border-radius;
-        width: auto;
-        height: 100%;
+        max-width: 22rem;
     }
 
     @include media-breakpoint-up(lg) {
