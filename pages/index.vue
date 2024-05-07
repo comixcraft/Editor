@@ -17,7 +17,7 @@
 <template>
     <div>
         <div class="top-nav">
-            <div class="top-nav__logo">comixcraft</div>
+            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
         </div>
         <div class="container-fluid">
             <div class="intro">
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <button
-                class="start-btn"
+                class="accent-btn"
                 @click="createComic(selectedComicConfiguration?.config)"
                 :disabled="!selectedComicConfiguration"
             >
@@ -98,21 +98,17 @@
     h2 {
         color: $primary-100;
     }
+
     .top-nav {
-        display: flex;
-        align-items: center;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        margin: 0;
-        padding: $spacer-3 $spacer-3;
+        justify-content: flex-start;
     }
 
     .top-nav__logo {
         display: flex;
         flex-direction: row;
-        margin-left: $spacer-3;
-        justify-content: flex-start;
+        margin-left: $spacer-4;
         justify-content: center;
-        color: $white;
+        width: 10rem;
     }
 
     .intro {
@@ -169,29 +165,9 @@
         margin-top: $spacer-4;
     }
 
-    .start-btn {
+    .accent-btn {
         position: fixed;
         bottom: $spacer-6;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        z-index: 1;
-        background-color: $secondary-100;
-        color: $grey-0;
-        padding: $spacer-3 $spacer-5;
-        border-radius: $border-radius-lg;
-        border: none;
-        width: calc(100% - $spacer-6);
-    }
-
-    .start-btn:hover {
-        background-color: $secondary-50;
-        cursor: pointer;
-    }
-
-    .start-btn:disabled {
-        background-color: $secondary-30;
-        cursor: not-allowed;
     }
 
     @include media-breakpoint-up(lg) {
@@ -199,12 +175,12 @@
             max-width: 24vw !important;
         }
 
-        .start-btn {
-            width: auto;
-        }
-
         .top-nav {
+            justify-content: flex-start;
             padding: $spacer-4 $spacer-3;
+        }
+        .top-nav__logo {
+            justify-content: flex-start;
         }
     }
 </style>

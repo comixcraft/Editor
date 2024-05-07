@@ -184,12 +184,12 @@
 
 <template>
     <div class="share">
-        <div class="share__top-nav">
+        <div class="share__top-nav top-nav-lg">
             <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
-            <div class="export__details">
+            <div class="export__details d-none">
                 <div class="share__input-group">
                     <label class="share__input-group-label" for="project-name">Project Name:</label>
                     <input
@@ -217,21 +217,11 @@
                 <canvas ref="canvasEl" class="preview__canvas"></canvas>
             </div>
         </div>
-        <button class="share__confirm-btn" @click="download">Download</button>
+        <button class="accent-btn" @click="download">Download</button>
     </div>
 </template>
 
 <style scoped lang="scss">
-    .share__top-nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        padding: $spacer-1 $spacer-3;
-        margin: 0;
-        color: $white;
-    }
-
     .share__body {
         padding: $spacer-3;
         display: flex;
@@ -264,31 +254,16 @@
         margin-top: $spacer-5;
     }
 
-    .share__confirm-btn {
-        position: fixed;
-        text-align: center;
-        z-index: 1;
-        background-color: $secondary-100;
-        color: $grey-0;
-        padding: $spacer-3 $spacer-5;
-        border-radius: $border-radius-lg;
-        border: none;
-        bottom: $spacer-6;
-        width: calc(100% - $spacer-6);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .share__confirm-btn:hover {
-        background-color: $secondary-50;
-        cursor: pointer;
-    }
-
     .share__top-nav-item {
         padding: $spacer-3;
         $font-size-phone: 3;
         color: $white;
         text-decoration: none;
+    }
+
+    .accent-btn {
+        position: fixed;
+        bottom: $spacer-6;
     }
 
     .preview__container {
@@ -305,10 +280,6 @@
     }
 
     @include media-breakpoint-up(lg) {
-        .share__confirm-btn {
-            width: auto;
-        }
-
         .share__body {
             flex-direction: row;
         }

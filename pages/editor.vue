@@ -100,8 +100,8 @@
 
 <template>
     <div class="editor">
-        <div class="editor__top-nav">
-            <div class="editor__top-nav__left-btns">
+        <div class="editor__top-nav top-nav-lg">
+            <div class="top-nav__left-btns">
                 <button class="top-nav__item back-btn icon icon-btn">
                     <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
                         arrow_back
@@ -113,7 +113,7 @@
                 </div>
             </div>
 
-            <div class="editor__top-nav__left-btns">
+            <div class="top-nav__left-btns">
                 <div class="top-nav__item layer-btn">
                     <button @click="layersShow = true" class="secondary-btn">
                         <div class="icon">stacks</div>
@@ -216,11 +216,6 @@
     }
 
     .icon-btn {
-        border: none;
-        text-align: center;
-        border-radius: $border-radius;
-        vertical-align: middle;
-        background-color: transparent;
         color: $white;
     }
 
@@ -246,13 +241,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
         margin: 0;
-        background-color: $primary;
-        padding: $spacer-4 $spacer-3;
     }
 
-    .editor__top-nav__left-btns {
+    .top-nav__left-btns {
         display: flex;
         column-gap: $spacer-3;
     }
@@ -342,16 +334,11 @@
             padding: $spacer-3 $spacer-5;
         }
 
-        .editor__top-nav {
-            padding: $spacer-2 $spacer-3;
-            z-index: 999999;
-        }
-
         .display-none {
             display: block;
         }
 
-        .editor__top-nav__left-btns {
+        .top-nav__left-btns {
             display: flex;
             column-gap: $spacer-6;
         }
