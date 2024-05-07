@@ -1,5 +1,4 @@
 <script setup>
-    import Comic from '~/utils/Classes/Comic';
     import ElementDS from '~/utils/Classes/Element';
     import Text from '~/utils/Classes/Text';
     import Asset from '~/utils/Classes/Asset';
@@ -35,6 +34,10 @@
             return;
         }
     }
+
+    onUpdated(() => {
+        console.log(props.panelIsActive);
+    });
 
     window.addEventListener('resize', updatePanelBoundingBox);
 
@@ -133,6 +136,7 @@
     }
 
     onBeforeUnmount(() => {
+        comicStore.bus.off('add-element');
         comicStore.bus.off('putLayerBack');
         comicStore.bus.off('putLayerFront');
         window.removeEventListener('resize', updatePanelBoundingBox);
