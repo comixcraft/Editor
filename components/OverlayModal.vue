@@ -1,10 +1,15 @@
 <script setup>
-    import iconConfig from '../config/iconsConfig';
-
     const props = defineProps({
-        iconName: { type: String, default: '' },
-        title: { type: String },
         show: { type: Boolean, default: false },
+        full: Boolean,
+    });
+
+    const height = computed(() => {
+        if (props.full) {
+            return `100vh`;
+        } else {
+            return 'fit-content';
+        }
     });
 
     const emit = defineEmits(['close']);
@@ -38,7 +43,7 @@
         background-color: $white;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
-        height: calc(100vh - $spacer-8);
+        height: calc(v-bind(height) - $spacer-8);
         width: 100vw;
         left: 0;
         bottom: 0;

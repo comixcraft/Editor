@@ -5,6 +5,7 @@
     let layersShow = ref(false);
     let previewShow = ref(false);
     let catalogShow = ref(false);
+    let goingBackPopUpShow = ref(false);
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
 
@@ -87,10 +88,11 @@
     <div class="editor">
         <div class="editor__top-nav">
             <div class="editor__top-nav__left-btns">
-                <button class="top-nav__item back-btn icon icon-btn">
-                    <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                <button class="top-nav__item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
+                    <!-- <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
                         arrow_back
-                    </NuxtLink>
+                    </NuxtLink> -->
+                    arrow_back
                 </button>
                 <div class="undo-redo-container d-none">
                     <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
@@ -154,7 +156,7 @@
             </div>
         </div>
         <div class="modal-container">
-            <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+            <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false">
                 <div class="category__description">
                     <div class="edit-icon icon text-primary">
                         {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
@@ -165,6 +167,14 @@
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                />
+            </OverlayModal>
+            <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
+                <DecisionPopUp
+                    imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
+                    title="Poof, Your hard work disappears"
+                    body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                    :buttons="['Save Draft', 'Discard all changes', 'Cancel']"
                 />
             </OverlayModal>
         </div>
