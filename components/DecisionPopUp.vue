@@ -5,6 +5,20 @@
         body: String,
         buttons: Object,
     });
+
+    const emits = defineEmits(['cancel', 'save', 'discard']);
+
+    const functions = {
+        save: () => {
+            emits('save');
+        },
+        discard: () => {
+            emits('discard');
+        },
+        cancel: () => {
+            emits('cancel');
+        },
+    };
 </script>
 
 <template>
@@ -14,7 +28,14 @@
             <p class="title h1">{{ props.title }}</p>
             <p class="body">{{ props.body }}</p>
             <div class="btn-container">
-                <button class="option-btn" v-for="(button, index) in props.buttons" :key="index">{{ button }}</button>
+                <button
+                    class="option-btn"
+                    v-for="(button, index) in props.buttons"
+                    :key="index"
+                    @click="functions[button.function]"
+                >
+                    {{ button.name }}
+                </button>
             </div>
         </div>
     </div>
@@ -44,6 +65,7 @@
 
     .body {
         margin: 0;
+        font-size: font-size-phone(5);
     }
 
     .btn-container {
@@ -51,7 +73,7 @@
         flex-direction: column;
         width: 100%;
         align-items: center;
-        gap: $spacer-3;
+        gap: $spacer-2;
     }
 
     .option-btn {

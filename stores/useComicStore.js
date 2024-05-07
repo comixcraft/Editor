@@ -22,6 +22,7 @@ export const useComicStore = defineStore('comic', () => {
     function getDraft() {
         return draft;
     }
+
     function deleteDraft() {
         draft.value = null;
     }
@@ -32,15 +33,16 @@ export const useComicStore = defineStore('comic', () => {
         }
 
         if (localStorage.getItem('draft') === null) deleteDraft();
-
-        watch(
-            draft,
-            (draftVal) => {
-                localStorage.setItem('draft', draftVal);
-            },
-            { deep: true }
-        );
     }
+
+    watch(
+        draft,
+        (draftVal) => {
+            console.log('change');
+            localStorage.setItem('draft', draftVal);
+        },
+        { deep: true }
+    );
 
     function setCurrentElement(element) {
         currentElement.value = element;
@@ -70,7 +72,12 @@ export const useComicStore = defineStore('comic', () => {
     }
 
     function createComicFromDraft() {
-        const refComic = getDraft().value;
+        let refComic = getDraft().value;
+
+        if (typeof refComic === 'string') {
+            refComic = Comic.fromJSON(refComic);
+        }
+
         const validateUndefinedAndNull = (value) => {
             // Check if the value is 'undefined' or 'null' as a string
             if (value === 'undefined' || value === 'null') {
@@ -83,6 +90,7 @@ export const useComicStore = defineStore('comic', () => {
         comic.title = refComic.title;
         comic.creatorName = refComic.creatorName;
 
+        console.log(Comic.fromJSON(refComic));
         // create page(s) and add them to comic through class method
         refComic.pages.forEach((page, iPage) => {
             let tempPage = new Page();

@@ -1,4 +1,5 @@
 <script setup>
+    import Comic from '~/utils/Classes/Comic';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 

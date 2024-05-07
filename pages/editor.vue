@@ -1,6 +1,7 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
     import iconConfig from '../config/iconsConfig';
+    import Comic from '~/utils/Classes/Comic';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -66,6 +67,18 @@
 
     function selectElement(eId) {
         selectedElementId.value = eId;
+    }
+
+    function saveComic() {
+        let comicJson = comicStore.comic.toJSON();
+
+        comicStore.saveDraft(comicJson);
+        return navigateTo('/');
+    }
+
+    function discardComic() {
+        comicStore.comic = null;
+        return navigateTo('/');
     }
 
     window.onkeydown = function (e) {
@@ -174,7 +187,14 @@
                     imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
                     title="Poof, Your hard work disappears"
                     body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
-                    :buttons="['Save Draft', 'Discard all changes', 'Cancel']"
+                    :buttons="[
+                        { name: 'Save Draft', function: 'save' },
+                        { name: 'Discard all changes', function: 'discard' },
+                        { name: 'Cancel', function: 'cancel' },
+                    ]"
+                    @cancel="goingBackPopUpShow = false"
+                    @save="saveComic"
+                    @discard="discardComic"
                 />
             </OverlayModal>
         </div>

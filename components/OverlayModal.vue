@@ -34,7 +34,7 @@
         background-color: $black-100;
         height: 100vh;
         width: 100%;
-        opacity: 40%;
+        opacity: 30%;
     }
 
     .overlay {
