@@ -90,6 +90,5 @@
         flex-direction: column;
         height: 100%;
         gap: $spacer-4;
-        padding: 0 $spacer-2;
     }
 </style>
