@@ -77,7 +77,6 @@
             @click="selectLayer(element.id, index)"
             :class="{ 'selected-layer': index === selection }"
         >
-            >
             <div class="asset-image">
                 <img
                     class="img"
