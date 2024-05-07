@@ -79,7 +79,7 @@
 
 <template>
     <div class="editor">
-        <div class="editor__top-nav top-nav-lg">
+        <div class="top-nav-lg justify-content-between">
             <div class="top-nav__left-btns">
                 <button class="top-nav__item back-btn icon icon-btn">
                     <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
@@ -96,13 +96,13 @@
                 <div class="top-nav__item layer-btn">
                     <button @click="layersShow = true" class="secondary-btn">
                         <div class="icon">stacks</div>
-                        <span class="display-none">Layers</span>
+                        <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
                 <div class="top-nav__item preview-btn d-none">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
-                        <span class="display-none"> Preview </span>
+                        <span class="d-none d-lg-block"> Preview </span>
                     </button>
                 </div>
                 <div class="top-nav__item export-btn">
@@ -114,7 +114,7 @@
                             }"
                         >
                             <div class="icon">download</div>
-                            <span class="display-none"> Download</span>
+                            <span class="d-none d-lg-block"> Download</span>
                         </NuxtLink>
                     </button>
                 </div>
@@ -139,7 +139,7 @@
                         />
                     </div>
                 </div>
-                <div class="catalogue-container">
+                <div class="catalog-container">
                     <CatalogLayout
                         :title="selectedCategory.name"
                         :selectedCategoryAssets="catalogElements"
@@ -150,7 +150,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-container">
+    <div class="d-lg-none">
         <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
             <CatalogLayout
                 :selectedCategoryAssets="catalogElements"
@@ -185,28 +185,27 @@
         column-gap: $spacer-1;
         text-align: center;
         vertical-align: middle;
-    }
 
-    .secondary-btn a {
-        text-decoration: none;
-        color: $white;
-        display: flex;
-        column-gap: $spacer-1;
-    }
+        a {
+            text-decoration: none;
+            color: $white;
+            display: flex;
+            column-gap: $spacer-1;
+        }
 
-    .icon-btn {
-        color: $white;
-    }
-
-    .display-none {
-        display: none;
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            column-gap: $spacer-1;
+            width: 100%;
+            height: 100%;
+            padding: $spacer-3 $spacer-5;
+        }
     }
 
     .layer-background {
         width: 100vw;
         height: 100vh;
         background-color: $white;
-        margin-top: -$spacer-7;
     }
 
     .layer-container {
@@ -216,50 +215,56 @@
         align-items: center;
     }
 
-    .editor__top-nav {
-        justify-content: space-between;
-    }
-
     .top-nav__left-btns {
         display: flex;
         column-gap: $spacer-3;
+
+        @include media-breakpoint-up(lg) {
+            column-gap: $spacer-6;
+        }
     }
 
     .undo-redo-container {
         display: flex;
         column-gap: $spacer-1;
         color: $white;
+
+        @include media-breakpoint-up(lg) {
+            column-gap: $spacer-4;
+        }
     }
 
     .editor__canvas {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: center;
         height: calc(100vh - 80px - 80px);
         flex-grow: 1;
+
+        @include media-breakpoint-up(lg) {
+            height: calc(100vh - 80px);
+        }
     }
 
     .editor__bottom-nav {
         background-color: $grey-90;
         padding: $spacer-3;
+
+        @include media-breakpoint-up(lg) {
+            height: calc(100vh - 80px);
+        }
     }
 
     .bottom-nav__scrollable-nav {
         display: flex;
         overflow-x: auto;
-    }
 
-    .scrollable-nav__item {
-        padding: $spacer-2 $spacer-3;
-        margin-right: $spacer-2;
-        color: $grey-70;
-        cursor: pointer;
-        border-radius: $border-radius;
-        background-color: $white;
-    }
-
-    .scrollable-nav__item:hover {
-        background-color: $grey-60;
+        @include media-breakpoint-up(lg) {
+            flex-direction: column;
+            padding: $spacer-3;
+            gap: $spacer-2;
+            overflow-y: auto;
+        }
     }
 
     .darken-background {
@@ -288,6 +293,13 @@
         overflow-x: scroll;
         white-space: nowrap;
         scroll-behavior: smooth;
+
+        @include media-breakpoint-up(lg) {
+            position: static;
+            white-space: wrap;
+            display: flex;
+            flex-direction: row;
+        }
     }
 
     .share__top-nav-item {
@@ -295,73 +307,13 @@
         text-decoration: none;
     }
 
-    .catalogue-container {
+    .catalog-container {
         display: none;
-    }
 
-    @include media-breakpoint-up(lg) {
-        .secondary-btn {
-            display: flex;
-            column-gap: $spacer-1;
-            width: 100%;
-            height: 100%;
-            padding: $spacer-3 $spacer-5;
-        }
-
-        .display-none {
-            display: block;
-        }
-
-        .top-nav__left-btns {
-            display: flex;
-            column-gap: $spacer-6;
-        }
-
-        .undo-redo-container {
-            column-gap: $spacer-4;
-        }
-        .editor__bottom-nav {
-            height: calc(100vh - 80px);
-        }
-
-        .mobile {
-            display: none;
-        }
-
-        .editor__canvas {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            height: calc(100vh - 80px);
-        }
-
-        .bottom-nav__scrollable-nav {
-            display: flex;
-            flex-direction: column;
-            padding: $spacer-3;
-            gap: $spacer-2;
-        }
-
-        .bottom-nav__scrollable-nav {
-            display: flex;
-            overflow-y: auto;
-        }
-
-        .catalogue-container {
+        @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
             height: calc(100vh - 80px);
-        }
-
-        .modal-container {
-            display: none;
-        }
-        .bottom-nav__container {
-            position: static;
-            overflow-x: visible;
-            white-space: wrap;
-            display: flex;
-            flex-direction: row;
         }
     }
 </style>
