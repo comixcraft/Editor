@@ -34,7 +34,6 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
-    let zIndex = ref(props.z);
 
     // Define emits
     const emit = defineEmits([
@@ -47,6 +46,12 @@
         'backEvent',
         'frontEvent',
     ]);
+
+    watch(
+        () => props.z,
+        () => console.log('z change'),
+        { deep: true }
+    );
 
     // computed functions
     const setMirroredHorizontal = computed(() => {
@@ -171,7 +176,7 @@
         :draggable="true"
         :r="angle"
         :lockAspectRatio="props.lockAspectRatio"
-        :style="{ zIndex: zIndex }"
+        :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
         @activated="() => (elementActive = true)"
