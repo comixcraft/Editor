@@ -35,10 +35,6 @@
         }
     }
 
-    onUpdated(() => {
-        console.log(props.panelIsActive);
-    });
-
     window.addEventListener('resize', updatePanelBoundingBox);
 
     function deleteElement(eId) {
@@ -94,10 +90,6 @@
 
     comicStore.bus.on('putLayerFront', (eId) => {
         upElement(eId);
-    });
-
-    comicStore.bus.on('pop-closed', () => {
-        // logic
     });
 
     comicStore.bus.on('add-element', (event) => {
