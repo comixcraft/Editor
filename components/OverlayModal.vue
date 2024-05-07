@@ -13,7 +13,7 @@
 <template>
     <div>
         <div v-if="show" class="overlay">
-            <div class="container">
+            <div class="overlay-container">
                 <div class="category__description">
                     <span class="edit-icon icon text-primary">
                         {{ iconConfig.get(props.title) || 'default_icon' }}
@@ -32,7 +32,7 @@
 </template>
 
 <style lang="scss" scoped>
-    .container {
+    .overay-container {
         display: flex;
         align-items: center;
         justify-content: space-between;

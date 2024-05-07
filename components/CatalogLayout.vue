@@ -85,9 +85,11 @@
 
 <style lang="scss" scoped>
     .catalog__container {
+        position: relative;
         display: flex;
         flex-direction: column;
         height: 100%;
-        padding: $spacer-2;
+        gap: $spacer-4;
+        padding: 0 $spacer-2;
     }
 </style>

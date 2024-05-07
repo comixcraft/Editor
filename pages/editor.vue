@@ -125,20 +125,23 @@
                 </div>
             </div>
         </div>
-
         <div class="row g-0">
             <div class="editor__canvas col-12 col-lg-8">
-                <ComicPanels :comic="comic" @active-panel-change="activePanelIndex = $event"></ComicPanels>
+                <ComicPanels
+                    :lockAspectRatio="lockAspectRatio"
+                    :comic="comic"
+                    @active-panel-change="activePanelIndex = $event"
+                ></ComicPanels>
             </div>
 
-            <div class="bottom-nav__container order-lg-first col-12 col-lg-4">
+            <div class="bottom-nav__container col-12 col-lg-4 order-lg-first">
                 <div class="editor__bottom-nav">
                     <div class="bottom-nav__scrollable-nav">
-                        <div class="scrollable-nav__item characters-btn">Characters</div>
-                        <div class="scrollable-nav__item speech-bubble-btn">Speech Bubble</div>
-                        <div class="scrollable-nav__item text-btn" @click="addNewTextToDisplay">Text</div>
-                        <div class="scrollable-nav__item shapes-btn">Shapes</div>
-                        <div class="scrollable-nav__item scenes-btn">Scenes</div>
+                        <CatalogNavigation
+                            :categories="catalogStructure.categories"
+                            @categorySelected="updateSelectedCategory"
+                            @selectAllAssets="handleSelectAllAssets"
+                        />
                     </div>
                 </div>
                 <div class="catalogue-container">
@@ -151,32 +154,32 @@
                 </div>
             </div>
         </div>
-        <div class="modal-container">
-            <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
-                <CatalogLayout
-                    :selectedCategoryAssets="catalogElements"
-                    :selectedCategory="selectedCategory"
-                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                />
-            </OverlayModal>
-        </div>
-        <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
-            <div class="layer-background">
-                <div class="layer-container">
-                    <LayerObject
-                        :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"
-                        @selection-event="selectElement"
-                    >
-                    </LayerObject>
-                </div>
-            </div>
-        </ScreenOverlay>
-        <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
-            <div class="darken-background">
-                <div class="comic-preview"></div>
-            </div>
-        </ScreenOverlay>
     </div>
+    <div class="modal-container">
+        <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+            <CatalogLayout
+                :selectedCategoryAssets="catalogElements"
+                :selectedCategory="selectedCategory"
+                @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+            />
+        </OverlayModal>
+    </div>
+    <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
+        <div class="layer-background">
+            <div class="layer-container">
+                <LayerObject
+                    :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"
+                    @selection-event="selectElement"
+                >
+                </LayerObject>
+            </div>
+        </div>
+    </ScreenOverlay>
+    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
+        <div class="darken-background">
+            <div class="comic-preview"></div>
+        </div>
+    </ScreenOverlay>
 </template>
 
 <style scoped lang="scss">
@@ -219,12 +222,7 @@
     }
 
     .editor__top-nav {
-        display: flex;
-        align-items: center;
         justify-content: space-between;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
-        margin: 0;
     }
 
     .top-nav__left-btns {
@@ -241,6 +239,9 @@
     .editor__canvas {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+        height: calc(100vh - 80px - 80px);
+        flex-grow: 1;
     }
 
     .editor__bottom-nav {
@@ -284,6 +285,7 @@
     }
 
     .bottom-nav__container {
+        position: fixed;
         bottom: 0;
         left: 0;
         background-color: $white;
@@ -326,6 +328,11 @@
         .editor__bottom-nav {
             height: calc(100vh - 80px);
         }
+
+        .mobile {
+            display: none;
+        }
+
         .editor__canvas {
             align-items: center;
             display: flex;
@@ -333,18 +340,11 @@
             height: calc(100vh - 80px);
         }
 
-        .bottom-nav__container {
-            position: static;
-            display: flex;
-            background-color: #fff;
-            z-index: 1000;
-        }
-
         .bottom-nav__scrollable-nav {
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            gap: 10px;
+            padding: $spacer-3;
+            gap: $spacer-2;
         }
 
         .bottom-nav__scrollable-nav {
@@ -354,12 +354,7 @@
 
         .catalogue-container {
             display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            height: calc(100vh - 80px);
-            background-color: #ccc;
-            left: 200px;
-            z-index: 900;
+            background-color: $white;
             height: calc(100vh - 80px);
         }
 
@@ -367,8 +362,11 @@
             display: none;
         }
         .bottom-nav__container {
+            position: static;
             overflow-x: visible;
             white-space: wrap;
+            display: flex;
+            flex-direction: row;
         }
     }
 </style>
