@@ -17,6 +17,14 @@
     const elements = props.panel.elements;
     const container = ref(null);
 
+    function setToRelative(num, panelNum) {
+        return num / panelNum;
+    }
+
+    function getFixed(num, panelNum) {
+        return num * panelNum;
+    }
+
     function updatePanelBoundingBox() {
         DOMElementBoundingBox.width = container.value.clientWidth;
         DOMElementBoundingBox.height = container.value.clientHeight;
@@ -39,16 +47,22 @@
         // validate element id
         validateElementId(obj.eId);
         // update element width and height
-        elements.get(obj.eId).pos = { x: obj.pos.x / props.panel.width, y: obj.pos.y / props.panel.height };
-        elements.get(obj.eId).setWidth(obj.width / props.panel.width);
-        elements.get(obj.eId).setHeight(obj.height / props.panel.height);
+        elements.get(obj.eId).pos = {
+            x: setToRelative(obj.pos.x, props.panel.width),
+            y: setToRelative(obj.pos.y, props.panel.height),
+        };
+        elements.get(obj.eId).setWidth(setToRelative(obj.width, props.panel.width));
+        elements.get(obj.eId).setHeight(setToRelative(obj.height, props.panel.height));
     }
 
     function updatePosition(obj) {
         // validate element id
         validateElementId(obj.eId);
         // update element position
-        elements.get(obj.eId).pos = { x: obj.pos.x / props.panel.width, y: obj.pos.y / props.panel.height };
+        elements.get(obj.eId).pos = {
+            x: setToRelative(obj.pos.x, props.panel.width),
+            y: setToRelative(obj.pos.y, props.panel.height),
+        };
     }
 
     function updateMirrorValues(obj) {
@@ -88,18 +102,18 @@
 
         let tempEl;
         if (event) {
-            let fixedHeight = 200 / props.panel.height;
+            let fixedHeight = setToRelative(200, props.panel.height);
             let name = event.target.alt;
             let src = event.target.src;
-            let width =
-                (fixedHeight * props.panel.height * event.target.naturalWidth) /
-                event.target.naturalHeight /
-                props.panel.width;
+            let width = setToRelative(
+                (getFixed(fixedHeight, props.panel.height) * event.target.naturalWidth) / event.target.naturalHeight,
+                props.panel.width
+            );
             let newAsset = new Asset(src);
             tempEl = new ElementDS(width, fixedHeight, name, newAsset);
         } else {
-            let fixedHeight = 200 / props.panel.height;
-            let width = 200 / props.panel.width;
+            let fixedHeight = setToRelative(200, props.panel.height);
+            let width = setToRelative(200, props.panel.width);
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
             tempEl = new ElementDS(width, fixedHeight, name, type);
@@ -139,9 +153,9 @@
                 :rotation="value.rotation"
                 :pos="value.pos"
                 :url="value.type.path"
-                :x="value.pos.x * props.panel.width"
-                :y="value.pos.y * props.panel.height"
-                :w="value.width * props.panel.width"
+                :x="getFixed(value.pos.x, props.panel.width)"
+                :y="getFixed(value.pos.y, props.panel.height)"
+                :w="getFixed(value.width, props.panel.width)"
                 :z="value.z"
                 :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                 :text="value.type.content == undefined ? '' : value.type.content"
