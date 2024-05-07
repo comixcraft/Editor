@@ -1,3 +1,5 @@
+import Strip from './Strip.js';
+
 export default class Page {
     /** @type {Strip[]} */
     _strips;
@@ -32,5 +34,22 @@ export default class Page {
      */
     addStripToPage(strip) {
         this._strips.push(strip);
+    }
+
+    // JSON transforms
+    toJSON() {
+        return JSON.stringify({
+            strips: this.strips,
+        });
+    }
+
+    static fromJSON(str) {
+        let parsedStr = JSON.parse(str);
+        let tempArr = [];
+        parsedStr.strips.forEach((strip) => {
+            tempArr.push(Strip.fromJSON(strip));
+        });
+        parsedStr.strips = tempArr;
+        return parsedStr;
     }
 }

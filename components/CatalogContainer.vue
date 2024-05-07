@@ -2,21 +2,16 @@
     import ElementDS from '~/utils/Classes/Element.js';
     import Asset from '~/utils/Classes/Asset.js';
 
-    defineProps({
+    const props = defineProps({
         assets: Array,
     });
 
-    const emit = defineEmits(['addElement']);
+    const comicStore = useComicStore();
+
+    let unsubscribeFromAddElement; // Store the unsubscribe function
 
     function addNewElementToDisplay(event) {
-        let fixedHeight = 200;
-        let name = event.target.alt;
-        let src = event.target.src;
-        let width = (fixedHeight * event.target.naturalWidth) / event.target.naturalHeight;
-
-        let newAsset = new Asset(src);
-        let tempEl = new ElementDS(width, fixedHeight, name, src, newAsset);
-        emit('addElement', tempEl);
+        comicStore.bus.emit('add-element', event);
     }
 </script>
 
@@ -34,6 +29,8 @@
 
 <style lang="scss" scoped>
     .catalog__scroll-container {
+        width: 300px;
+        height: 700px;
         padding: $spacer-4 0;
         border: $border-width solid $black;
         display: flex;

@@ -1,0 +1,26 @@
+.top-nav {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
+    margin: 0;
+    padding: $spacer-3 $spacer-3;
+}
+
+.top-nav-lg {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
+    margin: 0;
+    padding: $spacer-3 $spacer-3;
+}
+
+@include media-breakpoint-up(lg) {
+    .top-nav {
+        padding: $spacer-4 $spacer-3;
+        z-index: 10;
+    }
+
+    .top-nav-lg {
+        padding: $spacer-2 $spacer-3;
+    }
+}

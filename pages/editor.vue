@@ -1,14 +1,19 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
-    import ElementDS from '~/utils/Classes/Element.js';
-    import Text from '~/utils/Classes/Text.js';
+
     let layersShow = ref(false);
     let previewShow = ref(false);
+    let catalogShow = ref(false);
+    let selectedElementId = ref(null);
+    let lockAspectRatio = ref(false);
+
+    let selectedCategory = ref({});
 
     definePageMeta({
         middleware: ['comic-defined'],
     });
 
+    const allAssetsCategoryName = 'All Assets';
     const comicStore = useComicStore();
     const catalogElements = ref([]);
     const catalogStructure = ref([]);
@@ -23,11 +28,9 @@
             createError(error);
         });
 
-    function addElementToActivePanel(element) {
-        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
-    }
-
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
+        if (category === allAssetsCategoryName) category = [];
+
         useFetch('/api/catalog/', {
             method: 'POST',
             body: {
@@ -44,15 +47,35 @@
             });
     }
 
-    function addNewTextToDisplay() {
-        let fixedHeight = 200;
-        let src = '';
-        let width = 200;
-        let name = 'New text.';
-        let type = new Text(name, 24, 'Pangolin');
-        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
-        addElementToActivePanel(tempEl);
+    function updateSelectedCategory(category) {
+        selectedCategory.value = category;
+        catalogShow.value = true;
+        fetchCatalogElements(category.name, [], []);
     }
+
+    function handleSelectAllAssets() {
+        selectedCategory.value = {
+            name: allAssetsCategoryName,
+            subCategories: [],
+        };
+        catalogShow.value = true;
+        fetchCatalogElements([], [], []);
+    }
+
+    function selectElement(eId) {
+        selectedElementId.value = eId;
+    }
+
+    window.onkeydown = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            lockAspectRatio.value = true;
+        }
+    };
+    window.onkeyup = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            lockAspectRatio.value = false;
+        }
+    };
 
     onMounted(() => {
         fetchCatalogElements();
@@ -61,24 +84,45 @@
 
 <template>
     <div class="editor">
-        <div class="editor__top-nav">
-            <div class="top-nav__item back-btn icon">
-                <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                    arrow_back
-                </NuxtLink>
+        <div class="editor__top-nav top-nav-lg">
+            <div class="top-nav__left-btns">
+                <button class="top-nav__item back-btn icon icon-btn">
+                    <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
+                        arrow_back
+                    </NuxtLink>
+                </button>
+                <div class="undo-redo-container d-none">
+                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
+                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                </div>
             </div>
-            <div class="top-nav__item undo-btn icon d-none">undo</div>
-            <div class="top-nav__item redo-btn icon d-none">redo</div>
-            <div class="top-nav__item preview-btn d-none"><button @click="previewShow = true">preview</button></div>
-            <div class="top-nav__item layer-btn d-none"><button @click="layersShow = true">layers</button></div>
-            <div class="top-nav__item export-btn icon">
-                <NuxtLink
-                    :to="{
-                        name: 'export',
-                        path: '/export',
-                    }"
-                    >export
-                </NuxtLink>
+
+            <div class="top-nav__left-btns">
+                <div class="top-nav__item layer-btn">
+                    <button @click="layersShow = true" class="secondary-btn">
+                        <div class="icon">stacks</div>
+                        <span class="display-none">Layers</span>
+                    </button>
+                </div>
+                <div class="top-nav__item preview-btn d-none">
+                    <button @click="previewShow = true" class="secondary-btn">
+                        <div class="icon">preview</div>
+                        <span class="display-none"> Preview </span>
+                    </button>
+                </div>
+                <div class="top-nav__item export-btn">
+                    <button class="secondary-btn">
+                        <NuxtLink
+                            :to="{
+                                name: 'export',
+                                path: '/export',
+                            }"
+                        >
+                            <div class="icon">download</div>
+                            <span class="display-none"> Download</span>
+                        </NuxtLink>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -98,35 +142,35 @@
                     </div>
                 </div>
                 <div class="catalogue-container">
-                    <CatalogSearch
-                        placeholder="happy, barista, ..."
-                        :filters="catalogStructure.categories[0].subCategories[0].filter"
-                        @search="
-                            (selectedFilter) => {
-                                fetchCatalogElements(
-                                    catalogStructure.categories[0].name,
-                                    catalogStructure.categories[0].subCategories[0].name,
-                                    selectedFilter
-                                );
-                            }
-                        "
+                    <CatalogLayout
+                        :title="selectedCategory.name"
+                        :selectedCategoryAssets="catalogElements"
+                        :selectedCategory="selectedCategory"
+                        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
                     />
-                    <CatalogContainer
-                        :assets="catalogElements"
-                        @add-element="addElementToActivePanel"
-                    ></CatalogContainer>
                 </div>
             </div>
         </div>
-
+        <div class="modal-container">
+            <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+                <CatalogLayout
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                />
+            </OverlayModal>
+        </div>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
-                    <LayerObject></LayerObject>
+                    <LayerObject
+                        :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"
+                        @selection-event="selectElement"
+                    >
+                    </LayerObject>
                 </div>
             </div>
         </ScreenOverlay>
-
         <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
             <div class="darken-background">
                 <div class="comic-preview"></div>
@@ -136,14 +180,40 @@
 </template>
 
 <style scoped lang="scss">
+    .secondary-btn {
+        border: none;
+        background-color: transparent;
+        color: $white;
+        column-gap: $spacer-1;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .secondary-btn a {
+        text-decoration: none;
+        color: $white;
+        display: flex;
+        column-gap: $spacer-1;
+    }
+
+    .icon-btn {
+        color: $white;
+    }
+
+    .display-none {
+        display: none;
+    }
+
     .layer-background {
         width: 100vw;
         height: 100vh;
-        background-color: white;
+        background-color: $white;
+        margin-top: -$spacer-7;
     }
 
     .layer-container {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     }
@@ -156,12 +226,21 @@
         height: 80px;
         margin: 0;
     }
+
+    .top-nav__left-btns {
+        display: flex;
+        column-gap: $spacer-3;
+    }
+
+    .undo-redo-container {
+        display: flex;
+        column-gap: $spacer-1;
+        color: $white;
+    }
+
     .editor__canvas {
         display: flex;
         align-items: center;
-        justify-content: center;
-        height: calc(100vh - 80px - 80px);
-        flex-grow: 1;
     }
 
     .editor__bottom-nav {
@@ -175,30 +254,29 @@
     }
 
     .scrollable-nav__item {
-        padding: 8px 16px;
-        margin-right: 10px;
-        font-size: 16px;
-        color: #333;
+        padding: $spacer-2 $spacer-3;
+        margin-right: $spacer-2;
+        color: $grey-70;
         cursor: pointer;
-        border-radius: 4px;
-        background-color: #fff;
+        border-radius: $border-radius;
+        background-color: $white;
     }
 
     .scrollable-nav__item:hover {
-        background-color: #e0e0e0;
+        background-color: $grey-60;
     }
 
     .darken-background {
         width: 100vw;
         height: 100vh;
-        background-color: black;
+        background-color: $black;
         opacity: 60%;
     }
 
     .comic-preview {
         width: 60vw;
         height: 20vh;
-        background-color: #ccc;
+        background-color: $grey-70;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -208,20 +286,42 @@
     .bottom-nav__container {
         bottom: 0;
         left: 0;
-        background-color: #fff;
+        background-color: $white;
         z-index: 1000;
+        overflow-x: scroll;
+        white-space: nowrap;
+        scroll-behavior: smooth;
     }
 
     .share__top-nav-item {
-        color: #fff;
+        color: $white;
+        text-decoration: none;
     }
+
     .catalogue-container {
         display: none;
     }
 
     @include media-breakpoint-up(lg) {
-        .editor__top-nav {
-            z-index: 999999;
+        .secondary-btn {
+            display: flex;
+            column-gap: $spacer-1;
+            width: 100%;
+            height: 100%;
+            padding: $spacer-3 $spacer-5;
+        }
+
+        .display-none {
+            display: block;
+        }
+
+        .top-nav__left-btns {
+            display: flex;
+            column-gap: $spacer-6;
+        }
+
+        .undo-redo-container {
+            column-gap: $spacer-4;
         }
         .editor__bottom-nav {
             height: calc(100vh - 80px);
@@ -232,6 +332,7 @@
             justify-content: center;
             height: calc(100vh - 80px);
         }
+
         .bottom-nav__container {
             position: static;
             display: flex;
@@ -245,6 +346,7 @@
             padding: 20px;
             gap: 10px;
         }
+
         .bottom-nav__scrollable-nav {
             display: flex;
             overflow-y: auto;
@@ -258,6 +360,15 @@
             background-color: #ccc;
             left: 200px;
             z-index: 900;
+            height: calc(100vh - 80px);
+        }
+
+        .modal-container {
+            display: none;
+        }
+        .bottom-nav__container {
+            overflow-x: visible;
+            white-space: wrap;
         }
     }
 </style>

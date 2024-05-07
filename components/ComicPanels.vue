@@ -6,9 +6,9 @@
             type: Object,
             default: () => {},
         },
+        lockAspectRatio: Boolean,
     });
 
-    const stripHeight = ref(0);
     const activePanelIndex = ref(0);
     const comicStore = useComicStore();
 
@@ -16,38 +16,39 @@
         activePanelIndex.value = index;
         emit('active-panel-change', index);
     }
-
-    stripHeight.value = props.comic.getPage(0).getStrip(0).height;
 </script>
 
 <template>
-    <swiper
-        :initial-slide="activePanelIndex"
-        @active-index-change="updateActivePanel($event.activeIndex)"
-        class="comic-swiper"
-        :modules="[SwiperPagination]"
-        :prevent-clicks="false"
-        :prevent-clicks-propagation="false"
-        :touch-start-prevent-default="false"
-        :resistance="false"
-        :pagination="{
-            clickable: true,
-            renderBullet: function (index, className) {
-                return `<span class='${className}'>${index}</span>`;
-            },
-        }"
-    >
-        <TextEditor v-if="comicStore.getCurrentElement().value != null" />
-        <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
+    <div>
+        <swiper
+            :initial-slide="activePanelIndex"
+            @active-index-change="updateActivePanel($event.activeIndex)"
+            class="comic-swiper"
+            :modules="[SwiperPagination]"
+            :prevent-clicks="false"
+            :prevent-clicks-propagation="false"
+            :touch-start-prevent-default="false"
+            :resistance="false"
+            :pagination="{
+                clickable: true,
+                renderBullet: function (index, className) {
+                    return `<span class='${className}'>${index}</span>`;
+                },
+            }"
+        >
+            <TextEditor v-if="comicStore.getCurrentElement().value != null" />
             <div class="d-flex justify-content-center align-items-center">
-                <WrapperCanvas
-                    class="swiper-no-swiping wrapper-canvas"
-                    :height="stripHeight"
-                    :panel="panel"
-                ></WrapperCanvas>
+                <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
+                    <WrapperCanvas
+                        class="swiper-no-swiping wrapper-canvas"
+                        :lockAspectRatio="props.lockAspectRatio"
+                        :panel="panel"
+                        :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
+                    ></WrapperCanvas>
+                </swiper-slide>
             </div>
-        </swiper-slide>
-    </swiper>
+        </swiper>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -62,14 +63,5 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .comic-swiper__swipe-area {
-        width: 100%;
-        margin: $spacer-3 0;
-
-        @include media-breakpoint-up(lg) {
-            margin: $spacer-7 0;
-        }
     }
 </style>

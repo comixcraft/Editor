@@ -1,10 +1,11 @@
 import Position from './Position.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class ElementDS {
     /** @type {String} */
     _id;
     /** @type {Number} */
-    _z = 0;
+    _z = ref(0);
     /** @type {Position} */
     _pos = new Position(0, 0);
     /** @type {Boolean} */
@@ -20,8 +21,6 @@ export default class ElementDS {
     /** @type {Number} */
     _height;
     /** @type {String} */
-    _src;
-    /** @type {String} */
     _alt;
     /** @type {String} */
     _type;
@@ -33,12 +32,18 @@ export default class ElementDS {
      * @param {String} src
      * @param {String} type
      */
-    constructor(width = null, height = null, alt = null, src = null, type = null) {
+    constructor(width = null, height = null, alt = null, type = null) {
         this._width = width ?? 0;
         this._height = height ?? 0;
-        this._src = src ?? 'undefined';
         this._alt = alt ?? 'unknown';
         this._type = type ?? 'Text';
+
+        this.#init();
+    }
+
+    #init() {
+        let myUuid = uuidv4();
+        this.id = myUuid;
     }
 
     /**
@@ -55,7 +60,6 @@ export default class ElementDS {
             rotation: this._rotation,
             width: this._width,
             height: this._height,
-            src: this._src,
             alt: this._alt,
             type: this._type,
         };
@@ -108,11 +112,6 @@ export default class ElementDS {
     }
 
     /** @returns {String} */
-    get src() {
-        return this._src;
-    }
-
-    /** @returns {String} */
     get alt() {
         return this._alt;
     }
@@ -134,7 +133,8 @@ export default class ElementDS {
 
     /** @param {Position} pos */
     set pos(pos) {
-        this._pos = pos;
+        this._pos.x = pos.x;
+        this._pos.y = pos.y;
     }
 
     /** @param {Boolean} isFocused */
@@ -166,12 +166,6 @@ export default class ElementDS {
     set height(height) {
         this._height = height;
     }
-
-    /** @param {String} src */
-    set src(src) {
-        this._src = src;
-    }
-
     /** @param {String} alt */
     set alt(alt) {
         this._alt = alt;
@@ -182,23 +176,21 @@ export default class ElementDS {
         this._type = type;
     }
 
-    /** @param {{x:Number, y:Number}} */
-    setPos = (obj) => {
-        this._pos.definePos(obj);
-    };
-
-    /**
-     * @param {Number} z
-     */
-    setZIndex = (z) => {
-        this._z = z;
-    };
-
-    /**
-     * @param {Number} id
-     */
-    setId = (id) => {
-        this._id = id;
+    toJSON = () => {
+        return JSON.stringify({
+            id: this.id,
+            z: this.z,
+            pos: this.pos,
+            isFocused: this.isFocused,
+            isMirroredHorizontal: this.isMirroredHorizontal,
+            isMirroredVertical: this.isMirroredVertical,
+            rotation: this.rotation,
+            width: this.width,
+            height: this.height,
+            src: this.src,
+            alt: this.alt,
+            type: this.type,
+        });
     };
 
     /**
