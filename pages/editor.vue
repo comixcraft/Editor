@@ -50,7 +50,6 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-        fetchCatalogElements(category.name, [], []);
     }
 
     function handleSelectAllAssets() {
@@ -76,10 +75,6 @@
             lockAspectRatio.value = false;
         }
     };
-
-    onMounted(() => {
-        fetchCatalogElements();
-    });
 </script>
 
 <template>
