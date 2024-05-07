@@ -106,6 +106,7 @@
             tempEl = new ElementDS(width, fixedHeight, name, type);
         }
         props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).addElement(tempEl);
+        console.log(props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).elements);
     });
 
     // functions

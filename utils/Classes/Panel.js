@@ -119,8 +119,8 @@ export default class Panel {
         });
 
         // switch this element
-        topElement.setZIndex(elementZIndex);
-        element.setZIndex(zIndex);
+        topElement.z = elementZIndex;
+        element.z = zIndex;
     }
 
     moveZIndexDown(id) {
@@ -149,8 +149,8 @@ export default class Panel {
         });
 
         // switch this element
-        downElement.setZIndex(elementZIndex);
-        element.setZIndex(zIndex);
+        downElement.z = elementZIndex;
+        element.z = zIndex;
     }
 
     getHighestZIndex() {
