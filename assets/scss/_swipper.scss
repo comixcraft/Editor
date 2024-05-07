@@ -32,4 +32,11 @@
     .swiper-pagination-bullet-active {
         background-color: $secondary;
     }
+
+    @include media-breakpoint-up(lg) {
+        .swiper-pagination {
+            bottom: $spacer-5 !important;
+            left: $spacer-6 !important;
+        }
+    }
 }
