@@ -5,13 +5,16 @@ export default class Panel {
     _elements;
     /** @type {Number} */
     _width;
+    /** @type {Number} */
+    _height;
 
     /**
      * @param {Number} width
      * @param {String} border
      */
-    constructor(width = null, border = null) {
+    constructor(width = null, height = null, border = null) {
         this._width = width ?? 0;
+        this._height = height ?? 0;
         this._border = border ?? 'undefined';
 
         this.#init();
@@ -43,6 +46,13 @@ export default class Panel {
         return this._width;
     }
 
+    /**
+     * @returns {Number}
+     */
+    get height() {
+        return this._height;
+    }
+
     // SETTERS
     set width(num) {
         this._width = num;
@@ -50,6 +60,10 @@ export default class Panel {
 
     set borders(str) {
         this._border = str;
+    }
+
+    set height(num) {
+        this._height = num;
     }
 
     /**

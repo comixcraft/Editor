@@ -17,7 +17,7 @@
     const comicStore = useComicStore();
     const catalogElements = ref([]);
     const catalogStructure = ref([]);
-    const comic = reactive(toRaw(comicStore.comic));
+    const comic = reactive(comicStore.comic);
     const activePanelIndex = ref(0);
 
     await useFetch('/api/catalog/structure')

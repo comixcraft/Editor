@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="showDraftContainer" class="draft-container">
+            <!-- <div v-if="showDraftContainer" class="draft-container">
                 <h2>Draft</h2>
                 <p class="font-italic">Continue working on your previous draft</p>
                 <div
@@ -93,7 +93,7 @@
                     <canvas class="draft-canvas"></canvas>
                     <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
                 </div>
-            </div>
+            </div> -->
             <div class="templates">
                 <h2>Templates</h2>
                 <p class="font-italic">Start by choosing a template</p>

@@ -58,7 +58,7 @@ export const useComicStore = defineStore('comic', () => {
         const strip = new Strip(config.height);
 
         config.panels?.forEach((panel) => {
-            strip.addPanelToStrip(new Panel(panel.width, panel.border));
+            strip.addPanelToStrip(new Panel(panel.width, config.height, panel.border));
         });
 
         const page = new Page();
@@ -95,7 +95,7 @@ export const useComicStore = defineStore('comic', () => {
                 let currStrip = currPage.strips[iStrip];
                 strip.panels.forEach((panel, iPanel) => {
                     // add panels to corresponding strip
-                    let tempPanel = new Panel(panel.width, panel.border);
+                    let tempPanel = new Panel(panel.width, currStrip.height, panel.border);
                     currStrip.addPanelToStrip(tempPanel);
                     let currPanel = currStrip.panels[iPanel];
                     panel.elements.forEach((element) => {

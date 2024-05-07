@@ -8,42 +8,13 @@
         },
         lockAspectRatio: Boolean,
     });
+
     const activePanelIndex = ref(0);
     const comicStore = useComicStore();
-    const panelBBArray = reactive([]);
-    props.comic
-        .getPage(0)
-        .getStrip(0)
-        .panels.forEach((panel, index) => {
-            panelBBArray.push({ height: props.comic.getPage(0).getStrip(0).height, width: panel.width });
-        });
-    let DOMElementArray;
-
-    onMounted(() => {
-        DOMElementArray = Array.from(document.getElementsByClassName('swiper-no-swiping'));
-        updatePanelBB();
-    });
-
-    window.onresize = updatePanelBB;
-
-    function updatePanelBB() {
-        if (panelBBArray.length !== DOMElementArray.length) return;
-
-        DOMElementArray.forEach((DOMElement, index) => {
-            panelBBArray[index].height = DOMElement.getBoundingClientRect().height;
-            panelBBArray[index].width = DOMElement.getBoundingClientRect().width;
-            props.comic.getPage(0).getStrip(0).panels[index].width = toRaw(panelBBArray[index]).width;
-            props.comic.getPage(0).getStrip(0).height = toRaw(panelBBArray[index]).height;
-        });
-    }
 
     function updateActivePanel(index) {
         activePanelIndex.value = index;
         emit('active-panel-change', index);
-    }
-
-    function changeSize() {
-        panelBBArray[0].height = panelBBArray[0].height / 2;
     }
 </script>
 
@@ -67,16 +38,11 @@
         >
             <TextEditor v-if="comicStore.getCurrentElement().value != null" />
             <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
-                <button @click="changeSize">ChangeSize</button>
                 <WrapperCanvas
                     class="swiper-no-swiping"
                     :lockAspectRatio="props.lockAspectRatio"
-                    :height="props.comic.getPage(0).getStrip(0).height"
                     :panel="panel"
                     :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
-                    :comic="props.comic"
-                    :panelIndex="index"
-                    :arrayBB="panelBBArray"
                 ></WrapperCanvas>
                 <div class="comic-swiper__swipe-area"></div>
             </swiper-slide>

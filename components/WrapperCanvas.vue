@@ -5,21 +5,22 @@
     import Asset from '~/utils/Classes/Asset';
 
     const props = defineProps({
-        height: Number,
         panel: Object,
         panelIsActive: Boolean,
-        comic: Object,
         lockAspectRatio: Boolean,
-        panelIndex: Number,
-        arrayBB: Object,
     });
 
-    const canvasHeight = computed(() => props.arrayBB[props.panelIndex].height + 'px');
-    const canvasWidth = computed(() => props.arrayBB[props.panelIndex].width + 'px');
+    const canvasWidth = computed(() => DOMElementBoundingBox.width + 'px');
+    const canvasHeight = computed(() => DOMElementBoundingBox.height + 'px');
+    const DOMElementBoundingBox = reactive({ width: props.panel.width, height: props.panel.height });
     const comicStore = useComicStore();
-    const panelDimensions = props.arrayBB[props.panelIndex];
-    const border = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].border;
-    const elements = props.comic.getPage(0).getStrip(0).panels[props.panelIndex].elements;
+    const elements = props.panel.elements;
+    const container = ref(null);
+
+    function updatePanelBoundingBox() {
+        DOMElementBoundingBox.width = container.value.clientWidth;
+        DOMElementBoundingBox.height = container.value.clientHeight;
+    }
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
@@ -27,29 +28,27 @@
         }
     }
 
-    onBeforeUnmount(() => {
-        comicStore.bus.off('add-element');
-    });
+    window.addEventListener('resize', updatePanelBoundingBox);
 
     function deleteElement(eId) {
         // delete last element of map
-        props.comic.getPage(0).getStrip(0).panels[props.panelIndex].deleteElement(eId);
+        props.panel.deleteElement(eId);
     }
 
     function resizeElement(obj) {
         // validate element id
         validateElementId(obj.eId);
         // update element width and height
-        elements.get(obj.eId).pos = { x: obj.pos.x / panelDimensions.width, y: obj.pos.y / panelDimensions.height };
-        elements.get(obj.eId).setWidth(obj.width / panelDimensions.width);
-        elements.get(obj.eId).setHeight(obj.height / panelDimensions.height);
+        elements.get(obj.eId).pos = { x: obj.pos.x / props.panel.width, y: obj.pos.y / props.panel.height };
+        elements.get(obj.eId).setWidth(obj.width / props.panel.width);
+        elements.get(obj.eId).setHeight(obj.height / props.panel.height);
     }
 
     function updatePosition(obj) {
         // validate element id
         validateElementId(obj.eId);
         // update element position
-        elements.get(obj.eId).pos = { x: obj.pos.x / panelDimensions.width, y: obj.pos.y / panelDimensions.height };
+        elements.get(obj.eId).pos = { x: obj.pos.x / props.panel.width, y: obj.pos.y / props.panel.height };
     }
 
     function updateMirrorValues(obj) {
@@ -89,62 +88,60 @@
 
         let tempEl;
         if (event) {
-            let fixedHeight = 200 / panelDimensions.height;
+            let fixedHeight = 200 / props.panel.height;
             let name = event.target.alt;
             let src = event.target.src;
             let width =
-                (fixedHeight * panelDimensions.height * event.target.naturalWidth) /
+                (fixedHeight * props.panel.height * event.target.naturalWidth) /
                 event.target.naturalHeight /
-                panelDimensions.width;
+                props.panel.width;
             let newAsset = new Asset(src);
             tempEl = new ElementDS(width, fixedHeight, name, newAsset);
         } else {
-            let fixedHeight = 200 / panelDimensions.height;
-            let width = 200 / panelDimensions.width;
+            let fixedHeight = 200 / props.panel.height;
+            let width = 200 / props.panel.width;
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
             tempEl = new ElementDS(width, fixedHeight, name, type);
         }
-        props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).addElement(tempEl);
-        console.log(props.comic.getPage(0).getStrip(0).getPanel(props.panelIndex).elements);
+        props.panel.addElement(tempEl);
     });
 
     // functions
     function upElement(eId) {
         if (!props.panelIsActive) return;
-        props.comic.getPage(0).getStrip(0).panels[props.panelIndex].moveZIndexUp(eId);
+        props.panel.moveZIndexUp(eId);
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
-        props.comic.getPage(0).getStrip(0).panels[props.panelIndex].moveZIndexDown(eId);
+        props.panel.moveZIndexDown(eId);
     }
-
-    onUpdated(() => {});
 
     onBeforeUnmount(() => {
         comicStore.bus.off('putLayerBack');
         comicStore.bus.off('putLayerFront');
+        window.removeEventListener('resize', updatePanelBoundingBox);
     });
 </script>
 
 <template>
     <div>
-        <div ref="container" class="panel container">
+        <div ref="container" class="panel container" @resize="updatePanelBoundingBox">
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
                 :altText="value.alt"
                 :eId="value.id"
-                :h="value.height * panelDimensions.height"
+                :h="value.height * props.panel.height"
                 :isMirroredHorizontal="value.isMirroredHorizontal"
                 :isMirroredVertical="value.isMirroredVertical"
                 :rotation="value.rotation"
                 :pos="value.pos"
                 :url="value.type.path"
-                :x="value.pos.x * panelDimensions.width"
-                :y="value.pos.y * panelDimensions.height"
-                :w="value.width * panelDimensions.width"
+                :x="value.pos.x * props.panel.width"
+                :y="value.pos.y * props.panel.height"
+                :w="value.width * props.panel.width"
                 :z="value.z"
                 :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                 :text="value.type.content == undefined ? '' : value.type.content"
@@ -160,7 +157,7 @@
                 @front-event="upElement"
                 @back-event="downElement"
             />
-            <img :src="border" class="panel__border" />
+            <img :src="props.panel.border" class="panel__border" />
         </div>
     </div>
 </template>
