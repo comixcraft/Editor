@@ -51,7 +51,7 @@
 <template>
     <div>
         <div class="top-nav">
-            <div class="top-nav__logo">comixcraft</div>
+            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
         </div>
         <div class="container-fluid">
             <div class="intro">
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <button
-                class="start-btn"
+                class="accent-btn"
                 @click="createComic(selectedComicConfiguration?.config)"
                 :disabled="!draftSelected && !selectedComicConfiguration"
             >
@@ -144,27 +144,17 @@
     h2 {
         color: $primary-100;
     }
+
     .top-nav {
-        display: flex;
-        align-items: center;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        margin: 0;
-        padding: $spacer-3 $spacer-3;
+        justify-content: flex-start;
     }
 
     .top-nav__logo {
         display: flex;
         flex-direction: row;
-        margin-left: $spacer-3;
-        justify-content: flex-start;
+        margin-left: $spacer-4;
         justify-content: center;
-        color: $white;
-    }
-
-    .container-fluid {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
+        width: 10rem;
     }
 
     .intro {
@@ -172,7 +162,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: $spacer-2 $spacer-5;
+        padding: $spacer-4 $spacer-5;
     }
 
     .templates {
@@ -205,7 +195,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        max-width: 24vw !important;
+        max-width: 32vw !important;
     }
 
     .comic-sections {
@@ -221,77 +211,9 @@
         margin-top: $spacer-4;
     }
 
-    .start-btn {
+    .accent-btn {
         position: fixed;
         bottom: $spacer-6;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        z-index: 1;
-        background-color: $secondary-100;
-        color: $grey-0;
-        padding: $spacer-3 $spacer-5;
-        border-radius: $border-radius-lg;
-        border: none;
-        width: calc(100% - $spacer-6);
-    }
-
-    .start-btn:hover {
-        background-color: $secondary-50;
-        cursor: pointer;
-    }
-
-    .start-btn:disabled {
-        background-color: $secondary-30;
-        cursor: not-allowed;
-    }
-
-    .draft-container {
-        width: calc(100% - $spacer-3);
-        height: fit-content;
-        padding: $spacer-2 $spacer-5 0 $spacer-5;
-        margin-bottom: $spacer-2;
-        overflow: visible;
-    }
-
-    .draft-preview {
-        position: relative;
-        width: fit-content;
-        max-height: 18vh;
-        border: $border-width-lg solid $grey-100;
-        border-radius: $border-radius;
-        padding: $spacer-2 $spacer-3;
-        &:hover,
-        &--selected {
-            cursor: pointer;
-            border: $border-width-lg solid $primary;
-
-            .template__title {
-                color: $primary !important;
-            }
-        }
-    }
-
-    .draft-canvas {
-        max-width: 100%;
-        height: 100%;
-        border: 1px solid pink;
-    }
-
-    .icon {
-        padding: $spacer-1 $spacer-2;
-        user-select: none;
-        cursor: pointer;
-        border: $border-width-lg solid $grey-60;
-        border-radius: $border-radius;
-    }
-
-    .draft-btn--cancel {
-        z-index: 2;
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(50%, 10%);
     }
 
     @include media-breakpoint-up(lg) {
@@ -299,12 +221,12 @@
             max-width: 24vw !important;
         }
 
-        .start-btn {
-            width: auto;
-        }
-
         .top-nav {
+            justify-content: flex-start;
             padding: $spacer-4 $spacer-3;
+        }
+        .top-nav__logo {
+            justify-content: flex-start;
         }
     }
 </style>

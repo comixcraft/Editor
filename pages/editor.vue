@@ -84,8 +84,8 @@
 
 <template>
     <div class="editor">
-        <div class="editor__top-nav">
-            <div class="editor__top-nav__left-btns">
+        <div class="editor__top-nav top-nav-lg">
+            <div class="top-nav__left-btns">
                 <button class="top-nav__item back-btn icon icon-btn">
                     <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
                         arrow_back
@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <div class="editor__top-nav__left-btns">
+            <div class="top-nav__left-btns">
                 <div class="top-nav__item layer-btn">
                     <button @click="layersShow = true" class="secondary-btn">
                         <div class="icon">stacks</div>
@@ -198,11 +198,6 @@
     }
 
     .icon-btn {
-        border: none;
-        text-align: center;
-        border-radius: $border-radius;
-        vertical-align: middle;
-        background-color: transparent;
         color: $white;
     }
 
@@ -210,14 +205,11 @@
         display: none;
     }
 
-    .layer {
-        height: 100vh;
-        width: 100%;
-    }
     .layer-background {
         width: 100vw;
         height: 100vh;
         background-color: $white;
+        margin-top: -$spacer-7;
     }
 
     .layer-container {
@@ -226,17 +218,17 @@
         justify-content: center;
         align-items: center;
     }
+
     .editor__top-nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
+        height: 80px;
         margin: 0;
-        background-color: $primary;
-        padding: $spacer-4 $spacer-3;
     }
 
-    .editor__top-nav__left-btns {
+    .top-nav__left-btns {
         display: flex;
         column-gap: $spacer-3;
     }
@@ -303,6 +295,9 @@
         width: 100%;
         background-color: $white;
         z-index: 1000;
+        overflow-x: scroll;
+        white-space: nowrap;
+        scroll-behavior: smooth;
     }
 
     .share__top-nav-item {
@@ -323,16 +318,11 @@
             padding: $spacer-3 $spacer-5;
         }
 
-        .editor__top-nav {
-            padding: $spacer-2 $spacer-3;
-            z-index: 999999;
-        }
-
         .display-none {
             display: block;
         }
 
-        .editor__top-nav__left-btns {
+        .top-nav__left-btns {
             display: flex;
             column-gap: $spacer-6;
         }
@@ -340,7 +330,6 @@
         .undo-redo-container {
             column-gap: $spacer-4;
         }
-
         .editor__bottom-nav {
             height: calc(100vh - 80px);
         }
@@ -348,6 +337,7 @@
         .mobile {
             display: none;
         }
+
         .editor__canvas {
             align-items: center;
             display: flex;
@@ -386,8 +376,13 @@
             z-index: 900;
             height: calc(100vh - 80px);
         }
+
         .modal-container {
             display: none;
+        }
+        .bottom-nav__container {
+            overflow-x: visible;
+            white-space: wrap;
         }
     }
 </style>
