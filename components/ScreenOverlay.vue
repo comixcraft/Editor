@@ -28,6 +28,7 @@
     .icon-btn {
         color: $white;
     }
+
     .overlay {
         height: 100vh;
         position: fixed;

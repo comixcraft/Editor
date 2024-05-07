@@ -79,9 +79,13 @@
         >
             >
             <div class="asset-image">
-                <img class="img" :src="element.src" :alt="element.alt" />
+                <img
+                    class="img"
+                    :src="element.type.path"
+                    :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
+                />
             </div>
-            <p class="layer-text">{{ element.alt }}</p>
+            <p class="layer-text">{{ element.type.name === 'Asset' ? element.alt : element.type.content }}</p>
             <div class="chevrons">
                 <button
                     class="expand-less icon icon-btn"

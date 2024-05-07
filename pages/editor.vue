@@ -1,7 +1,5 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
-    import ElementDS from '~/utils/Classes/Element.js';
-    import Text from '~/utils/Classes/Text.js';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -30,10 +28,6 @@
             createError(error);
         });
 
-    function addElementToActivePanel(element) {
-        comic.getPage(0).getStrip(0).getPanel(activePanelIndex.value).addElement(element);
-    }
-
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
 
@@ -51,16 +45,6 @@
             .catch((error) => {
                 createError(error);
             });
-    }
-
-    function addNewTextToDisplay() {
-        let fixedHeight = 200;
-        let src = '';
-        let width = 200;
-        let name = 'Double-click to edit me.';
-        let type = new Text(name, 24, 'Pangolin');
-        let tempEl = new ElementDS(width, fixedHeight, name, src, type);
-        addElementToActivePanel(tempEl);
     }
 
     function updateSelectedCategory(category) {
@@ -145,7 +129,6 @@
             <ComicPanels
                 :lockAspectRatio="lockAspectRatio"
                 :comic="comic"
-                :selectedId="selectedElementId"
                 @active-panel-change="activePanelIndex = $event"
             ></ComicPanels>
         </div>
@@ -157,7 +140,6 @@
                         :categories="catalogStructure.categories"
                         @categorySelected="updateSelectedCategory"
                         @selectAllAssets="handleSelectAllAssets"
-                        @addNewTextToDisplay="addNewTextToDisplay"
                     />
                 </div>
             </div>
@@ -241,6 +223,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
+        height: 80px;
         margin: 0;
     }
 
@@ -346,7 +330,6 @@
         .undo-redo-container {
             column-gap: $spacer-4;
         }
-
         .editor__bottom-nav {
             height: calc(100vh - 80px);
         }

@@ -3,14 +3,48 @@
     import templateStripConfig from '/config/templateStripConfig.js';
 
     const comicStore = useComicStore();
+    const showDraftContainer = ref(false);
+
+    onMounted(() => {
+        !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
+            ? (showDraftContainer.value = false)
+            : (showDraftContainer.value = true);
+    });
 
     let selectedComicConfiguration = ref(null);
+    let draftSelected = ref(false);
+
+    function deleteDraft() {
+        comicStore.deleteDraft();
+        showDraftContainer.value = false;
+    }
 
     function createComic(config) {
+        draftSelected.value ? createComicFromDraft() : createNewComic(config);
+    }
+
+    function createNewComic(config) {
         if (!config) return;
 
         comicStore.createComicWithConfig({ ...config });
         return navigateTo('/editor');
+    }
+
+    function createComicFromDraft() {
+        if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
+
+        comicStore.createComicFromDraft();
+        return navigateTo('/editor');
+    }
+
+    function selectTemplate(e) {
+        selectedComicConfiguration.value = e;
+        draftSelected.value = false;
+    }
+
+    function selectDraftToContinue() {
+        selectedComicConfiguration.value = null;
+        draftSelected.value = true;
     }
 </script>
 
@@ -48,6 +82,18 @@
                     </div>
                 </div>
             </div>
+            <!-- <div v-if="showDraftContainer" class="draft-container">
+                <h2>Draft</h2>
+                <p class="font-italic">Continue working on your previous draft</p>
+                <div
+                    class="draft-preview"
+                    :class="{ 'draft-preview--selected': draftSelected }"
+                    @click="selectDraftToContinue"
+                >
+                    <canvas class="draft-canvas"></canvas>
+                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
+                </div>
+            </div> -->
             <div class="templates">
                 <h2>Templates</h2>
                 <p class="font-italic">Start by choosing a template</p>
@@ -57,7 +103,7 @@
                     <p>A comic panel is a single frame within a comic strip.</p>
                     <div class="comic-panels">
                         <TemplateDisplay
-                            @select-template="selectedComicConfiguration = $event"
+                            @select-template="selectTemplate"
                             v-for="option in templatePanelConfig"
                             :key="option.title"
                             :title="option.title"
@@ -72,7 +118,7 @@
                     <p>A comic strip consists of a series of panels.</p>
                     <div class="comic-panels">
                         <TemplateDisplay
-                            @select-template="selectedComicConfiguration = $event"
+                            @select-template="selectTemplate"
                             v-for="option in templateStripConfig"
                             :key="option.title"
                             :title="option.title"
@@ -86,7 +132,7 @@
             <button
                 class="accent-btn"
                 @click="createComic(selectedComicConfiguration?.config)"
-                :disabled="!selectedComicConfiguration"
+                :disabled="!draftSelected && !selectedComicConfiguration"
             >
                 Start Comic Crafting
             </button>
