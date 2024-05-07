@@ -196,10 +196,4 @@
     .btn-icon {
         color: $black;
     }
-
-    @include media-breakpoint-up(lg) {
-        .canvas-btn {
-            width: auto;
-        }
-    }
 </style>
