@@ -25,6 +25,7 @@ export const useComicStore = defineStore('comic', () => {
 
     function deleteDraft() {
         draft.value = null;
+        localStorage.clear();
     }
 
     if (process.client) {
@@ -90,7 +91,6 @@ export const useComicStore = defineStore('comic', () => {
         comic.title = refComic.title;
         comic.creatorName = refComic.creatorName;
 
-        console.log(Comic.fromJSON(refComic));
         // create page(s) and add them to comic through class method
         refComic.pages.forEach((page, iPage) => {
             let tempPage = new Page();

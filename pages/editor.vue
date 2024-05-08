@@ -77,7 +77,7 @@
     }
 
     function discardComic() {
-        comicStore.comic = null;
+        comicStore.comic = new Comic(null, null, null);
         return navigateTo('/');
     }
 
