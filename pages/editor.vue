@@ -129,22 +129,20 @@
                 ></ComicPanels>
             </div>
 
-            <div class="bottom-nav__container col-12 col-lg-4 order-lg-first">
-                <div class="bottom-nav__scrollable-nav">
-                    <CatalogNavigation
-                        :categories="catalogStructure.categories"
-                        @categorySelected="updateSelectedCategory"
-                        @selectAllAssets="handleSelectAllAssets"
-                    />
-                </div>
-                <div class="catalog-container">
-                    <CatalogLayout
-                        :title="selectedCategory.name"
-                        :selectedCategoryAssets="catalogElements"
-                        :selectedCategory="selectedCategory"
-                        @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                    />
-                </div>
+            <div class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first">
+                <CatalogNavigation
+                    :categories="catalogStructure.categories"
+                    @categorySelected="updateSelectedCategory"
+                    @selectAllAssets="handleSelectAllAssets"
+                />
+            </div>
+            <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
+                <CatalogLayout
+                    :title="selectedCategory.name"
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                />
             </div>
         </div>
     </div>
@@ -249,7 +247,6 @@
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
-        flex-grow: 1;
         overflow-x: auto;
         scroll-behavior: smooth;
 

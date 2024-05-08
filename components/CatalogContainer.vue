@@ -29,7 +29,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         gap: $spacer-4;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;

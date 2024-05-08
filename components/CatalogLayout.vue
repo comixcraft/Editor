@@ -90,15 +90,9 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        width: 100%;
 
         &__container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: $spacer-4;
-            overflow-y: scroll;
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: none;
             padding: $spacer-2;
         }
     }

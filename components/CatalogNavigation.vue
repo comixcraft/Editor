@@ -27,7 +27,7 @@
 </script>
 
 <template>
-    <div class="navigation">
+    <div class="navigation p5">
         <button v-for="(category, index) in props.categories" :key="index" @click="selectCategory(category)">
             <span class="icon navigation__icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}

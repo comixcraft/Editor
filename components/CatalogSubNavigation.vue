@@ -35,17 +35,19 @@
 </script>
 
 <template>
-    <div class="sub__navigation p5" v-if="showSubNavigation">
-        <button
-            v-for="(subCategory, index) in props.subCategories"
-            :key="index"
-            @click="selectSubCategory(subCategory)"
-            class="sub__btn"
-            :class="{ selected: selectedSubCategory === subCategory.name }"
-        >
-            <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
-            {{ subCategory.name }}
-        </button>
+    <div v-if="showSubNavigation">
+        <div class="sub__navigation p5">
+            <button
+                v-for="(subCategory, index) in props.subCategories"
+                :key="index"
+                @click="selectSubCategory(subCategory)"
+                class="sub__btn"
+                :class="{ selected: selectedSubCategory === subCategory.name }"
+            >
+                <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
+                {{ subCategory.name }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -54,11 +56,10 @@
         background-color: $white;
         box-shadow: $box-shadow-light;
         display: flex;
-        justify-content: space-around;
-        overflow-x: visible;
+        padding: $spacer-2 $spacer-2 0 $spacer-2;
+        overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
-        padding: $spacer-2 $spacer-2 0 $spacer-2;
     }
 
     .sub__btn {
