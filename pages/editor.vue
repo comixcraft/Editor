@@ -105,7 +105,7 @@
     <div class="editor" ref="editor">
         <div class="editor__top-nav top-nav-lg">
             <div class="top-nav__left-btns">
-                <button class="top-nav__item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
+                <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
                 </button>
                 <div class="undo-redo-container d-none">
