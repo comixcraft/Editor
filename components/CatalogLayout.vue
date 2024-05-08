@@ -90,7 +90,6 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        gap: $spacer-2;
         height: 100%;
 
         &__container {
