@@ -130,14 +130,12 @@
             </div>
 
             <div class="bottom-nav__container col-12 col-lg-4 order-lg-first">
-                <div class="editor__bottom-nav">
-                    <div class="bottom-nav__scrollable-nav">
-                        <CatalogNavigation
-                            :categories="catalogStructure.categories"
-                            @categorySelected="updateSelectedCategory"
-                            @selectAllAssets="handleSelectAllAssets"
-                        />
-                    </div>
+                <div class="bottom-nav__scrollable-nav">
+                    <CatalogNavigation
+                        :categories="catalogStructure.categories"
+                        @categorySelected="updateSelectedCategory"
+                        @selectAllAssets="handleSelectAllAssets"
+                    />
                 </div>
                 <div class="catalog-container">
                     <CatalogLayout
@@ -247,20 +245,17 @@
         flex-grow: 1;
     }
 
-    .editor__bottom-nav {
-        background-color: $grey-90;
-        padding: $spacer-3;
-    }
-
     .bottom-nav__scrollable-nav {
         display: flex;
+        background-color: $grey-90;
+        padding: $spacer-3;
         overflow-x: auto;
 
         @include media-breakpoint-up(lg) {
             flex-direction: column;
             padding: $spacer-3;
             gap: $spacer-2;
-            overflow-y: auto;
+            overflow-x: visible;
         }
     }
 
