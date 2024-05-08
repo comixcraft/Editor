@@ -201,12 +201,12 @@
 
 <template>
     <div class="share">
-        <div class="share__top-nav">
+        <div class="share__top-nav top-nav-lg">
             <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
-            <div class="export__details">
+            <div class="export__details d-none">
                 <div class="share__input-group">
                     <label class="share__input-group-label" for="project-name">Project Name:</label>
                     <input
@@ -233,28 +233,25 @@
             <div ref="previewCanvas" class="preview__container">
                 <canvas ref="canvasEl" class="preview__canvas"></canvas>
             </div>
-
-            <div class="btn-container">
-                <button class="share__confirm-btn" @click="saveDraft">Save Draft</button>
-                <button class="share__confirm-btn" @click="download">Download</button>
-            </div>
+        </div>
+        <div class="btn-container">
+            <button class="accent-btn" @click="saveDraft">Save Draft</button>
+            <button class="accent-btn" @click="download">Download</button>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-    .share__top-nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        padding: $spacer-1 $spacer-3;
-        margin: 0;
-        color: $white;
-    }
-
     .share__body {
         padding: $spacer-3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .export__details {
+        flex: 1;
+        padding-bottom: $spacer-3;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -318,6 +315,11 @@
         text-decoration: none;
     }
 
+    .accent-btn {
+        position: fixed;
+        bottom: $spacer-6;
+    }
+
     .preview__container {
         flex: 1;
         display: flex;
@@ -327,15 +329,10 @@
     .preview__canvas {
         border: $border-width solid black;
         border-radius: $border-radius;
-        width: auto;
-        height: 100%;
+        max-width: 22rem;
     }
 
     @include media-breakpoint-up(lg) {
-        .share__confirm-btn {
-            width: auto;
-        }
-
         .share__body {
             flex-direction: row;
         }

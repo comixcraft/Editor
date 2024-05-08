@@ -10,6 +10,10 @@
 
     let ul;
     let selection = ref(undefined);
+    let navHeight = ref(0);
+    let navHeightPx = computed(() => {
+        return navHeight.value + 'px';
+    });
 
     // create a reactive array from map element
     let arrayZ = ref(Array.from(props.panel.elements, ([key, value]) => value));
@@ -21,6 +25,7 @@
 
     onMounted(() => {
         ul = document.getElementsByClassName('layers')[0];
+        navHeight.value = ul.parentNode.parentNode.parentNode.parentNode.firstChild.getBoundingClientRect().height;
         // let sortable = Sortable.create(ul, {
         //     animation: 150,
         //     ghostClass: 'left-over',
@@ -57,21 +62,20 @@
 
 <template>
     <div class="empty-display" v-if="arrayZ.length === 0">
-        <img src="/public/Barista explaining6.png" alt="" />
+        <img src="/public/Barista explaining6.png" alt="" class="empty-display__img" />
         <div class="empty-display_text">
             <h1>No layers to display</h1>
             <p>Start by adding an asset to the canvas.</p>
-            <button class="canvas-btn">Canvas</button>
         </div>
     </div>
-    <ul class="layers">
+    <ul class="layers" :style="{ 'margin-top': navHeightPx }">
         <li
             v-for="(element, index) in arrayZSorted"
             :key="element.id"
             class="layer"
             :accessKey="element.id"
             @click="selectLayer(element.id, index)"
-            :style="{ border: index === selection ? `3px solid ${$primary}` : `1px solid ${$primary}` }"
+            :class="{ 'selected-layer': index === selection }"
         >
             <div class="asset-image">
                 <img
@@ -84,17 +88,14 @@
             <div class="chevrons">
                 <button
                     class="expand-less icon icon-btn"
-                    :style="{ opacity: index > 0 ? 1 : 0.25, cursor: index > 0 ? 'pointer' : 'not-allowed' }"
+                    :class="{ disabled: index === 0 }"
                     @click="sendEmitFront(element.id, index)"
                 >
                     expand_less
                 </button>
                 <button
                     class="expand-more icon icon-btn"
-                    :style="{
-                        opacity: index < arrayZSorted.length - 1 ? 1 : 0.25,
-                        cursor: index < arrayZSorted.length - 1 ? 'pointer' : 'not-allowed',
-                    }"
+                    :class="{ disabled: index === arrayZSorted.length - 1 }"
                     @click="sendEmitBack(element.id, index)"
                 >
                     expand_more
@@ -105,6 +106,11 @@
 </template>
 
 <style scoped lang="scss">
+    .chevrons button.disabled {
+        color: $grey-60;
+        cursor: not-allowed;
+    }
+
     .empty-display {
         width: fit-content;
         height: fit-content;
@@ -118,9 +124,9 @@
         transform: translateY(-50%);
     }
 
-    .empty-display img {
+    .empty-display__img {
         z-index: 10;
-        max-width: 24vw !important;
+        max-width: 8rem !important;
     }
 
     .empty-display h1 {
@@ -135,24 +141,18 @@
         row-gap: $spacer-4;
     }
 
-    .canvas-btn {
-        text-align: center;
-        background-color: $secondary-100;
-        color: $grey-0;
-        padding: $spacer-3 $spacer-5;
-        border-radius: $border-radius-lg;
-        border: none;
-        width: calc(100% - $spacer-6);
-    }
-
     .layer {
         padding: $spacer-3;
         width: 90vw;
-        border: $primary 1px solid;
+        border: $primary $border-width solid;
         border-radius: $border-radius;
         margin-top: $spacer-4;
         display: flex;
         align-items: center;
+    }
+
+    .layer.selected-layer {
+        border-width: $border-width-lg solid $primary;
     }
 
     ul {
@@ -183,6 +183,7 @@
         display: flex;
         flex-direction: column;
         margin-left: auto;
+
         & :hover {
             cursor: pointer;
         }
@@ -192,20 +193,7 @@
         margin: 0;
     }
 
-    .icon-btn {
-        border: none;
-        height: $spacer-6;
-        width: $spacer-6;
-        text-align: center;
-        border-radius: $border-radius;
-        vertical-align: middle;
-        background-color: transparent;
-        color: $grey-80;
-    }
-
-    @include media-breakpoint-up(lg) {
-        .canvas-btn {
-            width: auto;
-        }
+    .btn-icon {
+        color: $black;
     }
 </style>
