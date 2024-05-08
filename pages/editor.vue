@@ -71,14 +71,19 @@
 
     function saveComic() {
         let comicJson = comicStore.comic.toJSON();
-
         comicStore.saveDraft(comicJson);
-        return navigateTo('/');
+
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
     }
 
     function discardComic() {
-        comicStore.comic = new Comic(null, null, null);
-        return navigateTo('/');
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
     }
 
     window.onkeydown = function (e) {
