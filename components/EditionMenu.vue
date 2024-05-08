@@ -1,13 +1,13 @@
 <script setup>
-    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent']);
+    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent', 'frontEvent', 'backEvent']);
 </script>
 
 <template>
     <div>
         <div class="icon-container">
             <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
-            <div class="edit-icon icon">flip_to_back</div>
-            <div class="edit-icon icon">flip_to_front</div>
+            <div class="edit-icon icon" @click="$emit('frontEvent')">flip_to_front</div>
+            <div class="edit-icon icon" @click="$emit('backEvent')">flip_to_back</div>
             <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
             <div class="edit-icon edit-icon:lastChild edit-icon--flipped icon" @click="$emit('mirrorVerticalEvent')">
                 flip

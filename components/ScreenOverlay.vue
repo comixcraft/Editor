@@ -9,9 +9,9 @@
 
 <template>
     <div v-if="show" class="overlay">
-        <div class="navigation">
+        <div class="navigation top-nav">
             <div class="navigation__title">{{ title }}</div>
-            <div class="navigation__icon icon" @click="$emit('close')">close</div>
+            <button class="navigation__icon icon icon-btn" @click="$emit('close')">close</button>
         </div>
         <div class="overlay__content"><slot></slot></div>
     </div>
@@ -20,20 +20,29 @@
 <style lang="scss" scoped>
     .navigation {
         display: flex;
+        position: sticky;
+        top: 0;
+        width: 100%;
         align-items: center;
         justify-content: space-between;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
-        margin: 0;
-        padding: 16px;
-        color: white;
+        color: $white;
     }
+
+    .icon-btn {
+        color: $white;
+    }
+
     .overlay {
         height: 100vh;
-        width: 100vw;
         position: fixed;
         z-index: 999999;
         top: 0;
         left: 0;
+        overflow-y: scroll;
+        background-color: $white;
+    }
+
+    .overlay__content {
+        margin-top: $spacer-5;
     }
 </style>

@@ -6,9 +6,9 @@
             type: Object,
             default: () => {},
         },
+        lockAspectRatio: Boolean,
     });
 
-    const stripHeight = ref(0);
     const activePanelIndex = ref(0);
     const comicStore = useComicStore();
 
@@ -16,56 +16,49 @@
         activePanelIndex.value = index;
         emit('active-panel-change', index);
     }
-
-    stripHeight.value = props.comic.getPage(0).getStrip(0).height;
 </script>
 
 <template>
-    <div>
-        <swiper
-            :initial-slide="activePanelIndex"
-            @active-index-change="updateActivePanel($event.activeIndex)"
-            class="comic-swiper"
-            :modules="[SwiperPagination]"
-            :prevent-clicks="false"
-            :prevent-clicks-propagation="false"
-            :touch-start-prevent-default="false"
-            :resistance="false"
-            :pagination="{
-                clickable: true,
-                renderBullet: function (index, className) {
-                    return `<span class='${className}'>${index}</span>`;
-                },
-            }"
-        >
-            <TextEditor v-if="comicStore.getCurrentElement().value != null" />
-            <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
-                <WrapperCanvas class="swiper-no-swiping" :height="stripHeight" :panel="panel"></WrapperCanvas>
-                <div class="comic-swiper__swipe-area"></div>
-            </swiper-slide>
-        </swiper>
-    </div>
+    <swiper
+        :initial-slide="activePanelIndex"
+        @active-index-change="updateActivePanel($event.activeIndex)"
+        class="comic-swiper"
+        :modules="[SwiperPagination]"
+        :prevent-clicks="false"
+        :prevent-clicks-propagation="false"
+        :touch-start-prevent-default="false"
+        :resistance="false"
+        :pagination="{
+            clickable: true,
+            renderBullet: function (index, className) {
+                return `<span class='${className}'>${index}</span>`;
+            },
+        }"
+    >
+        <TextEditor v-if="comicStore.getCurrentElement().value != null" />
+        <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
+            <div class="d-flex justify-content-center align-items-center">
+                <WrapperCanvas
+                    class="swiper-no-swiping wrapper-canvas"
+                    :panel="panel"
+                    :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
+                ></WrapperCanvas>
+            </div>
+        </swiper-slide>
+    </swiper>
 </template>
 
 <style scoped lang="scss">
     .swiper {
-        width: 55vw;
+        width: 100%;
         height: 100%;
+        display: flex;
+        justify-content: space-evenly;
     }
 
     .swiper-slide {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .comic-swiper__swipe-area {
-        width: 100%;
-        margin: $spacer-3;
-
-        @include media-breakpoint-up(lg) {
-            margin: $spacer-7;
-        }
     }
 </style>

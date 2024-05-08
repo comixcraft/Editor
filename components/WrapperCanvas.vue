@@ -1,20 +1,41 @@
 <script setup>
+    import ElementDS from '~/utils/Classes/Element';
+    import Text from '~/utils/Classes/Text';
+    import Asset from '~/utils/Classes/Asset';
+
     const props = defineProps({
-        height: Number,
         panel: Object,
+        panelIsActive: Boolean,
+        lockAspectRatio: Boolean,
     });
 
-    const canvasHeight = computed(() => props.height + 'px');
-    const canvasWidth = computed(() => props.panel.currentState().width + 'px');
-    const border = props.panel.border;
-    let elements = props.panel.elements;
+    const canvasWidth = computed(() => DOMElementBoundingBox.width + 'px');
+    const canvasHeight = computed(() => DOMElementBoundingBox.height + 'px');
+    const DOMElementBoundingBox = reactive({ width: props.panel.width, height: props.panel.height });
+    const comicStore = useComicStore();
+    const elements = props.panel.elements;
+    const container = ref(null);
+
+    function setToRelative(num, panelNum) {
+        return num / panelNum;
+    }
+
+    function getFixed(num, panelNum) {
+        return num * panelNum;
+    }
+
+    function updatePanelBoundingBox() {
+        DOMElementBoundingBox.width = container.value.clientWidth;
+        DOMElementBoundingBox.height = container.value.clientHeight;
+    }
 
     function validateElementId(eId) {
         if (!elements.has(eId)) {
-            console.log('Error in passing the element id');
             return;
         }
     }
+
+    window.addEventListener('resize', updatePanelBoundingBox);
 
     function deleteElement(eId) {
         // delete last element of map
@@ -25,16 +46,22 @@
         // validate element id
         validateElementId(obj.eId);
         // update element width and height
-        elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
-        elements.get(obj.eId).setWidth(obj.width);
-        elements.get(obj.eId).setHeight(obj.height);
+        elements.get(obj.eId).pos = {
+            x: setToRelative(obj.pos.x, props.panel.width),
+            y: setToRelative(obj.pos.y, props.panel.height),
+        };
+        elements.get(obj.eId).setWidth(setToRelative(obj.width, props.panel.width));
+        elements.get(obj.eId).setHeight(setToRelative(obj.height, props.panel.height));
     }
 
     function updatePosition(obj) {
         // validate element id
         validateElementId(obj.eId);
         // update element position
-        elements.get(obj.eId).setPos({ x: obj.pos.x, y: obj.pos.y });
+        elements.get(obj.eId).pos = {
+            x: setToRelative(obj.pos.x, props.panel.width),
+            y: setToRelative(obj.pos.y, props.panel.height),
+        };
     }
 
     function updateMirrorValues(obj) {
@@ -55,26 +82,93 @@
         // update element rotation
         elements.get(obj.eId).setRotation(obj.rotation);
     }
+
+    // Bus listeners
+    comicStore.bus.on('putLayerBack', (eId) => {
+        downElement(eId);
+    });
+
+    comicStore.bus.on('putLayerFront', (eId) => {
+        upElement(eId);
+    });
+
+    comicStore.bus.on('add-element', (event) => {
+        if (!props.panelIsActive) return;
+
+        let tempEl;
+        if (event) {
+            let height = 0;
+            let width = 0;
+
+            if (event.target.naturalWidth > event.target.naturalHeight) {
+                width = setToRelative(200, props.panel.width);
+                height = setToRelative(
+                    (getFixed(width, props.panel.width) * event.target.naturalHeight) / event.target.naturalWidth,
+                    props.panel.height
+                );
+            } else {
+                height = setToRelative(200, props.panel.height);
+                width = setToRelative(
+                    (getFixed(height, props.panel.height) * event.target.naturalWidth) / event.target.naturalHeight,
+                    props.panel.width
+                );
+            }
+
+            let name = event.target.alt;
+            let src = event.target.src;
+            let newAsset = new Asset(src);
+            tempEl = new ElementDS(width, height, name, newAsset);
+        } else {
+            const height = setToRelative(200, props.panel.height);
+            const width = setToRelative(200, props.panel.width);
+            let name = 'Double-click to edit me.';
+            let type = new Text(name, 24, 'Pangolin');
+            tempEl = new ElementDS(width, height, name, type);
+        }
+        props.panel.addElement(tempEl);
+    });
+
+    // functions
+    function upElement(eId) {
+        if (!props.panelIsActive) return;
+        props.panel.moveZIndexUp(eId);
+    }
+
+    function downElement(eId) {
+        if (!props.panelIsActive) return;
+        props.panel.moveZIndexDown(eId);
+    }
+
+    onBeforeUnmount(() => {
+        comicStore.bus.off('add-element');
+        comicStore.bus.off('putLayerBack');
+        comicStore.bus.off('putLayerFront');
+        window.removeEventListener('resize', updatePanelBoundingBox);
+    });
 </script>
 
 <template>
     <div>
-        <div ref="container" class="panel container">
+        <div ref="container" class="panel">
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
-                :altText="value.currentState().name"
-                :eId="value.currentState().id"
-                :h="value.currentState().height"
-                :isMirroredHorizontal="value.currentState().isMirroredHorizontal"
-                :isMirroredVertical="value.currentState().isMirroredVertical"
-                :rotation="value.currentState().rotation"
-                :pos="value.currentState().pos"
-                :url="value.currentState().src"
-                :w="value.currentState().width"
-                :z="value.currentState().z"
-                :fontSize="value.currentState().type.name == 'Text' ? value.currentState().type.fontSize : 0"
-                :text="value.currentState().type.content == undefined ? '' : value.currentState().type.content"
+                :altText="value.alt"
+                :eId="value.id"
+                :h="value.height * props.panel.height"
+                :isMirroredHorizontal="value.isMirroredHorizontal"
+                :isMirroredVertical="value.isMirroredVertical"
+                :rotation="value.rotation"
+                :pos="value.pos"
+                :url="value.type.path"
+                :x="getFixed(value.pos.x, props.panel.width)"
+                :y="getFixed(value.pos.y, props.panel.height)"
+                :w="getFixed(value.width, props.panel.width)"
+                :z="value.z"
+                :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
+                :text="value.type.content == undefined ? '' : value.type.content"
+                :selectedId="props.selectedId"
+                :lockAspectRatio="props.lockAspectRatio"
                 :element="value"
                 @delete-event="deleteElement"
                 @update-event="updatePosition"
@@ -82,8 +176,10 @@
                 @mirror-horizontal-event="updateMirrorValues"
                 @mirror-vertical-event="updateMirrorValues"
                 @rotate-event="updateRotation"
+                @front-event="upElement"
+                @back-event="downElement"
             />
-            <img :src="border" class="panel__border" />
+            <img :src="props.panel.border" class="panel__border" />
         </div>
     </div>
 </template>
@@ -93,6 +189,7 @@
         width: v-bind(canvasWidth);
         height: v-bind(canvasHeight);
         position: relative;
+        padding: 0;
 
         &__border {
             width: 100%;

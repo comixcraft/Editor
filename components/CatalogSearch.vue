@@ -20,8 +20,22 @@
         },
     });
 
+    watch(
+        () => props.filters,
+        (newFilters) => {
+            if (newFilters.length == 0) {
+                showAllFilters.value = false;
+                activeFilters.value = []; // Reset active filters
+            }
+        }
+    );
+
     const visibleFilters = computed(() => {
         return showAllFilters.value ? props.filters : activeFilters.value;
+    });
+
+    const canFilter = computed(() => {
+        return props.filters.length && props.filterable;
     });
 
     function toggleFilter(filter) {
@@ -45,7 +59,7 @@
             <span
                 v-if="filterable"
                 class="icon search__tune"
-                :class="{ 'search__tune--active': showAllFilters }"
+                :class="{ 'search__tune--active': showAllFilters, 'search__tune--disabled': !canFilter }"
                 @click="showAllFilters = !showAllFilters"
                 >tune</span
             >
@@ -72,7 +86,7 @@
             <span
                 v-for="filter in visibleFilters"
                 :key="filter"
-                class="filter__pill"
+                class="filter__pill p5"
                 :class="{ 'filter__pill--selected': activeFilters.includes(filter) }"
                 @click="
                     () => {
@@ -81,7 +95,7 @@
                     }
                 "
             >
-                {{ filter }} <span class="icon pill__close">close</span>
+                {{ filter }} <span class="icon pill__close p5">close</span>
             </span>
         </div>
     </div>
@@ -124,6 +138,7 @@
         display: flex;
         gap: $spacer-2;
         align-items: center;
+        padding: $spacer-3 $spacer-2;
 
         &__clear {
             position: absolute;
@@ -135,6 +150,8 @@
 
         &__input {
             flex-grow: 1;
+            width: 100%;
+            margin-right: $spacer-2;
         }
 
         &__tune {
@@ -143,6 +160,11 @@
 
             &--active {
                 color: $secondary;
+            }
+
+            &--disabled {
+                color: $grey-100;
+                pointer-events: none;
             }
         }
     }

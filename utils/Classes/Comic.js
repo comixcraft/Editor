@@ -1,3 +1,5 @@
+import Page from './Page.js';
+
 export default class Comic {
     /** @type {String} */
     _name;
@@ -84,5 +86,26 @@ export default class Comic {
      */
     addPageToComic(page) {
         this.pages.push(page);
+    }
+
+    // JSON transforms
+    toJSON() {
+        return JSON.stringify({
+            name: this.name,
+            title: this.title,
+            creatorName: this.creatorName,
+            pages: this.pages,
+        });
+    }
+
+    static fromJSON(str) {
+        let parsedStr = JSON.parse(str);
+        let tempArr = [];
+        parsedStr.pages.forEach((page) => {
+            tempArr.push(Page.fromJSON(page));
+        });
+        parsedStr.pages = tempArr;
+
+        return parsedStr;
     }
 }
