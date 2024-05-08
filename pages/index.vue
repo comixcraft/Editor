@@ -243,6 +243,22 @@
         }
     }
 
+    .icon {
+        padding: $spacer-1 $spacer-2;
+        user-select: none;
+        cursor: pointer;
+        border: $border-width-lg solid $grey-60;
+        border-radius: $border-radius;
+    }
+
+    .draft-btn--cancel {
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%, 10%);
+    }
+
     @include media-breakpoint-up(lg) {
         .comic-image {
             max-width: 24vw !important;
