@@ -120,7 +120,7 @@
                 </div>
             </div>
         </div>
-        <div class="row g-0 flex-grow-1">
+        <div class="d-flex flex-column flex-lg-row flex-grow-1">
             <div class="editor__canvas col-12 col-lg-8">
                 <ComicPanels
                     :lockAspectRatio="lockAspectRatio"
@@ -250,10 +250,10 @@
         background-color: $grey-90;
         padding: $spacer-3;
         overflow-x: auto;
+        scroll-behavior: smooth;
 
         @include media-breakpoint-up(lg) {
             flex-direction: column;
-            padding: $spacer-3;
             gap: $spacer-2;
             overflow-x: visible;
         }
@@ -277,14 +277,11 @@
     }
 
     .bottom-nav__container {
-        overflow-x: scroll;
         white-space: nowrap;
-        scroll-behavior: smooth;
+        display: flex;
 
         @include media-breakpoint-up(lg) {
             white-space: wrap;
-            display: flex;
-            flex-direction: row;
         }
     }
 
