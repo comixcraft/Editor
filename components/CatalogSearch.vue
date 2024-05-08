@@ -138,7 +138,7 @@
         display: flex;
         gap: $spacer-2;
         align-items: center;
-        padding-top: $spacer-3;
+        padding: $spacer-3 $spacer-2;
 
         &__clear {
             position: absolute;

@@ -49,6 +49,10 @@
         selectedComicConfiguration.value = null;
         draftSelected.value = true;
     }
+
+    onMounted(() => {
+        selectedComicConfiguration.value = templatePanelConfig[0];
+    });
 </script>
 
 <template>

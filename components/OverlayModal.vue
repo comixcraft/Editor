@@ -49,9 +49,20 @@
         bottom: 0;
         right: 0;
         position: fixed;
+        display: flex;
+        flex-direction: column;
+
+        &__title {
+            display: flex;
+            gap: $spacer-2;
+        }
+
+        &__content {
+            overflow-y: auto;
+        }
     }
 
-    .icon {
+    .close-icon {
         color: $grey-70;
     }
 

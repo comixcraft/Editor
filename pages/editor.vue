@@ -54,7 +54,6 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-        fetchCatalogElements(category.name, [], []);
     }
 
     function handleSelectAllAssets() {
@@ -97,10 +96,6 @@
             lockAspectRatio.value = false;
         }
     };
-
-    onMounted(() => {
-        fetchCatalogElements();
-    });
 </script>
 
 <template>
@@ -127,13 +122,13 @@
                 <div class="top-nav__item layer-btn">
                     <button @click="layersShow = true" class="secondary-btn">
                         <div class="icon">stacks</div>
-                        <span class="display-none">Layers</span>
+                        <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
                 <div class="top-nav__item preview-btn d-none">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
-                        <span class="display-none"> Preview </span>
+                        <span class="d-none d-lg-block"> Preview </span>
                     </button>
                 </div>
                 <div class="top-nav__item export-btn">
@@ -145,31 +140,29 @@
                             }"
                         >
                             <div class="icon">download</div>
-                            <span class="display-none"> Download</span>
+                            <span class="d-none d-lg-block"> Download</span>
                         </NuxtLink>
                     </button>
                 </div>
             </div>
         </div>
-        <div class="editor__canvas">
-            <ComicPanels
-                :lockAspectRatio="lockAspectRatio"
-                :comic="comic"
-                @active-panel-change="activePanelIndex = $event"
-            ></ComicPanels>
-        </div>
-
-        <div class="bottom-nav__container">
-            <div class="editor__bottom-nav">
-                <div class="bottom-nav__scrollable-nav">
-                    <CatalogNavigation
-                        :categories="catalogStructure.categories"
-                        @categorySelected="updateSelectedCategory"
-                        @selectAllAssets="handleSelectAllAssets"
-                    />
-                </div>
+        <div class="d-flex flex-column flex-lg-row flex-grow-1">
+            <div class="editor__canvas col-12 col-lg-8">
+                <ComicPanels
+                    :lockAspectRatio="lockAspectRatio"
+                    :comic="comic"
+                    @active-panel-change="activePanelIndex = $event"
+                ></ComicPanels>
             </div>
-            <div class="catalogue-container">
+
+            <div class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first">
+                <CatalogNavigation
+                    :categories="catalogStructure.categories"
+                    @categorySelected="updateSelectedCategory"
+                    @selectAllAssets="handleSelectAllAssets"
+                />
+            </div>
+            <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
                 <CatalogLayout
                     :title="selectedCategory.name"
                     :selectedCategoryAssets="catalogElements"
@@ -234,6 +227,16 @@
         visibility: hidden;
     }
 
+    .editor {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+
+        &__top-nav {
+            justify-content: space-between;
+        }
+    }
+
     .secondary-btn {
         border: none;
         background-color: transparent;
@@ -241,28 +244,27 @@
         column-gap: $spacer-1;
         text-align: center;
         vertical-align: middle;
-    }
 
-    .secondary-btn a {
-        text-decoration: none;
-        color: $white;
-        display: flex;
-        column-gap: $spacer-1;
-    }
+        a {
+            text-decoration: none;
+            color: $white;
+            display: flex;
+            column-gap: $spacer-1;
+        }
 
-    .icon-btn {
-        color: $white;
-    }
-
-    .display-none {
-        display: none;
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            column-gap: $spacer-1;
+            width: 100%;
+            height: 100%;
+            padding: $spacer-3 $spacer-5;
+        }
     }
 
     .layer-background {
         width: 100vw;
         height: 100vh;
         background-color: $white;
-        margin-top: -$spacer-7;
     }
 
     .layer-container {
@@ -272,56 +274,45 @@
         align-items: center;
     }
 
-    .editor__top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: linear-gradient(90deg, #6360f4 44.5%, #f460b7 100%);
-        height: 80px;
-        margin: 0;
-    }
-
     .top-nav__left-btns {
         display: flex;
         column-gap: $spacer-3;
+
+        @include media-breakpoint-up(lg) {
+            column-gap: $spacer-6;
+        }
     }
 
     .undo-redo-container {
         display: flex;
         column-gap: $spacer-1;
         color: $white;
+
+        @include media-breakpoint-up(lg) {
+            column-gap: $spacer-4;
+        }
     }
 
     .editor__canvas {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        height: calc(100vh - 80px);
-        width: 70vw;
-        margin-left: auto;
-    }
-
-    .editor__bottom-nav {
-        background-color: $grey-90;
-        padding: $spacer-3;
+        justify-content: center;
+        flex-grow: 1;
     }
 
     .bottom-nav__scrollable-nav {
         display: flex;
+        background-color: $grey-90;
+        padding: $spacer-3;
         overflow-x: auto;
-    }
+        scroll-behavior: smooth;
 
-    .scrollable-nav__item {
-        padding: $spacer-2 $spacer-3;
-        margin-right: $spacer-2;
-        color: $grey-70;
-        cursor: pointer;
-        border-radius: $border-radius;
-        background-color: $white;
-    }
-
-    .scrollable-nav__item:hover {
-        background-color: $grey-60;
+        @include media-breakpoint-up(lg) {
+            flex-direction: column;
+            gap: $spacer-2;
+            overflow-x: visible;
+            flex-grow: 0;
+        }
     }
 
     .darken-background {
@@ -342,15 +333,12 @@
     }
 
     .bottom-nav__container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: $white;
-        z-index: 1000;
-        overflow-x: scroll;
         white-space: nowrap;
-        scroll-behavior: smooth;
+        display: flex;
+
+        @include media-breakpoint-up(lg) {
+            white-space: wrap;
+        }
     }
 
     .share__top-nav-item {
@@ -358,7 +346,7 @@
         text-decoration: none;
     }
 
-    .catalogue-container {
+    .catalog-container {
         display: none;
     }
 
@@ -427,26 +415,8 @@
 
         .bottom-nav__scrollable-nav {
             display: flex;
-            overflow-y: auto;
-        }
-
-        .catalogue-container {
-            display: block;
-            width: 25vw;
             background-color: $white;
-            position: absolute;
-            top: 0px;
-            left: 200px;
-            z-index: 900;
             height: calc(100vh - 80px);
-        }
-
-        .modal-container {
-            display: none;
-        }
-        .bottom-nav__container {
-            overflow-x: visible;
-            white-space: wrap;
         }
     }
 </style>
