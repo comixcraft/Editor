@@ -249,6 +249,7 @@
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
+        flex-grow: 1;
         overflow-x: auto;
         scroll-behavior: smooth;
 
@@ -256,6 +257,7 @@
             flex-direction: column;
             gap: $spacer-2;
             overflow-x: visible;
+            flex-grow: 0;
         }
     }
 
