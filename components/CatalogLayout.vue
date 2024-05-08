@@ -63,7 +63,6 @@
 <template>
     <div class="catalog">
         <CatalogSearch
-            class="p-2"
             placeholder="happy, barista, ..."
             :filters="selectedSubCategory.filter"
             @search="
