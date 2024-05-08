@@ -332,6 +332,10 @@
         transform: translate(-50%, -50%);
     }
 
+    .icon {
+        color: $white-100;
+    }
+
     .bottom-nav__container {
         white-space: nowrap;
         display: flex;
