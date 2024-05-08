@@ -217,6 +217,32 @@
         bottom: $spacer-6;
     }
 
+    .draft-container {
+        width: calc(100% - $spacer-3);
+        height: fit-content;
+        padding: $spacer-2 $spacer-5 0 $spacer-5;
+        margin-bottom: $spacer-2;
+        overflow: visible;
+    }
+
+    .draft-preview {
+        position: relative;
+        width: fit-content;
+        max-height: 18vh;
+        border: $border-width-lg solid $grey-100;
+        border-radius: $border-radius;
+        padding: $spacer-2 $spacer-3;
+        &:hover,
+        &--selected {
+            cursor: pointer;
+            border: $border-width-lg solid $primary;
+
+            .template__title {
+                color: $primary !important;
+            }
+        }
+    }
+
     @include media-breakpoint-up(lg) {
         .comic-image {
             max-width: 24vw !important;
