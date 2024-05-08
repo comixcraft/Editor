@@ -120,7 +120,7 @@
                 </div>
             </div>
         </div>
-        <div class="row g-0">
+        <div class="row g-0 flex-grow-1">
             <div class="editor__canvas col-12 col-lg-8">
                 <ComicPanels
                     :lockAspectRatio="lockAspectRatio"
@@ -178,6 +178,12 @@
 </template>
 
 <style scoped lang="scss">
+    .editor {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
     .secondary-btn {
         border: none;
         background-color: transparent;
@@ -238,21 +244,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: calc(100vh - 80px - 80px);
         flex-grow: 1;
-
-        @include media-breakpoint-up(lg) {
-            height: calc(100vh - 80px);
-        }
     }
 
     .editor__bottom-nav {
         background-color: $grey-90;
         padding: $spacer-3;
-
-        @include media-breakpoint-up(lg) {
-            height: calc(100vh - 80px);
-        }
     }
 
     .bottom-nav__scrollable-nav {
@@ -285,17 +282,11 @@
     }
 
     .bottom-nav__container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        background-color: $white;
-        z-index: 1000;
         overflow-x: scroll;
         white-space: nowrap;
         scroll-behavior: smooth;
 
         @include media-breakpoint-up(lg) {
-            position: static;
             white-space: wrap;
             display: flex;
             flex-direction: row;
