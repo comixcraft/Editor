@@ -97,21 +97,33 @@
 
         let tempEl;
         if (event) {
-            let fixedHeight = setToRelative(200, props.panel.height);
+            let height = 0;
+            let width = 0;
+
+            if (event.target.naturalWidth > event.target.naturalHeight) {
+                width = setToRelative(200, props.panel.width);
+                height = setToRelative(
+                    (getFixed(width, props.panel.width) * event.target.naturalHeight) / event.target.naturalWidth,
+                    props.panel.height
+                );
+            } else {
+                height = setToRelative(200, props.panel.height);
+                width = setToRelative(
+                    (getFixed(height, props.panel.height) * event.target.naturalWidth) / event.target.naturalHeight,
+                    props.panel.width
+                );
+            }
+
             let name = event.target.alt;
             let src = event.target.src;
-            let width = setToRelative(
-                (getFixed(fixedHeight, props.panel.height) * event.target.naturalWidth) / event.target.naturalHeight,
-                props.panel.width
-            );
             let newAsset = new Asset(src);
-            tempEl = new ElementDS(width, fixedHeight, name, newAsset);
+            tempEl = new ElementDS(width, height, name, newAsset);
         } else {
-            let fixedHeight = setToRelative(200, props.panel.height);
-            let width = setToRelative(200, props.panel.width);
+            const height = setToRelative(200, props.panel.height);
+            const width = setToRelative(200, props.panel.width);
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
-            tempEl = new ElementDS(width, fixedHeight, name, type);
+            tempEl = new ElementDS(width, height, name, type);
         }
         props.panel.addElement(tempEl);
     });
@@ -139,7 +151,7 @@
 
 <template>
     <div>
-        <div ref="container" class="panel container">
+        <div ref="container" class="panel">
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
