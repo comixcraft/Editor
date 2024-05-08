@@ -10,10 +10,6 @@
 
     let ul;
     let selection = ref(undefined);
-    let navHeight = ref(0);
-    let navHeightPx = computed(() => {
-        return navHeight.value + 'px';
-    });
 
     // create a reactive array from map element
     let arrayZ = ref(Array.from(props.panel.elements, ([key, value]) => value));
@@ -24,8 +20,6 @@
     });
 
     onMounted(() => {
-        ul = document.getElementsByClassName('layers')[0];
-        navHeight.value = ul.parentNode.parentNode.parentNode.parentNode.firstChild.getBoundingClientRect().height;
         // let sortable = Sortable.create(ul, {
         //     animation: 150,
         //     ghostClass: 'left-over',
@@ -63,28 +57,26 @@
 <template>
     <div class="empty-display" v-if="arrayZ.length === 0">
         <img src="/public/Barista explaining6.png" alt="" class="empty-display__img" />
-        <div class="empty-display_text">
+        <div class="empty-display__text">
             <h1>No layers to display</h1>
             <p>Start by adding an asset to the canvas.</p>
         </div>
     </div>
-    <ul class="layers" :style="{ 'margin-top': navHeightPx }">
+    <ul class="layer-list">
         <li
             v-for="(element, index) in arrayZSorted"
             :key="element.id"
             class="layer"
             :accessKey="element.id"
             @click="selectLayer(element.id, index)"
-            :class="{ 'selected-layer': index === selection }"
+            :class="{ 'layer--selected': index === selection }"
         >
-            <div class="asset-image">
-                <img
-                    class="img"
-                    :src="element.type.path"
-                    :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
-                />
-            </div>
-            <p class="layer-text">{{ element.type.name === 'Asset' ? element.alt : element.type.content }}</p>
+            <img
+                class="layer__image"
+                :src="element.type.path"
+                :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"
+            />
+            <p class="m-0">{{ element.type.name === 'Asset' ? element.alt : element.type.content }}</p>
             <div class="chevrons">
                 <button
                     class="expand-less icon icon-btn"
@@ -106,11 +98,6 @@
 </template>
 
 <style scoped lang="scss">
-    .chevrons button.disabled {
-        color: $grey-60;
-        cursor: not-allowed;
-    }
-
     .empty-display {
         width: fit-content;
         height: fit-content;
@@ -122,23 +109,23 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-    }
 
-    .empty-display__img {
-        z-index: 10;
-        max-width: 8rem !important;
-    }
+        &__img {
+            z-index: 10;
+            max-width: 8rem !important;
+        }
 
-    .empty-display h1 {
-        color: $primary;
-    }
+        & h1 {
+            color: $primary;
+        }
 
-    .empty-display_text {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        row-gap: $spacer-4;
+        &__text {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            row-gap: $spacer-4;
+        }
     }
 
     .layer {
@@ -146,37 +133,32 @@
         width: 90vw;
         border: $primary $border-width solid;
         border-radius: $border-radius;
-        margin-top: $spacer-4;
         display: flex;
         align-items: center;
+
+        &--selected {
+            border-width: $border-width-lg solid $primary;
+        }
+
+        &__image {
+            width: $spacer-8;
+            height: $spacer-8;
+            background-color: $white;
+            margin-right: $spacer-3;
+            object-fit: contain;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-select: none;
+        }
     }
 
-    .layer.selected-layer {
-        border-width: $border-width-lg solid $primary;
-    }
-
-    ul {
+    .layer-list {
         padding-inline-start: 0;
-    }
-
-    .asset-image {
-        width: $spacer-8;
-        height: $spacer-8;
-        background-color: $white;
-        margin-right: $spacer-2;
         display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .asset-image > .img {
-        max-height: 90%;
-        max-width: 90%;
-    }
-
-    .layer-content {
-        display: flex;
-        align-items: center;
+        gap: $spacer-4;
+        flex-direction: column;
     }
 
     .chevrons {
@@ -184,16 +166,13 @@
         flex-direction: column;
         margin-left: auto;
 
-        & :hover {
+        &:hover {
             cursor: pointer;
         }
-    }
 
-    .layer-text {
-        margin: 0;
-    }
-
-    .btn-icon {
-        color: $black;
+        button.disabled {
+            color: $grey-60;
+            cursor: not-allowed;
+        }
     }
 </style>
