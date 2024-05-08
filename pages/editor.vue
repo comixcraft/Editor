@@ -79,7 +79,7 @@
 
 <template>
     <div class="editor">
-        <div class="top-nav-lg justify-content-between">
+        <div class="top-nav-lg editor__top-nav">
             <div class="top-nav__left-btns">
                 <button class="top-nav__item back-btn icon icon-btn">
                     <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
@@ -178,6 +178,10 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
+
+        &__top-nav {
+            justify-content: space-between;
+        }
     }
 
     .secondary-btn {
