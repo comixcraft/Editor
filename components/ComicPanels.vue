@@ -40,7 +40,6 @@
             <div class="d-flex justify-content-center align-items-center">
                 <WrapperCanvas
                     class="swiper-no-swiping wrapper-canvas"
-                    :height="stripHeight"
                     :panel="panel"
                     :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
                 ></WrapperCanvas>
