@@ -85,11 +85,10 @@
         border-radius: $border-radius-lg;
         border: $border-width solid $secondary-100;
         width: calc(100% - $spacer-6);
-    }
-
-    .option-btn:first-child {
-        background-color: $secondary-100;
-        color: $grey-0;
-        border: none;
+        &:first-child {
+            background-color: $secondary-100;
+            color: $grey-0;
+            border: none;
+        }
     }
 </style>

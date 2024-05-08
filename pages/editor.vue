@@ -1,7 +1,6 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
     import iconConfig from '../config/iconsConfig';
-    import Comic from '~/utils/Classes/Comic';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -9,6 +8,8 @@
     let goingBackPopUpShow = ref(false);
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
+    let editor = ref(null);
+    let breakpoint = ref(false);
 
     let selectedCategory = ref({});
 
@@ -103,13 +104,17 @@
 </script>
 
 <template>
-    <div class="editor">
+    <div class="editor" ref="editor">
         <div class="editor__top-nav top-nav-lg">
             <div class="top-nav__left-btns">
-                <button class="top-nav__item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
-                    <!-- <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                        arrow_back
-                    </NuxtLink> -->
+                <button
+                    class="top-nav__item back-btn icon icon-btn"
+                    @click="
+                        () => {
+                            goingBackPopUpShow = true;
+                        }
+                    "
+                >
                     arrow_back
                 </button>
                 <div class="undo-redo-container d-none">
@@ -187,22 +192,22 @@
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
                 />
             </OverlayModal>
-            <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
-                <DecisionPopUp
-                    imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
-                    title="Poof, Your hard work disappears"
-                    body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
-                    :buttons="[
-                        { name: 'Save Draft', function: 'save' },
-                        { name: 'Discard all changes', function: 'discard' },
-                        { name: 'Cancel', function: 'cancel' },
-                    ]"
-                    @cancel="goingBackPopUpShow = false"
-                    @save="saveComic"
-                    @discard="discardComic"
-                />
-            </OverlayModal>
         </div>
+        <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
+            <DecisionPopUp
+                imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
+                title="Poof, Your hard work disappears"
+                body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                :buttons="[
+                    { name: 'Save Draft', function: 'save' },
+                    { name: 'Discard all changes', function: 'discard' },
+                    { name: 'Cancel', function: 'cancel' },
+                ]"
+                @cancel="goingBackPopUpShow = false"
+                @save="saveComic"
+                @discard="discardComic"
+            />
+        </OverlayModal>
         <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
             <div class="layer-background">
                 <div class="layer-container">
@@ -223,6 +228,12 @@
 </template>
 
 <style scoped lang="scss">
+    .editor:before {
+        content: 's';
+        display: none;
+        visibility: hidden;
+    }
+
     .secondary-btn {
         border: none;
         background-color: transparent;
@@ -359,6 +370,10 @@
     }
 
     @include media-breakpoint-up(lg) {
+        .editor:before {
+            content: 'lg';
+        }
+
         .secondary-btn {
             display: flex;
             column-gap: $spacer-1;

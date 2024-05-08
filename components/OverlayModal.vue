@@ -43,8 +43,8 @@
         background-color: $white;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
-        height: calc(v-bind(height) - $spacer-8);
-        width: 100vw;
+        max-height: calc(v-bind(height) - $spacer-8);
+        width: 100%;
         left: 0;
         bottom: 0;
         right: 0;

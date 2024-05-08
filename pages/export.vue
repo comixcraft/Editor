@@ -6,6 +6,7 @@
     const comicStore = useComicStore();
 
     const canvasEl = ref(null);
+    let downloadPopUpShow = ref(false);
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
 
@@ -187,11 +188,26 @@
         // Name of the file should come from a title of comic
         link.download = 'canvas.png';
         link.click();
+        downloadPopUpShow.value = true;
     }
 
     function saveDraft() {
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
+
+        downloadPopUpShow.value = false;
+
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
+    }
+
+    function reloadApp() {
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
     }
 
     onMounted(() => {
@@ -235,13 +251,35 @@
             </div>
         </div>
         <div class="btn-container">
-            <button class="accent-btn" @click="saveDraft">Save Draft</button>
-            <button class="accent-btn" @click="download">Download</button>
+            <button class="accent-btn" @click="download">Download Comic</button>
+            <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
         </div>
     </div>
+    <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
+        <DecisionPopUp
+            imgSrc="http://localhost:3000/catalog/Scenes/items/Rats%20In%20Love.png?raw=true"
+            title="Download successful"
+            body="Congratulations! Your comic has been downloaded. It's tie to share it with the world"
+            :buttons="[
+                { name: 'Create New Comic', function: 'discard' },
+                { name: 'Save Draft', function: 'save' },
+            ]"
+            @save="saveDraft"
+            @discard="reloadApp"
+        />
+    </OverlayModal>
 </template>
 
 <style scoped lang="scss">
+    .share {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .share__body {
         padding: $spacer-3;
         display: flex;
@@ -271,6 +309,10 @@
         margin-bottom: $spacer-1;
     }
 
+    .share__top-nav {
+        width: 100%;
+    }
+
     .share__input-group-input,
     .share__input-group-select {
         padding: $spacer-2 $spacer-6 $spacer-2 $spacer-2;
@@ -285,12 +327,23 @@
     .btn-container {
         z-index: 1;
         width: calc(100% - $spacer-6);
-        position: fixed;
-        left: 50%;
-        bottom: calc(0% + $spacer-6);
-        transform: translateX(-50%);
+        height: fit-content;
         display: flex;
+        flex-direction: column;
+        align-items: center;
         gap: $spacer-3;
+        margin-bottom: $spacer-6;
+    }
+
+    .accent-btn {
+        transform: none;
+        min-width: 20%;
+    }
+
+    .btn-last {
+        color: $secondary-100;
+        background-color: $white-100;
+        border: $border-width solid $secondary-100;
     }
 
     .share__confirm-btn {
@@ -315,11 +368,6 @@
         text-decoration: none;
     }
 
-    .accent-btn {
-        position: fixed;
-        bottom: $spacer-6;
-    }
-
     .preview__container {
         flex: 1;
         display: flex;
@@ -335,6 +383,11 @@
     @include media-breakpoint-up(lg) {
         .share__body {
             flex-direction: row;
+        }
+
+        .btn-container {
+            flex-direction: row;
+            justify-content: center;
         }
     }
 </style>

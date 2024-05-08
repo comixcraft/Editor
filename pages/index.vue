@@ -14,10 +14,12 @@
 
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
+    let deleteDraftPopUpShow = ref(false);
 
     function deleteDraft() {
         comicStore.deleteDraft();
         showDraftContainer.value = false;
+        deleteDraftPopUpShow.value = false;
     }
 
     function createComic(config) {
@@ -92,7 +94,9 @@
                     @click="selectDraftToContinue"
                 >
                     <canvas class="draft-canvas"></canvas>
-                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
+                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraftPopUpShow = true">
+                        delete
+                    </button>
                 </div>
             </div>
             <div class="templates">
@@ -138,6 +142,19 @@
                 Start Comic Crafting
             </button>
         </div>
+        <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
+            <DecisionPopUp
+                imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
+                title="Poof, Your hard work disappears"
+                body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                :buttons="[
+                    { name: 'Delete Draft', function: 'discard' },
+                    { name: 'Keep Draft', function: 'cancel' },
+                ]"
+                @cancel="deleteDraftPopUpShow = false"
+                @discard="deleteDraft"
+            />
+        </OverlayModal>
     </div>
 </template>
 
@@ -243,6 +260,12 @@
         }
     }
 
+    .draft-canvas {
+        max-width: 100%;
+        max-height: 100%;
+        border: 1px solid pink;
+    }
+
     .icon {
         padding: $spacer-1 $spacer-2;
         user-select: none;
@@ -270,6 +293,10 @@
         }
         .top-nav__logo {
             justify-content: flex-start;
+        }
+
+        .modal-container {
+            display: none;
         }
     }
 </style>
