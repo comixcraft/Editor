@@ -20,6 +20,9 @@
 <style lang="scss" scoped>
     .navigation {
         display: flex;
+        position: sticky;
+        top: 0;
+        width: 100%;
         align-items: center;
         justify-content: space-between;
         color: $white;
@@ -40,6 +43,6 @@
     }
 
     .overlay__content {
-        margin-top: $spacer-7;
+        margin-top: $spacer-5;
     }
 </style>

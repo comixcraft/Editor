@@ -61,21 +61,21 @@
 </script>
 
 <template>
-    <div class="catalog__container">
-        <div class="search-container">
-            <CatalogSearch
-                placeholder="happy, barista, ..."
-                :filters="selectedSubCategory.filter"
-                @search="
-                    (selectedFilterFromSearch) => {
-                        selectedFilter = selectedFilterFromSearch;
-                        emitCatalogChanged();
-                    }
-                "
-            />
-        </div>
-        <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+    <div class="catalog">
+        <CatalogSearch
+            placeholder="happy, barista, ..."
+            :filters="selectedSubCategory.filter"
+            @search="
+                (selectedFilterFromSearch) => {
+                    selectedFilter = selectedFilterFromSearch;
+                    emitCatalogChanged();
+                }
+            "
+        />
+        <CatalogContainer class="catalog__container" :assets="selectedCategoryAssets"></CatalogContainer>
+        <span class="flex-grow-1"></span>
         <CatalogSubNavigation
+            class="catalog__sub-navigation"
             v-if="selectedCategory.name && selectedCategory.name !== 'All Assets'"
             :subCategories="selectedCategory.subCategories"
             @subCategorySelected="updateSubSelectedCategory"
@@ -84,10 +84,14 @@
 </template>
 
 <style lang="scss" scoped>
-    .catalog__container {
+    .catalog {
         display: flex;
         flex-direction: column;
         height: 100%;
-        padding: $spacer-2;
+        width: 100%;
+
+        &__container {
+            padding: $spacer-2;
+        }
     }
 </style>
