@@ -62,18 +62,17 @@
 
 <template>
     <div class="catalog">
-        <div class="p-2">
-            <CatalogSearch
-                placeholder="happy, barista, ..."
-                :filters="selectedSubCategory.filter"
-                @search="
-                    (selectedFilterFromSearch) => {
-                        selectedFilter = selectedFilterFromSearch;
-                        emitCatalogChanged();
-                    }
-                "
-            />
-        </div>
+        <CatalogSearch
+            class="p-2"
+            placeholder="happy, barista, ..."
+            :filters="selectedSubCategory.filter"
+            @search="
+                (selectedFilterFromSearch) => {
+                    selectedFilter = selectedFilterFromSearch;
+                    emitCatalogChanged();
+                }
+            "
+        />
         <CatalogContainer class="catalog__container" :assets="selectedCategoryAssets"></CatalogContainer>
         <span class="flex-grow-1"></span>
         <CatalogSubNavigation
