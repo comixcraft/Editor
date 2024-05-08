@@ -61,8 +61,8 @@
 </script>
 
 <template>
-    <div class="catalog__container">
-        <div class="search-container">
+    <div class="catalog">
+        <div class="p-2">
             <CatalogSearch
                 placeholder="happy, barista, ..."
                 :filters="selectedSubCategory.filter"
@@ -74,8 +74,10 @@
                 "
             />
         </div>
-        <CatalogContainer :assets="selectedCategoryAssets"></CatalogContainer>
+        <CatalogContainer class="catalog__container" :assets="selectedCategoryAssets"></CatalogContainer>
+        <span class="flex-grow-1"></span>
         <CatalogSubNavigation
+            class="catalog__sub-navigation"
             v-if="selectedCategory.name && selectedCategory.name !== 'All Assets'"
             :subCategories="selectedCategory.subCategories"
             @subCategorySelected="updateSubSelectedCategory"
@@ -84,11 +86,22 @@
 </template>
 
 <style lang="scss" scoped>
-    .catalog__container {
+    .catalog {
         position: relative;
         display: flex;
         flex-direction: column;
+        gap: $spacer-2;
         height: 100%;
-        gap: $spacer-4;
+
+        &__container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: $spacer-4;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: none;
+            padding: $spacer-2;
+        }
     }
 </style>

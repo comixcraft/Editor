@@ -35,50 +35,38 @@
 </script>
 
 <template>
-    <div class="sub__overlay p5" v-if="showSubNavigation">
-        <div class="sub__navigation p5">
-            <button
-                v-for="(subCategory, index) in props.subCategories"
-                :key="index"
-                @click="selectSubCategory(subCategory)"
-                class="sub__btn"
-                :class="{ selected: selectedSubCategory === subCategory.name }"
-            >
-                <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
-                {{ subCategory.name }}
-            </button>
-        </div>
+    <div class="sub__navigation p5" v-if="showSubNavigation">
+        <button
+            v-for="(subCategory, index) in props.subCategories"
+            :key="index"
+            @click="selectSubCategory(subCategory)"
+            class="sub__btn"
+            :class="{ selected: selectedSubCategory === subCategory.name }"
+        >
+            <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
+            {{ subCategory.name }}
+        </button>
     </div>
 </template>
 
 <style lang="scss" scoped>
-    .sub__overlay {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: $spacer-3;
+    .sub__navigation {
         background-color: $white;
         box-shadow: $box-shadow-light;
-    }
-
-    .sub__navigation {
         display: flex;
         justify-content: space-around;
-        overflow-x: scroll;
+        overflow-x: visible;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        padding: $spacer-2 $spacer-2 0 $spacer-2;
     }
 
     .sub__btn {
-        margin-top: $spacer-2;
         cursor: pointer;
-        padding: $spacer-1 $spacer-2;
-        border: none;
+        padding: $spacer-3;
         border-radius: $border-radius;
-        align-items: center;
-        gap: $spacer-1;
         background-color: $white;
+        border: none;
 
         &.selected {
             background-color: $primary;
@@ -88,11 +76,5 @@
 
     .icon {
         display: block;
-    }
-
-    @include media-breakpoint-up(lg) {
-        .sub__overlay {
-            position: absolute;
-        }
     }
 </style>
