@@ -139,8 +139,6 @@
         props.panel.moveZIndexDown(eId);
     }
 
-    onUpdated(() => {});
-
     onBeforeUnmount(() => {
         comicStore.bus.off('add-element');
         comicStore.bus.off('putLayerBack');
