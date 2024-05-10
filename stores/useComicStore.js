@@ -39,7 +39,6 @@ export const useComicStore = defineStore('comic', () => {
     watch(
         draft,
         (draftVal) => {
-            console.log('change');
             localStorage.setItem('draft', draftVal);
         },
         { deep: true }
