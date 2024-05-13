@@ -50,8 +50,8 @@
             x: setToRelative(obj.pos.x, currentWidth.value),
             y: setToRelative(obj.pos.y, currentHeight.value),
         };
-        elements.get(obj.eId).setWidth(setToRelative(obj.width, currentWidth.value));
-        elements.get(obj.eId).setHeight(setToRelative(obj.height, currentHeight.value));
+        elements.get(obj.eId).width = setToRelative(obj.width, currentWidth.value);
+        elements.get(obj.eId).height = setToRelative(obj.height, currentHeight.value);
     }
 
     function updatePosition(obj) {
@@ -65,15 +65,15 @@
     function updateMirrorValues(obj) {
         // update element mirror values
         if (obj.direction === 'x') {
-            elements.get(obj.eId).setIsMirroredHorizontal(obj.isMirrored);
+            elements.get(obj.eId).isMirroredHorizontal = obj.isMirrored;
             return;
         }
-        elements.get(obj.eId).setIsMirroredVertical(obj.isMirrored);
+        elements.get(obj.eId).isMirroredVertical = obj.isMirrored;
     }
 
     function updateRotation(obj) {
         // update element rotation
-        elements.get(obj.eId).setRotation(obj.rotation);
+        elements.get(obj.eId).rotation = obj.rotation;
     }
 
     // Bus listeners

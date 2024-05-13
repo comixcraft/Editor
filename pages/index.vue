@@ -20,6 +20,7 @@
         comicStore.deleteDraft();
         showDraftContainer.value = false;
         deleteDraftPopUpShow.value = false;
+        draftSelected.value = false;
     }
 
     function createComic(config) {
@@ -143,7 +144,7 @@
                 @click="createComic(selectedComicConfiguration?.config)"
                 :disabled="!draftSelected && !selectedComicConfiguration"
             >
-                Start Comic Crafting
+                {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
             </button>
         </div>
         <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
