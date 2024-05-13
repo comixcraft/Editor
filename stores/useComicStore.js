@@ -22,8 +22,10 @@ export const useComicStore = defineStore('comic', () => {
     function getDraft() {
         return draft;
     }
+
     function deleteDraft() {
         draft.value = null;
+        localStorage.clear();
     }
 
     if (process.client) {
@@ -32,15 +34,15 @@ export const useComicStore = defineStore('comic', () => {
         }
 
         if (localStorage.getItem('draft') === null) deleteDraft();
-
-        watch(
-            draft,
-            (draftVal) => {
-                localStorage.setItem('draft', draftVal);
-            },
-            { deep: true }
-        );
     }
+
+    watch(
+        draft,
+        (draftVal) => {
+            localStorage.setItem('draft', draftVal);
+        },
+        { deep: true }
+    );
 
     function setCurrentElement(element) {
         currentElement.value = element;
@@ -70,7 +72,12 @@ export const useComicStore = defineStore('comic', () => {
     }
 
     function createComicFromDraft() {
-        const refComic = getDraft().value;
+        let refComic = getDraft().value;
+
+        if (typeof refComic === 'string') {
+            refComic = Comic.fromJSON(refComic);
+        }
+
         const validateUndefinedAndNull = (value) => {
             // Check if the value is 'undefined' or 'null' as a string
             if (value === 'undefined' || value === 'null') {
