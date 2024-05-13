@@ -20,6 +20,7 @@
         comicStore.deleteDraft();
         showDraftContainer.value = false;
         deleteDraftPopUpShow.value = false;
+        draftSelected.value = false;
     }
 
     function createComic(config) {
