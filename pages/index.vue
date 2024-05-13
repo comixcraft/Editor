@@ -143,7 +143,7 @@
                 @click="createComic(selectedComicConfiguration?.config)"
                 :disabled="!draftSelected && !selectedComicConfiguration"
             >
-                Start Comic Crafting
+                {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
             </button>
         </div>
         <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
