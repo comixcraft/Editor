@@ -94,13 +94,13 @@
             let width = 0;
 
             if (event.target.naturalWidth > event.target.naturalHeight) {
-                width = setToRelative(200, currentWidth.value);
+                width = 0.2;
                 height = setToRelative(
                     (getFixed(width, currentWidth.value) * event.target.naturalHeight) / event.target.naturalWidth,
                     currentHeight.value
                 );
             } else {
-                height = setToRelative(200, currentHeight.value);
+                height = 0.2;
                 width = setToRelative(
                     (getFixed(height, currentHeight.value) * event.target.naturalWidth) / event.target.naturalHeight,
                     currentWidth.value
