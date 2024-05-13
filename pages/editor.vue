@@ -99,6 +99,11 @@
     onMounted(() => {
         fetchCatalogElements();
     });
+
+    onBeforeUnmount(() => {
+        window.onkeydown = null;
+        window.onkeyup = null;
+    });
 </script>
 
 <template>
