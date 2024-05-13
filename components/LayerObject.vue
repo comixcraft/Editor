@@ -22,10 +22,6 @@
     });
 
     onMounted(() => {
-        arrayZSorted.value.forEach((element) => {
-            console.log(element);
-        });
-
         let sortable = Sortable.create(ul.value, {
             animation: 150,
             onStart: function (evt) {},
@@ -38,7 +34,6 @@
                 tempArray.value.forEach((el, index) => {
                     el.z = fixedCopy[index];
                 });
-                console.log(tempArray);
                 updateArrayZ();
             },
         });
