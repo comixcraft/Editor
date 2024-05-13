@@ -120,21 +120,8 @@
                 fontSize.value = obj.fontSize;
             }
         });
+        console.log(self.value);
     });
-
-    // onUpdated(() => {
-    //     activateElement();
-    // });
-
-    // function activateElement() {
-    //     if (!props.selectedId) {
-    //         return;
-    //     } else {
-    //         if (props.selectedId === props.eId) {
-    //             elementActive.value = true;
-    //         }
-    //     }
-    // }
 
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };
@@ -202,6 +189,7 @@
         </div>
 
         <img
+            class="DRRimg"
             :src="url"
             :alt="altText"
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"
@@ -211,7 +199,7 @@
 </template>
 
 <style lang="scss" scoped>
-    img {
+    .DRRimg {
         width: 100%;
         height: 100%;
     }
