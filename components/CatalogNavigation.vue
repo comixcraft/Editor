@@ -9,7 +9,7 @@
         allAssetsButtonName: { type: String, default: 'All Assets' },
     });
 
-    const emit = defineEmits(['categorySelected', 'selectAllAssets', 'addNewTextToDisplay']);
+    const emit = defineEmits(['categorySelected', 'selectAllAssets']);
     const comicStore = useComicStore();
 
     function selectCategory(category) {
