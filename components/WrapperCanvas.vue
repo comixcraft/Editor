@@ -30,10 +30,10 @@
     }
 
     function updatePanelBoundingBox() {
-        currentWidth.value = panelElement.value.clientWidth;
-        currentHeight.value = panelElement.value.clientHeight;
         scaleByHeight.value =
             wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
+        currentWidth.value = panelElement.value.clientWidth;
+        currentHeight.value = panelElement.value.clientHeight;
     }
 
     function deleteElement(eId) {
@@ -132,6 +132,10 @@
     onMounted(() => {
         window.addEventListener('resize', updatePanelBoundingBox);
 
+        updatePanelBoundingBox();
+    });
+
+    onUpdated(() => {
         updatePanelBoundingBox();
     });
 
