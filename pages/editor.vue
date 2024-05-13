@@ -188,9 +188,9 @@
             title="Poof, Your hard work disappears"
             body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
             :buttons="[
-                { name: 'Save Draft', function: 'save' },
-                { name: 'Discard all changes', function: 'discard' },
-                { name: 'Cancel', function: 'cancel' },
+                { name: 'Save Draft', emitName: 'save' },
+                { name: 'Discard all changes', emitName: 'discard' },
+                { name: 'Cancel', emitName: 'cancel' },
             ]"
             @cancel="goingBackPopUpShow = false"
             @save="saveComic"

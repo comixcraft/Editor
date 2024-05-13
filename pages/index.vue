@@ -152,8 +152,8 @@
                 title="Poof, Your hard work disappears"
                 body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
                 :buttons="[
-                    { name: 'Delete Draft', function: 'discard' },
-                    { name: 'Keep Draft', function: 'cancel' },
+                    { name: 'Delete Draft', emitName: 'discard' },
+                    { name: 'Keep Draft', emitName: 'cancel' },
                 ]"
                 @cancel="deleteDraftPopUpShow = false"
                 @discard="deleteDraft"

@@ -5,20 +5,6 @@
         body: String,
         buttons: Object,
     });
-
-    const emits = defineEmits(['cancel', 'save', 'discard']);
-
-    const functions = {
-        save: () => {
-            emits('save');
-        },
-        discard: () => {
-            emits('discard');
-        },
-        cancel: () => {
-            emits('cancel');
-        },
-    };
 </script>
 
 <template>
@@ -32,7 +18,7 @@
                     class="option-btn"
                     v-for="(button, index) in props.buttons"
                     :key="index"
-                    @click="functions[button.function]"
+                    @click="$emit(button.emitName)"
                 >
                     {{ button.name }}
                 </button>
