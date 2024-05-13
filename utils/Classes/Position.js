@@ -24,11 +24,6 @@ export default class Position {
         return this._y;
     }
 
-    /** @returns {{x: Number, y: Number}} */
-    currPos() {
-        return { x: this._x, y: this._y };
-    }
-
     // SETTERS
     /** @param {Number} x */
     set x(x) {
@@ -38,13 +33,5 @@ export default class Position {
     /** @param {Number} y */
     set y(y) {
         this._y = y;
-    }
-
-    /**
-     * @param {{x:Number, y:Number}} obj
-     */
-    definePos(obj) {
-        this._x = obj.x;
-        this._y = obj.y;
     }
 }

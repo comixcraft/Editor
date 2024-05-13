@@ -46,25 +46,6 @@ export default class ElementDS {
         this.id = myUuid;
     }
 
-    /**
-     * @returns {{id:String, z:Number, pos:Position, isFocused:Boolean, isMirroredHorizontal:Boolean, isMirroredVertical:Boolean, rotation:Number, width:Number, height:Number, src:String, alt:String, type:String}}
-     */
-    currentState = () => {
-        return {
-            id: this._id,
-            z: this._z,
-            pos: this._pos,
-            isFocused: this._isFocused,
-            isMirroredHorizontal: this._isMirroredHorizontal,
-            isMirroredVertical: this._isMirroredVertical,
-            rotation: this._rotation,
-            width: this._width,
-            height: this._height,
-            alt: this._alt,
-            type: this._type,
-        };
-    };
-
     // GETTER
     /** @returns {String} */
     get id() {
@@ -176,6 +157,11 @@ export default class ElementDS {
         this._type = type;
     }
 
+    /** @param {Boolean} isFocused */
+    set focused(isFocused) {
+        this._isFocused = isFocused;
+    }
+
     toJSON = () => {
         return JSON.stringify({
             id: this.id,
@@ -191,47 +177,5 @@ export default class ElementDS {
             alt: this.alt,
             type: this.type,
         });
-    };
-
-    /**
-     * @param {Boolean} isMirroredHorizontal
-     */
-    setIsMirroredHorizontal = (isMirroredHorizontal) => {
-        this._isMirroredHorizontal = isMirroredHorizontal;
-    };
-
-    /**
-     * @param {Boolean} isMirroredVertical
-     */
-    setIsMirroredVertical = (isMirroredVertical) => {
-        this._isMirroredVertical = isMirroredVertical;
-    };
-
-    /**
-     * @param {Boolean} isFocused
-     */
-    set focused(isFocused) {
-        this._isFocused = isFocused;
-    }
-
-    /**
-     * @param {Number} width
-     */
-    setWidth = (width) => {
-        this._width = width;
-    };
-
-    /**
-     * @param {Number} height
-     */
-    setHeight = (height) => {
-        this._height = height;
-    };
-
-    /**
-     * @param {Number} rotation
-     */
-    setRotation = (rotation) => {
-        this._rotation = rotation;
     };
 }
