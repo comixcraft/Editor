@@ -17,6 +17,7 @@
     const container = ref(null);
     const wrapperCanvas = ref(null);
     const scaleByHeight = ref(false);
+    const panelBorder = ref(`url(${props.panel.border})`);
 
     function setToRelative(num, panelNum) {
         return num / panelNum;
@@ -189,7 +190,6 @@
                 @front-event="upElement"
                 @back-event="downElement"
             />
-            <!--            <img :src="props.panel.border" class="panel__border" />-->
         </div>
     </div>
 </template>
@@ -205,29 +205,18 @@
 
     .panel {
         aspect-ratio: v-bind(aspectRatioWidth) / v-bind(aspectRatioHeight);
-        //position: relative;
-        overflow: hidden;
-        border: 2px red solid;
+        position: relative;
+        background-image: v-bind(panelBorder);
+        background-size: cover;
 
         &--scale-by-height {
             width: auto !important;
             height: 85% !important;
-            background: blue;
         }
 
         &--scale-by-width {
             width: 85% !important;
             height: auto !important;
-            background: yellow;
-        }
-
-        &____border {
-            //width: 100%;
-            //height: 100%;
-            //position: absolute;
-            //top: 0;
-            //left: 0;
-            //user-select: none;
         }
     }
 </style>
