@@ -9,12 +9,14 @@
         lockAspectRatio: Boolean,
     });
 
-    const canvasWidth = computed(() => DOMElementBoundingBox.width + 'px');
-    const canvasHeight = computed(() => DOMElementBoundingBox.height + 'px');
-    const DOMElementBoundingBox = reactive({ width: props.panel.width, height: props.panel.height });
+    const aspectRatioWidth = parseFloat(props.panel.width / props.panel.width);
+    const aspectRatioHeight = parseFloat(props.panel.height / props.panel.width);
+
     const comicStore = useComicStore();
     const elements = props.panel.elements;
     const container = ref(null);
+    const wrapperCanvas = ref(null);
+    const scaleByHeight = ref(false);
 
     function setToRelative(num, panelNum) {
         return num / panelNum;
@@ -25,8 +27,8 @@
     }
 
     function updatePanelBoundingBox() {
-        DOMElementBoundingBox.width = container.value.clientWidth;
-        DOMElementBoundingBox.height = container.value.clientHeight;
+        scaleByHeight.value =
+            wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
     }
 
     function validateElementId(eId) {
@@ -139,6 +141,10 @@
         props.panel.moveZIndexDown(eId);
     }
 
+    onMounted(() => {
+        updatePanelBoundingBox();
+    });
+
     onBeforeUnmount(() => {
         comicStore.bus.off('add-element');
         comicStore.bus.off('putLayerBack');
@@ -148,8 +154,12 @@
 </script>
 
 <template>
-    <div>
-        <div ref="container" class="panel">
+    <div class="wrapper-canvas" ref="wrapperCanvas">
+        <div
+            ref="container"
+            class="panel swiper-no-swiping"
+            :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
+        >
             <DragResizeRotate
                 v-for="[key, value] in elements"
                 :key="key"
@@ -179,25 +189,45 @@
                 @front-event="upElement"
                 @back-event="downElement"
             />
-            <img :src="props.panel.border" class="panel__border" />
+            <!--            <img :src="props.panel.border" class="panel__border" />-->
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-    .panel {
-        width: v-bind(canvasWidth);
-        height: v-bind(canvasHeight);
-        position: relative;
-        padding: 0;
+    .wrapper-canvas {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        &__border {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            user-select: none;
+    .panel {
+        aspect-ratio: v-bind(aspectRatioWidth) / v-bind(aspectRatioHeight);
+        //position: relative;
+        overflow: hidden;
+        border: 2px red solid;
+
+        &--scale-by-height {
+            width: auto !important;
+            height: 85% !important;
+            background: blue;
+        }
+
+        &--scale-by-width {
+            width: 85% !important;
+            height: auto !important;
+            background: yellow;
+        }
+
+        &____border {
+            //width: 100%;
+            //height: 100%;
+            //position: absolute;
+            //top: 0;
+            //left: 0;
+            //user-select: none;
         }
     }
 </style>
