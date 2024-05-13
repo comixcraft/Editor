@@ -29,6 +29,7 @@
 
 <style lang="scss" scoped>
     .background {
+        z-index: 2;
         position: absolute;
         top: 0;
         background-color: $black-100;
