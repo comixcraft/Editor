@@ -74,17 +74,6 @@ export default class Panel {
         return this.elements.get(id);
     }
 
-    /**
-     * @returns {{border: String, elements: ElementsDS[], width: Number}}
-     */
-    currentState() {
-        return {
-            border: this._border,
-            elements: this._elements,
-            width: this._width,
-        };
-    }
-
     // SETTERS
     /**
      * @param {ElementDS} element
