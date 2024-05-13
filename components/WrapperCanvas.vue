@@ -62,6 +62,7 @@
             x: setToRelative(obj.pos.x, props.panel.width),
             y: setToRelative(obj.pos.y, props.panel.height),
         };
+        props.panel.addAlteration();
     }
 
     function updateMirrorValues(obj) {
@@ -74,6 +75,7 @@
             return;
         }
         elements.get(obj.eId).setIsMirroredVertical(obj.isMirrored);
+        props.panel.addAlteration();
     }
 
     function updateRotation(obj) {
@@ -81,15 +83,18 @@
         validateElementId(obj.eId);
         // update element rotation
         elements.get(obj.eId).setRotation(obj.rotation);
+        props.panel.addAlteration();
     }
 
     // Bus listeners
     comicStore.bus.on('putLayerBack', (eId) => {
         downElement(eId);
+        props.panel.addAlteration();
     });
 
     comicStore.bus.on('putLayerFront', (eId) => {
         upElement(eId);
+        props.panel.addAlteration();
     });
 
     comicStore.bus.on('add-element', (event) => {

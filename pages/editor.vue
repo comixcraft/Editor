@@ -85,6 +85,14 @@
         });
     }
 
+    function handleUndo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
+    }
+
+    function handleRedo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redo();
+    }
+
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;
@@ -108,9 +116,9 @@
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
                 </button>
-                <div class="undo-redo-container d-none">
-                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
-                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                <div class="undo-redo-container">
+                    <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo">Undo</button>
+                    <button class="top-nav__item-redo-btn icon icon-btn" @click="handleRedo">Redo</button>
                 </div>
             </div>
 
@@ -356,5 +364,12 @@
         color: $primary;
         display: flex;
         gap: $spacer-2;
+    }
+
+    .top-nav__item-undo-btn {
+        color: $grey-0;
+    }
+    .top-nav__item-redo-btn {
+        color: $grey-0;
     }
 </style>

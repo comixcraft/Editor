@@ -7,6 +7,8 @@ export default class Panel {
     _width;
     /** @type {Number} */
     _height;
+    /** @type {Object} */
+    _currentState;
 
     /**
      * @param {Number} width
@@ -16,6 +18,10 @@ export default class Panel {
         this._width = width ?? 0;
         this._height = height ?? 0;
         this._border = border ?? 'undefined';
+        this._history = [];
+        this._redo = [];
+        this._maxHistoryLength = 10;
+        this._currentState = {};
 
         this.#init();
     }
@@ -53,6 +59,23 @@ export default class Panel {
         return this._height;
     }
 
+    get history() {
+        return this._history;
+    }
+    get redo() {
+        return this._redo;
+    }
+    get maxHistoryLength() {
+        return this._maxHistoryLength;
+    }
+
+    /**
+     * @returns {Object}
+     */
+    get currentState() {
+        return this._currentState;
+    }
+
     // SETTERS
     set width(num) {
         this._width = num;
@@ -66,6 +89,22 @@ export default class Panel {
         this._height = num;
     }
 
+    set currentState(state) {
+        this._currentState = state;
+    }
+
+    set history(history) {
+        this._history = history;
+    }
+
+    set redo(redo) {
+        this._redo = redo;
+    }
+
+    set maxHistoryLength(length) {
+        this._maxHistoryLength = length;
+    }
+
     /**
      * @param {String} id
      * @returns {ElementDS | undefined}
@@ -75,14 +114,49 @@ export default class Panel {
     }
 
     /**
-     * @returns {{border: String, elements: ElementsDS[], width: Number}}
+     * Apply the given state to the panel.
+     * @param {Object} state
      */
-    currentState() {
-        return {
-            border: this._border,
-            elements: this._elements,
-            width: this._width,
-        };
+    applyState(state) {
+        this._border = state.border;
+        this._width = state.width;
+        this._elements.clear();
+        state.elements.forEach(([id, element]) => {
+            this._elements.set(id, element);
+        });
+    }
+
+    /**
+     * Apply the given state to the panel.
+     * @param {Object} alteration
+     */
+    addAlteration() {
+        const currentState = this.toJSON();
+        this.history.push(currentState);
+        console.log('history check', this.history);
+        if (this.history.length > this.maxHistoryLength) {
+            this.history.shift();
+        }
+        this.redo = [];
+    }
+
+    undo() {
+        console.log('testtttt', this.elements);
+        if (this.history.length > 0) {
+            const lastState = this.history.pop();
+            const currentState = this.toJSON();
+            this.applyState(Panel.fromJSON(lastState));
+            this.redo.push(currentState);
+        }
+    }
+
+    redo() {
+        if (this._redo.length > 0) {
+            const nextState = this.redo.pop();
+            const currentState = this.toJSON();
+            this.applyState(Panel.fromJSON(nextState));
+            this.history.push(currentState);
+        }
     }
 
     // SETTERS
