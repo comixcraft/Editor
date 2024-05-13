@@ -24,6 +24,7 @@
     onMounted(() => {
         let sortable = Sortable.create(ul.value, {
             animation: 150,
+            ghostClass: 'chosen-element',
             onStart: function (evt) {},
             onEnd: function (evt) {
                 tempArray.value = [...ul.value.children].map((layer) => props.panel.getElement(layer.accessKey));
@@ -142,6 +143,7 @@
         border-radius: $border-radius;
         display: flex;
         align-items: center;
+        background-color: $white-100;
 
         &--selected {
             border-width: $border-width-lg solid $primary;
@@ -159,6 +161,11 @@
             -o-user-drag: none;
             user-select: none;
         }
+    }
+
+    .chosen-element {
+        background-color: $grey-40;
+        border: none;
     }
 
     .layer-list {
