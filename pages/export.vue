@@ -44,9 +44,12 @@
         drawCredit(canvas, context);
     }
 
-    function drawAsset(context, element, panelDimension) {
+    async function drawAsset(context, element, panelDimension) {
         const img = new Image();
-        img.src = element.type.path;
+        await new Promise((r) => {
+            img.onload = r;
+            img.src = element.type.path;
+        });
         // Save the current context
         context.save();
 
@@ -138,7 +141,7 @@
         context.restore();
     }
 
-    function drawCredit(canvas, context) {
+    async function drawCredit(canvas, context) {
         // draw credit logo at the bottom left
         const credit = {
             src: '/tempCredit.png',
@@ -146,13 +149,14 @@
             height: creditSize.h,
         };
         const creditLogo = new Image();
-        creditLogo.src = credit.src;
-        creditLogo.onload = () => {
-            context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
-        };
+        await new Promise((r) => {
+            creditLogo.onload = r;
+            creditLogo.src = credit.src;
+        });
+        context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
     }
 
-    function drawPanel(context, panel, startPoint, height) {
+    async function drawPanel(context, panel, startPoint, height) {
         // create a canvas to prerender the panel
         const newCanvas = document.createElement('canvas');
         newCanvas.width = panel.width;
@@ -172,7 +176,10 @@
 
         // draw the border of the panel
         const img = new Image();
-        img.src = panel.border;
+        await new Promise((r) => {
+            img.onload = r;
+            img.src = panel.border;
+        });
         newContext.drawImage(img, 0, 0, panel.width, height);
 
         // draw the panel on the preview canvas
