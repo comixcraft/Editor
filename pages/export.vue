@@ -4,11 +4,12 @@
     });
 
     const comicStore = useComicStore();
-
     const canvasEl = ref(null);
     let downloadPopUpShow = ref(false);
+    let disableButton = ref(true);
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
+    const promisesArray = [];
 
     async function displayPreview() {
         const canvas = canvasEl.value;
@@ -36,20 +37,24 @@
         // draw the panels
         let startPoint = gap;
         for (let i = 0; i < panels.length; i++) {
-            drawPanel(context, panels[i], startPoint, stripsHeight);
+            drawPanel(context, panels[i], startPoint, stripsHeight, i);
             startPoint += panels[i].width + gap;
         }
 
         // draw the credit logo
         drawCredit(canvas, context);
+
+        Promise.all(promisesArray).then((disableButton.value = false));
     }
 
-    async function drawAsset(context, element, panelDimension) {
+    function drawAsset(context, element, panelDimension, iterationNumber) {
+        let promiseName = `assetPromise${iterationNumber}`;
         const img = new Image();
-        await new Promise((r) => {
+        promiseName = new Promise((r) => {
             img.onload = r;
             img.src = element.type.path;
         });
+        promisesArray.push(promiseName);
         // Save the current context
         context.save();
 
@@ -141,7 +146,7 @@
         context.restore();
     }
 
-    async function drawCredit(canvas, context) {
+    function drawCredit(canvas, context) {
         // draw credit logo at the bottom left
         const credit = {
             src: '/tempCredit.png',
@@ -149,24 +154,27 @@
             height: creditSize.h,
         };
         const creditLogo = new Image();
-        await new Promise((r) => {
+        let creditPromise = new Promise((r) => {
             creditLogo.onload = r;
             creditLogo.src = credit.src;
         });
+        promisesArray.push(creditPromise);
         context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
     }
 
-    async function drawPanel(context, panel, startPoint, height) {
+    function drawPanel(context, panel, startPoint, height, index) {
         // create a canvas to prerender the panel
         const newCanvas = document.createElement('canvas');
         newCanvas.width = panel.width;
         newCanvas.height = height;
         const newContext = newCanvas.getContext('2d');
 
+        let iterationNumber = 0;
         // draw the panels
-        panel.elements.forEach((element, key) => {
+        panel.elements.forEach((element) => {
             if (element.type.name === 'Asset') {
-                drawAsset(newContext, element, { width: panel.width, height });
+                drawAsset(newContext, element, { width: panel.width, height }, iterationNumber);
+                iterationNumber++;
             } else if (element.type.name === 'Text') {
                 drawText(newContext, element, { width: panel.width, height });
             } else {
@@ -175,11 +183,13 @@
         });
 
         // draw the border of the panel
+        let borderPromise = `borderPromise${index}`;
         const img = new Image();
-        await new Promise((r) => {
+        borderPromise = new Promise((r) => {
             img.onload = r;
             img.src = panel.border;
         });
+        promisesArray.push(borderPromise);
         newContext.drawImage(img, 0, 0, panel.width, height);
 
         // draw the panel on the preview canvas
@@ -258,7 +268,7 @@
             </div>
         </div>
         <div class="btn-container">
-            <button class="accent-btn" @click="download">Download Comic</button>
+            <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
             <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
         </div>
     </div>
