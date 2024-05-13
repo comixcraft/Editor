@@ -14,10 +14,12 @@
 
     const comicStore = useComicStore();
     const elements = props.panel.elements;
-    const container = ref(null);
+    const panelElement = ref(null);
     const wrapperCanvas = ref(null);
     const scaleByHeight = ref(false);
     const panelBorder = ref(`url(${props.panel.border})`);
+    const currentHeight = ref(1);
+    const currentWidth = ref(1);
 
     function setToRelative(num, panelNum) {
         return num / panelNum;
@@ -28,17 +30,11 @@
     }
 
     function updatePanelBoundingBox() {
+        currentWidth.value = panelElement.value.clientWidth;
+        currentHeight.value = panelElement.value.clientHeight;
         scaleByHeight.value =
             wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
     }
-
-    function validateElementId(eId) {
-        if (!elements.has(eId)) {
-            return;
-        }
-    }
-
-    window.addEventListener('resize', updatePanelBoundingBox);
 
     function deleteElement(eId) {
         // delete last element of map
@@ -46,31 +42,24 @@
     }
 
     function resizeElement(obj) {
-        // validate element id
-        validateElementId(obj.eId);
         // update element width and height
         elements.get(obj.eId).pos = {
-            x: setToRelative(obj.pos.x, props.panel.width),
-            y: setToRelative(obj.pos.y, props.panel.height),
+            x: setToRelative(obj.pos.x, currentWidth.value),
+            y: setToRelative(obj.pos.y, currentHeight.value),
         };
-        elements.get(obj.eId).setWidth(setToRelative(obj.width, props.panel.width));
-        elements.get(obj.eId).setHeight(setToRelative(obj.height, props.panel.height));
+        elements.get(obj.eId).setWidth(setToRelative(obj.width, currentWidth.value));
+        elements.get(obj.eId).setHeight(setToRelative(obj.height, currentHeight.value));
     }
 
     function updatePosition(obj) {
-        // validate element id
-        validateElementId(obj.eId);
         // update element position
         elements.get(obj.eId).pos = {
-            x: setToRelative(obj.pos.x, props.panel.width),
-            y: setToRelative(obj.pos.y, props.panel.height),
+            x: setToRelative(obj.pos.x, currentWidth.value),
+            y: setToRelative(obj.pos.y, currentHeight.value),
         };
     }
 
     function updateMirrorValues(obj) {
-        // validate element id
-        validateElementId(obj.eId);
-
         // update element mirror values
         if (obj.direction === 'x') {
             elements.get(obj.eId).setIsMirroredHorizontal(obj.isMirrored);
@@ -80,8 +69,6 @@
     }
 
     function updateRotation(obj) {
-        // validate element id
-        validateElementId(obj.eId);
         // update element rotation
         elements.get(obj.eId).setRotation(obj.rotation);
     }
@@ -104,16 +91,16 @@
             let width = 0;
 
             if (event.target.naturalWidth > event.target.naturalHeight) {
-                width = setToRelative(200, props.panel.width);
+                width = setToRelative(200, currentWidth.value);
                 height = setToRelative(
-                    (getFixed(width, props.panel.width) * event.target.naturalHeight) / event.target.naturalWidth,
-                    props.panel.height
+                    (getFixed(width, currentWidth.value) * event.target.naturalHeight) / event.target.naturalWidth,
+                    currentHeight.value
                 );
             } else {
-                height = setToRelative(200, props.panel.height);
+                height = setToRelative(200, currentHeight.value);
                 width = setToRelative(
-                    (getFixed(height, props.panel.height) * event.target.naturalWidth) / event.target.naturalHeight,
-                    props.panel.width
+                    (getFixed(height, currentHeight.value) * event.target.naturalWidth) / event.target.naturalHeight,
+                    currentWidth.value
                 );
             }
 
@@ -122,8 +109,8 @@
             let newAsset = new Asset(src);
             tempEl = new ElementDS(width, height, name, newAsset);
         } else {
-            const height = setToRelative(200, props.panel.height);
-            const width = setToRelative(200, props.panel.width);
+            const height = setToRelative(200, currentHeight.value);
+            const width = setToRelative(200, currentWidth.value);
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
             tempEl = new ElementDS(width, height, name, type);
@@ -143,6 +130,8 @@
     }
 
     onMounted(() => {
+        window.addEventListener('resize', updatePanelBoundingBox);
+
         updatePanelBoundingBox();
     });
 
@@ -157,7 +146,7 @@
 <template>
     <div class="wrapper-canvas" ref="wrapperCanvas">
         <div
-            ref="container"
+            ref="panelElement"
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
@@ -166,15 +155,15 @@
                 :key="key"
                 :altText="value.alt"
                 :eId="value.id"
-                :h="value.height * props.panel.height"
+                :h="getFixed(value.height, currentHeight)"
                 :isMirroredHorizontal="value.isMirroredHorizontal"
                 :isMirroredVertical="value.isMirroredVertical"
                 :rotation="value.rotation"
                 :pos="value.pos"
                 :url="value.type.path"
-                :x="getFixed(value.pos.x, props.panel.width)"
-                :y="getFixed(value.pos.y, props.panel.height)"
-                :w="getFixed(value.width, props.panel.width)"
+                :x="getFixed(value.pos.x, currentWidth)"
+                :y="getFixed(value.pos.y, currentHeight)"
+                :w="getFixed(value.width, currentWidth)"
                 :z="value.z"
                 :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                 :text="value.type.content == undefined ? '' : value.type.content"
