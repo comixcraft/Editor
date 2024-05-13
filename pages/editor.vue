@@ -1,11 +1,14 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
+    import iconConfig from '../config/iconsConfig';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
     let catalogShow = ref(false);
+    let goingBackPopUpShow = ref(false);
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
+    let editor = ref(null);
 
     let selectedCategory = ref({});
 
@@ -17,7 +20,7 @@
     const comicStore = useComicStore();
     const catalogElements = ref([]);
     const catalogStructure = ref([]);
-    const comic = reactive(comicStore.comic);
+    const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
 
     await useFetch('/api/catalog/structure')
@@ -65,6 +68,23 @@
         selectedElementId.value = eId;
     }
 
+    function saveComic() {
+        let comicJson = comicStore.comic.toJSON();
+        comicStore.saveDraft(comicJson);
+
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
+    }
+
+    function discardComic() {
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
+    }
+
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;
@@ -75,16 +95,18 @@
             lockAspectRatio.value = false;
         }
     };
+
+    onMounted(() => {
+        fetchCatalogElements();
+    });
 </script>
 
 <template>
-    <div class="editor">
-        <div class="top-nav-lg editor__top-nav">
+    <div class="editor" ref="editor">
+        <div class="editor__top-nav top-nav-lg">
             <div class="top-nav__left-btns">
-                <button class="top-nav__item back-btn icon icon-btn">
-                    <NuxtLink :to="{ name: 'index', path: '/index' }" class="share__top-nav-item back-btn icon">
-                        arrow_back
-                    </NuxtLink>
+                <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
+                    arrow_back
                 </button>
                 <div class="undo-redo-container d-none">
                     <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
@@ -128,7 +150,6 @@
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
-
             <div class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first">
                 <CatalogNavigation
                     :categories="catalogStructure.categories"
@@ -147,7 +168,13 @@
         </div>
     </div>
     <div class="d-lg-none">
-        <OverlayModal :title="selectedCategory.name" :show="catalogShow" @close="catalogShow = false">
+        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false">
+            <div class="category__description">
+                <div class="edit-icon icon text-primary">
+                    {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
+                </div>
+                <div class="navigation__title h1">{{ selectedCategory.name }}</div>
+            </div>
             <CatalogLayout
                 :selectedCategoryAssets="catalogElements"
                 :selectedCategory="selectedCategory"
@@ -155,6 +182,21 @@
             />
         </OverlayModal>
     </div>
+    <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
+        <DecisionPopUp
+            imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
+            title="Poof, Your hard work disappears"
+            body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+            :buttons="[
+                { name: 'Save Draft', emitName: 'save' },
+                { name: 'Discard all changes', emitName: 'discard' },
+                { name: 'Cancel', emitName: 'cancel' },
+            ]"
+            @cancel="goingBackPopUpShow = false"
+            @save="saveComic"
+            @discard="discardComic"
+        />
+    </OverlayModal>
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
             <div class="layer-container">
@@ -174,6 +216,12 @@
 </template>
 
 <style scoped lang="scss">
+    .editor:before {
+        content: 's';
+        display: none;
+        visibility: hidden;
+    }
+
     .editor {
         display: flex;
         flex-direction: column;
@@ -301,5 +349,12 @@
             background-color: $white;
             height: calc(100vh - 80px);
         }
+    }
+
+    .category__description {
+        margin-left: $spacer-2;
+        color: $primary;
+        display: flex;
+        gap: $spacer-2;
     }
 </style>
