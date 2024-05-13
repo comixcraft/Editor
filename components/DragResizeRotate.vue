@@ -202,6 +202,7 @@
         </div>
 
         <img
+            draggable="false"
             :src="url"
             :alt="altText"
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"

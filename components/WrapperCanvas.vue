@@ -179,7 +179,7 @@
                 @front-event="upElement"
                 @back-event="downElement"
             />
-            <img :src="props.panel.border" class="panel__border" />
+            <img :src="props.panel.border" class="panel__border" draggable="false" />
         </div>
     </div>
 </template>
