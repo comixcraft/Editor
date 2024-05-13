@@ -352,6 +352,7 @@
     }
 
     .category__description {
+        z-index: 2;
         margin-left: $spacer-2;
         color: $primary;
         display: flex;

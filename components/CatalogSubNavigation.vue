@@ -56,10 +56,15 @@
         background-color: $white;
         box-shadow: $box-shadow-light;
         display: flex;
+        justify-content: center;
         padding: $spacer-2 $spacer-2 0 $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
     }
 
     .sub__btn {

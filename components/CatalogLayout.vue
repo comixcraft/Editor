@@ -64,6 +64,7 @@
     <div class="catalog">
         <CatalogSearch
             placeholder="happy, barista, ..."
+            style="z-index: -1"
             :filters="selectedSubCategory.filter"
             @search="
                 (selectedFilterFromSearch) => {

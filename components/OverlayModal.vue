@@ -67,7 +67,13 @@
     }
 
     .navigation__icon {
+        align-content: center;
+        text-align: center;
         position: absolute;
         right: $spacer-4;
+        background-color: $white-100;
+        border-radius: 50%;
+        height: 36px;
+        width: 36px;
     }
 </style>
