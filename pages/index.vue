@@ -6,12 +6,6 @@
     const comicStore = useComicStore();
     const showDraftContainer = ref(false);
 
-    onMounted(() => {
-        !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
-            ? (showDraftContainer.value = false)
-            : (showDraftContainer.value = true);
-    });
-
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
     let deleteDraftPopUpShow = ref(false);
@@ -36,7 +30,6 @@
     function createComicFromDraft() {
         if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
 
-        comicStore.createComicFromDraft();
         return navigateTo('/editor');
     }
 
@@ -52,6 +45,13 @@
 
     onMounted(() => {
         selectedComicConfiguration.value = templatePanelConfig[0];
+
+        if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') showDraftContainer.value = false;
+        else {
+            showDraftContainer.value = true;
+
+            comicStore.createComicFromDraft();
+        }
     });
 </script>
 
@@ -97,7 +97,7 @@
                     :class="{ 'draft-preview--selected': draftSelected }"
                     @click="selectDraftToContinue"
                 >
-                    <canvas class="draft-canvas"></canvas>
+                    <PreviewCanvas />
                     <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraftPopUpShow = true">
                         delete
                     </button>

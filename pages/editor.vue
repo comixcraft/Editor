@@ -1,6 +1,7 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
     import iconConfig from '../config/iconsConfig';
+    import PreviewCanvas from '~/components/PreviewCanvas.vue';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -121,7 +122,7 @@
                         <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
-                <div class="top-nav__item preview-btn d-none">
+                <div class="top-nav__item preview-btn">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
                         <span class="d-none d-lg-block"> Preview </span>
@@ -210,7 +211,7 @@
     </ScreenOverlay>
     <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
         <div class="darken-background">
-            <div class="comic-preview"></div>
+            <PreviewCanvas class="comic-preview" />
         </div>
     </ScreenOverlay>
 </template>
@@ -257,6 +258,7 @@
     }
 
     .layer-background {
+        margin-top: $spacer-5;
         width: 100vw;
         height: 100vh;
         background-color: $white;
@@ -312,15 +314,11 @@
 
     .darken-background {
         width: 100vw;
-        height: 100vh;
-        background-color: $black;
-        opacity: 60%;
+        height: 100%;
+        background-color: $grey-60;
     }
 
     .comic-preview {
-        width: 60vw;
-        height: 20vh;
-        background-color: $grey-70;
         position: absolute;
         top: 50%;
         left: 50%;

@@ -30,6 +30,7 @@
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
+        console.log('called', panels);
 
         // set the width of the canvas according to the width of the panels
         for (let i = 0; i < panels.length; i++) {
@@ -49,7 +50,7 @@
         // draw the panels
         let startPoint = gap;
         for (let i = 0; i < panels.length; i++) {
-            drawPanel(context, panels[i], startPoint, stripsHeight);
+            await drawPanel(context, panels[i], startPoint, stripsHeight);
             startPoint += panels[i].width + gap;
         }
 
@@ -107,7 +108,8 @@
         };
     }
 
-    function drawPanel(context, panel, startPoint, height) {
+    async function drawPanel(context, panel, startPoint, height) {
+        console.log('drawPanel called', panel);
         // create a canvas to prerender the panel
         const newCanvas = document.createElement('canvas');
         newCanvas.width = panel.width;

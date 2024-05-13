@@ -40,9 +40,12 @@
         left: 0;
         overflow-y: scroll;
         background-color: $white;
+        display: flex;
+        flex-direction: column;
     }
 
     .overlay__content {
-        margin-top: $spacer-5;
+        width: 100%;
+        height: 100%;
     }
 </style>
