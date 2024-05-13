@@ -20,6 +20,9 @@
     const panelBorder = ref(`url(${props.panel.border})`);
     const currentHeight = ref(1);
     const currentWidth = ref(1);
+    let resizing = ref(false);
+
+    let resizeTimeout;
 
     function setToRelative(num, panelNum) {
         return num / panelNum;
@@ -129,8 +132,17 @@
         props.panel.moveZIndexDown(eId);
     }
 
+    function delayUpdatePanelBoundingBox() {
+        resizing.value = true;
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updatePanelBoundingBox();
+            resizing.value = false;
+        }, 300);
+    }
+
     onMounted(() => {
-        window.addEventListener('resize', updatePanelBoundingBox);
+        window.addEventListener('resize', delayUpdatePanelBoundingBox);
 
         updatePanelBoundingBox();
     });
@@ -143,7 +155,7 @@
         comicStore.bus.off('add-element');
         comicStore.bus.off('putLayerBack');
         comicStore.bus.off('putLayerFront');
-        window.removeEventListener('resize', updatePanelBoundingBox);
+        window.removeEventListener('resize', delayUpdatePanelBoundingBox);
     });
 </script>
 
@@ -154,35 +166,37 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <DragResizeRotate
-                v-for="[key, value] in elements"
-                :key="key"
-                :altText="value.alt"
-                :eId="value.id"
-                :h="getFixed(value.height, currentHeight)"
-                :isMirroredHorizontal="value.isMirroredHorizontal"
-                :isMirroredVertical="value.isMirroredVertical"
-                :rotation="value.rotation"
-                :pos="value.pos"
-                :url="value.type.path"
-                :x="getFixed(value.pos.x, currentWidth)"
-                :y="getFixed(value.pos.y, currentHeight)"
-                :w="getFixed(value.width, currentWidth)"
-                :z="value.z"
-                :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
-                :text="value.type.content == undefined ? '' : value.type.content"
-                :selectedId="props.selectedId"
-                :lockAspectRatio="props.lockAspectRatio"
-                :element="value"
-                @delete-event="deleteElement"
-                @update-event="updatePosition"
-                @resize-event="resizeElement"
-                @mirror-horizontal-event="updateMirrorValues"
-                @mirror-vertical-event="updateMirrorValues"
-                @rotate-event="updateRotation"
-                @front-event="upElement"
-                @back-event="downElement"
-            />
+            <div class="w-100 h-100" v-if="!resizing">
+                <DragResizeRotate
+                    v-for="[key, value] in elements"
+                    :key="key"
+                    :altText="value.alt"
+                    :eId="value.id"
+                    :h="getFixed(value.height, currentHeight)"
+                    :isMirroredHorizontal="value.isMirroredHorizontal"
+                    :isMirroredVertical="value.isMirroredVertical"
+                    :rotation="value.rotation"
+                    :pos="value.pos"
+                    :url="value.type.path"
+                    :x="getFixed(value.pos.x, currentWidth)"
+                    :y="getFixed(value.pos.y, currentHeight)"
+                    :w="getFixed(value.width, currentWidth)"
+                    :z="value.z"
+                    :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
+                    :text="value.type.content == undefined ? '' : value.type.content"
+                    :selectedId="props.selectedId"
+                    :lockAspectRatio="props.lockAspectRatio"
+                    :element="value"
+                    @delete-event="deleteElement"
+                    @update-event="updatePosition"
+                    @resize-event="resizeElement"
+                    @mirror-horizontal-event="updateMirrorValues"
+                    @mirror-vertical-event="updateMirrorValues"
+                    @rotate-event="updateRotation"
+                    @front-event="upElement"
+                    @back-event="downElement"
+                />
+            </div>
         </div>
     </div>
 </template>
