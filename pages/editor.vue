@@ -8,7 +8,6 @@
     let goingBackPopUpShow = ref(false);
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
-    let editor = ref(null);
 
     let selectedCategory = ref({});
 
@@ -216,12 +215,6 @@
 </template>
 
 <style scoped lang="scss">
-    .editor:before {
-        content: 's';
-        display: none;
-        visibility: hidden;
-    }
-
     .editor {
         display: flex;
         flex-direction: column;
