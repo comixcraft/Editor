@@ -219,6 +219,7 @@
         flex: 1;
         display: flex;
         justify-content: center;
+        max-width: 100%;
     }
 
     .preview__canvas {

@@ -249,11 +249,12 @@
 
     .draft-preview {
         position: relative;
-        width: fit-content;
+        width: 100%;
         max-height: 18vh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
         padding: $spacer-2 $spacer-3;
+        display: flex;
         &:hover,
         &--selected {
             cursor: pointer;
