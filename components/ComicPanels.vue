@@ -37,13 +37,10 @@
     >
         <TextEditor v-if="comicStore.getCurrentElement().value != null" />
         <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
-            <div class="d-flex justify-content-center align-items-center">
-                <WrapperCanvas
-                    class="swiper-no-swiping wrapper-canvas"
-                    :panel="panel"
-                    :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
-                ></WrapperCanvas>
-            </div>
+            <WrapperCanvas
+                :panel="panel"
+                :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
+            ></WrapperCanvas>
         </swiper-slide>
     </swiper>
 </template>
@@ -60,5 +57,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-bottom: $spacer-5;
+
+        @include media-breakpoint-up(lg) {
+            padding-bottom: $spacer-11;
+        }
     }
 </style>
