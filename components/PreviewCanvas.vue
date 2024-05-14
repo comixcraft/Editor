@@ -11,6 +11,7 @@
     const comicStore = useComicStore();
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
+    const promiseArray = [];
 
     // Reactive Variables
     // computed
@@ -30,7 +31,6 @@
         // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
-        console.log('called', panels);
 
         // set the width of the canvas according to the width of the panels
         for (let i = 0; i < panels.length; i++) {
@@ -50,17 +50,25 @@
         // draw the panels
         let startPoint = gap;
         for (let i = 0; i < panels.length; i++) {
-            await drawPanel(context, panels[i], startPoint, stripsHeight);
+            drawPanel(context, panels[i], startPoint, stripsHeight, i);
             startPoint += panels[i].width + gap;
         }
 
         // draw the credit logo
         drawCredit(canvas, context);
+        console.log('promiseArray', promiseArray);
+        Promise.all(promiseArray).then(() => {
+            console.log('all printed');
+        });
     }
 
-    function drawAsset(context, element, panelDimension) {
+    function drawAsset(context, element, panelDimension, iterationnumber) {
         const img = new Image();
-        img.src = element.type.path;
+        let promiseAsset = new Promise((resolve) => {
+            img.onload = resolve;
+            img.src = element.type.path;
+        });
+        promiseArray.push(promiseAsset);
         // Save the current context
         context.save();
 
@@ -94,7 +102,7 @@
         context.restore();
     }
 
-    function drawCredit(canvas, context) {
+    async function drawCredit(canvas, context) {
         // draw credit logo at the bottom left
         const credit = {
             src: '/tempCredit.png',
@@ -102,24 +110,27 @@
             height: creditSize.h,
         };
         const creditLogo = new Image();
-        creditLogo.src = credit.src;
-        creditLogo.onload = () => {
-            context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
-        };
+        let creditPromise = new Promise((resolve) => {
+            creditLogo.onload = resolve;
+            creditLogo.src = credit.src;
+        });
+        promiseArray.push(creditPromise);
+        context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
     }
 
-    async function drawPanel(context, panel, startPoint, height) {
-        console.log('drawPanel called', panel);
+    function drawPanel(context, panel, startPoint, height, index) {
         // create a canvas to prerender the panel
         const newCanvas = document.createElement('canvas');
         newCanvas.width = panel.width;
         newCanvas.height = height;
         const newContext = newCanvas.getContext('2d');
+        let iterationnumber = 0;
 
         // draw the panels
         panel.elements.forEach((element, key) => {
             if (element.type.name === 'Asset') {
-                drawAsset(newContext, element, { width: panel.width, height });
+                drawAsset(newContext, element, { width: panel.width, height }, iterationnumber);
+                iterationnumber++;
             } else if (element.type.name === 'Text') {
                 drawText(newContext, element, { width: panel.width, height });
             } else {
@@ -129,7 +140,11 @@
 
         // draw the border of the panel
         const img = new Image();
-        img.src = panel.border;
+        let borderPromise = new Promise((resolve) => {
+            img.onload = resolve;
+            img.src = panel.border;
+        });
+        promiseArray.push(borderPromise);
         newContext.drawImage(img, 0, 0, panel.width, height);
 
         // draw the panel on the preview canvas
