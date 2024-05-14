@@ -4,6 +4,7 @@
     // Middlewares
 
     // Emits
+    const emit = defineEmits(['disableButton']);
 
     // Props
 
@@ -58,7 +59,7 @@
         drawCredit(canvas, context);
         console.log('promiseArray', promiseArray);
         Promise.all(promiseArray).then(() => {
-            console.log('all printed');
+            emit('disableButton', { disableButton: false });
         });
     }
 
@@ -234,12 +235,16 @@
         flex: 1;
         display: flex;
         justify-content: center;
-        max-width: 100%;
+        width: 100%;
+        padding: $spacer-3;
+        @include media-breakpoint-up(lg) {
+            padding: $spacer-6;
+        }
     }
 
     .preview__canvas {
         border: $border-width solid black;
         border-radius: $border-radius;
-        max-width: 22rem;
+        width: 100%;
     }
 </style>

@@ -21,6 +21,7 @@
     // Refs
     const previewCanvas = ref(null);
     let downloadPopUpShow = ref(false);
+    let disableButton = ref(true);
 
     // Watchers
 
@@ -94,13 +95,10 @@
                 </div>
             </div>
 
-            <PreviewCanvas ref="previewCanvas" />
-            <!-- <div ref="previewCanvas" class="preview__container">
-                <canvas ref="canvasEl" class="preview__canvas"></canvas>
-            </div> -->
+            <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
         </div>
         <div class="btn-container">
-            <button class="accent-btn" @click="download">Download Comic</button>
+            <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
             <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
         </div>
     </div>
