@@ -61,9 +61,6 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
-        position: fixed;
-        bottom: 0;
-        left: 0;
         width: 100%;
     }
 
