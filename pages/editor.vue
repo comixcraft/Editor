@@ -1,11 +1,13 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
     import iconConfig from '../config/iconsConfig';
+    import { useComicStore } from '~/stores/useComicStore';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
     let catalogShow = ref(false);
     let goingBackPopUpShow = ref(false);
+    let userDidSomething = ref(false);
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
@@ -22,6 +24,14 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
+
+    watch(
+        () => comicStore.comic.getPage(0).getStrip(0),
+        () => {
+            userDidSomething.value = true;
+        },
+        { deep: true }
+    );
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -85,6 +95,18 @@
         });
     }
 
+    function returnToIndex() {
+        if (userDidSomething.value) {
+            goingBackPopUpShow.value = true;
+            return;
+        } else {
+            return reloadNuxtApp({
+                path: '/',
+                ttl: 1000,
+            });
+        }
+    }
+
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;
@@ -105,9 +127,7 @@
     <div class="editor" ref="editor">
         <div class="editor__top-nav top-nav-lg">
             <div class="top-nav__left-btns">
-                <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
-                    arrow_back
-                </button>
+                <button class="share__top-nav-item back-btn icon icon-btn" @click="returnToIndex">arrow_back</button>
                 <div class="undo-redo-container d-none">
                     <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
                     <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
