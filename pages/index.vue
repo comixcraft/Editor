@@ -250,10 +250,9 @@
     .draft-preview {
         position: relative;
         width: 100%;
-        max-height: 18vh;
+        max-height: 25vh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
-        padding: $spacer-2 $spacer-3;
         display: flex;
         &:hover,
         &--selected {

@@ -63,7 +63,7 @@
         });
     }
 
-    function drawAsset(context, element, panelDimension, iterationnumber) {
+    function drawAsset(context, element, panelDimension) {
         const img = new Image();
         let promiseAsset = new Promise((resolve) => {
             img.onload = resolve;
@@ -119,19 +119,17 @@
         context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
     }
 
-    function drawPanel(context, panel, startPoint, height, index) {
+    function drawPanel(context, panel, startPoint, height) {
         // create a canvas to prerender the panel
         const newCanvas = document.createElement('canvas');
         newCanvas.width = panel.width;
         newCanvas.height = height;
         const newContext = newCanvas.getContext('2d');
-        let iterationnumber = 0;
 
         // draw the panels
         panel.elements.forEach((element, key) => {
             if (element.type.name === 'Asset') {
-                drawAsset(newContext, element, { width: panel.width, height }, iterationnumber);
-                iterationnumber++;
+                drawAsset(newContext, element, { width: panel.width, height });
             } else if (element.type.name === 'Text') {
                 drawText(newContext, element, { width: panel.width, height });
             } else {
@@ -245,6 +243,7 @@
     .preview__canvas {
         border: $border-width solid black;
         border-radius: $border-radius;
-        width: 100%;
+        width: auto;
+        max-height: 70svh;
     }
 </style>

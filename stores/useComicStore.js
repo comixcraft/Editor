@@ -73,6 +73,7 @@ export const useComicStore = defineStore('comic', () => {
     }
 
     function createComicFromDraft() {
+        comic.resetComic();
         let refComic = getDraft().value;
 
         if (typeof refComic === 'string') {
