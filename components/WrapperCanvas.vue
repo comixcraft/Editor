@@ -9,12 +9,20 @@
         lockAspectRatio: Boolean,
     });
 
-    const canvasWidth = computed(() => DOMElementBoundingBox.width + 'px');
-    const canvasHeight = computed(() => DOMElementBoundingBox.height + 'px');
-    const DOMElementBoundingBox = reactive({ width: props.panel.width, height: props.panel.height });
+    const aspectRatioWidth = parseFloat(props.panel.width / props.panel.width);
+    const aspectRatioHeight = parseFloat(props.panel.height / props.panel.width);
+
     const comicStore = useComicStore();
     const elements = props.panel.elements;
-    const container = ref(null);
+    const panelElement = ref(null);
+    const wrapperCanvas = ref(null);
+    const scaleByHeight = ref(false);
+    const panelBorder = ref(`url(${props.panel.border})`);
+    const currentHeight = ref(1);
+    const currentWidth = ref(1);
+    let resizing = ref(false);
+
+    let resizeTimeout;
 
     function setToRelative(num, panelNum) {
         return num / panelNum;
@@ -25,17 +33,11 @@
     }
 
     function updatePanelBoundingBox() {
-        DOMElementBoundingBox.width = container.value.clientWidth;
-        DOMElementBoundingBox.height = container.value.clientHeight;
+        scaleByHeight.value =
+            wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
+        currentWidth.value = panelElement.value.clientWidth;
+        currentHeight.value = panelElement.value.clientHeight;
     }
-
-    function validateElementId(eId) {
-        if (!elements.has(eId)) {
-            return;
-        }
-    }
-
-    window.addEventListener('resize', updatePanelBoundingBox);
 
     function deleteElement(eId) {
         // delete last element of map
@@ -43,44 +45,35 @@
     }
 
     function resizeElement(obj) {
-        // validate element id
-        validateElementId(obj.eId);
         // update element width and height
         elements.get(obj.eId).pos = {
-            x: setToRelative(obj.pos.x, props.panel.width),
-            y: setToRelative(obj.pos.y, props.panel.height),
+            x: setToRelative(obj.pos.x, currentWidth.value),
+            y: setToRelative(obj.pos.y, currentHeight.value),
         };
-        elements.get(obj.eId).setWidth(setToRelative(obj.width, props.panel.width));
-        elements.get(obj.eId).setHeight(setToRelative(obj.height, props.panel.height));
+        elements.get(obj.eId).width = setToRelative(obj.width, currentWidth.value);
+        elements.get(obj.eId).height = setToRelative(obj.height, currentHeight.value);
     }
 
     function updatePosition(obj) {
-        // validate element id
-        validateElementId(obj.eId);
         // update element position
         elements.get(obj.eId).pos = {
-            x: setToRelative(obj.pos.x, props.panel.width),
-            y: setToRelative(obj.pos.y, props.panel.height),
+            x: setToRelative(obj.pos.x, currentWidth.value),
+            y: setToRelative(obj.pos.y, currentHeight.value),
         };
     }
 
     function updateMirrorValues(obj) {
-        // validate element id
-        validateElementId(obj.eId);
-
         // update element mirror values
         if (obj.direction === 'x') {
-            elements.get(obj.eId).setIsMirroredHorizontal(obj.isMirrored);
+            elements.get(obj.eId).isMirroredHorizontal = obj.isMirrored;
             return;
         }
-        elements.get(obj.eId).setIsMirroredVertical(obj.isMirrored);
+        elements.get(obj.eId).isMirroredVertical = obj.isMirrored;
     }
 
     function updateRotation(obj) {
-        // validate element id
-        validateElementId(obj.eId);
         // update element rotation
-        elements.get(obj.eId).setRotation(obj.rotation);
+        elements.get(obj.eId).rotation = obj.rotation;
     }
 
     // Bus listeners
@@ -101,16 +94,16 @@
             let width = 0;
 
             if (event.target.naturalWidth > event.target.naturalHeight) {
-                width = setToRelative(200, props.panel.width);
+                width = 0.2;
                 height = setToRelative(
-                    (getFixed(width, props.panel.width) * event.target.naturalHeight) / event.target.naturalWidth,
-                    props.panel.height
+                    (getFixed(width, currentWidth.value) * event.target.naturalHeight) / event.target.naturalWidth,
+                    currentHeight.value
                 );
             } else {
-                height = setToRelative(200, props.panel.height);
+                height = 0.2;
                 width = setToRelative(
-                    (getFixed(height, props.panel.height) * event.target.naturalWidth) / event.target.naturalHeight,
-                    props.panel.width
+                    (getFixed(height, currentHeight.value) * event.target.naturalWidth) / event.target.naturalHeight,
+                    currentWidth.value
                 );
             }
 
@@ -119,8 +112,8 @@
             let newAsset = new Asset(src);
             tempEl = new ElementDS(width, height, name, newAsset);
         } else {
-            const height = setToRelative(200, props.panel.height);
-            const width = setToRelative(200, props.panel.width);
+            const height = setToRelative(200, currentHeight.value);
+            const width = setToRelative(200, currentWidth.value);
             let name = 'Double-click to edit me.';
             let type = new Text(name, 24, 'Pangolin');
             tempEl = new ElementDS(width, height, name, type);
@@ -139,65 +132,98 @@
         props.panel.moveZIndexDown(eId);
     }
 
+    function delayUpdatePanelBoundingBox() {
+        resizing.value = true;
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updatePanelBoundingBox();
+            resizing.value = false;
+        }, 300);
+    }
+
+    onMounted(() => {
+        window.addEventListener('resize', delayUpdatePanelBoundingBox);
+
+        updatePanelBoundingBox();
+    });
+
+    onUpdated(() => {
+        updatePanelBoundingBox();
+    });
+
     onBeforeUnmount(() => {
         comicStore.bus.off('add-element');
         comicStore.bus.off('putLayerBack');
         comicStore.bus.off('putLayerFront');
-        window.removeEventListener('resize', updatePanelBoundingBox);
+        window.removeEventListener('resize', delayUpdatePanelBoundingBox);
     });
 </script>
 
 <template>
-    <div>
-        <div ref="container" class="panel">
-            <DragResizeRotate
-                v-for="[key, value] in elements"
-                :key="key"
-                :altText="value.alt"
-                :eId="value.id"
-                :h="value.height * props.panel.height"
-                :isMirroredHorizontal="value.isMirroredHorizontal"
-                :isMirroredVertical="value.isMirroredVertical"
-                :rotation="value.rotation"
-                :pos="value.pos"
-                :url="value.type.path"
-                :x="getFixed(value.pos.x, props.panel.width)"
-                :y="getFixed(value.pos.y, props.panel.height)"
-                :w="getFixed(value.width, props.panel.width)"
-                :z="value.z"
-                :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
-                :text="value.type.content == undefined ? '' : value.type.content"
-                :selectedId="props.selectedId"
-                :lockAspectRatio="props.lockAspectRatio"
-                :element="value"
-                @delete-event="deleteElement"
-                @update-event="updatePosition"
-                @resize-event="resizeElement"
-                @mirror-horizontal-event="updateMirrorValues"
-                @mirror-vertical-event="updateMirrorValues"
-                @rotate-event="updateRotation"
-                @front-event="upElement"
-                @back-event="downElement"
-            />
-            <img :src="props.panel.border" class="panel__border" />
+    <div class="wrapper-canvas" ref="wrapperCanvas">
+        <div
+            ref="panelElement"
+            class="panel swiper-no-swiping"
+            :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
+        >
+            <div class="w-100 h-100" v-if="!resizing">
+                <DragResizeRotate
+                    v-for="[key, value] in elements"
+                    :key="key"
+                    :altText="value.alt"
+                    :eId="value.id"
+                    :h="getFixed(value.height, currentHeight)"
+                    :isMirroredHorizontal="value.isMirroredHorizontal"
+                    :isMirroredVertical="value.isMirroredVertical"
+                    :rotation="value.rotation"
+                    :pos="value.pos"
+                    :url="value.type.path"
+                    :x="getFixed(value.pos.x, currentWidth)"
+                    :y="getFixed(value.pos.y, currentHeight)"
+                    :w="getFixed(value.width, currentWidth)"
+                    :z="value.z"
+                    :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
+                    :text="value.type.content == undefined ? '' : value.type.content"
+                    :selectedId="props.selectedId"
+                    :lockAspectRatio="props.lockAspectRatio"
+                    :element="value"
+                    @delete-event="deleteElement"
+                    @update-event="updatePosition"
+                    @resize-event="resizeElement"
+                    @mirror-horizontal-event="updateMirrorValues"
+                    @mirror-vertical-event="updateMirrorValues"
+                    @rotate-event="updateRotation"
+                    @front-event="upElement"
+                    @back-event="downElement"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-    .panel {
-        width: v-bind(canvasWidth);
-        height: v-bind(canvasHeight);
-        position: relative;
-        padding: 0;
+    .wrapper-canvas {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        &__border {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            user-select: none;
+    .panel {
+        aspect-ratio: v-bind(aspectRatioWidth) / v-bind(aspectRatioHeight);
+        position: relative;
+        background-image: v-bind(panelBorder);
+        background-size: cover;
+
+        &--scale-by-height {
+            width: auto !important;
+            height: 85% !important;
+        }
+
+        &--scale-by-width {
+            width: 85% !important;
+            height: auto !important;
         }
     }
 </style>

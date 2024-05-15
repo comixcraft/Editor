@@ -1,10 +1,15 @@
 <script setup>
-    import iconConfig from '../config/iconsConfig';
-
     const props = defineProps({
-        iconName: { type: String, default: '' },
-        title: { type: String },
         show: { type: Boolean, default: false },
+        full: Boolean,
+    });
+
+    const height = computed(() => {
+        if (props.full) {
+            return `100vh`;
+        } else {
+            return 'fit-content';
+        }
     });
 
     const emit = defineEmits(['close']);
@@ -12,18 +17,9 @@
 
 <template>
     <div>
+        <div v-if="show" class="background"></div>
         <div v-if="show" class="overlay">
-            <div class="overlay-container">
-                <div class="overlay__title">
-                    <span class="edit-icon icon text-primary">
-                        {{ iconConfig.get(props.title) || 'default_icon' }}
-                    </span>
-                    <div class="navigation__title h1">
-                        {{ title }}
-                    </div>
-                </div>
-                <div class="close-icon icon" @click="$emit('close')">close</div>
-            </div>
+            <div class="navigation__icon icon" @click="$emit('close')">close</div>
             <div class="overlay__content">
                 <slot></slot>
             </div>
@@ -32,13 +28,14 @@
 </template>
 
 <style lang="scss" scoped>
-    .overlay-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: $primary;
-        cursor: pointer;
-        background-color: $white;
+    .background {
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        background-color: $black-100;
+        height: 100vh;
+        width: 100%;
+        opacity: 30%;
     }
 
     .overlay {
@@ -47,8 +44,8 @@
         background-color: $white;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
-        height: calc(100vh - 10px);
-        width: 100vw;
+        max-height: calc(v-bind(height) - $spacer-8);
+        width: 100%;
         left: 0;
         bottom: 0;
         right: 0;
@@ -68,5 +65,10 @@
 
     .close-icon {
         color: $grey-70;
+    }
+
+    .navigation__icon {
+        position: absolute;
+        right: $spacer-4;
     }
 </style>

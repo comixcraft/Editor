@@ -47,12 +47,6 @@
         'frontEvent',
     ]);
 
-    watch(
-        () => props.z,
-        () => console.log('z change'),
-        { deep: true }
-    );
-
     // computed functions
     const setMirroredHorizontal = computed(() => {
         return mirroredHorizontal.value ? '-1' : '1';

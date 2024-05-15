@@ -1,4 +1,5 @@
 <script setup>
+    import Comic from '~/utils/Classes/Comic';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
@@ -13,10 +14,13 @@
 
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
+    let deleteDraftPopUpShow = ref(false);
 
     function deleteDraft() {
         comicStore.deleteDraft();
         showDraftContainer.value = false;
+        deleteDraftPopUpShow.value = false;
+        draftSelected.value = false;
     }
 
     function createComic(config) {
@@ -86,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div v-if="showDraftContainer" class="draft-container">
+            <div v-if="showDraftContainer" class="draft-container">
                 <h2>Draft</h2>
                 <p class="font-italic">Continue working on your previous draft</p>
                 <div
@@ -95,9 +99,11 @@
                     @click="selectDraftToContinue"
                 >
                     <canvas class="draft-canvas"></canvas>
-                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraft">delete</button>
+                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraftPopUpShow = true">
+                        delete
+                    </button>
                 </div>
-            </div> -->
+            </div>
             <div class="templates">
                 <h2>Templates</h2>
                 <p class="font-italic">Start by choosing a template</p>
@@ -138,9 +144,22 @@
                 @click="createComic(selectedComicConfiguration?.config)"
                 :disabled="!draftSelected && !selectedComicConfiguration"
             >
-                Start Comic Crafting
+                {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
             </button>
         </div>
+        <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
+            <DecisionPopUp
+                imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
+                title="Poof, Your hard work disappears"
+                body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                :buttons="[
+                    { name: 'Delete Draft', emitName: 'discard' },
+                    { name: 'Keep Draft', emitName: 'cancel' },
+                ]"
+                @cancel="deleteDraftPopUpShow = false"
+                @discard="deleteDraft"
+            />
+        </OverlayModal>
     </div>
 </template>
 
@@ -220,6 +239,54 @@
         bottom: $spacer-6;
     }
 
+    .draft-container {
+        width: calc(100% - $spacer-3);
+        height: fit-content;
+        padding: $spacer-2 $spacer-5 0 $spacer-5;
+        margin-bottom: $spacer-2;
+        overflow: visible;
+    }
+
+    .draft-preview {
+        position: relative;
+        width: fit-content;
+        max-height: 18vh;
+        border: $border-width-lg solid $grey-100;
+        border-radius: $border-radius;
+        padding: $spacer-2 $spacer-3;
+        &:hover,
+        &--selected {
+            cursor: pointer;
+            border: $border-width-lg solid $primary;
+
+            .template__title {
+                color: $primary !important;
+            }
+        }
+    }
+
+    .draft-canvas {
+        max-width: 100%;
+        max-height: 100%;
+        border: 1px solid pink;
+    }
+
+    .icon {
+        padding: $spacer-1 $spacer-2;
+        user-select: none;
+        cursor: pointer;
+        border: $border-width-lg solid $grey-60;
+        border-radius: $border-radius;
+    }
+
+    .draft-btn--cancel {
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%, 10%);
+    }
+
     @include media-breakpoint-up(lg) {
         .comic-image {
             max-width: 24vw !important;
@@ -231,6 +298,10 @@
         }
         .top-nav__logo {
             justify-content: flex-start;
+        }
+
+        .modal-container {
+            display: none;
         }
     }
 </style>

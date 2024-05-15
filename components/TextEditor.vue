@@ -8,36 +8,36 @@
     function startModifyText() {
         element.value = comicStore.getCurrentElement().value;
         textarea.value.focus();
-        textValue.value = element.value.currentState().type.content;
-        fontSize.value = element.value.currentState().type.fontSize;
+        textValue.value = element.value.type.content;
+        fontSize.value = element.value.type.fontSize;
     }
 
     function stopModifyText() {
         comicStore.bus.emit('updateText', {
-            id: element.value.currentState().id,
+            id: element.value.id,
             text: textValue.value,
             fontSize: fontSize.value,
         });
-        element.value.currentState().type.content = textValue.value;
+        element.value.type.content = textValue.value;
         textValue.value = '';
         comicStore.setCurrentElement(null);
     }
 
     function increaseFont() {
-        element.value.currentState().type.increaseFontSize();
-        fontSize.value = element.value.currentState().type.fontSize;
+        element.value.type.increaseFontSize();
+        fontSize.value = element.value.type.fontSize;
         comicStore.bus.emit('updateText', {
-            id: element.value.currentState().id,
+            id: element.value.id,
             text: textValue.value,
             fontSize: fontSize.value,
         });
     }
 
     function decreaseFont() {
-        element.value.currentState().type.decreaseFontSize();
-        fontSize.value = element.value.currentState().type.fontSize;
+        element.value.type.decreaseFontSize();
+        fontSize.value = element.value.type.fontSize;
         comicStore.bus.emit('updateText', {
-            id: element.value.currentState().id,
+            id: element.value.id,
             text: textValue.value,
             fontSize: fontSize.value,
         });
