@@ -86,13 +86,20 @@
     }
 
     function handleUndo() {
+        console.log(
+            'History before undo:',
+            comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].history
+        );
         comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
     }
 
     function handleRedo() {
-        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redo();
+        console.log(
+            'History before redo:',
+            comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].history
+        );
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
     }
-
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;

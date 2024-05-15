@@ -20,7 +20,7 @@ export default class Panel {
         this._border = border ?? 'undefined';
         this._history = [];
         this._redo = [];
-        this._maxHistoryLength = 10;
+        this._maxHistoryLength = 9;
         this._currentState = {};
 
         this.#init();
@@ -81,7 +81,7 @@ export default class Panel {
         this._width = num;
     }
 
-    set borders(str) {
+    set border(str) {
         this._border = str;
     }
 
@@ -118,22 +118,28 @@ export default class Panel {
      * @param {Object} state
      */
     applyState(state) {
-        this._border = state.border;
-        this._width = state.width;
-        this._elements.clear();
-        state.elements.forEach(([id, element]) => {
-            this._elements.set(id, element);
-        });
+        this.border = state.border;
+        this.width = state.width;
+        this.elements.clear();
+        console.log('State elements:', state.elements);
+        for (const [id, element] of state.elements.entries()) {
+            if (element.type) {
+                this.elements.set(id, element);
+            } else {
+                console.error('Type is undefined for element:', element);
+            }
+        }
     }
-
     /**
-     * Apply the given state to the panel.
+     * Push changes into the history array
      * @param {Object} alteration
      */
     addAlteration() {
         const currentState = this.toJSON();
+        console.log('Current state:', currentState);
         this.history.push(currentState);
-        console.log('history check', this.history);
+        console.log('History after push:', this.history);
+        console.log('redo after push:', this.redo);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
         }
@@ -141,18 +147,28 @@ export default class Panel {
     }
 
     undo() {
-        console.log('testtttt', this.elements);
         if (this.history.length > 0) {
+            console.log('I am in the if statement UNDO. the length of history is ', this.history.length);
             const lastState = this.history.pop();
+            console.log('Last state:', lastState);
+            const parsedState = Panel.fromJSON(lastState);
+            console.log('Parsed state:', parsedState);
             const currentState = this.toJSON();
-            this.applyState(Panel.fromJSON(lastState));
+            this.applyState(parsedState);
             this.redo.push(currentState);
+            console.log('redo after push:', this.redo);
         }
     }
 
-    redo() {
-        if (this._redo.length > 0) {
+    redoAction() {
+        if (this.redo.length > 0) {
+            console.log(
+                'I am in the if statement REDO. the length of history is ',
+                this.history.length,
+                this.redo.length
+            );
             const nextState = this.redo.pop();
+            console.log('Next state:', nextState);
             const currentState = this.toJSON();
             this.applyState(Panel.fromJSON(nextState));
             this.history.push(currentState);

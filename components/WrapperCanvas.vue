@@ -40,6 +40,7 @@
     function deleteElement(eId) {
         // delete last element of map
         props.panel.deleteElement(eId);
+        props.panel.addAlteration();
     }
 
     function resizeElement(obj) {
@@ -52,6 +53,7 @@
         };
         elements.get(obj.eId).setWidth(setToRelative(obj.width, props.panel.width));
         elements.get(obj.eId).setHeight(setToRelative(obj.height, props.panel.height));
+        props.panel.addAlteration();
     }
 
     function updatePosition(obj) {
@@ -131,6 +133,7 @@
             tempEl = new ElementDS(width, height, name, type);
         }
         props.panel.addElement(tempEl);
+        props.panel.addAlteration();
     });
 
     // functions
