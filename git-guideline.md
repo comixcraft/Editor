@@ -59,30 +59,7 @@ The **feature** branch is a short-life branch that is created by a dev when he s
 
 2. Works on the feature and commit to this branch.
 
-3. Test the final version with **comments** and request a pull to the dev branch
-
--   Go to the dev branch: `git checkout dev`
--   Time to do a pull request: A pull request is a proposal to merge a set of changes from one branch into another. This proposal is opened for reviewal and discussion and can be done in the browser.
-
-    -   Go on the [GitHub Repo page of our Organization](https://github.com/comixcraft/Editor)
-    -   In the "Branch" menu, choose the branch that contains your commits.
-    <p align="center">
-        <img src="https://docs.github.com/assets/cb-29825/mw-1440/images/help/pull_requests/branch-dropdown.webp" alt="Github branch menu" width="500" height="auto">
-    </p>
-
-    -   Above the list of files, in the yellow banner, click Compare & pull request to create a pull request for the associated branch.
-      <p align="center">
-        <img src="https://docs.github.com/assets/cb-34106/mw-1440/images/help/pull_requests/pull-request-compare-pull-request.webp" alt="Yellow banner image" width="500" height="auto">
-    </p>
-
-    -   Use the **base** branch dropdown menu to select the branch you'd like to merge your changes into, then use the compare branch drop-down menu to choose the topic branch you made your changes in.
-    -   Type a title and description for your pull request.
-    -   To create a pull request that is ready for review, click Create Pull Request. To create a draft pull request, use the drop-down and select Create Draft Pull Request, then click Draft Pull Request. For more information about draft pull requests, see ["About pull request"](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests#draft-pull-requests)
-
-    -   **_Tips_**: you can ask for a reviewer
-    <p align="center">
-        <img src="https://docs.github.com/assets/cb-18313/mw-1440/images/help/pull_requests/request-suggested-review.webp" alt="reviewer request" width="500" height="auto">
-    </p>
+3. Test the final version with **comments** and request a pull to the dev branch, [here is our guideline](./pr-guideline.md)
 
 ## How to review a pull request
 

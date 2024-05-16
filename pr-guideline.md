@@ -13,31 +13,38 @@
 
 ## Create the PR
 
-- Go to the github of editor: https://github.com/comixcraft/Editor
+- Go to the github of our project: https://github.com/comixcraft/Editor
 - If you did everything correctly, you should see something like that:
 <img src="https://docs.github.com/assets/cb-34106/mw-1440/images/help/pull_requests/pull-request-compare-pull-request.webp" alt="Yellow banner image" width="500" height="auto">
 - Click on Compare & pull request
-- You should see that at the top: (if not, you should merge dev into your branch and resolve the conflicts)
+- You should see that at the top: 
+  
+    <img src="./public/guidelines/topOfPR.png" alt="top of PR">
 
+  - Be sure that base: dev is selected
+  - Be sure that compare: "your branch" is selected
+  - Be sure that "able to merge" appears in green (if not, you should first merge dev back into your brach and do the PR after)
+
+- Add a title *(can be the name of the branch)*
 - Add a description
   - With the main news that your PR is bringing
-  - The big bugs you encountered meanwhile coding and how to reproduce them (to be sure that you solve them)
+  - The big bugs you encountered meanwhile coding and how to reproduce them *(to be sure that you solve them)*
   - Points that you are not sure you did as you should
   - Points that you want the reviewer to pay special attention on
   - The link of your deployed version
-- *Optional* Choose one or more reviewers by clicking on Assignees => the best would be to have someone that is not using the same OS as you
+- ***Optional*** Choose one or more reviewers by clicking on Assignees => the best would be to have someone that is not using the same OS as you
 - Add a label
 - Click on Create Pull Request
-- Write on the discord Channel that you create a new PR, Tag the Assignees if you entered some
+- Write on the discord ***Review*** Channel that you create a new PR, Tag the Assignees if you entered some, otherwise tag everyone.
 
 ***Great! You created your PR !!***
 
 ## When the reviewer ask for changes
 
-- go on github
-- read the comments of the reviewer
-  - be open for feedback => no one wants to bother you
-  - keep a critical eye => You know want you did, sometimes the feedback/opinion of the reviewer won't work on your specific code
+- Go on github
+- Read the comments of the reviewer
+  - Be open for feedback => no one wants to bother you
+  - Keep a critical eye => You know want you did, sometimes the feedback/opinion of the reviewer won't work on your specific code
 - Do the changes if needed
 - Commit and push again
 - Check that dev is still merge on your branch (no new accepted PR in between)
