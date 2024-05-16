@@ -137,7 +137,6 @@
         display: flex;
         gap: $spacer-2;
         flex-wrap: wrap;
-        padding-bottom: $spacer-2;
         &__pill {
             cursor: pointer;
             padding: $spacer-1 $spacer-2;

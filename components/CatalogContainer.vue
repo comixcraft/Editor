@@ -29,6 +29,7 @@
 
 <style lang="scss" scoped>
     .catalog__scroll-container {
+        margin-top: $spacer-3;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
