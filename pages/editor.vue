@@ -86,18 +86,10 @@
     }
 
     function handleUndo() {
-        console.log(
-            'History before undo:',
-            comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].history
-        );
         comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
     }
 
     function handleRedo() {
-        console.log(
-            'History before redo:',
-            comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].history
-        );
         comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
     }
     window.onkeydown = function (e) {

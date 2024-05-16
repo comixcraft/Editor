@@ -1,3 +1,5 @@
+import Position from './Position';
+import { watch } from 'vue';
 export default class Panel {
     /** @type {String} */
     _border;
@@ -7,8 +9,7 @@ export default class Panel {
     _width;
     /** @type {Number} */
     _height;
-    /** @type {Object} */
-    _currentState;
+
     //! refactor this later
     /** @type {Object} */
     _history;
@@ -25,7 +26,6 @@ export default class Panel {
         this._width = width ?? 0;
         this._height = height ?? 0;
         this._border = border ?? 'undefined';
-        this._currentState = {};
 
         this.#init();
     }
@@ -33,7 +33,12 @@ export default class Panel {
     //!add here to refactor
     #init() {
         this._elements = reactive(new Map());
-        this._history = [this.toJSON];
+        this._history = [this.toJSON()];
+        watch(
+            () => this.elements,
+            () => console.log('change'),
+            { deep: true }
+        );
     }
 
     // GETTERS
@@ -75,13 +80,6 @@ export default class Panel {
         return this._maxHistoryIndex;
     }
 
-    /**
-     * @returns {Object}
-     */
-    get currentState() {
-        return this._currentState;
-    }
-
     // SETTERS
     set width(num) {
         this._width = num;
@@ -93,10 +91,6 @@ export default class Panel {
 
     set height(num) {
         this._height = num;
-    }
-
-    set currentState(state) {
-        this._currentState = state;
     }
 
     set history(history) {
@@ -125,30 +119,28 @@ export default class Panel {
      */
     applyState(state) {
         let parsedState = reactive(Panel.fromJSON(state));
-        parsedState.elements.forEach((value, key) => {
-            console.log(this.getElement(key));
-            console.log(value);
-
-            this.getElement(key).pos = value.pos;
-        });
-        //& recieve the state to apply => state is a json
-        //& in my state there is border, width, height, elements... only elements change
-        //& on the screen I have the latest state of elements => this.elements
-
-        //& apply the state
-        //& on the screen i want the lasted state to replaced by the passed state => this.elements
-        //& the elements should be exactly how they were on the passed state (...transforms)
-        //& remove what is rendered
-        //& replace it with the passed state
+        console.log(parsedState.elements);
+        if (parsedState.elements.size > 0) {
+            this.elements.forEach((value, key) => {
+                console.log(value._rotation);
+                value._pos = new Position(parsedState.elements.get(key).pos._x, parsedState.elements.get(key).pos._y);
+                value._isMirroredHorizontal = parsedState.elements.get(key).isMirroredHorizontal;
+                value._isMirroredVertical = parsedState.elements.get(key).isMirroredVertical;
+                value._rotation = parsedState.elements.get(key).rotation;
+                console.log(parsedState.elements.get(key).rotation);
+            });
+        } else {
+            //* DONE
+            this.clearMaps();
+        }
     }
 
     /**
      * Push changes into the history array
      * @param {Object} alteration
      */
-    //! works
     addAlteration() {
-        const currentState = this.toJSON();
+        let currentState = this.toJSON();
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
@@ -159,30 +151,22 @@ export default class Panel {
     undo() {
         if (this.history.length <= 1) return;
 
-        this.applyState(this.history[this.history.length - 1]);
-        const lastState = this.history.pop();
+        let lastState = this.history.pop();
         this.redo.push(lastState);
+        this.applyState(this.history[this.history.length - 1]);
     }
-
+    //! fix this
     redoAction() {
-        if (this.redo.length > 0) {
-            console.log(
-                'I am in the if statement REDO. the length of history is ',
-                this.history.length,
-                this.redo.length
-            );
-            const nextState = this.redo.pop();
-            console.log('Next state:', nextState);
-            const currentState = this.toJSON();
-            this.applyState(Panel.fromJSON(nextState));
-            this.history.push(currentState);
-        }
+        let nextState = this.redo.pop();
+        let currentState = this.toJSON();
+        this.applyState(nextState);
+        this.history.push(currentState);
     }
 
-    // SETTERS
-    /**
-     * @param {ElementDS} element
-     */
+    //!
+    clearMaps() {
+        this._elements.clear();
+    }
     addElement(element) {
         // set z index of element
         element.z = this.getHighestZIndex() + 1;
