@@ -98,7 +98,6 @@
         width: 100%;
 
         &__search {
-            margin-top: $spacer-4;
             position: sticky;
             top: $spacer-4;
             background-color: $white;
