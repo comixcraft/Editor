@@ -2,7 +2,7 @@
     const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
 
-    const emit = defineEmits(['catalogChanged']);
+    const emit = defineEmits(['catalogChanged', 'element-added']);
 
     const props = defineProps({
         iconName: { type: String, default: '' },
@@ -65,6 +65,8 @@
         <CatalogSearch
             placeholder="happy, barista, ..."
             :filters="selectedSubCategory.filter"
+            :subCategory="selectedSubCategory"
+            :category="selectedCategory"
             @search="
                 (selectedFilterFromSearch) => {
                     selectedFilter = selectedFilterFromSearch;
@@ -72,7 +74,11 @@
                 }
             "
         />
-        <CatalogContainer class="catalog__container" :assets="selectedCategoryAssets"></CatalogContainer>
+        <CatalogContainer
+            class="catalog__container"
+            :assets="selectedCategoryAssets"
+            @element-added="$emit('element-added')"
+        ></CatalogContainer>
         <span class="flex-grow-1"></span>
         <CatalogSubNavigation
             class="catalog__sub-navigation"
