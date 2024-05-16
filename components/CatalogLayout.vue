@@ -65,6 +65,7 @@
         <CatalogSearch
             placeholder="happy, barista, ..."
             :filters="selectedSubCategory.filter"
+            :subCategory="selectedSubCategory"
             @search="
                 (selectedFilterFromSearch) => {
                     selectedFilter = selectedFilterFromSearch;

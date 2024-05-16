@@ -18,6 +18,9 @@
             type: String,
             default: '',
         },
+        subCategory: {
+            type: Object,
+        },
     });
 
     watch(
@@ -26,6 +29,16 @@
             if (newFilters.length == 0) {
                 showAllFilters.value = false;
                 activeFilters.value = []; // Reset active filters
+            }
+        }
+    );
+
+    watch(
+        () => props.subCategory,
+        (newSubCategory, oldSubCategory) => {
+            if (newSubCategory !== oldSubCategory) {
+                activeFilters.value = []; // Reset active filters
+                searchTerm.value = ''; // Reset search term
             }
         }
     );
