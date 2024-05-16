@@ -9,6 +9,13 @@ export default class Panel {
     _height;
     /** @type {Object} */
     _currentState;
+    //! refactor this later
+    /** @type {Object} */
+    _history;
+    /** @type {Object} */
+    _redo = [];
+    /** @type {Number} */
+    _maxHistoryIndex = 9;
 
     /**
      * @param {Number} width
@@ -18,16 +25,15 @@ export default class Panel {
         this._width = width ?? 0;
         this._height = height ?? 0;
         this._border = border ?? 'undefined';
-        this._history = [];
-        this._redo = [];
-        this._maxHistoryLength = 9;
         this._currentState = {};
 
         this.#init();
     }
 
+    //!add here to refactor
     #init() {
         this._elements = reactive(new Map());
+        this._history = [this.toJSON];
     }
 
     // GETTERS
@@ -66,7 +72,7 @@ export default class Panel {
         return this._redo;
     }
     get maxHistoryLength() {
-        return this._maxHistoryLength;
+        return this._maxHistoryIndex;
     }
 
     /**
@@ -102,7 +108,7 @@ export default class Panel {
     }
 
     set maxHistoryLength(length) {
-        this._maxHistoryLength = length;
+        this._maxHistoryIndex = length;
     }
 
     /**
@@ -118,28 +124,32 @@ export default class Panel {
      * @param {Object} state
      */
     applyState(state) {
-        this.border = state.border;
-        this.width = state.width;
-        this.elements.clear();
-        console.log('State elements:', state.elements);
-        for (const [id, element] of state.elements.entries()) {
-            if (element.type) {
-                this.elements.set(id, element);
-            } else {
-                console.error('Type is undefined for element:', element);
-            }
-        }
+        let parsedState = reactive(Panel.fromJSON(state));
+        parsedState.elements.forEach((value, key) => {
+            console.log(this.getElement(key));
+            console.log(value);
+
+            this.getElement(key).pos = value.pos;
+        });
+        //& recieve the state to apply => state is a json
+        //& in my state there is border, width, height, elements... only elements change
+        //& on the screen I have the latest state of elements => this.elements
+
+        //& apply the state
+        //& on the screen i want the lasted state to replaced by the passed state => this.elements
+        //& the elements should be exactly how they were on the passed state (...transforms)
+        //& remove what is rendered
+        //& replace it with the passed state
     }
+
     /**
      * Push changes into the history array
      * @param {Object} alteration
      */
+    //! works
     addAlteration() {
         const currentState = this.toJSON();
-        console.log('Current state:', currentState);
         this.history.push(currentState);
-        console.log('History after push:', this.history);
-        console.log('redo after push:', this.redo);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
         }
@@ -147,17 +157,11 @@ export default class Panel {
     }
 
     undo() {
-        if (this.history.length > 0) {
-            console.log('I am in the if statement UNDO. the length of history is ', this.history.length);
-            const lastState = this.history.pop();
-            console.log('Last state:', lastState);
-            const parsedState = Panel.fromJSON(lastState);
-            console.log('Parsed state:', parsedState);
-            const currentState = this.toJSON();
-            this.applyState(parsedState);
-            this.redo.push(currentState);
-            console.log('redo after push:', this.redo);
-        }
+        if (this.history.length <= 1) return;
+
+        this.applyState(this.history[this.history.length - 1]);
+        const lastState = this.history.pop();
+        this.redo.push(lastState);
     }
 
     redoAction() {
@@ -287,15 +291,9 @@ export default class Panel {
     }
 
     static fromJSON(str) {
-        let returnObj = JSON.parse(str);
-        let tempArr = [];
-        JSON.parse(returnObj.elements).forEach((el, index) => {
-            tempArr.push([
-                JSON.parse(returnObj.elements)[index][0],
-                JSON.parse(JSON.parse(returnObj.elements)[index][1]),
-            ]);
-        });
-        returnObj.elements = new Map(tempArr);
-        return returnObj;
+        const parsedObj = JSON.parse(str);
+        const elementsArray = JSON.parse(parsedObj.elements).map(([id, element]) => [id, JSON.parse(element)]);
+        parsedObj.elements = new Map(elementsArray);
+        return parsedObj;
     }
 }
