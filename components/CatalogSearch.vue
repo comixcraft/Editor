@@ -21,6 +21,9 @@
         subCategory: {
             type: Object,
         },
+        category: {
+            type: Object,
+        },
     });
 
     watch(
@@ -33,12 +36,22 @@
         }
     );
 
+    // Watches for the changes in subcategory
     watch(
         () => props.subCategory,
         (newSubCategory, oldSubCategory) => {
             if (newSubCategory !== oldSubCategory) {
-                activeFilters.value = []; // Reset active filters
-                searchTerm.value = ''; // Reset search term
+                resetFilters();
+            }
+        }
+    );
+
+    // Watches for the changes in category
+    watch(
+        () => props.category,
+        (newCategory, oldCategory) => {
+            if (newCategory !== oldCategory) {
+                resetFilters();
             }
         }
     );
@@ -63,6 +76,11 @@
         let searchArray = searchTerm.value ? searchTerm.value.split(',') : [];
         let searchArrayTrimmed = searchArray.map((searchTerm) => searchTerm.trim());
         emit('search', [...activeFilters.value, ...searchArrayTrimmed]);
+    }
+
+    function resetFilters() {
+        activeFilters.value = []; // Reset active filters
+        searchTerm.value = ''; // Reset search term
     }
 </script>
 

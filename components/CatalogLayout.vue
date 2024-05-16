@@ -66,6 +66,7 @@
             placeholder="happy, barista, ..."
             :filters="selectedSubCategory.filter"
             :subCategory="selectedSubCategory"
+            :category="selectedCategory"
             @search="
                 (selectedFilterFromSearch) => {
                     selectedFilter = selectedFilterFromSearch;
