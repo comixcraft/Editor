@@ -96,6 +96,11 @@
         height: 100%;
         width: 100%;
 
+        &__sub-navigation {
+            position: sticky;
+            bottom: 0;
+        }
+
         &__container {
             padding: $spacer-2;
         }
