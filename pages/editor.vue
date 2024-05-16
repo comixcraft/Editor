@@ -357,5 +357,8 @@
         color: $primary;
         display: flex;
         gap: $spacer-2;
+        position: absolute;
+        width: 100%;
+        background-color: $white;
     }
 </style>

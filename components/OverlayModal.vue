@@ -19,7 +19,7 @@
     <div>
         <div v-if="show" class="background"></div>
         <div v-if="show" class="overlay">
-            <div class="navigation__icon icon" @click="$emit('close')">close</div>
+            <div class="navigation__icon icon close-icon" @click="$emit('close')">close</div>
             <div class="overlay__content">
                 <slot></slot>
             </div>
@@ -65,6 +65,8 @@
 
     .close-icon {
         color: $grey-70;
+        cursor: pointer;
+        z-index: 9999;
     }
 
     .navigation__icon {

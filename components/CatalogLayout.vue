@@ -63,6 +63,7 @@
 <template>
     <div class="catalog">
         <CatalogSearch
+            class="catalog__search"
             placeholder="happy, barista, ..."
             :filters="selectedSubCategory.filter"
             :subCategory="selectedSubCategory"
@@ -95,6 +96,13 @@
         flex-direction: column;
         height: 100%;
         width: 100%;
+
+        &__search {
+            margin-top: $spacer-4;
+            position: sticky;
+            top: $spacer-4;
+            background-color: $white;
+        }
 
         &__sub-navigation {
             position: sticky;
