@@ -7,6 +7,12 @@
     const emit = defineEmits(['disableButton']);
 
     // Props
+    const props = defineProps({
+        inIndex: {
+            type: Boolean,
+            default: false,
+        },
+    });
 
     // Static Variables (let, const)
     const comicStore = useComicStore();
@@ -26,12 +32,11 @@
 
     // Methods
     async function displayPreview() {
-        const canvas = canvasEl.value;
-        canvas.width = gap;
-        canvas.height = gap + comicStore.comic.getPage(0).getStrip(0).height + creditSize.h;
-        // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
+        const canvas = canvasEl.value;
+        canvas.width = gap;
+        canvas.height = gap + stripsHeight + creditSize.h;
 
         // set the width of the canvas according to the width of the panels
         for (let i = 0; i < panels.length; i++) {
@@ -57,7 +62,6 @@
 
         // draw the credit logo
         drawCredit(canvas, context);
-        console.log('promiseArray', promiseArray);
         Promise.all(promiseArray).then(() => {
             emit('disableButton', { disableButton: false });
         });
@@ -213,6 +217,12 @@
     // Vue life cycle hooks
     onMounted(() => {
         displayPreview();
+        // Needed to get rendered on index.vue.
+        if (props.inIndex) {
+            setTimeout(() => {
+                displayPreview();
+            }, 1000);
+        }
     });
 
     // define expose
@@ -223,7 +233,7 @@
 
 <template>
     <div ref="previewCanvas" class="preview__container">
-        <canvas ref="canvasEl" class="preview__canvas"></canvas>
+        <canvas ref="canvasEl" :class="inIndex ? 'preview__canvas--inIndex' : ''" class="preview__canvas"></canvas>
     </div>
 </template>
 
@@ -233,11 +243,7 @@
         flex: 1;
         display: flex;
         justify-content: center;
-        width: 100%;
-        padding: $spacer-3;
-        @include media-breakpoint-up(lg) {
-            padding: $spacer-6;
-        }
+        padding: $spacer-3 $spacer-4;
     }
 
     .preview__canvas {
@@ -245,5 +251,10 @@
         border-radius: $border-radius;
         width: auto;
         max-height: 70svh;
+        max-width: 100%;
+        height: auto;
+        &--inIndex {
+            max-height: 250px;
+        }
     }
 </style>

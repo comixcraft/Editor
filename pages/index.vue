@@ -1,5 +1,4 @@
 <script setup>
-    import Comic from '~/utils/Classes/Comic';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
@@ -98,7 +97,7 @@
                     :class="{ 'draft-preview--selected': draftSelected }"
                     @click="selectDraftToContinue"
                 >
-                    <PreviewCanvas />
+                    <PreviewCanvas :inIndex="true" />
                     <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraftPopUpShow = true">
                         delete
                     </button>
@@ -249,11 +248,11 @@
 
     .draft-preview {
         position: relative;
-        width: 100%;
-        max-height: 25vh;
+        max-height: 25svh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
         display: flex;
+        width: fit-content;
         &:hover,
         &--selected {
             cursor: pointer;

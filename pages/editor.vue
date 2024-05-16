@@ -211,7 +211,7 @@
     </ScreenOverlay>
     <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
         <div class="darken-background">
-            <PreviewCanvas class="comic-preview" />
+            <PreviewCanvas />
         </div>
     </ScreenOverlay>
 </template>
@@ -316,13 +316,8 @@
         width: 100vw;
         height: 100%;
         background-color: $grey-60;
-    }
-
-    .comic-preview {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
     }
 
     .bottom-nav__container {
