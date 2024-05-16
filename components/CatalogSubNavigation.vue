@@ -9,14 +9,15 @@
 
     let selectedSubCategory = ref(null);
 
-    const selectSubCategory = (subCategory) => {
+    function selectSubCategory(subCategory) {
         if (selectedSubCategory.value === subCategory.name) {
             selectedSubCategory.value = null; // Deselect if already selected
         } else {
             selectedSubCategory.value = subCategory.name; // Select if not selected
         }
         emit('subCategorySelected', subCategory);
-    };
+    }
+
     function showSubNavigation() {
         // Check if any subcategory is selected and not "All assets"
         return selectedSubCategory.value !== null && !props.subCategories[0].name === 'All assets';
