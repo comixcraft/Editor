@@ -3,11 +3,14 @@
         assets: Array,
     });
 
+    const emit = defineEmits(['element-added']);
+
     const comicStore = useComicStore();
 
     let unsubscribeFromAddElement; // Store the unsubscribe function
 
     function addNewElementToDisplay(event) {
+        emit('element-added');
         comicStore.bus.emit('add-element', event);
     }
 </script>
