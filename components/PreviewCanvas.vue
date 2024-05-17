@@ -21,7 +21,6 @@
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
     const promiseArray = [];
-    let browser;
     // Reactive Variables
     // computed
 
@@ -33,7 +32,8 @@
     // Watchers
 
     // Methods
-    function initiateCanvas() {
+
+    async function displayPreview() {
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
         const canvas = canvasEl.value;
@@ -46,11 +46,6 @@
         }
 
         let context = canvas.getContext('2d');
-        return [context, canvas, panels, stripsHeight];
-    }
-
-    async function displayPreview() {
-        let [context, canvas, panels, stripsHeight] = initiateCanvas();
 
         // draw a white background
         context.save();
@@ -75,7 +70,12 @@
     }
 
     function displayPlaceholder() {
-        let [context, canvas, panels] = initiateCanvas();
+        const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
+        const canvas = canvasEl.value;
+        canvas.width = gap + comicStore.comic.getPage(0).getStrip(0).getPanel(0).width + gap;
+        canvas.height = gap + stripsHeight + creditSize.h;
+
+        let context = canvas.getContext('2d');
         context.save();
         context.beginPath();
         context.fillStyle = 'white';
@@ -243,8 +243,8 @@
     // Bus Listeners
 
     // Vue life cycle hooks
-    browser = bowser.getParser(navigator.userAgent);
     onMounted(() => {
+        let browser = bowser.getParser(navigator.userAgent);
         if (
             (browser.getBrowserName() == 'Safari' || browser.getOSName() == 'iOS' || browser.getOSName() == 'macOS') &&
             props.inIndex
