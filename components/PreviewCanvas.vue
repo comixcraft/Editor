@@ -31,7 +31,7 @@
     // Watchers
 
     // Methods
-    async function displayPreview() {
+    function initiateCanvas() {
         const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
         const canvas = canvasEl.value;
@@ -44,6 +44,11 @@
         }
 
         let context = canvas.getContext('2d');
+        return [context, canvas, panels, stripsHeight];
+    }
+
+    async function displayPreview() {
+        let [context, canvas, panels, stripsHeight] = initiateCanvas();
 
         // draw a white background
         context.save();
@@ -65,6 +70,27 @@
         Promise.all(promiseArray).then(() => {
             emit('disableButton', { disableButton: false });
         });
+    }
+
+    function displayPlaceholder() {
+        let [context, canvas, panels] = initiateCanvas();
+        context.save();
+        context.beginPath();
+        context.fillStyle = 'white';
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.fill();
+        context.restore();
+        context.save();
+        let img = new Image();
+        img.src = '/draft-placeholder.png';
+        img.onload = function () {
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+        // context.font = '180px Arial';
+        // context.rotate(0.25 * Math.PI);
+        // context.fillText('Your Draft', 250, 200);
+        context.restore();
+        emit('disableButton', { disableButton: false });
     }
 
     function drawAsset(context, element, panelDimension) {
@@ -216,6 +242,11 @@
 
     // Vue life cycle hooks
     onMounted(() => {
+        if (navigator.userAgent.indexOf('Safari') != -1 && props.inIndex) {
+            displayPlaceholder();
+            return;
+        }
+
         displayPreview();
         // Needed to get rendered on index.vue.
         if (props.inIndex) {
