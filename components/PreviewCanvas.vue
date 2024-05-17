@@ -21,7 +21,7 @@
     const gap = 10;
     const creditSize = { w: 180, h: 40 };
     const promiseArray = [];
-
+    let browser;
     // Reactive Variables
     // computed
 
@@ -243,12 +243,11 @@
     // Bus Listeners
 
     // Vue life cycle hooks
+    browser = bowser.getParser(navigator.userAgent);
     onMounted(() => {
-        let browser = bowser.getParser(navigator.userAgent).getBrowserName();
         console.log(browser);
 
-        if (browser == 'Safari' && props.inIndex) {
-            console.log(navigator.userAgent);
+        if (browser.getBrowserName() == 'Safari' && props.inIndex) {
             displayPlaceholder();
             return;
         }
@@ -270,6 +269,7 @@
 
 <template>
     <div ref="previewCanvas" class="preview__container">
+        <p>{{ browser }}</p>
         <canvas ref="canvasEl" :class="inIndex ? 'preview__canvas--inIndex' : ''" class="preview__canvas"></canvas>
     </div>
 </template>
