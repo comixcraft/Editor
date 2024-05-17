@@ -44,6 +44,7 @@
     .pop-up__image {
         height: 50%;
         max-height: 30vh;
+        margin-top: $spacer-7;
     }
 
     .title {
@@ -63,6 +64,12 @@
         width: 100%;
         align-items: center;
         gap: $spacer-2;
+
+        @include media-breakpoint-up(lg) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
 
     .option-btn {
@@ -74,6 +81,11 @@
         border-radius: $border-radius-lg;
         border: $border-width solid $secondary-100;
         width: 100%;
+
+        @include media-breakpoint-up(lg) {
+            width: auto;
+        }
+
         &:first-child {
             background-color: $secondary-100;
             color: $grey-0;
