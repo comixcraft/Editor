@@ -245,9 +245,10 @@
     // Vue life cycle hooks
     browser = bowser.getParser(navigator.userAgent);
     onMounted(() => {
-        console.log(browser);
-
-        if (browser.getBrowserName() == 'Safari' && props.inIndex) {
+        if (
+            (browser.getBrowserName() == 'Safari' || browser.getOSName() == 'iOS' || browser.getOSName() == 'macOS') &&
+            props.inIndex
+        ) {
             displayPlaceholder();
             return;
         }
