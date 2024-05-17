@@ -9,7 +9,7 @@
 
 <template>
     <div>
-        <div class="container">
+        <div class="pop-up">
             <img :src="props.imgSrc" alt="" class="pop-up__image" />
             <p class="title h1">{{ props.title }}</p>
             <p class="body">{{ props.body }}</p>
@@ -28,7 +28,7 @@
 </template>
 
 <style lang="scss" scoped>
-    .container {
+    .pop-up {
         padding: $spacer-3;
         display: flex;
         gap: $spacer-5;
@@ -39,8 +39,8 @@
     }
 
     .pop-up__image {
-        width: 60%;
-        height: auto;
+        height: 50%;
+        max-height: 30vh;
     }
 
     .title {
