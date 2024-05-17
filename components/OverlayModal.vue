@@ -56,6 +56,7 @@
         flex-direction: column;
 
         @include media-breakpoint-up(lg) {
+            padding: $spacer-5 $spacer-5 $spacer-8 $spacer-5;
             position: relative;
             width: 50%;
             border-radius: $border-radius-xl;
@@ -75,5 +76,10 @@
         color: $grey-70;
         position: absolute;
         right: $spacer-4;
+        cursor: pointer;
+
+        @include media-breakpoint-up(lg) {
+            right: $spacer-5;
+        }
     }
 </style>

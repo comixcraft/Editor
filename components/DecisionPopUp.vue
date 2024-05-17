@@ -29,13 +29,16 @@
 
 <style lang="scss" scoped>
     .pop-up {
-        padding: $spacer-3;
         display: flex;
         gap: $spacer-5;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
+
+        @include media-breakpoint-up(lg) {
+            gap: $spacer-7;
+        }
     }
 
     .pop-up__image {
@@ -70,7 +73,7 @@
         padding: $spacer-3 $spacer-5;
         border-radius: $border-radius-lg;
         border: $border-width solid $secondary-100;
-        width: calc(100% - $spacer-6);
+        width: 100%;
         &:first-child {
             background-color: $secondary-100;
             color: $grey-0;
