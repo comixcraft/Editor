@@ -1,4 +1,6 @@
 <script setup>
+    import bowser from 'bowser';
+
     // Imports
 
     // Middlewares
@@ -242,7 +244,11 @@
 
     // Vue life cycle hooks
     onMounted(() => {
-        if (navigator.userAgent.indexOf('Safari') != -1 && props.inIndex) {
+        let browser = bowser.getParser(navigator.userAgent).getBrowserName();
+        console.log(browser);
+
+        if (browser == 'Safari' && props.inIndex) {
+            console.log(navigator.userAgent);
             displayPlaceholder();
             return;
         }
