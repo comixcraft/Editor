@@ -270,7 +270,6 @@
 
 <template>
     <div ref="previewCanvas" class="preview__container">
-        <p>{{ browser }}</p>
         <canvas ref="canvasEl" :class="inIndex ? 'preview__canvas--inIndex' : ''" class="preview__canvas"></canvas>
     </div>
 </template>
