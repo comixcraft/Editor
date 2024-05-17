@@ -43,7 +43,6 @@
     function deleteElement(eId) {
         // delete last element of map
         props.panel.deleteElement(eId);
-        props.panel.addAlteration();
     }
 
     function resizeElement(obj) {
@@ -85,12 +84,10 @@
     // Bus listeners
     comicStore.bus.on('putLayerBack', (eId) => {
         downElement(eId);
-        props.panel.addAlteration();
     });
 
     comicStore.bus.on('putLayerFront', (eId) => {
         upElement(eId);
-        props.panel.addAlteration();
     });
 
     comicStore.bus.on('add-element', (event) => {
@@ -127,18 +124,19 @@
             tempEl = new ElementDS(width, height, name, type);
         }
         props.panel.addElement(tempEl);
-        props.panel.addAlteration();
     });
 
     // functions
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexUp(eId);
+        props.panel.addAlteration();
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
+        props.panel.addAlteration();
     }
 
     function delayUpdatePanelBoundingBox() {
@@ -156,9 +154,9 @@
         updatePanelBoundingBox();
     });
 
+    //could add addAlteration method here in the future?
     onUpdated(() => {
         updatePanelBoundingBox();
-        console.log('upodate');
     });
 
     onBeforeUnmount(() => {

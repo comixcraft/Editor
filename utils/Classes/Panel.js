@@ -121,9 +121,11 @@ export default class Panel {
                 value._isMirroredHorizontal = parsedState.elements.get(key).isMirroredHorizontal;
                 value._isMirroredVertical = parsedState.elements.get(key).isMirroredVertical;
                 value._rotation = parsedState.elements.get(key).rotation;
+                value._width = parsedState.elements.get(key).width;
+                value._height = parsedState.elements.get(key).height;
+                value._z = parsedState.elements.get(key).z;
             });
         } else {
-            //* DONE
             this.clearMaps();
         }
     }
@@ -133,45 +135,53 @@ export default class Panel {
      * @param {Object} alteration
      */
     addAlteration() {
+        console.log('smth was altered?' + this.history.length);
         let currentState = this.toJSON();
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
         }
-        this.redo = [];
     }
 
     undo() {
+        console.log('undo ' + this.history.length);
         if (this.history.length <= 1) return;
 
         let lastState = this.history.pop();
         this.redo.push(lastState);
         this.applyState(this.history[this.history.length - 1]);
     }
-    //! fix this
+
     redoAction() {
-        let nextState = this.redo.pop();
-        let currentState = this.toJSON();
-        this.applyState(nextState);
-        this.history.push(currentState);
+        if (this.redo.length > 0) {
+            let nextState = this.redo.pop();
+            let currentState = this.toJSON();
+            this.applyState(nextState);
+            this.history.push(currentState);
+        }
     }
 
     //!
     clearMaps() {
         this._elements.clear();
     }
+
     addElement(element) {
         // set z index of element
         element.z = this.getHighestZIndex() + 1;
         // set the element in map
         this.elements.set(element.id, element);
+        this.addAlteration();
     }
 
     /**
      * @param {String} id - key of the element in the map.
      */
     deleteElement(id) {
+        this.addAlteration();
         this.elements.delete(id);
+        console.log('hehe ' + this.redo.length);
+        console.log('hoho ' + this.history.length);
     }
 
     hasElement(id) {
