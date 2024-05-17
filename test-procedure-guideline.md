@@ -4,7 +4,7 @@
 When you test the app, please make sure that you test it:
 - on mobile
 - on desktop
-- On different browsers (firefox, chrome, edge, safari) => these 4 are representing 94% of the users
+- On different browsers (firefox, chrome, edge, safari) => these 4 are used by 94% of the users togther
 
 ## how to conduct the test?
 Here are a few step that you should follow:

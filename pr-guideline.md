@@ -42,12 +42,15 @@
 ## When the reviewer ask for changes
 
 - Go on github
-- Read the comments of the reviewer
+- Read the comments of the reviewer, it look like that:
+<img alt="pr comment" src="./public/guidelines/prComment.png">
   - Be open for feedback => no one wants to bother you
   - Keep a critical eye => You know want you did, sometimes the feedback/opinion of the reviewer won't work on your specific code
+  - if you don't agree with the comment, you can either directly contact the reviewer or comment back
+  - ***only the reviewer should close the conversation***
 - Do the changes if needed
 - Commit and push again
-- Check that dev is still merge on your branch (no new accepted PR in between)
+- Check that dev is still merge on your branch (another PR could have been accepted in between)
 - Ask for a new review (up right on the PR screen)
 
 ## When the PR is accepted
