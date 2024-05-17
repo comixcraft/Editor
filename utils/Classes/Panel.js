@@ -34,11 +34,6 @@ export default class Panel {
     #init() {
         this._elements = reactive(new Map());
         this._history = [this.toJSON()];
-        watch(
-            () => this.elements,
-            () => console.log('change'),
-            { deep: true }
-        );
     }
 
     // GETTERS
@@ -122,12 +117,10 @@ export default class Panel {
         console.log(parsedState.elements);
         if (parsedState.elements.size > 0) {
             this.elements.forEach((value, key) => {
-                console.log(value._rotation);
                 value._pos = new Position(parsedState.elements.get(key).pos._x, parsedState.elements.get(key).pos._y);
                 value._isMirroredHorizontal = parsedState.elements.get(key).isMirroredHorizontal;
                 value._isMirroredVertical = parsedState.elements.get(key).isMirroredVertical;
                 value._rotation = parsedState.elements.get(key).rotation;
-                console.log(parsedState.elements.get(key).rotation);
             });
         } else {
             //* DONE

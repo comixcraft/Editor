@@ -9,6 +9,7 @@
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
+    let refreshCount = ref(0);
 
     let selectedCategory = ref({});
 
@@ -87,10 +88,12 @@
 
     function handleUndo() {
         comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
+        refreshCount.value++;
     }
 
     function handleRedo() {
         comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
+        refreshCount.value++;
     }
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
@@ -154,6 +157,7 @@
                 <ComicPanels
                     :lockAspectRatio="lockAspectRatio"
                     :comic="comic"
+                    :refreshCount="refreshCount"
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>

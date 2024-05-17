@@ -7,6 +7,7 @@
         panel: Object,
         panelIsActive: Boolean,
         lockAspectRatio: Boolean,
+        refreshCount: Number,
     });
 
     const aspectRatioWidth = parseFloat(props.panel.width / props.panel.width);
@@ -157,6 +158,7 @@
 
     onUpdated(() => {
         updatePanelBoundingBox();
+        console.log('upodate');
     });
 
     onBeforeUnmount(() => {
@@ -170,6 +172,7 @@
 <template>
     <div class="wrapper-canvas" ref="wrapperCanvas">
         <div
+            :key="props.refreshCount"
             ref="panelElement"
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"

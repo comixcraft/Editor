@@ -7,6 +7,7 @@
             default: () => {},
         },
         lockAspectRatio: Boolean,
+        refreshCount: Number,
     });
 
     const activePanelIndex = ref(0);
@@ -39,6 +40,7 @@
         <swiper-slide v-for="(panel, index) in comic.getPage(0).getStrip(0).panels" :key="index">
             <WrapperCanvas
                 :panel="panel"
+                :refreshCount="props.refreshCount"
                 :panelIsActive="panel === comic.getPage(0).getStrip(0).panels[activePanelIndex]"
             ></WrapperCanvas>
         </swiper-slide>
