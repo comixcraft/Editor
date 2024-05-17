@@ -103,7 +103,7 @@
 
 <template>
     <div class="editor" ref="editor">
-        <div class="editor__top-nav top-nav-lg">
+        <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
@@ -179,7 +179,6 @@
                 :selectedCategoryAssets="catalogElements"
                 :selectedCategory="selectedCategory"
                 @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                @element-added="catalogShow = false"
             />
         </OverlayModal>
     </div>
@@ -230,6 +229,10 @@
 
         &__top-nav {
             justify-content: space-between;
+        }
+
+        @include media-breakpoint-up(lg) {
+            display: block;
         }
     }
 

@@ -175,7 +175,6 @@
     .top-nav__logo {
         display: flex;
         flex-direction: row;
-        margin-left: $spacer-4;
         justify-content: center;
         width: 10rem;
     }

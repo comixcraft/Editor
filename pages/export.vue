@@ -1,3 +1,4 @@
+export.vue
 <script setup>
     definePageMeta({
         middleware: ['comic-defined'],
@@ -217,8 +218,10 @@
 
 <template>
     <div class="share">
-        <div class="share__top-nav top-nav-lg">
-            <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
+        <div class="share__top-nav top-nav">
+            <button class="icon-btn">
+                <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
+            </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share__body">
@@ -274,10 +277,6 @@
     .share {
         width: 100%;
         height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
     }
 
     .share__body {
@@ -293,6 +292,11 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+    }
+
+    .icon-btn {
+        color: white;
+        text-decoration: none;
     }
 
     .export__details {
