@@ -216,7 +216,8 @@
             border: $border-width solid $info;
             z-index: 10000 !important;
 
-            .element__image {
+            .element__image,
+            .text__content {
                 opacity: 0.5;
             }
         }
