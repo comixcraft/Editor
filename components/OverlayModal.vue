@@ -58,8 +58,12 @@
         @include media-breakpoint-up(lg) {
             padding: $spacer-5 $spacer-5 $spacer-8 $spacer-5;
             position: relative;
-            width: 50%;
+            width: 75%;
             border-radius: $border-radius-xl;
+        }
+
+        @include media-breakpoint-up(xl) {
+            width: 50%;
         }
 
         &__title {
