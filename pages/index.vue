@@ -3,7 +3,7 @@
     import templateStripConfig from '/config/templateStripConfig.js';
 
     const comicStore = useComicStore();
-    const showDraftContainer = ref(false);
+    const draftAvailable = ref(false);
 
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
@@ -11,9 +11,10 @@
 
     function deleteDraft() {
         comicStore.deleteDraft();
-        showDraftContainer.value = false;
+        draftAvailable.value = false;
         deleteDraftPopUpShow.value = false;
         draftSelected.value = false;
+        selectedComicConfiguration.value = templatePanelConfig[0];
     }
 
     function createComic(config) {
@@ -44,13 +45,14 @@
     }
 
     onMounted(() => {
-        selectedComicConfiguration.value = templatePanelConfig[0];
-
-        if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') showDraftContainer.value = false;
-        else {
-            showDraftContainer.value = true;
-
+        !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
+            ? (draftAvailable.value = false)
+            : (draftAvailable.value = true);
+        if (draftAvailable.value) {
+            draftSelected.value = true;
             comicStore.createComicFromDraft();
+        } else {
+            selectedComicConfiguration.value = templatePanelConfig[0];
         }
     });
 </script>
@@ -89,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="showDraftContainer" class="draft-container">
+            <div v-if="draftAvailable" class="draft-container">
                 <h2>Draft</h2>
                 <p class="font-italic">Continue working on your previous draft</p>
                 <div
