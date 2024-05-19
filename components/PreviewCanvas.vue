@@ -37,7 +37,7 @@
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
         const canvas = canvasEl.value;
         canvas.width = gap;
-        canvas.height = gap + stripsHeight + creditSize.h;
+        canvas.height = gap + stripsHeight + (props.inIndex ? creditSize.h : 0);
 
         // set the width of the canvas according to the width of the panels
         for (let i = 0; i < panels.length; i++) {
@@ -62,8 +62,10 @@
             promiseArray.push(pan);
         }
 
-        let pr = drawCredit(canvas, context);
-        promiseArray.push(pr);
+        if (!props.inIndex) {
+            let pr = drawCredit(canvas, context);
+            promiseArray.push(pr);
+        }
 
         // draw the credit logo
         // drawCredit(canvas, context);
@@ -281,8 +283,6 @@
     }
 
     .preview__canvas {
-        border: $border-width solid black;
-        border-radius: $border-radius;
         width: auto;
         max-height: 70svh;
         max-width: 100%;
