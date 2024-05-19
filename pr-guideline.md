@@ -55,7 +55,7 @@
 
 ## When the PR is accepted
 
-Go to the discord Channel and write a message @everyone and give a list of files that you changed.
+Go to the discord Channel **pull-request** and write a message @everyone and give a list of files that you changed.
 
 If there are specific points that were bringing bugs, mentions them too, so that everyone can have a small look on these points.
 
