@@ -33,3 +33,4 @@ Here are a few step that you should follow:
 16. Delete the draft
 17. Create a new comic with more than 1 panel
 18. Redo points 2 to 16 (the assets should be on different panels)
+19. Report the issue on the PR
