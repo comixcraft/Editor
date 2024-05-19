@@ -27,6 +27,7 @@
 
     // Refs
     const canvasEl = ref(null);
+    const load = ref(true);
 
     // Watchers
 
@@ -67,17 +68,10 @@
         // draw the credit logo
         // drawCredit(canvas, context);
         Promise.all(promiseArray).then((values) => {
-            console.log(values);
+            load.value = false;
             emit('disableButton', { disableButton: false });
         });
     }
-    /*
-    1) Credit [√]
-    2) panel []
-        2.1) border [√]
-        2.2) Asset []
-        2.3) Text []
-    */
 
     function drawAsset(context, element, panelDimension) {
         return new Promise((res, rej) => {
@@ -134,7 +128,6 @@
                 creditLogo.onload = resolve;
                 creditLogo.src = credit.src;
             }).then(() => {
-                console.log(creditLogo.src);
                 context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
                 res('credit drawn');
             });
@@ -164,7 +157,6 @@
             });
 
             Promise.all(elementsPromises).then(() => {
-                console.log(`asset from panel ${index}`);
                 // draw the border of the panel
                 const img = new Image();
                 new Promise((resolve) => {
@@ -220,8 +212,6 @@
                 });
                 context.restore();
                 resolveLine('line drawn');
-            }).then(() => {
-                // Restore the saved context
                 resolveText('text drawn');
             });
         });
@@ -252,12 +242,6 @@
     // Vue life cycle hooks
     onMounted(() => {
         displayPreview();
-        // Needed to get rendered on index.vue.
-        // if (props.inIndex) {
-        //     setTimeout(() => {
-        //         displayPreview();
-        //     }, 1000);
-        // }
     });
 
     // define expose
@@ -268,6 +252,7 @@
 
 <template>
     <div ref="previewCanvas" class="preview__container">
+        <div class="loader" v-if="load"></div>
         <canvas ref="canvasEl" :class="inIndex ? 'preview__canvas--inIndex' : ''" class="preview__canvas"></canvas>
     </div>
 </template>
@@ -279,6 +264,20 @@
         display: flex;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
+
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background:
+                radial-gradient(farthest-side, $secondary-100 94%, #0000) top/8px 8px no-repeat,
+                conic-gradient(#0000 30%, $secondary-100);
+            -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+            animation: l13 1s infinite linear;
+        }
     }
 
     .preview__canvas {
@@ -290,6 +289,15 @@
         height: auto;
         &--inIndex {
             max-height: 250px;
+        }
+    }
+
+    @keyframes l13 {
+        0% {
+            transform: translate(-50%, -50%);
+        }
+        100% {
+            transform: translate(-50%, -50%) rotate(1turn);
         }
     }
 </style>
