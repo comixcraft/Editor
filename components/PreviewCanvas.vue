@@ -56,102 +56,122 @@
         // draw the panels
         let startPoint = gap;
         for (let i = 0; i < panels.length; i++) {
-            drawPanel(context, panels[i], startPoint, stripsHeight, i);
+            let pan = drawPanel(context, panels[i], startPoint, stripsHeight, i);
             startPoint += panels[i].width + gap;
+            promiseArray.push(pan);
         }
 
+        let pr = drawCredit(canvas, context);
+        promiseArray.push(pr);
+
         // draw the credit logo
-        drawCredit(canvas, context);
-        Promise.all(promiseArray).then(() => {
+        // drawCredit(canvas, context);
+        Promise.all(promiseArray).then((values) => {
+            console.log(values);
             emit('disableButton', { disableButton: false });
         });
     }
+    /*
+    1) Credit [√]
+    2) panel []
+        2.1) border []
+        2.2) Asset []
+        2.3) Text []
+    */
 
     function drawAsset(context, element, panelDimension) {
         const img = new Image();
         let promiseAsset = new Promise((resolve) => {
             img.onload = resolve;
             img.src = element.type.path;
+        }).then(() => {
+            // Save the current context
+            context.save();
+
+            // Move the rotation point to the center of the image
+            context.translate(
+                element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+                element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+            );
+
+            // Rotate the canvas to the specified degrees
+            context.rotate((element.rotation * Math.PI) / 180);
+
+            // Mirror the canvas around the x-axis or y-axis if necessary
+            if (element.isMirroredHorizontal) {
+                context.scale(-1, 1);
+            }
+            if (element.isMirroredVertical) {
+                context.scale(1, -1);
+            }
+
+            // Draw the image
+            context.drawImage(
+                img,
+                (-element.width * panelDimension.width) / 2,
+                (-element.height * panelDimension.height) / 2,
+                element.width * panelDimension.width,
+                element.height * panelDimension.height
+            );
+
+            // Restore the saved context
+            context.restore();
         });
+
         promiseArray.push(promiseAsset);
-        // Save the current context
-        context.save();
-
-        // Move the rotation point to the center of the image
-        context.translate(
-            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
-            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
-        );
-
-        // Rotate the canvas to the specified degrees
-        context.rotate((element.rotation * Math.PI) / 180);
-
-        // Mirror the canvas around the x-axis or y-axis if necessary
-        if (element.isMirroredHorizontal) {
-            context.scale(-1, 1);
-        }
-        if (element.isMirroredVertical) {
-            context.scale(1, -1);
-        }
-
-        // Draw the image
-        context.drawImage(
-            img,
-            (-element.width * panelDimension.width) / 2,
-            (-element.height * panelDimension.height) / 2,
-            element.width * panelDimension.width,
-            element.height * panelDimension.height
-        );
-
-        // Restore the saved context
-        context.restore();
     }
 
-    async function drawCredit(canvas, context) {
-        // draw credit logo at the bottom left
-        const credit = {
-            src: '/tempCredit.png',
-            width: creditSize.w,
-            height: creditSize.h,
-        };
-        const creditLogo = new Image();
-        let creditPromise = new Promise((resolve) => {
-            creditLogo.onload = resolve;
-            creditLogo.src = credit.src;
+    function drawCredit(canvas, context) {
+        return new Promise((res, reject) => {
+            // draw credit logo at the bottom left
+            const credit = {
+                src: '/tempCredit.png',
+                width: creditSize.w,
+                height: creditSize.h,
+            };
+            const creditLogo = new Image();
+            new Promise((resolve) => {
+                creditLogo.onload = resolve;
+                creditLogo.src = credit.src;
+            }).then(() => {
+                console.log(creditLogo.src);
+                context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
+                res('credit drawn');
+            });
         });
-        promiseArray.push(creditPromise);
-        context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
     }
 
     function drawPanel(context, panel, startPoint, height) {
-        // create a canvas to prerender the panel
-        const newCanvas = document.createElement('canvas');
-        newCanvas.width = panel.width;
-        newCanvas.height = height;
-        const newContext = newCanvas.getContext('2d');
+        return new Promise((res, rej) => {
+            // create a canvas to prerender the panel
+            const newCanvas = document.createElement('canvas');
+            newCanvas.width = panel.width;
+            newCanvas.height = height;
+            const newContext = newCanvas.getContext('2d');
 
-        // draw the panels
-        panel.elements.forEach((element, key) => {
-            if (element.type.name === 'Asset') {
-                drawAsset(newContext, element, { width: panel.width, height });
-            } else if (element.type.name === 'Text') {
-                drawText(newContext, element, { width: panel.width, height });
-            } else {
-                console.log('Element not recognized in drawPanel in export.vue.');
-            }
+            // draw the panels
+            // panel.elements.forEach((element, key) => {
+            //     if (element.type.name === 'Asset') {
+            //         drawAsset(newContext, element, { width: panel.width, height });
+            //     } else if (element.type.name === 'Text') {
+            //         drawText(newContext, element, { width: panel.width, height });
+            //     } else {
+            //         console.log('Element not recognized in drawPanel in export.vue.');
+            //     }
+            // });
+
+            // draw the border of the panel
+            const img = new Image();
+            new Promise((resolve) => {
+                img.onload = resolve;
+                img.src = panel.border;
+            }).then(() => {
+                newContext.drawImage(img, 0, 0, panel.width, height);
+                // draw the panel on the preview canvas
+                context.drawImage(newCanvas, startPoint, gap);
+                res('panel drawn');
+            });
         });
-
-        // draw the border of the panel
-        const img = new Image();
-        let borderPromise = new Promise((resolve) => {
-            img.onload = resolve;
-            img.src = panel.border;
-        });
-        promiseArray.push(borderPromise);
-        newContext.drawImage(img, 0, 0, panel.width, height);
-
-        // draw the panel on the preview canvas
-        context.drawImage(newCanvas, startPoint, gap);
     }
 
     function drawText(context, element, panelDimension) {
@@ -218,11 +238,11 @@
     onMounted(() => {
         displayPreview();
         // Needed to get rendered on index.vue.
-        if (props.inIndex) {
-            setTimeout(() => {
-                displayPreview();
-            }, 1000);
-        }
+        // if (props.inIndex) {
+        //     setTimeout(() => {
+        //         displayPreview();
+        //     }, 1000);
+        // }
     });
 
     // define expose
