@@ -74,7 +74,7 @@
     /*
     1) Credit [√]
     2) panel []
-        2.1) border []
+        2.1) border [√]
         2.2) Asset []
         2.3) Text []
     */
