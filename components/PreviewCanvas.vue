@@ -156,7 +156,8 @@
                     let assetPromise = drawAsset(newContext, element, { width: panel.width, height });
                     elementsPromises.push(assetPromise);
                 } else if (element.type.name === 'Text') {
-                    drawText(newContext, element, { width: panel.width, height });
+                    let textPromise = drawText(newContext, element, { width: panel.width, height });
+                    elementsPromises.push(textPromise);
                 } else {
                     console.log('Element not recognized in drawPanel in export.vue.');
                 }
@@ -180,41 +181,50 @@
     }
 
     function drawText(context, element, panelDimension) {
-        // Save the current context
-        context.save();
+        return new Promise((resolveText) => {
+            // Save the current context
+            context.save();
 
-        // Set the font properties
-        context.font = `${element.type.fontSize}px ${element.type.fontFamily}`;
-        context.fillStyle = 'black';
-        context.textBaseline = 'top';
+            // Set the font properties
+            context.font = `${element.type.fontSize}px ${element.type.fontFamily}`;
+            context.fillStyle = 'black';
+            context.textBaseline = 'top';
 
-        // Move the rotation point to the center of the element
-        context.translate(
-            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
-            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
-        );
+            // Move the rotation point to the center of the element
+            context.translate(
+                element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
+                element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+            );
 
-        // Rotate the canvas to the specified degrees
-        context.rotate((element.rotation * Math.PI) / 180);
+            // Rotate the canvas to the specified degrees
+            context.rotate((element.rotation * Math.PI) / 180);
 
-        // Mirror the canvas around the x-axis or y-axis if necessary
-        if (element.isMirroredHorizontal) {
-            context.scale(-1, 1);
-        }
-        if (element.isMirroredVertical) {
-            context.scale(1, -1);
-        }
+            // Mirror the canvas around the x-axis or y-axis if necessary
+            if (element.isMirroredHorizontal) {
+                context.scale(-1, 1);
+            }
+            if (element.isMirroredVertical) {
+                context.scale(1, -1);
+            }
 
-        // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-        context.translate((-element.width * panelDimension.width) / 2, (-element.height * panelDimension.height) / 2);
+            // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
+            context.translate(
+                (-element.width * panelDimension.width) / 2,
+                (-element.height * panelDimension.height) / 2
+            );
 
-        // Draw the text once the lines are created
-        getLines(context, element.type.content, element.width * panelDimension.width).forEach((line, i) => {
-            context.fillText(line, 0, i * element.type.fontSize);
+            // Draw the text once the lines are created
+            new Promise((resolveLine) => {
+                getLines(context, element.type.content, element.width * panelDimension.width).forEach((line, i) => {
+                    context.fillText(line, 0, i * element.type.fontSize);
+                });
+                context.restore();
+                resolveLine('line drawn');
+            }).then(() => {
+                // Restore the saved context
+                resolveText('text drawn');
+            });
         });
-
-        // Restore the saved context
-        context.restore();
     }
 
     function getLines(context, text, maxWidth) {
