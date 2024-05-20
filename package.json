@@ -17,8 +17,6 @@
         "@gausszhou/vue3-drag-resize-rotate": "^3.0.2",
         "@pinia/nuxt": "^0.5.1",
         "bootstrap": "^5.3.3",
-        "bowser": "^2.11.0",
-        "browser": "^0.2.6",
         "material-symbols": "^0.17.2",
         "mitt": "^3.0.1",
         "nuxt": "^3.11.1",

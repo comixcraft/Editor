@@ -1,6 +1,4 @@
 <script setup>
-    import bowser from 'bowser';
-
     // Imports
 
     // Middlewares
@@ -18,10 +16,11 @@
 
     // Static Variables (let, const)
     const comicStore = useComicStore();
-    const gap = 10;
     const creditSize = { w: 180, h: 40 };
+    const gap = 10;
     const promiseArray = [];
     // Reactive Variables
+
     // computed
 
     // Reactive
@@ -64,48 +63,23 @@
             promiseArray.push(pan);
         }
 
+        // draw the credit logo if the preview is not in the index
         if (!props.inIndex) {
             let pr = drawCredit(canvas, context);
             promiseArray.push(pr);
         }
 
-        // draw the credit logo
-        // drawCredit(canvas, context);
+        // Wait for all the promises to resolve before enabling the button
         Promise.all(promiseArray).then((values) => {
             load.value = false;
             emit('disableButton', { disableButton: false });
         });
     }
 
-    function displayPlaceholder() {
-        const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
-        const canvas = canvasEl.value;
-        canvas.width = gap + comicStore.comic.getPage(0).getStrip(0).getPanel(0).width + gap;
-        canvas.height = gap + stripsHeight + creditSize.h;
-
-        let context = canvas.getContext('2d');
-        context.save();
-        context.beginPath();
-        context.fillStyle = 'white';
-        context.rect(0, 0, canvas.width, canvas.height);
-        context.fill();
-        context.restore();
-        context.save();
-        let img = new Image();
-        img.src = '/draft-placeholder.png';
-        img.onload = function () {
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
-        // context.font = '180px Arial';
-        // context.rotate(0.25 * Math.PI);
-        // context.fillText('Your Draft', 250, 200);
-        context.restore();
-        emit('disableButton', { disableButton: false });
-    }
-
     function drawAsset(context, element, panelDimension) {
-        return new Promise((res, rej) => {
+        return new Promise((resolveAsset) => {
             const img = new Image();
+            // load the image and draw it on the canvas
             new Promise((resolve) => {
                 img.onload = resolve;
                 img.src = element.type.path;
@@ -140,7 +114,7 @@
                 );
                 // Restore the saved context
                 context.restore();
-                res('asset drawn');
+                resolveAsset('asset drawn');
             });
         });
     }
@@ -154,6 +128,7 @@
                 height: creditSize.h,
             };
             const creditLogo = new Image();
+            // load the logo and draw it on the canvas
             new Promise((resolve) => {
                 creditLogo.onload = resolve;
                 creditLogo.src = credit.src;
@@ -173,7 +148,7 @@
             newCanvas.height = height;
             const newContext = newCanvas.getContext('2d');
 
-            // draw the panels
+            // draw the elements on the panel
             panel.elements.forEach((element, key) => {
                 if (element.type.name === 'Asset') {
                     let assetPromise = drawAsset(newContext, element, { width: panel.width, height });
@@ -271,15 +246,6 @@
 
     // Vue life cycle hooks
     onMounted(() => {
-        let browser = bowser.getParser(navigator.userAgent);
-        if (
-            (browser.getBrowserName() == 'Safari' || browser.getOSName() == 'iOS' || browser.getOSName() == 'macOS') &&
-            props.inIndex
-        ) {
-            displayPlaceholder();
-            return;
-        }
-
         displayPreview();
     });
 

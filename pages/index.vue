@@ -48,6 +48,7 @@
         !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
             ? (draftAvailable.value = false)
             : (draftAvailable.value = true);
+
         if (draftAvailable.value) {
             draftSelected.value = true;
             comicStore.createComicFromDraft();
