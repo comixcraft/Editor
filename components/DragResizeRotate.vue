@@ -201,6 +201,7 @@
         </div>
 
         <img
+            class="element__image"
             :src="url"
             :alt="altText"
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"
@@ -210,13 +211,21 @@
 </template>
 
 <style lang="scss" scoped>
-    img {
-        width: 100%;
-        height: 100%;
-    }
+    .element {
+        &--active {
+            border: $border-width solid $info;
+            z-index: 10000 !important;
 
-    .element--active {
-        border: $border-width solid $info;
+            .element__image,
+            .text__content {
+                opacity: 0.5;
+            }
+        }
+
+        &__image {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .edition-menu {
