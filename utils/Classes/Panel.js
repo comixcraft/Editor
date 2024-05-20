@@ -9,14 +9,12 @@ export default class Panel {
     _width;
     /** @type {Number} */
     _height;
-
-    //! refactor this later
     /** @type {Object} */
     _history;
     /** @type {Object} */
-    _redo = [];
+    _redo;
     /** @type {Number} */
-    _maxHistoryIndex = 9;
+    _maxHistoryIndex;
 
     /**
      * @param {Number} width
@@ -30,10 +28,11 @@ export default class Panel {
         this.#init();
     }
 
-    //!add here to refactor
     #init() {
         this._elements = reactive(new Map());
         this._history = [this.toJSON()];
+        this._redo = [];
+        this._maxHistoryIndex = 9;
     }
 
     // GETTERS
@@ -153,8 +152,11 @@ export default class Panel {
     }
 
     redoAction() {
+        console.log('I AM CALLING THE REDO BTCH');
+        console.log(this.redo.length);
         if (this.redo.length > 0) {
             let nextState = this.redo.pop();
+            console.log(nextState);
             let currentState = this.toJSON();
             this.applyState(nextState);
             this.history.push(currentState);
