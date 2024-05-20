@@ -1,8 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
     import iconConfig from '../config/iconsConfig';
-    import ElementDS from '~/utils/Classes/Element.js';
-    import Text from '~/utils/Classes/Text.js';
 
     let selectedCategory = ref(null);
 
@@ -19,8 +16,7 @@
     selectedCategory.value = props.allAssetsButtonName;
 
     function selectCategory(category) {
-        if (selectedCategory.value === category.name) {
-        } else {
+        if (selectedCategory.value !== category.name) {
             selectedCategory.value = category.name; // Select category
             emit('categorySelected', category, []);
         }
@@ -48,7 +44,7 @@
             <span class="icon navigation__icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
             {{ category.name }}
         </button>
-        <button @click="addNewTextToDisplay()" :class="{ selected: selectedCategory === textButtonName }">
+        <button @click="addNewTextToDisplay()">
             <span class="icon navigation__icon"> {{ iconConfig.get(props.textButtonName) || 'default_icon' }} </span
             >{{ props.textButtonName }}
         </button>
@@ -68,6 +64,8 @@
         background-color: transparent;
         border: none;
         color: white;
+        margin: 0;
+        padding: $spacer-2 0;
     }
     .navigation__icon {
         height: 24px;
@@ -87,7 +85,6 @@
             &.selected {
                 background-color: $secondary;
                 color: $white;
-                padding: $spacer-2;
                 border-radius: $border-radius;
             }
         }
