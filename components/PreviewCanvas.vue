@@ -38,7 +38,7 @@
         const panels = comicStore.comic.getPage(0).getStrip(0).panels;
         const canvas = canvasEl.value;
         canvas.width = gap;
-        canvas.height = gap + stripsHeight + (props.inIndex ? creditSize.h : 0);
+        canvas.height = gap + stripsHeight + (props.inIndex ? 0 : creditSize.h);
 
         // set the width of the canvas according to the width of the panels
         for (let i = 0; i < panels.length; i++) {
@@ -286,12 +286,16 @@
     }
 
     .preview__canvas {
+        border: 1px solid $grey-100;
         width: auto;
         max-height: 70svh;
         max-width: 100%;
         height: auto;
         &--inIndex {
             max-height: 250px;
+        }
+        &--inIndex {
+            border: none;
         }
     }
 
