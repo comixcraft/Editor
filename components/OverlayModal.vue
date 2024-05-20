@@ -40,7 +40,7 @@
 
     .overlay {
         z-index: 9999999;
-        padding: $spacer-3;
+        padding-top: $spacer-3;
         background-color: $white;
         border-top-left-radius: $border-radius-xl;
         border-top-right-radius: $border-radius-xl;
