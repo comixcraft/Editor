@@ -38,16 +38,18 @@
 <template>
     <div v-if="showSubNavigation">
         <div class="sub__navigation">
-            <button
-                v-for="(subCategory, index) in props.subCategories"
-                :key="index"
-                @click="selectSubCategory(subCategory)"
-                class="sub__btn"
-                :class="{ selected: selectedSubCategory === subCategory.name }"
-            >
-                <span class="icon iconSpan"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
-                <span class="name p5">{{ subCategory.name }}</span>
-            </button>
+            <div class="sub__navigation-inner">
+                <button
+                    v-for="(subCategory, index) in props.subCategories"
+                    :key="index"
+                    @click="selectSubCategory(subCategory)"
+                    class="sub__btn"
+                    :class="{ selected: selectedSubCategory === subCategory.name }"
+                >
+                    <span class="icon iconSpan">{{ iconConfig.get(subCategory.name) || 'default_icon' }}</span>
+                    <span class="name p5">{{ subCategory.name }}</span>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -56,13 +58,18 @@
     .sub__navigation {
         background-color: $white;
         box-shadow: $box-shadow-top-right;
-        display: flex;
-        gap: $spacer-2;
-        justify-content: space-evenly;
-        padding: $spacer-3;
+        padding: $spacer-3 $spacer-4;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    .sub__navigation-inner {
+        display: flex;
+        gap: $spacer-2;
+        justify-content: center;
     }
 
     .sub__btn {
@@ -72,6 +79,7 @@
         color: $black-100;
         border: none;
         padding: $spacer-2;
+        flex-shrink: 0;
 
         .name {
             color: $grey-70;
