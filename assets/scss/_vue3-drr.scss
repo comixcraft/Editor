@@ -1,0 +1,19 @@
+// overrides classes from @gausszhou/vue3-drag-resize-rotate
+
+.handle-rot[data-v-3c286975]:before,
+.handle-rot[data-v-3c286975]:after {
+    content: none;
+}
+
+.handle-rot[data-v-3c286975]:after {
+    cursor: grab;
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-image: url('/rotate.svg');
+    background-size: cover;
+    color: $black-100;
+    fill: $black-100;
+}

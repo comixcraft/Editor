@@ -47,6 +47,8 @@
             >
                 <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
                 <span class="name p5">{{ subCategory.name }}</span>
+                <span class="icon iconSpan"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
+                {{ subCategory.name }}
             </button>
         </div>
     </div>
@@ -59,6 +61,7 @@
         display: flex;
         justify-content: space-evenly;
         padding: $spacer-2 $spacer-2 0 $spacer-2;
+        padding: $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
@@ -69,6 +72,7 @@
         padding: $spacer-3;
         border-radius: $border-radius;
         background-color: $white;
+        color: $black-100;
         border: none;
 
         .name {
@@ -88,7 +92,7 @@
         }
     }
 
-    .icon {
+    .iconSpan {
         display: block;
     }
 </style>

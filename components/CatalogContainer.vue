@@ -29,12 +29,13 @@
 
 <style lang="scss" scoped>
     .catalog__scroll-container {
+        margin-top: $spacer-3;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: flex-start;
         gap: $spacer-4;
-        overflow-y: scroll;
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
     }

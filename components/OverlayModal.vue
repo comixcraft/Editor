@@ -2,6 +2,7 @@
     const props = defineProps({
         show: { type: Boolean, default: false },
         full: Boolean,
+        padding: { type: String, default: '16px' },
     });
 
     const height = computed(() => {
@@ -17,7 +18,7 @@
 
 <template>
     <div v-if="show" class="background">
-        <div class="overlay">
+        <div class="overlay" :style="{ padding: padding }">
             <div class="close-icon icon" @click="$emit('close')">close</div>
             <div class="overlay__content">
                 <slot></slot>
@@ -43,7 +44,6 @@
     }
 
     .overlay {
-        padding: $spacer-3;
         background-color: $white;
         border-radius: $border-radius-xl $border-radius-xl 0 0;
         max-height: calc(v-bind(height) - $spacer-8);
@@ -73,13 +73,16 @@
 
         &__content {
             overflow-y: auto;
+            margin-top: $spacer-3;
         }
     }
 
     .close-icon {
         color: $grey-70;
+        z-index: 9999;
         position: absolute;
         right: $spacer-4;
+        top: $spacer-3;
         cursor: pointer;
 
         @include media-breakpoint-up(lg) {
