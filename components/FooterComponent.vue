@@ -24,24 +24,24 @@
         position: absolute;
         bottom: 0;
         background-color: $primary-30;
-        padding: $spacer-5 $spacer-7;
+        padding: $spacer-4;
 
         .first-row {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            gap: $spacer-4;
         }
 
         .links {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            text-align: center;
             gap: $spacer-3;
-            text-align: right;
         }
 
         .logo {
-            width: 15rem;
+            width: 10rem;
         }
 
         .line {
@@ -49,7 +49,35 @@
         }
 
         .copyright {
-            text-align: right;
+            text-align: center;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .footer {
+            padding: $spacer-5 $spacer-7;
+
+            .logo {
+                width: 15rem;
+            }
+
+            .first-row {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .links {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: $spacer-3;
+                text-align: right;
+            }
+
+            .copyright {
+                text-align: right;
+            }
         }
     }
 </style>
