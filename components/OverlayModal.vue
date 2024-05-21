@@ -73,6 +73,7 @@
 
         &__content {
             overflow-y: auto;
+            margin-top: $spacer-3;
         }
     }
 
@@ -81,6 +82,7 @@
         z-index: 9999;
         position: absolute;
         right: $spacer-4;
+        top: $spacer-3;
         cursor: pointer;
 
         @include media-breakpoint-up(lg) {
