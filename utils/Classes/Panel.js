@@ -116,6 +116,8 @@ export default class Panel {
     applyState(state) {
         let parsedState = Panel.fromJSON(state);
 
+        this.clearMaps();
+
         if (parsedState.elements.size > 0) {
             parsedState.elements.forEach((value, key) => {
                 if (!this.hasElement(key)) {
@@ -131,7 +133,7 @@ export default class Panel {
                     tempEl.isMirroredVertical = value.isMirroredVertical;
                     tempEl.rotation = value.rotation;
                     tempEl.z = value.z;
-                    this.addElement(tempEl);
+                    this.elements.set(tempEl.id, tempEl);
                 } else {
                     let targetElement = this.getElement(key);
                     this.setPropertiesTo(
@@ -142,8 +144,6 @@ export default class Panel {
                     );
                 }
             });
-        } else {
-            this.clearMaps();
         }
     }
 
@@ -166,11 +166,13 @@ export default class Panel {
      * @param {Object} alteration
      */
     addAlteration() {
+        console.log('HALLOOOOOOO');
         let currentState = this.toJSON();
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
         }
+        this.redo = [];
     }
 
     undo() {

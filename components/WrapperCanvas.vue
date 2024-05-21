@@ -65,21 +65,31 @@
     }
 
     function updatePosition(obj) {
-        // update element position
-        elements.get(obj.eId).pos = {
+        const element = elements.get(obj.eId);
+        const newPos = {
             x: setToRelative(obj.pos.x, currentWidth.value),
             y: setToRelative(obj.pos.y, currentHeight.value),
         };
-        props.panel.addAlteration();
+
+        // Check if the new position is different from the current position
+        if (element.pos.x !== newPos.x || element.pos.y !== newPos.y) {
+            element.pos = newPos;
+            props.panel.addAlteration();
+        }
     }
 
     function updateMirrorValues(obj) {
         // update element mirror values
+        const element = elements.get(obj.eId);
+        if (!element) return;
+
         if (obj.direction === 'x') {
-            elements.get(obj.eId).isMirroredHorizontal = obj.isMirrored;
-            return;
+            element.isMirroredHorizontal = obj.isMirrored;
+        } else {
+            element.isMirroredVertical = obj.isMirrored;
         }
-        elements.get(obj.eId).isMirroredVertical = obj.isMirrored;
+
+        console.log(`Element ${obj.eId} mirrored vertically: ${element.isMirroredVertical}`);
         props.panel.addAlteration();
     }
 
