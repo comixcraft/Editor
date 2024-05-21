@@ -45,10 +45,8 @@
                 class="sub__btn"
                 :class="{ selected: selectedSubCategory === subCategory.name }"
             >
-                <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
-                <span class="name p5">{{ subCategory.name }}</span>
                 <span class="icon iconSpan"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
-                {{ subCategory.name }}
+                <span class="name p5">{{ subCategory.name }}</span>
             </button>
         </div>
     </div>
@@ -60,7 +58,6 @@
         box-shadow: $box-shadow-light;
         display: flex;
         justify-content: space-evenly;
-        padding: $spacer-2 $spacer-2 0 $spacer-2;
         padding: $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -69,11 +66,12 @@
 
     .sub__btn {
         cursor: pointer;
-        padding: $spacer-3;
         border-radius: $border-radius;
         background-color: $white;
         color: $black-100;
         border: none;
+        margin: $spacer-3;
+        padding: $spacer-1 $spacer-2;
 
         .name {
             color: $grey-70;
