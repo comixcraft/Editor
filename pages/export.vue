@@ -334,6 +334,7 @@
         align-items: center;
         gap: $spacer-3;
         margin-bottom: $spacer-6;
+        padding-bottom: $spacer-4;
     }
 
     .accent-btn {
