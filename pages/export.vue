@@ -224,38 +224,40 @@ export.vue
             </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
-        <div class="share__body">
-            <div class="export__details d-none">
-                <div class="share__input-group">
-                    <label class="share__input-group-label" for="project-name">Project Name:</label>
-                    <input
-                        class="share__input-group-input"
-                        type="text"
-                        id="project-name"
-                        placeholder="Enter project name"
-                    />
+        <div class="share-container">
+            <div class="share__body">
+                <div class="export__details d-none">
+                    <div class="share__input-group">
+                        <label class="share__input-group-label" for="project-name">Project Name:</label>
+                        <input
+                            class="share__input-group-input"
+                            type="text"
+                            id="project-name"
+                            placeholder="Enter project name"
+                        />
+                    </div>
+                    <div class="share__input-group">
+                        <label class="share__input-group-label" for="file-type">File Type:</label>
+                        <select class="share__input-group-select">
+                            <option value="png">PNG</option>
+                        </select>
+                    </div>
+                    <div class="share__input-group">
+                        <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                        <select class="share__input-group-select">
+                            <option value="1">All panels</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="share__input-group">
-                    <label class="share__input-group-label" for="file-type">File Type:</label>
-                    <select class="share__input-group-select">
-                        <option value="png">PNG</option>
-                    </select>
-                </div>
-                <div class="share__input-group">
-                    <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                    <select class="share__input-group-select">
-                        <option value="1">All panels</option>
-                    </select>
-                </div>
-            </div>
 
-            <div ref="previewCanvas" class="preview__container">
-                <canvas ref="canvasEl" class="preview__canvas"></canvas>
+                <div ref="previewCanvas" class="preview__container">
+                    <canvas ref="canvasEl" class="preview__canvas"></canvas>
+                </div>
             </div>
-        </div>
-        <div class="btn-container">
-            <button class="accent-btn" @click="download">Download Comic</button>
-            <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
+            <div class="btn-container">
+                <button class="accent-btn" @click="download">Download Comic</button>
+                <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
+            </div>
         </div>
     </div>
     <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
@@ -284,6 +286,12 @@ export.vue
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+    }
+
+    .share-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .export__details {
@@ -388,7 +396,6 @@ export.vue
         .share__body {
             flex-direction: row;
         }
-
         .btn-container {
             flex-direction: row;
             justify-content: center;
