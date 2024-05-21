@@ -103,6 +103,7 @@
             background-color: $white;
             padding-left: $spacer-3;
             padding-right: $spacer-3;
+            z-index: 2;
         }
 
         &__sub-navigation {
