@@ -57,8 +57,8 @@
         background-color: $white;
         box-shadow: $box-shadow-light;
         display: flex;
-        padding: $spacer-2 $spacer-2 0 $spacer-2;
         justify-content: space-evenly;
+        padding: $spacer-2 $spacer-2 0 $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
@@ -66,11 +66,10 @@
 
     .sub__btn {
         cursor: pointer;
+        padding: $spacer-3;
         border-radius: $border-radius;
         background-color: $white;
         border: none;
-        margin: $spacer-3;
-        padding: $spacer-1 $spacer-2;
 
         .name {
             color: $grey-70;
