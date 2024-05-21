@@ -190,6 +190,7 @@
                 :selectedCategoryAssets="catalogElements"
                 :selectedCategory="selectedCategory"
                 @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                @element-added="catalogShow = false"
             />
         </OverlayModal>
     </div>

@@ -28,6 +28,7 @@
     let fontSize = ref(props.fontSize);
     let maxDiagonal = ref('0px');
     let counterRotation = ref('0deg');
+    let tapedTwice = ref(false);
 
     // Define reactive variables
     const angle = ref(props.rotation);
@@ -122,19 +123,17 @@
         });
     });
 
-    // onUpdated(() => {
-    //     activateElement();
-    // });
-
-    // function activateElement() {
-    //     if (!props.selectedId) {
-    //         return;
-    //     } else {
-    //         if (props.selectedId === props.eId) {
-    //             elementActive.value = true;
-    //         }
-    //     }
-    // }
+    function detectDoubleClick(e) {
+        if (!tapedTwice.value) {
+            tapedTwice.value = true;
+            setTimeout(function () {
+                tapedTwice.value = false;
+            }, 300);
+            return false;
+        }
+        e.preventDefault();
+        comicStore.setCurrentElement(props.element);
+    }
 
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };
@@ -150,7 +149,6 @@
 
         maxDiagonal.value = `${Math.max(d1, d2)}px`;
     }
-    //  :active="elementActive"
 </script>
 
 <template>
@@ -195,6 +193,7 @@
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"
             v-if="fontSize != 0"
             @dblclick="comicStore.setCurrentElement(props.element)"
+            @touchstart="detectDoubleClick"
         >
             <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
                 {{ text }}
@@ -202,6 +201,7 @@
         </div>
 
         <img
+            class="element__image"
             :src="url"
             :alt="altText"
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"
@@ -211,13 +211,21 @@
 </template>
 
 <style lang="scss" scoped>
-    img {
-        width: 100%;
-        height: 100%;
-    }
+    .element {
+        &--active {
+            border: $border-width solid $info;
+            z-index: 10000 !important;
 
-    .element--active {
-        border: $border-width solid $info;
+            .element__image,
+            .text__content {
+                opacity: 0.5;
+            }
+        }
+
+        &__image {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .edition-menu {

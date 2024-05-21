@@ -21,9 +21,17 @@
     const panelBorder = ref(`url(${props.panel.border})`);
     const currentHeight = ref(1);
     const currentWidth = ref(1);
+    const activeElementId = ref(null);
+    const isDragging = ref(false);
     let resizing = ref(false);
 
     let resizeTimeout;
+
+    function setActiveElement(eId) {
+        if (!isDragging.value) {
+            activeElementId.value = eId;
+        }
+    }
 
     function setToRelative(num, panelNum) {
         return num / panelNum;
@@ -196,6 +204,7 @@
                     :selectedId="props.selectedId"
                     :lockAspectRatio="props.lockAspectRatio"
                     :element="value"
+                    :active="activeElementId == value.id"
                     @delete-event="deleteElement"
                     @update-event="updatePosition"
                     @resize-event="resizeElement"
@@ -204,6 +213,9 @@
                     @rotate-event="updateRotation"
                     @front-event="upElement"
                     @back-event="downElement"
+                    @dragging="isDragging = true"
+                    @dragstop="isDragging = false"
+                    @activated="setActiveElement(value.id)"
                 />
             </div>
         </div>
