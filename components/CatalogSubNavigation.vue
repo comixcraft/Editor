@@ -57,8 +57,9 @@
         background-color: $white;
         box-shadow: $box-shadow-top-right;
         display: flex;
+        gap: $spacer-2;
         justify-content: space-evenly;
-        padding: $spacer-2 $spacer-3;
+        padding: $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
@@ -70,8 +71,7 @@
         background-color: $white;
         color: $black-100;
         border: none;
-        margin: $spacer-3;
-        padding: $spacer-1 $spacer-2;
+        padding: $spacer-2;
 
         .name {
             color: $grey-70;
