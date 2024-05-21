@@ -149,7 +149,7 @@
     function drawCredit(canvas, context) {
         // draw credit logo at the bottom left
         const credit = {
-            src: '/tempCredit.png',
+            src: 'public/logoCredit.png',
             width: creditSize.w,
             height: creditSize.h,
         };
