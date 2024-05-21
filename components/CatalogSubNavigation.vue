@@ -68,6 +68,7 @@
         padding: $spacer-3;
         border-radius: $border-radius;
         background-color: $white;
+        color: $black-100;
         border: none;
 
         &.selected {
