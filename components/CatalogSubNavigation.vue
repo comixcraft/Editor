@@ -58,7 +58,7 @@
         box-shadow: $box-shadow-top-right;
         display: flex;
         justify-content: space-evenly;
-        padding: $spacer-2;
+        padding: $spacer-2 $spacer-3;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
