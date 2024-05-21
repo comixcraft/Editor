@@ -289,6 +289,7 @@
 
 <style scoped lang="scss">
     .share {
+        padding-bottom: $spacer-8;
         width: 100%;
         height: 100vh;
         display: flex;
@@ -350,6 +351,7 @@
         align-items: center;
         gap: $spacer-3;
         margin-bottom: $spacer-6;
+        padding-bottom: $spacer-4;
     }
 
     .accent-btn {

@@ -60,7 +60,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="index">
         <div class="top-nav">
             <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
         </div>
@@ -167,6 +167,9 @@
 </template>
 
 <style scoped lang="scss">
+    .index {
+        padding-bottom: $spacer-8;
+    }
     h2 {
         color: $primary-100;
     }
