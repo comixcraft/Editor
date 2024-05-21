@@ -101,6 +101,8 @@
             position: sticky;
             top: $spacer-4;
             background-color: $white;
+            padding-left: $spacer-3;
+            padding-right: $spacer-3;
         }
 
         &__sub-navigation {
