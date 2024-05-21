@@ -57,7 +57,6 @@
         background-color: $white;
         box-shadow: $box-shadow-light;
         display: flex;
-        justify-content: center;
         padding: $spacer-2 $spacer-2 0 $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
