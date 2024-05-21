@@ -1,5 +1,7 @@
 import Position from './Position';
 import { watch } from 'vue';
+import ElementDS from './Element';
+import Asset from './Asset';
 export default class Panel {
     /** @type {String} */
     _border;
@@ -112,21 +114,51 @@ export default class Panel {
      * @param {Object} state
      */
     applyState(state) {
-        let parsedState = reactive(Panel.fromJSON(state));
-        console.log(parsedState.elements);
+        let parsedState = Panel.fromJSON(state);
+
         if (parsedState.elements.size > 0) {
-            this.elements.forEach((value, key) => {
-                value._pos = new Position(parsedState.elements.get(key).pos._x, parsedState.elements.get(key).pos._y);
-                value._isMirroredHorizontal = parsedState.elements.get(key).isMirroredHorizontal;
-                value._isMirroredVertical = parsedState.elements.get(key).isMirroredVertical;
-                value._rotation = parsedState.elements.get(key).rotation;
-                value._width = parsedState.elements.get(key).width;
-                value._height = parsedState.elements.get(key).height;
-                value._z = parsedState.elements.get(key).z;
+            parsedState.elements.forEach((value, key) => {
+                if (!this.hasElement(key)) {
+                    let tempType =
+                        value.type._name === 'Asset'
+                            ? new Asset(value.type._path)
+                            : new Text(value.type._content, value.type._fontSize, value.type.fontFamily);
+
+                    let tempEl = new ElementDS(value.width, value.height, value.alt, tempType);
+                    tempEl.id = value.id;
+                    tempEl.pos = new Position(value.pos._x, value.pos._y);
+                    tempEl.isMirroredHorizontal = value.isMirroredHorizontal;
+                    tempEl.isMirroredVertical = value.isMirroredVertical;
+                    tempEl.rotation = value.rotation;
+                    tempEl.z = value.z;
+                    this.addElement(tempEl);
+                } else {
+                    let targetElement = this.getElement(key);
+                    this.setPropertiesTo(
+                        value,
+                        targetElement,
+                        ['width', 'height', 'pos', 'isMirroredHorizontal', 'isMirroredVertical', 'rotation', 'z'],
+                        true
+                    );
+                }
             });
         } else {
             this.clearMaps();
         }
+    }
+
+    setPropertiesTo(oSource, oTarget, properties, useDashPrefix) {
+        properties.forEach((property) => {
+            let propertyName = useDashPrefix ? `_${property}` : property;
+
+            if (oSource.hasOwnProperty(property)) {
+                if (property === 'pos' && oSource[property]._x !== undefined && oSource[property]._y !== undefined) {
+                    oTarget[propertyName] = new Position(oSource[property]._x, oSource[property]._y);
+                } else if (oTarget.hasOwnProperty(propertyName)) {
+                    oTarget[propertyName] = oSource[property];
+                }
+            }
+        });
     }
 
     /**
@@ -134,7 +166,6 @@ export default class Panel {
      * @param {Object} alteration
      */
     addAlteration() {
-        console.log('smth was altered?' + this.history.length);
         let currentState = this.toJSON();
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
@@ -143,7 +174,6 @@ export default class Panel {
     }
 
     undo() {
-        console.log('undo ' + this.history.length);
         if (this.history.length <= 1) return;
 
         let lastState = this.history.pop();
@@ -152,11 +182,8 @@ export default class Panel {
     }
 
     redoAction() {
-        console.log('I AM CALLING THE REDO BTCH');
-        console.log(this.redo.length);
         if (this.redo.length > 0) {
             let nextState = this.redo.pop();
-            console.log(nextState);
             let currentState = this.toJSON();
             this.applyState(nextState);
             this.history.push(currentState);
@@ -180,10 +207,8 @@ export default class Panel {
      * @param {String} id - key of the element in the map.
      */
     deleteElement(id) {
-        this.addAlteration();
         this.elements.delete(id);
-        console.log('hehe ' + this.redo.length);
-        console.log('hoho ' + this.history.length);
+        this.addAlteration();
     }
 
     hasElement(id) {
