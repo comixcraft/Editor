@@ -59,7 +59,7 @@
         display: flex;
         gap: $spacer-2;
         justify-content: space-evenly;
-        padding: $spacer-2;
+        padding: $spacer-3;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
