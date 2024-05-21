@@ -166,29 +166,29 @@ export default class Panel {
      * @param {Object} alteration
      */
     addAlteration() {
-        console.log('HALLOOOOOOO');
         let currentState = this.toJSON();
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
         }
-        this.redo = [];
+        this._redo = [];
     }
 
     undo() {
         if (this.history.length <= 1) return;
 
-        let lastState = this.history.pop();
-        this.redo.push(lastState);
-        this.applyState(this.history[this.history.length - 1]);
+        let currentState = this.history.pop();
+        this._redo.push(currentState);
+
+        let previousState = this.history[this.history.length - 1];
+        this.applyState(previousState);
     }
 
     redoAction() {
-        if (this.redo.length > 0) {
-            let nextState = this.redo.pop();
-            let currentState = this.toJSON();
+        if (this._redo.length > 0) {
+            let nextState = this._redo.pop();
             this.applyState(nextState);
-            this.history.push(currentState);
+            this.history.push(nextState);
         }
     }
 
