@@ -1,4 +1,3 @@
-export.vue
 <script setup>
     definePageMeta({
         middleware: ['comic-defined'],
