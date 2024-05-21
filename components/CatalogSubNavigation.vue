@@ -45,7 +45,7 @@
                 class="sub__btn"
                 :class="{ selected: selectedSubCategory === subCategory.name }"
             >
-                <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
+                <span class="icon iconSpan"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
                 {{ subCategory.name }}
             </button>
         </div>
@@ -76,7 +76,7 @@
         }
     }
 
-    .icon {
+    .iconSpan {
         display: block;
     }
 </style>
