@@ -55,7 +55,7 @@
 <style lang="scss" scoped>
     .sub__navigation {
         background-color: $white;
-        box-shadow: $box-shadow-light;
+        box-shadow: $box-shadow-top-right;
         display: flex;
         justify-content: space-evenly;
         padding: $spacer-2;
