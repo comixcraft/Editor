@@ -58,7 +58,6 @@
     .sub__navigation {
         background-color: $white;
         box-shadow: $box-shadow-top-right;
-        padding: $spacer-3 $spacer-4;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
@@ -68,8 +67,9 @@
 
     .sub__navigation-inner {
         display: flex;
-        gap: $spacer-2;
+        gap: $spacer-3;
         justify-content: center;
+        padding: $spacer-3 $spacer-4;
     }
 
     .sub__btn {
