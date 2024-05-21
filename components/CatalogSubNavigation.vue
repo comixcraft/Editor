@@ -45,7 +45,7 @@
                 class="sub__btn"
                 :class="{ selected: selectedSubCategory === subCategory.name }"
             >
-                <span class="icon"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
+                <span class="icon iconSpan"> {{ iconConfig.get(subCategory.name) || 'default_icon' }} </span>
                 {{ subCategory.name }}
             </button>
         </div>
@@ -57,7 +57,7 @@
         background-color: $white;
         box-shadow: $box-shadow-light;
         display: flex;
-        padding: $spacer-2 $spacer-2 0 $spacer-2;
+        padding: $spacer-2;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
@@ -68,6 +68,7 @@
         padding: $spacer-3;
         border-radius: $border-radius;
         background-color: $white;
+        color: $black-100;
         border: none;
 
         &.selected {
@@ -76,7 +77,7 @@
         }
     }
 
-    .icon {
+    .iconSpan {
         display: block;
     }
 </style>
