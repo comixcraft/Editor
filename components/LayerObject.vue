@@ -164,12 +164,8 @@
         }
 
         &-ghost {
-            background-color: $secondary;
+            background-color: $primary-50;
             border: none;
-        }
-
-        &-chosen {
-            opacity: 0.3;
         }
     }
 
