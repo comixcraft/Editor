@@ -275,6 +275,10 @@
         justify-content: center;
         padding: $spacer-3 $spacer-4;
         align-self: baseline;
+
+        @include media-breakpoint-up(lg) {
+            align-self: center;
+        }
         &--inIndex {
             align-self: auto;
             @include media-breakpoint-up(lg) {
@@ -284,10 +288,6 @@
                 max-height: 250px;
                 border: none;
             }
-        }
-
-        @include media-breakpoint-up(lg) {
-            align-self: center;
         }
 
         .loader {

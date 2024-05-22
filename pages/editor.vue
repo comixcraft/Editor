@@ -1,7 +1,6 @@
 <script setup>
     import ComicPanels from '~/components/ComicPanels.vue';
     import iconConfig from '../config/iconsConfig';
-    import PreviewCanvas from '~/components/PreviewCanvas.vue';
 
     let layersShow = ref(false);
     let previewShow = ref(false);
@@ -109,7 +108,7 @@
 
 <template>
     <div class="editor" ref="editor">
-        <div class="editor__top-nav top-nav">
+        <div class="editor__top-nav top-nav-lg">
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
@@ -237,11 +236,6 @@
         &__top-nav {
             justify-content: space-between;
         }
-
-        @include media-breakpoint-up(lg) {
-            display: block;
-            overflow: hidden;
-        }
     }
 
     .secondary-btn {
@@ -269,7 +263,7 @@
     }
 
     .layer-background {
-        padding-top: $spacer-5;
+        margin-top: $spacer-5;
         width: 100vw;
         height: 100vh;
         background-color: $white;
