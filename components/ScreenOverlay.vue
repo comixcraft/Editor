@@ -39,7 +39,7 @@
         top: 0;
         left: 0;
         overflow-y: scroll;
-        background-color: $white;
+        background-color: rgba($black-100, 0.3);
         display: flex;
         flex-direction: column;
     }

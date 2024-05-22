@@ -316,7 +316,6 @@
     .darken-background {
         width: 100vw;
         height: 100%;
-        background-color: $grey-60;
         display: flex;
         align-items: center;
     }
