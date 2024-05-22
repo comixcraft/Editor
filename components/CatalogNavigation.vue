@@ -27,7 +27,7 @@
         emit('selectAllAssets');
     }
 
-    // Add new text to display
+    // Functionality to add new text to display
     function addNewTextToDisplay() {
         comicStore.bus.emit('add-element', null);
     }
@@ -50,8 +50,10 @@
             {{ category.name }}
         </button>
         <button @click="addNewTextToDisplay()">
-            <span class="icon navigation__icon"> {{ iconConfig.get(props.textButtonName) || 'default_icon' }} </span
-            >{{ props.textButtonName }}
+            <span class="icon navigation__icon">
+                {{ iconConfig.get(props.textButtonName) || 'default_icon' }}
+            </span>
+            {{ props.textButtonName }}
         </button>
     </div>
 </template>
