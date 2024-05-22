@@ -27,7 +27,7 @@
         emit('selectAllAssets');
     }
 
-    // Functionality to add new text to display
+    // Add new text to display
     function addNewTextToDisplay() {
         comicStore.bus.emit('add-element', null);
     }
