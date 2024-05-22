@@ -2,6 +2,7 @@ import Position from './Position';
 import { watch } from 'vue';
 import ElementDS from './Element';
 import Asset from './Asset';
+import Text from './Text';
 export default class Panel {
     /** @type {String} */
     _border;
@@ -118,7 +119,6 @@ export default class Panel {
 
         if (parsedState.elements.size > 0) {
             parsedState.elements.forEach((value, key) => {
-                //! add to method to simplify
                 if (!this.hasElement(key)) {
                     let tempType =
                         value.type._name === 'Asset'
@@ -135,10 +135,10 @@ export default class Panel {
                     this.elements.set(tempEl.id, tempEl);
                 } else {
                     let targetElement = this.getElement(key);
+                    console.log(targetElement);
                     this.setPropertiesTo(
                         value,
                         targetElement,
-                        // i have to add the stuff for txt
                         ['width', 'height', 'pos', 'isMirroredHorizontal', 'isMirroredVertical', 'rotation', 'z'],
                         true
                     );
@@ -146,6 +146,7 @@ export default class Panel {
             });
             this.elements.forEach((value, key) => {
                 if (!parsedState.elements.has(key)) {
+                    console.log(key);
                     this.deleteElement(key);
                 }
             });
@@ -155,15 +156,20 @@ export default class Panel {
     }
 
     setPropertiesTo(oSource, oTarget, properties, useDashPrefix) {
+        if (oTarget._type._name === 'Text') {
+            oTarget._type._content = oSource.type._content;
+            oTarget._type._fontSize = oSource.type._fontSize;
+            oTarget._type._fontFamily = oSource.type._fontFamily;
+        }
         properties.forEach((property) => {
             let propertyName = useDashPrefix ? `_${property}` : property;
 
-            if (oSource.hasOwnProperty(property)) {
-                if (property === 'pos' && oSource[property]._x !== undefined && oSource[property]._y !== undefined) {
-                    oTarget[propertyName] = new Position(oSource[property]._x, oSource[property]._y);
-                } else if (oTarget.hasOwnProperty(propertyName)) {
-                    oTarget[propertyName] = oSource[property];
-                }
+            if (!oSource.hasOwnProperty(property)) return;
+
+            if (property === 'pos' && oSource[property]._x !== undefined && oSource[property]._y !== undefined) {
+                oTarget[propertyName] = new Position(oSource[property]._x, oSource[property]._y);
+            } else if (oTarget.hasOwnProperty(propertyName)) {
+                oTarget[propertyName] = oSource[property];
             }
         });
     }
@@ -176,6 +182,7 @@ export default class Panel {
         this.redo = [];
         console.log('adding alteration');
         let currentState = this.toJSON();
+        console.log(currentState);
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
@@ -215,7 +222,6 @@ export default class Panel {
      */
     deleteElement(id) {
         this.elements.delete(id);
-        this.addAlteration();
     }
 
     hasElement(id) {

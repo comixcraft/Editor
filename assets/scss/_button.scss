@@ -8,6 +8,11 @@
     background-color: transparent;
 }
 
+.icon-btn:disabled {
+    cursor: not-allowed;
+    color: $grey-60;
+}
+
 .icon-btn:hover {
     cursor: pointer;
 }

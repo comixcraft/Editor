@@ -95,6 +95,7 @@
         comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
         refreshCount.value++;
     }
+
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;
