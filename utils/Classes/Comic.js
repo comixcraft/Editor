@@ -108,4 +108,11 @@ export default class Comic {
 
         return parsedStr;
     }
+
+    resetComic() {
+        this._name = 'undefined';
+        this._title = 'undefined';
+        this._creatorName = 'undefined';
+        this._pages = [];
+    }
 }

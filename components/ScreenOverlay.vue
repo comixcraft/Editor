@@ -40,10 +40,11 @@
         top: 0;
         left: 0;
         overflow-y: scroll;
-        background-color: $white;
+        background-color: rgba($black-100, 0.3);
     }
 
     .overlay__content {
-        margin-top: $spacer-5;
+        width: 100%;
+        height: 100%;
     }
 </style>
