@@ -3,11 +3,15 @@
 <template>
     <footer class="footer">
         <div class="first-row">
-            <img class="logo" src="/public/comixcraftLogo.svg" a="" />
+            <NuxtLink :to="{ name: 'index', path: '/' }">
+                <img class="logo" src="/public/comixcraftLogo.svg" />
+            </NuxtLink>
             <div class="links">
-                <a>Impressum</a>
-                <a>Legal Information</a>
-                <a>Comixplain</a>
+                <a href="https://showcase.comixcraft.com/" target="_blank">About comixcraft</a>
+                <a href="https://fhstp.github.io/comixplain/" target="_blank">About Comixplain</a>
+                <Nuxtlink :to="{ name: 'impressum', path: '/impressum' }">
+                    <a>Impressum</a>
+                </Nuxtlink>
             </div>
         </div>
         <hr class="line" />
@@ -21,8 +25,6 @@
         flex-direction: column;
         justify-content: center;
         width: 100%;
-        position: absolute;
-        bottom: 0;
         background-color: $primary-30;
         padding: $spacer-4;
 
