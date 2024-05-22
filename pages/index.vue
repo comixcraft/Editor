@@ -60,7 +60,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="index">
         <div class="top-nav">
             <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
         </div>
@@ -167,6 +167,10 @@
 </template>
 
 <style scoped lang="scss">
+    .index {
+        padding-bottom: $spacer-8;
+    }
+
     h2 {
         color: $primary-100;
     }
@@ -204,6 +208,7 @@
     .welcome {
         display: flex;
     }
+
     .font-italic {
         font-style: italic;
     }
@@ -256,6 +261,7 @@
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
         padding: $spacer-2 $spacer-3;
+
         &:hover,
         &--selected {
             cursor: pointer;
@@ -298,6 +304,7 @@
             justify-content: flex-start;
             padding: $spacer-4 $spacer-3;
         }
+
         .top-nav__logo {
             justify-content: flex-start;
         }
