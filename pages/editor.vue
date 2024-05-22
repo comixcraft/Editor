@@ -108,7 +108,7 @@
 
 <template>
     <div class="editor" ref="editor">
-        <div class="editor__top-nav top-nav-lg">
+        <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
@@ -231,7 +231,7 @@
     .editor {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100dvh;
 
         &__top-nav {
             justify-content: space-between;
@@ -263,7 +263,7 @@
     }
 
     .layer-background {
-        margin-top: $spacer-5;
+        padding-top: $spacer-5;
         width: 100vw;
         height: 100vh;
         background-color: $white;
@@ -344,7 +344,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100vh - 80px);
+            height: calc(100dvh - 3.5rem);
             box-shadow: $box-shadow-right;
         }
     }

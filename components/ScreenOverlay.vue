@@ -33,7 +33,8 @@
     }
 
     .overlay {
-        height: 100vh;
+        height: 100dvh;
+        width: 100vw;
         position: fixed;
         z-index: 999999;
         top: 0;
