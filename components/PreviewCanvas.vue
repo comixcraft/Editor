@@ -277,6 +277,9 @@
         align-self: baseline;
         &--inIndex {
             align-self: auto;
+            @include media-breakpoint-up(lg) {
+                align-self: auto;
+            }
             .preview__canvas {
                 max-height: 250px;
                 border: none;
