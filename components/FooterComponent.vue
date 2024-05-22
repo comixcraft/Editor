@@ -3,7 +3,7 @@
 <template>
     <footer class="footer">
         <div class="first-row">
-            <img class="logo" src="/public/comixcraftLogo.svg" />
+            <img class="logo" src="/public/comixcraftLogo.svg" a="" />
             <div class="links">
                 <a>Impressum</a>
                 <a>Legal Information</a>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <hr class="line" />
-        <p class="copyright">© comixcraft 2024. All rights reserved.</p>
+        <div class="copyright">© comixcraft 2024. All rights reserved.</div>
     </footer>
 </template>
 
@@ -38,14 +38,17 @@
             flex-direction: column;
             text-align: center;
             gap: $spacer-3;
+            cursor: pointer;
         }
 
         .logo {
             width: 10rem;
+            cursor: pointer;
         }
 
         .line {
-            margin: $spacer-3 0;
+            margin: $spacer-4 0;
+            color: $grey-70;
         }
 
         .copyright {
@@ -58,7 +61,7 @@
             padding: $spacer-5 $spacer-7;
 
             .logo {
-                width: 15rem;
+                width: 14rem;
             }
 
             .first-row {
@@ -73,6 +76,10 @@
                 justify-content: space-between;
                 gap: $spacer-3;
                 text-align: right;
+            }
+
+            .line {
+                margin: $spacer-4 0 $spacer-5;
             }
 
             .copyright {
