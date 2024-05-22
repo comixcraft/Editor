@@ -18,6 +18,12 @@
             type: String,
             default: '',
         },
+        subCategory: {
+            type: Object,
+        },
+        category: {
+            type: Object,
+        },
     });
 
     watch(
@@ -26,6 +32,26 @@
             if (newFilters.length == 0) {
                 showAllFilters.value = false;
                 activeFilters.value = []; // Reset active filters
+            }
+        }
+    );
+
+    // Watches for the changes in subcategory
+    watch(
+        () => props.subCategory,
+        (newSubCategory, oldSubCategory) => {
+            if (newSubCategory !== oldSubCategory) {
+                resetFilters();
+            }
+        }
+    );
+
+    // Watches for the changes in category
+    watch(
+        () => props.category,
+        (newCategory, oldCategory) => {
+            if (newCategory !== oldCategory) {
+                resetFilters();
             }
         }
     );
@@ -50,6 +76,11 @@
         let searchArray = searchTerm.value ? searchTerm.value.split(',') : [];
         let searchArrayTrimmed = searchArray.map((searchTerm) => searchTerm.trim());
         emit('search', [...activeFilters.value, ...searchArrayTrimmed]);
+    }
+
+    function resetFilters() {
+        activeFilters.value = []; // Reset active filters
+        searchTerm.value = ''; // Reset search term
     }
 </script>
 
@@ -107,7 +138,6 @@
         gap: $spacer-2;
         flex-wrap: wrap;
         &__pill {
-            margin-top: $spacer-2;
             cursor: pointer;
             padding: $spacer-1 $spacer-2;
             border: $border-width solid $secondary;

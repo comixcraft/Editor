@@ -1,16 +1,9 @@
 <script setup>
-    import Comic from '~/utils/Classes/Comic';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
     const comicStore = useComicStore();
-    const showDraftContainer = ref(false);
-
-    onMounted(() => {
-        !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
-            ? (showDraftContainer.value = false)
-            : (showDraftContainer.value = true);
-    });
+    const draftAvailable = ref(false);
 
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
@@ -18,9 +11,10 @@
 
     function deleteDraft() {
         comicStore.deleteDraft();
-        showDraftContainer.value = false;
+        draftAvailable.value = false;
         deleteDraftPopUpShow.value = false;
         draftSelected.value = false;
+        selectedComicConfiguration.value = templatePanelConfig[0];
     }
 
     function createComic(config) {
@@ -37,7 +31,6 @@
     function createComicFromDraft() {
         if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
 
-        comicStore.createComicFromDraft();
         return navigateTo('/editor');
     }
 
@@ -52,14 +45,23 @@
     }
 
     onMounted(() => {
-        selectedComicConfiguration.value = templatePanelConfig[0];
+        !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
+            ? (draftAvailable.value = false)
+            : (draftAvailable.value = true);
+
+        if (draftAvailable.value) {
+            draftSelected.value = true;
+            comicStore.createComicFromDraft();
+        } else {
+            selectedComicConfiguration.value = templatePanelConfig[0];
+        }
     });
 </script>
 
 <template>
-    <div>
+    <div class="index">
         <div class="top-nav">
-            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
+            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" draggable="false" />
         </div>
         <div class="container-fluid">
             <div class="intro">
@@ -86,11 +88,11 @@
                 </div>
                 <div class="col-lg-5 justify-content-center" style="display: flex">
                     <div class="comic-image">
-                        <img src="/public/comic-image@2x.png" alt="" />
+                        <img src="/public/comic-image@2x.png" alt="" draggable="false" />
                     </div>
                 </div>
             </div>
-            <div v-if="showDraftContainer" class="draft-container">
+            <div v-if="draftAvailable" class="draft-container">
                 <h2>Draft</h2>
                 <p class="font-italic">Continue working on your previous draft</p>
                 <div
@@ -98,7 +100,7 @@
                     :class="{ 'draft-preview--selected': draftSelected }"
                     @click="selectDraftToContinue"
                 >
-                    <canvas class="draft-canvas"></canvas>
+                    <PreviewCanvas :inIndex="true" />
                     <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraftPopUpShow = true">
                         delete
                     </button>
@@ -164,6 +166,10 @@
 </template>
 
 <style scoped lang="scss">
+    .index {
+        padding-bottom: $spacer-8;
+    }
+
     h2 {
         color: $primary-100;
     }
@@ -175,7 +181,6 @@
     .top-nav__logo {
         display: flex;
         flex-direction: row;
-        margin-left: $spacer-4;
         justify-content: center;
         width: 10rem;
     }
@@ -202,6 +207,7 @@
     .welcome {
         display: flex;
     }
+
     .font-italic {
         font-style: italic;
     }
@@ -249,11 +255,11 @@
 
     .draft-preview {
         position: relative;
-        width: fit-content;
-        max-height: 18vh;
+        max-height: 25svh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
-        padding: $spacer-2 $spacer-3;
+        display: flex;
+        width: fit-content;
         &:hover,
         &--selected {
             cursor: pointer;
@@ -296,6 +302,7 @@
             justify-content: flex-start;
             padding: $spacer-4 $spacer-3;
         }
+
         .top-nav__logo {
             justify-content: flex-start;
         }

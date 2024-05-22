@@ -2,11 +2,12 @@
     const props = defineProps({
         show: { type: Boolean, default: false },
         full: Boolean,
+        padding: { type: String, default: '16px' },
     });
 
     const height = computed(() => {
         if (props.full) {
-            return `100vh`;
+            return `100svh`;
         } else {
             return 'fit-content';
         }
@@ -16,10 +17,9 @@
 </script>
 
 <template>
-    <div>
-        <div v-if="show" class="background"></div>
-        <div v-if="show" class="overlay">
-            <div class="navigation__icon icon" @click="$emit('close')">close</div>
+    <div v-if="show" class="background">
+        <div class="overlay" :style="{ padding: padding }">
+            <div class="close-icon icon" @click="$emit('close')">close</div>
             <div class="overlay__content">
                 <slot></slot>
             </div>
@@ -29,21 +29,23 @@
 
 <style lang="scss" scoped>
     .background {
-        z-index: 2;
+        z-index: 9999999;
         position: absolute;
         top: 0;
-        background-color: $black-100;
-        height: 100vh;
-        width: 100%;
-        opacity: 30%;
+        background-color: rgba($black-100, 0.3);
+        height: 100dvh;
+        width: 100vw;
+
+        @include media-breakpoint-up(lg) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     .overlay {
-        z-index: 9999999;
-        padding: $spacer-3;
         background-color: $white;
-        border-top-left-radius: $border-radius-xl;
-        border-top-right-radius: $border-radius-xl;
+        border-radius: $border-radius-xl $border-radius-xl 0 0;
         max-height: calc(v-bind(height) - $spacer-8);
         width: 100%;
         left: 0;
@@ -53,6 +55,17 @@
         display: flex;
         flex-direction: column;
 
+        @include media-breakpoint-up(lg) {
+            padding: $spacer-5 $spacer-5 $spacer-8 $spacer-5;
+            position: relative;
+            width: 75%;
+            border-radius: $border-radius-xl;
+        }
+
+        @include media-breakpoint-up(xl) {
+            width: 50%;
+        }
+
         &__title {
             display: flex;
             gap: $spacer-2;
@@ -60,15 +73,20 @@
 
         &__content {
             overflow-y: auto;
+            margin-top: $spacer-3;
         }
     }
 
     .close-icon {
         color: $grey-70;
-    }
-
-    .navigation__icon {
+        z-index: 9999;
         position: absolute;
         right: $spacer-4;
+        top: $spacer-3;
+        cursor: pointer;
+
+        @include media-breakpoint-up(lg) {
+            right: $spacer-5;
+        }
     }
 </style>

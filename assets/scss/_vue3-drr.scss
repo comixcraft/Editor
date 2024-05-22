@@ -1,0 +1,86 @@
+// overrides classes from @gausszhou/vue3-drag-resize-rotate
+
+.handle-large-rot[data-v-3c286975]:before,
+.handle-large-rot[data-v-3c286975]:after {
+    content: none;
+}
+
+.handle-large-rot {
+    position: absolute;
+}
+
+.handle-large-rot[data-v-3c286975]:after {
+    cursor: grab;
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-image: url('/rotate.svg');
+    background-size: cover;
+    color: $black-100;
+    fill: $black-100;
+    position: absolute;
+    left: calc(50% - 20px) !important;
+    top: -32px !important;
+}
+
+.handle-large:not(.handle-large-rot) {
+    position: absolute;
+    border: $border-width solid $info;
+    height: 20px !important;
+    width: 20px !important;
+    margin: 14px !important;
+    font-size: 1em;
+    line-height: 1em;
+    box-sizing: border-box;
+    background-color: $white;
+}
+
+.handle-large {
+    z-index: 1;
+
+    &-tl {
+        top: -24px !important;
+        left: -24px !important;
+        cursor: nw-resize;
+        display: block;
+    }
+
+    &-tm {
+        display: none !important;
+    }
+
+    &-tr {
+        top: -24px !important;
+        right: -24px !important;
+        cursor: ne-resize;
+        display: block;
+    }
+
+    &-mr {
+        display: none !important;
+    }
+
+    &-br {
+        right: -24px !important;
+        bottom: -24px !important;
+        cursor: se-resize;
+        display: block;
+    }
+
+    &-bm {
+        display: none !important;
+    }
+
+    &-bl {
+        left: -24px !important;
+        bottom: -24px !important;
+        cursor: sw-resize;
+        display: block;
+    }
+
+    &-ml {
+        display: none !important;
+    }
+}

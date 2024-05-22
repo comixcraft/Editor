@@ -9,8 +9,8 @@
 
 <template>
     <div>
-        <div class="container">
-            <img :src="props.imgSrc" alt="" class="pop-up__image" />
+        <div class="pop-up">
+            <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" />
             <p class="title h1">{{ props.title }}</p>
             <p class="body">{{ props.body }}</p>
             <div class="btn-container">
@@ -28,19 +28,23 @@
 </template>
 
 <style lang="scss" scoped>
-    .container {
-        padding: $spacer-3;
+    .pop-up {
         display: flex;
         gap: $spacer-5;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
+
+        @include media-breakpoint-up(lg) {
+            gap: $spacer-7;
+        }
     }
 
     .pop-up__image {
-        width: 60%;
-        height: auto;
+        height: 50%;
+        max-height: 30vh;
+        margin-top: $spacer-7;
     }
 
     .title {
@@ -60,6 +64,12 @@
         width: 100%;
         align-items: center;
         gap: $spacer-2;
+
+        @include media-breakpoint-up(lg) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
 
     .option-btn {
@@ -70,7 +80,12 @@
         padding: $spacer-3 $spacer-5;
         border-radius: $border-radius-lg;
         border: $border-width solid $secondary-100;
-        width: calc(100% - $spacer-6);
+        width: 100%;
+
+        @include media-breakpoint-up(lg) {
+            width: auto;
+        }
+
         &:first-child {
             background-color: $secondary-100;
             color: $grey-0;

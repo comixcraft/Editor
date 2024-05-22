@@ -99,11 +99,16 @@
     onMounted(() => {
         fetchCatalogElements();
     });
+
+    onBeforeUnmount(() => {
+        window.onkeydown = null;
+        window.onkeyup = null;
+    });
 </script>
 
 <template>
     <div class="editor" ref="editor">
-        <div class="editor__top-nav top-nav-lg">
+        <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
@@ -121,7 +126,7 @@
                         <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
-                <div class="top-nav__item preview-btn d-none">
+                <div class="top-nav__item preview-btn">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
                         <span class="d-none d-lg-block"> Preview </span>
@@ -168,7 +173,7 @@
         </div>
     </div>
     <div class="d-lg-none">
-        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false">
+        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false" :padding="'0'">
             <div class="category__description">
                 <div class="edit-icon icon text-primary">
                     {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
@@ -179,6 +184,7 @@
                 :selectedCategoryAssets="catalogElements"
                 :selectedCategory="selectedCategory"
                 @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                @element-added="catalogShow = false"
             />
         </OverlayModal>
     </div>
@@ -208,14 +214,17 @@
             </div>
         </div>
     </ScreenOverlay>
-    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
+    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false" class="preview__overlay">
         <div class="darken-background">
-            <div class="comic-preview"></div>
+            <PreviewCanvas />
         </div>
     </ScreenOverlay>
 </template>
 
 <style scoped lang="scss">
+    .preview__overlay {
+        overflow-y: hidden !important;
+    }
     .editor:before {
         content: 's';
         display: none;
@@ -225,7 +234,7 @@
     .editor {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100dvh;
 
         &__top-nav {
             justify-content: space-between;
@@ -257,6 +266,7 @@
     }
 
     .layer-background {
+        padding-top: $spacer-5;
         width: 100vw;
         height: 100vh;
         background-color: $white;
@@ -267,6 +277,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: $white;
     }
 
     .top-nav__left-btns {
@@ -312,19 +323,10 @@
 
     .darken-background {
         width: 100vw;
-        height: 100vh;
-        background-color: $black;
-        opacity: 60%;
-    }
-
-    .comic-preview {
-        width: 60vw;
-        height: 20vh;
-        background-color: $grey-70;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .bottom-nav__container {
@@ -347,14 +349,21 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100vh - 80px);
+            height: calc(100dvh - 3.5rem);
+            box-shadow: $box-shadow-right;
         }
     }
 
     .category__description {
         margin-left: $spacer-2;
+        padding-left: $spacer-3;
+        margin-top: -$spacer-1;
         color: $primary;
         display: flex;
         gap: $spacer-2;
+        position: absolute;
+        width: 100%;
+        background-color: $white;
+        z-index: 2;
     }
 </style>
