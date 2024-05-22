@@ -159,6 +159,7 @@
         :h="h"
         :eId="eId"
         class-name-active="element--active"
+        class-name-handle="handle-large"
         ref="self"
         :x="x"
         :y="y"
