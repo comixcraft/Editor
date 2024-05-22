@@ -354,6 +354,7 @@
             display: flex;
             background-color: $white;
             height: calc(100vh - 80px);
+            box-shadow: $box-shadow-right;
         }
     }
 
