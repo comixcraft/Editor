@@ -1,5 +1,4 @@
 <script setup>
-    import Comic from '~/utils/Classes/Comic';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
@@ -32,7 +31,6 @@
     function createComicFromDraft() {
         if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
 
-        comicStore.createComicFromDraft();
         return navigateTo('/editor');
     }
 
@@ -53,6 +51,7 @@
 
         if (draftAvailable.value) {
             draftSelected.value = true;
+            comicStore.createComicFromDraft();
         } else {
             selectedComicConfiguration.value = templatePanelConfig[0];
         }
@@ -104,7 +103,7 @@
                         :class="{ 'draft-preview--selected': draftSelected }"
                         @click="selectDraftToContinue"
                     >
-                        <canvas class="draft-canvas"></canvas>
+                        <PreviewCanvas :inIndex="true" />
                         <button
                             v-if="draftSelected"
                             class="draft-btn--cancel icon"
@@ -266,12 +265,11 @@
 
     .draft-preview {
         position: relative;
-        width: fit-content;
-        max-height: 18vh;
+        max-height: 25svh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
-        padding: $spacer-2 $spacer-3;
-
+        display: flex;
+        width: fit-content;
         &:hover,
         &--selected {
             cursor: pointer;

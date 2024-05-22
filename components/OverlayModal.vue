@@ -52,8 +52,6 @@
         bottom: 0;
         right: 0;
         position: fixed;
-        display: flex;
-        flex-direction: column;
 
         @include media-breakpoint-up(lg) {
             padding: $spacer-5 $spacer-5 $spacer-8 $spacer-5;
