@@ -234,57 +234,61 @@
 
 <template>
     <div class="share">
-        <div class="share__top-nav top-nav-lg">
-            <NuxtLink to="/editor" class="share__top-nav-item back-btn icon"> arrow_back </NuxtLink>
+        <div class="share__top-nav top-nav">
+            <button class="icon-btn">
+                <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
+            </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
-        <div class="share__body">
-            <div class="export__details d-none">
-                <div class="share__input-group">
-                    <label class="share__input-group-label" for="project-name">Project Name:</label>
-                    <input
-                        class="share__input-group-input"
-                        type="text"
-                        id="project-name"
-                        placeholder="Enter project name"
-                    />
+        <div class="share-container">
+            <div class="share__body">
+                <div class="export__details d-none">
+                    <div class="share__input-group">
+                        <label class="share__input-group-label" for="project-name">Project Name:</label>
+                        <input
+                            class="share__input-group-input"
+                            type="text"
+                            id="project-name"
+                            placeholder="Enter project name"
+                        />
+                    </div>
+                    <div class="share__input-group">
+                        <label class="share__input-group-label" for="file-type">File Type:</label>
+                        <select class="share__input-group-select">
+                            <option value="png">PNG</option>
+                        </select>
+                    </div>
+                    <div class="share__input-group">
+                        <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                        <select class="share__input-group-select">
+                            <option value="1">All panels</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="share__input-group">
-                    <label class="share__input-group-label" for="file-type">File Type:</label>
-                    <select class="share__input-group-select">
-                        <option value="png">PNG</option>
-                    </select>
-                </div>
-                <div class="share__input-group">
-                    <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                    <select class="share__input-group-select">
-                        <option value="1">All panels</option>
-                    </select>
-                </div>
-            </div>
 
-            <div ref="previewCanvas" class="preview__container">
-                <canvas ref="canvasEl" class="preview__canvas"></canvas>
+                <div ref="previewCanvas" class="preview__container">
+                    <canvas ref="canvasEl" class="preview__canvas"></canvas>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button class="accent-btn" @click="download">Download Comic</button>
+                <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
             </div>
         </div>
-        <div class="btn-container">
-            <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
-            <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
-        </div>
+        <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
+            <DecisionPopUp
+                imgSrc="http://localhost:3000/catalog/Scenes/items/Rats%20In%20Love.png?raw=true"
+                title="Download successful"
+                body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
+                :buttons="[
+                    { name: 'Create New Comic', function: 'discard' },
+                    { name: 'Save Draft', function: 'save' },
+                ]"
+                @save="saveDraft"
+                @discard="reloadApp"
+            />
+        </OverlayModal>
     </div>
-    <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
-        <DecisionPopUp
-            imgSrc="http://localhost:3000/catalog/Scenes/items/Rats%20In%20Love.png?raw=true"
-            title="Download successful"
-            body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
-            :buttons="[
-                { name: 'Create New Comic', function: 'discard' },
-                { name: 'Save Draft', function: 'save' },
-            ]"
-            @save="saveDraft"
-            @discard="reloadApp"
-        />
-    </OverlayModal>
 </template>
 
 <style scoped lang="scss">
@@ -292,10 +296,6 @@
         padding-bottom: $spacer-8;
         width: 100%;
         height: 100svh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
     }
 
     .share__body {
@@ -305,12 +305,23 @@
         justify-content: space-between;
     }
 
+    .share-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .export__details {
         flex: 1;
         padding-bottom: $spacer-3;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+    }
+
+    .icon-btn {
+        color: white;
+        text-decoration: none;
     }
 
     .export__details {

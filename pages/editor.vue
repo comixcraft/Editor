@@ -108,7 +108,7 @@
 
 <template>
     <div class="editor" ref="editor">
-        <div class="editor__top-nav top-nav-lg">
+        <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
@@ -236,6 +236,11 @@
         &__top-nav {
             justify-content: space-between;
         }
+
+        @include media-breakpoint-up(lg) {
+            display: block;
+            overflow: hidden;
+        }
     }
 
     .secondary-btn {
@@ -349,7 +354,8 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100dvh - 80px);
+            height: calc(100dvh - 3rem);
+            box-shadow: $box-shadow-right;
         }
     }
 

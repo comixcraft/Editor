@@ -167,7 +167,8 @@ $border-radius-xl: 16px;
 $border-width: 1px;
 $border-width-lg: 2px;
 
-$box-shadow-light: 0 3px 10px $grey-60;
+$box-shadow-top-right: 3px -3px 2px $grey-30;
+$box-shadow-right: 3px 0px 2px $grey-30;
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/mixins';
