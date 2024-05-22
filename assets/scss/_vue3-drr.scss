@@ -38,6 +38,8 @@
 }
 
 .handle-large {
+    z-index: 1;
+
     &-tl {
         top: -24px !important;
         left: -24px !important;
