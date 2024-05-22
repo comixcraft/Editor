@@ -56,13 +56,13 @@
 
 <style lang="scss" scoped>
     .sub__navigation {
+        display: flex;
+        justify-content: space-between;
         background-color: $white;
         box-shadow: $box-shadow-top-right;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
-        display: flex;
-        justify-content: center;
     }
 
     .sub__navigation-inner {
@@ -70,6 +70,7 @@
         gap: $spacer-3;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
+        margin: auto;
     }
 
     .sub__btn {
