@@ -354,7 +354,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100dvh - 3rem);
+            height: calc(100dvh - 3.5rem);
             box-shadow: $box-shadow-right;
         }
     }
