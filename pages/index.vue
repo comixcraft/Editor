@@ -170,6 +170,7 @@
     .index {
         padding-bottom: $spacer-8;
     }
+
     h2 {
         color: $primary-100;
     }
@@ -181,7 +182,6 @@
     .top-nav__logo {
         display: flex;
         flex-direction: row;
-        margin-left: $spacer-4;
         justify-content: center;
         width: 10rem;
     }
@@ -208,6 +208,7 @@
     .welcome {
         display: flex;
     }
+
     .font-italic {
         font-style: italic;
     }
@@ -260,6 +261,7 @@
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
         padding: $spacer-2 $spacer-3;
+
         &:hover,
         &--selected {
             cursor: pointer;
@@ -302,6 +304,7 @@
             justify-content: flex-start;
             padding: $spacer-4 $spacer-3;
         }
+
         .top-nav__logo {
             justify-content: flex-start;
         }
