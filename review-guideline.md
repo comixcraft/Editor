@@ -22,7 +22,7 @@
 8. Mark what you find and add a comment that explains your findings 
    1. *you can drag and drop directly on the lines of the new file, to mark specific lines of code and open the comment editor*
    2. *You can mark a single line on clicking on it*
-9.  Once you're done reviewing a file, click on the "viewed" checkbox on the top of the file
+9.  Once you're done reviewing a file, click on the "viewed" checkbox on the top of the file *(this only affect **your** review, so if someone else review at the same time, they won't have any problem)*
 <img src="./public/guidelines/reviewViewed.png"/>
 10.   Once you are done with all files, click on the arrow next to "Review Changes" on the top right of the PR page
 <img src="./public/guidelines/reviewFinish.png"/>
