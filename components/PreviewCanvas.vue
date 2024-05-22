@@ -274,6 +274,7 @@
         display: flex;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
+        min-width: 40px;
 
         .loader {
             position: absolute;
