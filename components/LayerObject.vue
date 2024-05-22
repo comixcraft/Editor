@@ -1,6 +1,8 @@
 <script setup>
     import Sortable from 'sortablejs';
 
+    const ul = ref(null);
+
     const comicStore = useComicStore();
     const props = defineProps({
         panel: Object,
@@ -8,11 +10,11 @@
 
     const emit = defineEmits(['selectionEvent']);
 
-    let ul;
     let selection = ref(undefined);
 
     // create a reactive array from map element
     let arrayZ = ref(Array.from(props.panel.elements, ([key, value]) => value));
+    let tempArray = arrayZ;
 
     // sort Array with z-index
     const arrayZSorted = computed(() => {
@@ -20,16 +22,23 @@
     });
 
     onMounted(() => {
-        // let sortable = Sortable.create(ul, {
-        //     animation: 150,
-        //     ghostClass: 'left-over',
-        //     onEnd: function (evt) {
-        //         emit('switchEvent', {
-        //             eId1: arrayZSorted.value[evt.oldIndex].id,
-        //             eId2: arrayZSorted.value[evt.newIndex].id,
-        //         });
-        //     },
-        // });
+        let sortable = Sortable.create(ul.value, {
+            animation: 150,
+            ghostClass: 'layer-ghost',
+            chosenClass: 'layer-chosen',
+            onStart: function (evt) {},
+            onEnd: function (evt) {
+                tempArray.value = [...ul.value.children].map((layer) => props.panel.getElement(layer.accessKey));
+                const fixedCopy = [];
+                arrayZSorted.value.forEach((el) => {
+                    fixedCopy.push(el.z);
+                });
+                tempArray.value.forEach((el, index) => {
+                    el.z = fixedCopy[index];
+                });
+                updateArrayZ();
+            },
+        });
     });
 
     function sendEmitBack(eId, index) {
@@ -62,7 +71,7 @@
             <p>Start by adding an asset to the canvas.</p>
         </div>
     </div>
-    <ul class="layer-list">
+    <ul class="layer-list" ref="ul">
         <li
             v-for="(element, index) in arrayZSorted"
             :key="element.id"
@@ -131,6 +140,7 @@
     .layer {
         padding: $spacer-3;
         width: 90vw;
+        background-color: $white-100;
         border: $primary $border-width solid;
         border-radius: $border-radius;
         display: flex;
@@ -151,6 +161,11 @@
             -moz-user-drag: none;
             -o-user-drag: none;
             user-select: none;
+        }
+
+        &-ghost {
+            background-color: $primary-50;
+            border: none;
         }
     }
 
