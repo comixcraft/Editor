@@ -261,9 +261,9 @@
 </script>
 
 <template>
-    <div ref="previewCanvas" class="preview__container">
+    <div ref="previewCanvas" :class="inIndex ? 'preview__container--inIndex' : ''" class="preview__container">
         <div class="loader" v-if="load"></div>
-        <canvas ref="canvasEl" :class="inIndex ? 'preview__canvas--inIndex' : ''" class="preview__canvas"></canvas>
+        <canvas ref="canvasEl" class="preview__canvas"></canvas>
     </div>
 </template>
 
@@ -274,6 +274,18 @@
         display: flex;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
+        align-self: baseline;
+        &--inIndex {
+            align-self: auto;
+            .preview__canvas {
+                max-height: 250px;
+                border: none;
+            }
+        }
+
+        @include media-breakpoint-up(lg) {
+            align-self: center;
+        }
 
         .loader {
             position: absolute;
@@ -296,12 +308,6 @@
         max-height: 70svh;
         max-width: 100%;
         height: 100%;
-        &--inIndex {
-            max-height: 250px;
-        }
-        &--inIndex {
-            border: none;
-        }
     }
 
     @keyframes l13 {
