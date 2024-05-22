@@ -33,12 +33,12 @@
             <div class="content">
                 <h2>Contributors</h2>
                 <ul class="lists">
-                    <li>Vanessa Köck</li>
-                    <li>Antoine Muneret</li>
-                    <li>Florent Gabillon</li>
-                    <li>Juliana Matsumura</li>
                     <li>Anna Blasinger</li>
+                    <li>Florent Gabillon</li>
                     <li>Alica Holla</li>
+                    <li>Vanessa Köck</li>
+                    <li>Juliana Matsumura</li>
+                    <li>Antoine Muneret</li>
                     <li>Hannah Wagner</li>
                 </ul>
             </div>
@@ -60,16 +60,16 @@
                 <p>
                     <NuxtLink
                         class="linkText"
-                        to="https://www.fhstp.ac.at/en/legal-information/legal-information?set_language=en"
+                        to="https://www.fhstp.ac.at/de/impressum/impressum?set_language=de"
                         target="_blank"
-                        >Legal Information</NuxtLink
+                        >Imprint </NuxtLink
                     >,
                     <NuxtLink
                         class="linkText"
-                        to="https://www.fhstp.ac.at/de/impressum/impressum?set_language=de"
+                        to="https://www.fhstp.ac.at/en/legal-information/legal-information?set_language=en"
                         target="_blank"
-                        >Imprint
-                    </NuxtLink>
+                        >Legal Information</NuxtLink
+                    >
                 </p>
             </div>
 
