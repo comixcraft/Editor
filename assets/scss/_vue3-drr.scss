@@ -22,7 +22,7 @@
     fill: $black-100;
     position: absolute;
     left: calc(50% - 20px) !important;
-    top: -20px !important;
+    top: -32px !important;
 }
 
 .handle-large:not(.handle-large-rot) {
@@ -30,7 +30,7 @@
     border: $border-width solid $info;
     height: 16px !important;
     width: 16px !important;
-    margin: 12px !important;
+    margin: 16px !important;
     font-size: 1em;
     line-height: 1em;
     box-sizing: border-box;
@@ -39,57 +39,57 @@
 
 .handle-large {
     &-tl {
-        top: -20px !important;
-        left: -20px !important;
+        top: -24px !important;
+        left: -24px !important;
         cursor: nw-resize;
         display: block;
     }
 
     &-tm {
-        top: -20px !important;
-        left: calc(50% - 20px) !important;
+        top: -24px !important;
+        left: calc(50% - 24px) !important;
         cursor: n-resize;
         display: block;
     }
 
     &-tr {
-        top: -20px !important;
-        right: -20px !important;
+        top: -24px !important;
+        right: -24px !important;
         cursor: ne-resize;
         display: block;
     }
 
     &-mr {
-        top: calc(50% - 20px) !important;
-        right: -20px !important;
+        top: calc(50% - 24px) !important;
+        right: -24px !important;
         cursor: e-resize;
         display: block;
     }
 
     &-br {
-        right: -20px !important;
-        bottom: -20px !important;
+        right: -24px !important;
+        bottom: -24px !important;
         cursor: se-resize;
         display: block;
     }
 
     &-bm {
-        right: calc(50% - 20px) !important;
-        bottom: -20px !important;
+        right: calc(50% - 24px) !important;
+        bottom: -24px !important;
         cursor: s-resize;
         display: block;
     }
 
     &-bl {
-        left: -20px !important;
-        bottom: -20px !important;
+        left: -24px !important;
+        bottom: -24px !important;
         cursor: sw-resize;
         display: block;
     }
 
     &-ml {
-        top: calc(50% - 20px) !important;
-        left: -20px !important;
+        top: calc(50% - 24px) !important;
+        left: -24px !important;
         cursor: w-resize;
         display: block;
     }
