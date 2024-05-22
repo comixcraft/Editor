@@ -126,7 +126,7 @@
                         <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
-                <div class="top-nav__item preview-btn d-none">
+                <div class="top-nav__item preview-btn">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
                         <span class="d-none d-lg-block"> Preview </span>
@@ -216,7 +216,7 @@
     </ScreenOverlay>
     <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
         <div class="darken-background">
-            <div class="comic-preview"></div>
+            <PreviewCanvas />
         </div>
     </ScreenOverlay>
 </template>
@@ -231,15 +231,10 @@
     .editor {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100dvh;
 
         &__top-nav {
             justify-content: space-between;
-        }
-
-        @include media-breakpoint-up(lg) {
-            display: block;
-            overflow: hidden;
         }
     }
 
@@ -268,6 +263,7 @@
     }
 
     .layer-background {
+        padding-top: $spacer-5;
         width: 100vw;
         height: 100vh;
         background-color: $white;
@@ -323,19 +319,10 @@
 
     .darken-background {
         width: 100vw;
-        height: 100vh;
-        background-color: $black;
-        opacity: 60%;
-    }
-
-    .comic-preview {
-        width: 60vw;
-        height: 20vh;
-        background-color: $grey-70;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .bottom-nav__container {
@@ -358,7 +345,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100vh - 80px);
+            height: calc(100dvh - 3.5rem);
             box-shadow: $box-shadow-right;
         }
     }
