@@ -13,6 +13,15 @@
 
     let selectedCategory = ref({});
 
+    const undoEmpty = computed(() => {
+        console.log(undoEmpty);
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantUndo;
+    });
+
+    const redoEmpty = computed(() => {
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantRedo;
+    });
+
     definePageMeta({
         middleware: ['comic-defined'],
     });
@@ -125,8 +134,12 @@
                     arrow_back
                 </button>
                 <div class="undo-redo-container">
-                    <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo">Undo</button>
-                    <button class="top-nav__item-redo-btn icon icon-btn" @click="handleRedo">Redo</button>
+                    <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo" :disabled="undoEmpty">
+                        Undo
+                    </button>
+                    <button class="top-nav__item-redo-btn icon icon-btn" @click="handleRedo" :disabled="redoEmpty">
+                        Redo
+                    </button>
                 </div>
             </div>
 

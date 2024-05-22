@@ -9,8 +9,8 @@
 }
 
 .icon-btn:disabled {
-    cursor: not-allowed;
-    color: $grey-60;
+    cursor: not-allowed !important;
+    color: $grey-60 !important;
 }
 
 .icon-btn:hover {

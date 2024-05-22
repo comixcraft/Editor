@@ -73,6 +73,14 @@ export default class Panel {
     get redo() {
         return this._redo;
     }
+
+    get cantUndo() {
+        return this.history.length === 1;
+    }
+    get cantRedo() {
+        return this.redo.length === 0;
+    }
+
     get maxHistoryLength() {
         return this._maxHistoryIndex;
     }
