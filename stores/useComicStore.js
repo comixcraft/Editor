@@ -57,6 +57,7 @@ export const useComicStore = defineStore('comic', () => {
      * @returns {Comic}
      */
     function createComicWithConfig(config) {
+        comic.resetComic();
         const strip = new Strip(config.height);
 
         config.panels?.forEach((panel) => {
@@ -72,6 +73,7 @@ export const useComicStore = defineStore('comic', () => {
     }
 
     function createComicFromDraft() {
+        comic.resetComic();
         let refComic = getDraft().value;
 
         if (typeof refComic === 'string') {
