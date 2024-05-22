@@ -130,6 +130,7 @@
 
     .share__body {
         padding: $spacer-3;
+        align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -242,7 +243,7 @@
 
     @include media-breakpoint-up(lg) {
         .share__body {
-            flex-direction: row;
+            flex-direction: column;
         }
 
         .btn-container {

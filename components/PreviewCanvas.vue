@@ -270,8 +270,6 @@
 <style scoped lang="scss">
     /* SCSS */
     .preview__container {
-        flex: 1;
-        display: flex;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
         align-self: baseline;
