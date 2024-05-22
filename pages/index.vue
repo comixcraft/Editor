@@ -62,7 +62,7 @@
 <template>
     <div class="index">
         <div class="top-nav">
-            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
+            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" draggable="false" />
         </div>
         <div class="container-fluid">
             <div class="intro">
@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-lg-5 justify-content-center" style="display: flex">
                     <div class="comic-image">
-                        <img src="/public/comic-image@2x.png" alt="" />
+                        <img src="/public/comic-image@2x.png" alt="" draggable="false" />
                     </div>
                 </div>
             </div>

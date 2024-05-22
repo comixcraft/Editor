@@ -201,6 +201,7 @@
         </div>
 
         <img
+            draggable="false"
             class="element__image"
             :src="url"
             :alt="altText"
@@ -225,6 +226,7 @@
         &__image {
             width: 100%;
             height: 100%;
+            user-select: none;
         }
     }
 
