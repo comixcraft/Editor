@@ -3,15 +3,13 @@
 <template>
     <footer class="footer">
         <div class="first-row">
-            <NuxtLink :to="{ name: 'index', path: '/' }">
+            <NuxtLink to="/">
                 <img class="logo" src="/public/comixcraftLogo.svg" />
             </NuxtLink>
             <div class="links">
-                <a href="https://showcase.comixcraft.com/" target="_blank">About comixcraft</a>
-                <a href="https://fhstp.github.io/comixplain/" target="_blank">About Comixplain</a>
-                <Nuxtlink :to="{ name: 'impressum', path: '/impressum' }">
-                    <a>Impressum</a>
-                </Nuxtlink>
+                <NuxtLink to="/impressum">Impressum</NuxtLink>
+                <NuxtLink to="https://showcase.comixcraft.com/" target="_blank">About comixcraft</NuxtLink>
+                <NuxtLink to="https://fhstp.github.io/comixplain/" target="_blank">About Comixplain</NuxtLink>
             </div>
         </div>
         <hr class="line" />
@@ -41,6 +39,16 @@
             text-align: center;
             gap: $spacer-3;
             cursor: pointer;
+
+            a {
+                text-decoration: none;
+                color: $black-100;
+            }
+
+            a:hover {
+                color: $primary-100;
+                text-decoration: underline;
+            }
         }
 
         .logo {
