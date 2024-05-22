@@ -1,4 +1,4 @@
-<script setup>
+<script setup type="module">
     // Imports
 
     // Middlewares
@@ -140,8 +140,7 @@
     }
 
     function drawPanel(context, panel, startPoint, height, index) {
-        let elementsPromises = [];
-        return new Promise((res, rej) => {
+        return new Promise(async (res, rej) => {
             // create a canvas to prerender the panel
             const newCanvas = document.createElement('canvas');
             newCanvas.width = panel.width;
@@ -154,30 +153,25 @@
                 .sort((a, b) => a.z - b.z);
 
             // draw the elements on the panel
-            arrayZ.forEach((element) => {
+            for (const element of arrayZ) {
                 if (element.type.name === 'Asset') {
-                    let assetPromise = drawAsset(newContext, element, { width: panel.width, height });
-                    elementsPromises.push(assetPromise);
+                    await drawAsset(newContext, element, { width: panel.width, height });
                 } else if (element.type.name === 'Text') {
-                    let textPromise = drawText(newContext, element, { width: panel.width, height });
-                    elementsPromises.push(textPromise);
+                    await drawText(newContext, element, { width: panel.width, height });
                 } else {
                     console.log('Element not recognized in drawPanel in export.vue.');
                 }
-            });
-
-            Promise.all(elementsPromises).then(() => {
-                // draw the border of the panel
-                const img = new Image();
-                new Promise((resolve) => {
-                    img.onload = resolve;
-                    img.src = panel.border;
-                }).then(() => {
-                    newContext.drawImage(img, 0, 0, panel.width, height);
-                    // draw the panel on the preview canvas
-                    context.drawImage(newCanvas, startPoint, gap);
-                    res('panel drawn');
-                });
+            }
+            // draw the border of the panel
+            const img = new Image();
+            new Promise((resolve) => {
+                img.onload = resolve;
+                img.src = panel.border;
+            }).then(() => {
+                newContext.drawImage(img, 0, 0, panel.width, height);
+                // draw the panel on the preview canvas
+                context.drawImage(newCanvas, startPoint, gap);
+                res('panel drawn');
             });
         });
     }
