@@ -65,7 +65,7 @@
 
 <template>
     <div class="empty-display" v-if="arrayZ.length === 0">
-        <img src="/public/Barista explaining6.png" alt="" class="empty-display__img" />
+        <img src="/public/Barista explaining6.png" alt="" class="empty-display__img" draggable="false" />
         <div class="empty-display__text">
             <h1>No layers to display</h1>
             <p>Start by adding an asset to the canvas.</p>
@@ -81,6 +81,7 @@
             :class="{ 'layer--selected': index === selection }"
         >
             <img
+                draggable="false"
                 class="layer__image"
                 :src="element.type.path"
                 :alt="element.type.name === 'Asset' ? element.alt : 'Text icon'"

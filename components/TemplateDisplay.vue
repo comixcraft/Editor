@@ -32,7 +32,7 @@
 <template>
     <div class="template" :class="{ 'template--selected': selected }" @click="selectTemplate">
         <p class="h5 template__title">{{ title }}</p>
-        <img class="template__preview" :src="preview" :alt="title" />
+        <img class="template__preview" :src="preview" :alt="title" draggable="false" />
     </div>
 </template>
 

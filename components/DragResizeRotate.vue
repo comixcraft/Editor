@@ -161,6 +161,7 @@
         :h="h"
         :eId="eId"
         class-name-active="element--active"
+        class-name-handle="handle-large"
         ref="self"
         :x="x"
         :y="y"
@@ -203,6 +204,7 @@
         </div>
 
         <img
+            draggable="false"
             class="element__image"
             :src="url"
             :alt="altText"
@@ -227,6 +229,7 @@
         &__image {
             width: 100%;
             height: 100%;
+            user-select: none;
         }
     }
 

@@ -10,7 +10,7 @@
 <template>
     <div>
         <div class="pop-up">
-            <img :src="props.imgSrc" alt="" class="pop-up__image" />
+            <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" />
             <p class="title h1">{{ props.title }}</p>
             <p class="body">{{ props.body }}</p>
             <div class="btn-container">

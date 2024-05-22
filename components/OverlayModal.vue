@@ -7,7 +7,7 @@
 
     const height = computed(() => {
         if (props.full) {
-            return `100vh`;
+            return `100svh`;
         } else {
             return 'fit-content';
         }
@@ -33,7 +33,7 @@
         position: absolute;
         top: 0;
         background-color: rgba($black-100, 0.3);
-        height: 100vh;
+        height: 100dvh;
         width: 100vw;
 
         @include media-breakpoint-up(lg) {
@@ -52,8 +52,6 @@
         bottom: 0;
         right: 0;
         position: fixed;
-        display: flex;
-        flex-direction: column;
 
         @include media-breakpoint-up(lg) {
             padding: $spacer-5 $spacer-5 $spacer-8 $spacer-5;
