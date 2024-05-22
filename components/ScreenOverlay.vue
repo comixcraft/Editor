@@ -40,8 +40,6 @@
         left: 0;
         overflow-y: scroll;
         background-color: rgba($black-100, 0.3);
-        display: flex;
-        flex-direction: column;
     }
 
     .overlay__content {
