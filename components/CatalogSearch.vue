@@ -138,7 +138,6 @@
         gap: $spacer-2;
         flex-wrap: wrap;
         &__pill {
-            margin-top: $spacer-2;
             cursor: pointer;
             padding: $spacer-1 $spacer-2;
             border: $border-width solid $secondary;

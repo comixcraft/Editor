@@ -100,6 +100,11 @@
     onMounted(() => {
         fetchCatalogElements();
     });
+
+    onBeforeUnmount(() => {
+        window.onkeydown = null;
+        window.onkeyup = null;
+    });
 </script>
 
 <template>
@@ -169,7 +174,7 @@
         </div>
     </div>
     <div class="d-lg-none">
-        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false">
+        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false" :padding="'0'">
             <div class="category__description">
                 <div class="edit-icon icon text-primary">
                     {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
@@ -341,13 +346,20 @@
             display: flex;
             background-color: $white;
             height: calc(100vh - 80px);
+            box-shadow: $box-shadow-right;
         }
     }
 
     .category__description {
         margin-left: $spacer-2;
+        padding-left: $spacer-3;
+        margin-top: -$spacer-1;
         color: $primary;
         display: flex;
         gap: $spacer-2;
+        position: absolute;
+        width: 100%;
+        background-color: $white;
+        z-index: 2;
     }
 </style>
