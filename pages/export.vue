@@ -119,6 +119,7 @@
             />
         </OverlayModal>
     </div>
+    <FooterComponent />
 </template>
 
 <style scoped lang="scss">
