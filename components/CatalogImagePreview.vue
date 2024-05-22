@@ -7,7 +7,7 @@
 
 <template>
     <div class="card">
-        <img :alt="altText" :src="url" loading="lazy" />
+        <img :alt="altText" :src="url" loading="lazy" draggable="false" />
     </div>
 </template>
 
