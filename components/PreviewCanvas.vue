@@ -279,6 +279,7 @@
             .preview__canvas {
                 max-height: 250px;
                 border: none;
+                height: 100%;
             }
         }
 
@@ -302,7 +303,7 @@
         width: auto;
         max-height: 70svh;
         max-width: 100%;
-        height: 100%;
+        height: auto;
     }
 
     @keyframes l13 {
