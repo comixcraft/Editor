@@ -148,8 +148,13 @@
             newCanvas.height = height;
             const newContext = newCanvas.getContext('2d');
 
+            // get z sorted array of elements
+            let arrayZ = Array.from(panel.elements, ([key, value]) => value)
+                .slice()
+                .sort((a, b) => a.z - b.z);
+
             // draw the elements on the panel
-            panel.elements.forEach((element, key) => {
+            arrayZ.forEach((element) => {
                 if (element.type.name === 'Asset') {
                     let assetPromise = drawAsset(newContext, element, { width: panel.width, height });
                     elementsPromises.push(assetPromise);
