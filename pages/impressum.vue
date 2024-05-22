@@ -2,7 +2,9 @@
 
 <template>
     <div class="top-nav">
-        <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
+        <NuxtLink to="/">
+            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
+        </NuxtLink>
     </div>
 
     <div class="container-fluid">
