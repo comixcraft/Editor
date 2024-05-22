@@ -46,10 +46,7 @@
     }
 
     &-tm {
-        top: -24px !important;
-        left: calc(50% - 24px) !important;
-        cursor: n-resize;
-        display: block;
+        display: none !important;
     }
 
     &-tr {
@@ -60,10 +57,7 @@
     }
 
     &-mr {
-        top: calc(50% - 24px) !important;
-        right: -24px !important;
-        cursor: e-resize;
-        display: block;
+        display: none !important;
     }
 
     &-br {
@@ -74,10 +68,7 @@
     }
 
     &-bm {
-        right: calc(50% - 24px) !important;
-        bottom: -24px !important;
-        cursor: s-resize;
-        display: block;
+        display: none !important;
     }
 
     &-bl {
@@ -88,9 +79,6 @@
     }
 
     &-ml {
-        top: calc(50% - 24px) !important;
-        left: -24px !important;
-        cursor: w-resize;
-        display: block;
+        display: none !important;
     }
 }
