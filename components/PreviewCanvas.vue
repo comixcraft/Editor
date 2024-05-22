@@ -274,7 +274,6 @@
         display: flex;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
-        min-width: 40px;
 
         .loader {
             position: absolute;
@@ -296,7 +295,7 @@
         width: auto;
         max-height: 70svh;
         max-width: 100%;
-        height: auto;
+        height: 100%;
         &--inIndex {
             max-height: 250px;
         }
