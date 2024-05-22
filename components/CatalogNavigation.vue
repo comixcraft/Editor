@@ -46,7 +46,9 @@
             @click="selectCategory(category)"
             :class="{ selected: selectedCategory === category.name }"
         >
-            <span class="icon navigation__icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
+            <span class="icon navigation__icon">
+                {{ iconConfig.get(category.name) || 'default_icon' }}
+            </span>
             {{ category.name }}
         </button>
         <button @click="addNewTextToDisplay()">
