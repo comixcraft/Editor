@@ -231,7 +231,7 @@
     .editor {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100dvh;
 
         &__top-nav {
             justify-content: space-between;
@@ -268,8 +268,6 @@
     }
 
     .layer-background {
-        width: 100vw;
-        height: 100vh;
         background-color: $white;
     }
 
@@ -322,8 +320,6 @@
     }
 
     .darken-background {
-        width: 100vw;
-        height: 100vh;
         background-color: $black;
         opacity: 60%;
     }
@@ -358,7 +354,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100vh - 80px);
+            height: calc(100dvh - 3.5rem);
             box-shadow: $box-shadow-right;
         }
     }
