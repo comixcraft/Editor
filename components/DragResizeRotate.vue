@@ -46,6 +46,7 @@
         'rotateEvent',
         'backEvent',
         'frontEvent',
+        'textUpdate',
     ]);
 
     // computed functions
@@ -120,6 +121,7 @@
                 text.value = obj.text;
                 fontSize.value = obj.fontSize;
             }
+            emit('textUpdate', obj.text);
         });
     });
 

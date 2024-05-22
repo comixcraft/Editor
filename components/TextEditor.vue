@@ -5,10 +5,6 @@
     let fontSize = ref(24);
     let element = ref(null);
 
-    // const props = defineProps({
-    //     panel: Object,
-    // });
-
     function startModifyText() {
         element.value = comicStore.getCurrentElement().value;
         textarea.value.focus();
@@ -16,18 +12,15 @@
         fontSize.value = element.value.type.fontSize;
     }
 
-    //! either pass the props or use the comicstore.bus in this function to track text changes
-
     function stopModifyText() {
+        element.value.type.content = textValue.value;
         comicStore.bus.emit('updateText', {
             id: element.value.id,
             text: textValue.value,
             fontSize: fontSize.value,
         });
-        element.value.type.content = textValue.value;
         textValue.value = '';
         comicStore.setCurrentElement(null);
-        //props.panel.addAlteration();
     }
 
     function increaseFont() {

@@ -89,7 +89,6 @@
             element.isMirroredVertical = obj.isMirrored;
         }
 
-        console.log(`Element ${obj.eId} mirrored vertically: ${element.isMirroredVertical}`);
         props.panel.addAlteration();
     }
 
@@ -154,6 +153,11 @@
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
+        props.panel.addAlteration();
+    }
+
+    function textUpdate(text) {
+        console.log('I have been changed to: ' + text);
         props.panel.addAlteration();
     }
 
@@ -223,6 +227,7 @@
                     @rotate-event="updateRotation"
                     @front-event="upElement"
                     @back-event="downElement"
+                    @text-update="textUpdate"
                     @dragging="isDragging = true"
                     @dragstop="isDragging = false"
                     @activated="setActiveElement(value.id)"

@@ -116,10 +116,9 @@ export default class Panel {
     applyState(state) {
         let parsedState = Panel.fromJSON(state);
 
-        this.clearMaps();
-
         if (parsedState.elements.size > 0) {
             parsedState.elements.forEach((value, key) => {
+                //! add to method to simplify
                 if (!this.hasElement(key)) {
                     let tempType =
                         value.type._name === 'Asset'
@@ -139,11 +138,19 @@ export default class Panel {
                     this.setPropertiesTo(
                         value,
                         targetElement,
+                        // i have to add the stuff for txt
                         ['width', 'height', 'pos', 'isMirroredHorizontal', 'isMirroredVertical', 'rotation', 'z'],
                         true
                     );
                 }
             });
+            this.elements.forEach((value, key) => {
+                if (!parsedState.elements.has(key)) {
+                    this.deleteElement(key);
+                }
+            });
+        } else {
+            this.clearMaps();
         }
     }
 
@@ -166,20 +173,19 @@ export default class Panel {
      * @param {Object} alteration
      */
     addAlteration() {
+        this.redo = [];
+        console.log('adding alteration');
         let currentState = this.toJSON();
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();
         }
-        this._redo = [];
     }
 
     undo() {
         if (this.history.length <= 1) return;
-
         let currentState = this.history.pop();
         this._redo.push(currentState);
-
         let previousState = this.history[this.history.length - 1];
         this.applyState(previousState);
     }
@@ -192,7 +198,6 @@ export default class Panel {
         }
     }
 
-    //!
     clearMaps() {
         this._elements.clear();
     }
