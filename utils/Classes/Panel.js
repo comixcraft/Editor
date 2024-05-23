@@ -140,10 +140,11 @@ export default class Panel {
                     tempEl.isMirroredVertical = value.isMirroredVertical;
                     tempEl.rotation = value.rotation;
                     tempEl.z = value.z;
+                    tempEl.width = value.width;
+                    tempEl.height = value.height;
                     this.elements.set(tempEl.id, tempEl);
                 } else {
                     let targetElement = this.getElement(key);
-                    console.log(targetElement);
                     this.setPropertiesTo(
                         value,
                         targetElement,
@@ -154,7 +155,6 @@ export default class Panel {
             });
             this.elements.forEach((value, key) => {
                 if (!parsedState.elements.has(key)) {
-                    console.log(key);
                     this.deleteElement(key);
                 }
             });
@@ -188,9 +188,7 @@ export default class Panel {
      */
     addAlteration() {
         this.redo = [];
-        console.log('adding alteration');
         let currentState = this.toJSON();
-        console.log(currentState);
         this.history.push(currentState);
         if (this.history.length > this.maxHistoryLength) {
             this.history.shift();

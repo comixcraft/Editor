@@ -157,7 +157,6 @@
     }
 
     function textUpdate(text) {
-        console.log('I have been changed to: ' + text);
         props.panel.addAlteration();
     }
 

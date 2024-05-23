@@ -14,7 +14,6 @@
     let selectedCategory = ref({});
 
     const undoEmpty = computed(() => {
-        console.log(undoEmpty);
         return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantUndo;
     });
 
