@@ -227,7 +227,11 @@ export default class Panel {
      * @param {String} id - key of the element in the map.
      */
     deleteElement(id) {
-        this.elements.delete(id);
+        if (this.elements.has(id)) {
+            this.addAlteration();
+            this.elements.delete(id);
+            this.addAlteration();
+        }
     }
 
     hasElement(id) {
