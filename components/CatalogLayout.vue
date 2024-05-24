@@ -18,23 +18,24 @@
         },
     });
 
-    // Watch for changes in selectedCategory
+    const catalogContainerRef = ref(null); // Ref for the CatalogContainer
+
     watch(
         () => props.selectedCategory,
         () => {
             selectedSubCategory.value = {};
-            // Reset selected filters when category changes
             selectedFilter.value = [];
             emitCatalogChanged();
+            scrollToTop();
         }
     );
 
-    // Watch for changes in selectedSubCategory
     watch(
         () => selectedSubCategory.value,
         () => {
             selectedFilter.value = [];
             emitCatalogChanged();
+            scrollToTop();
         }
     );
 
@@ -53,6 +54,12 @@
             selectedSubCategory.value = subCategory;
         }
         emitCatalogChanged();
+    }
+
+    function scrollToTop() {
+        if (catalogContainerRef.value) {
+            catalogContainerRef.value.$refs.scrollContainerRef.scrollTop = 0;
+        }
     }
 
     onMounted(() => {
@@ -76,6 +83,7 @@
             "
         />
         <CatalogContainer
+            ref="catalogContainerRef"
             class="catalog__container"
             :assets="selectedCategoryAssets"
             @element-added="$emit('element-added')"

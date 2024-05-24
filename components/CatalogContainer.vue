@@ -7,16 +7,17 @@
 
     const comicStore = useComicStore();
 
-    let unsubscribeFromAddElement; // Store the unsubscribe function
-
     function addNewElementToDisplay(event) {
         emit('element-added');
         comicStore.bus.emit('add-element', event);
     }
+
+    // Define a ref for the scroll container
+    const scrollContainerRef = ref(null);
 </script>
 
 <template>
-    <div class="catalog__scroll-container">
+    <div ref="scrollContainerRef" class="catalog__scroll-container">
         <CatalogImagePreview
             v-for="asset in assets"
             :key="asset.id"
