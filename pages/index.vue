@@ -176,7 +176,6 @@
 
 <style scoped lang="scss">
     .index {
-        //position: relative;
         padding-bottom: $spacer-8;
     }
 
