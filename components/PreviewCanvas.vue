@@ -17,7 +17,7 @@
     // Static Variables (let, const)
     const comicStore = useComicStore();
     const creditSize = { w: 400, h: 50 };
-    const ccSize = { w: 80, h: 32 };
+    const ccSize = { w: 80, h: 40 };
     const gap = 10;
     const promiseArray = [];
     // Reactive Variables
