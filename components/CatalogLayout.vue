@@ -1,4 +1,3 @@
-<!-- cataloglayout.vue -->
 <script setup>
     const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
