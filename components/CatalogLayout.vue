@@ -59,6 +59,11 @@
     function scrollToTop() {
         if (catalogContainerRef.value) {
             catalogContainerRef.value.$refs.scrollContainerRef.scrollTop = 0;
+        } else {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth', // Optionally, you can use smooth scrolling behavior
+            });
         }
     }
 
