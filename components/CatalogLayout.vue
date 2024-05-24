@@ -1,3 +1,4 @@
+<!-- cataloglayout.vue -->
 <script setup>
     const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
@@ -57,14 +58,7 @@
     }
 
     function scrollToTop() {
-        if (!catalogContainerRef.value || !catalogContainerRef.value.$refs.scrollContainerRef) {
-            return;
-        }
-
-        // Small timeout to avoid conflicts with touch events
-        setTimeout(() => {
-            catalogContainerRef.value.$refs.scrollContainerRef.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 50);
+        catalogContainerRef.value.$refs.scrollContainerRef.scrollTop = 0;
     }
 
     onMounted(() => {

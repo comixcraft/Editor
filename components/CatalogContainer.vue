@@ -1,3 +1,4 @@
+<!-- catalogcontainer.vue -->
 <script setup>
     const props = defineProps({
         assets: Array,
