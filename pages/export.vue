@@ -172,6 +172,7 @@
 
     .share__top-nav {
         width: 100%;
+        user-select: none;
     }
 
     .share__input-group-input,

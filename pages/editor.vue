@@ -238,6 +238,7 @@
 
         &__top-nav {
             justify-content: space-between;
+            user-select: none;
         }
     }
 
