@@ -13,14 +13,20 @@
     }
 
     function stopModifyText() {
+        if (element.value.type.content !== textValue.value) {
+            saveTextAlteration();
+        }
+        textValue.value = '';
+        comicStore.setCurrentElement(null);
+    }
+
+    function saveTextAlteration() {
         element.value.type.content = textValue.value;
         comicStore.bus.emit('updateText', {
             id: element.value.id,
             text: textValue.value,
             fontSize: fontSize.value,
         });
-        textValue.value = '';
-        comicStore.setCurrentElement(null);
     }
 
     function increaseFont() {

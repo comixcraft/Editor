@@ -134,6 +134,7 @@ export default class Panel {
     }
 
     addAlteration() {
+        console.log('here we go again');
         this._redo = [];
         let currentState = this.toJSON();
         this.history.push(currentState);
@@ -143,6 +144,7 @@ export default class Panel {
     }
 
     undo() {
+        console.log('undoing' + this.history.length);
         if (this.history.length <= 1) return;
         let currentState = this.history.pop();
         this._redo.push(currentState);
