@@ -2,16 +2,16 @@
 
 <template>
     <footer class="footer">
-        <div class="topRow">
+        <div class="top_row">
             <NuxtLink to="/">
                 <img class="logo" src="/public/comixcraftLogo.svg" />
             </NuxtLink>
-            <div class="linkContainer">
-                <NuxtLink class="linkText" to="/impressum">Impressum</NuxtLink>
-                <NuxtLink class="linkText" to="https://showcase.comixcraft.com/" target="_blank"
+            <div class="link_container">
+                <NuxtLink class="link_text" to="/impressum">Impressum</NuxtLink>
+                <NuxtLink class="link_text" to="https://showcase.comixcraft.com/" target="_blank"
                     >About comixcraft</NuxtLink
                 >
-                <NuxtLink class="linkText" to="https://fhstp.github.io/comixplain/" target="_blank"
+                <NuxtLink class="link_text" to="https://fhstp.github.io/comixplain/" target="_blank"
                     >About Comixplain</NuxtLink
                 >
             </div>
@@ -30,25 +30,25 @@
         background-color: $primary-30;
         padding: $spacer-4;
 
-        .topRow {
+        .top_row {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: $spacer-4;
         }
 
-        .linkContainer {
+        .link_container {
             display: flex;
             flex-direction: column;
             text-align: center;
             gap: $spacer-3;
             cursor: pointer;
 
-            .linkText {
+            .link_text {
                 text-decoration: none;
                 color: $black-100;
             }
-            .linkText:hover {
+            .link_text:hover {
                 color: $primary-100;
                 text-decoration: underline;
             }
@@ -77,13 +77,13 @@
                 width: 14rem;
             }
 
-            .topRow {
+            .top_row {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
             }
 
-            .linkContainer {
+            .link_container {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
