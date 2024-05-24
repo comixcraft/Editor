@@ -16,7 +16,7 @@
 
     // Static Variables (let, const)
     const comicStore = useComicStore();
-    const creditSize = { w: 180, h: 40 };
+    const creditSize = { w: 470, h: 45 };
     const gap = 10;
     const promiseArray = [];
     // Reactive Variables
@@ -123,7 +123,7 @@
         return new Promise((res, reject) => {
             // draw credit logo at the bottom left
             const credit = {
-                src: '/tempCredit.png',
+                src: '/logoCredit.png',
                 width: creditSize.w,
                 height: creditSize.h,
             };
