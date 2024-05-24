@@ -35,23 +35,27 @@
 
 <template>
     <div class="navigation p5">
+        <button @click="selectAllAssets()" :class="{ selected: selectedCategory === allAssetsButtonName }">
+            <span class="icon navigation__icon">
+                {{ iconConfig.get(props.allAssetsButtonName) || 'default_icon' }} </span
+            >{{ props.allAssetsButtonName }}
+        </button>
         <button
             v-for="(category, index) in props.categories"
             :key="index"
             @click="selectCategory(category)"
             :class="{ selected: selectedCategory === category.name }"
         >
-            <span class="icon navigation__icon"> {{ iconConfig.get(category.name) || 'default_icon' }} </span>
+            <span class="icon navigation__icon">
+                {{ iconConfig.get(category.name) || 'default_icon' }}
+            </span>
             {{ category.name }}
         </button>
         <button @click="addNewTextToDisplay()">
-            <span class="icon navigation__icon"> {{ iconConfig.get(props.textButtonName) || 'default_icon' }} </span
-            >{{ props.textButtonName }}
-        </button>
-        <button @click="selectAllAssets()" :class="{ selected: selectedCategory === allAssetsButtonName }">
             <span class="icon navigation__icon">
-                {{ iconConfig.get(props.allAssetsButtonName) || 'default_icon' }} </span
-            >{{ props.allAssetsButtonName }}
+                {{ iconConfig.get(props.textButtonName) || 'default_icon' }}
+            </span>
+            {{ props.textButtonName }}
         </button>
     </div>
 </template>
