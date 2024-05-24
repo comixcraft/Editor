@@ -57,14 +57,18 @@
     }
 
     function scrollToTop() {
-        if (catalogContainerRef.value && catalogContainerRef.value.$refs.scrollContainerRef) {
-            catalogContainerRef.value.$refs.scrollContainerRef.scrollTo({ top: 0 });
+        if (!catalogContainerRef.value || !catalogContainerRef.value.$refs.scrollContainerRef) {
+            return;
         }
+
+        // Small timeout to avoid conflicts with touch events
+        setTimeout(() => {
+            catalogContainerRef.value.$refs.scrollContainerRef.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 50);
     }
 
     onMounted(() => {
         emitCatalogChanged();
-        scrollToTop();
     });
 </script>
 
