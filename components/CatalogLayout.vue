@@ -38,6 +38,7 @@
             selectedFilter.value = [];
             emitCatalogChanged();
             //scrollToTop();
+            needToScrollTop.value = true;
         }
     );
 
