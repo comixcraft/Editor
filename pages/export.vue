@@ -86,13 +86,13 @@
                     </div>
                     <div class="share__input-group">
                         <label class="share__input-group-label" for="file-type">File Type:</label>
-                        <select class="share__input-group-select">
+                        <select class="share__input-group-select" id="file.type">
                             <option value="png">PNG</option>
                         </select>
                     </div>
                     <div class="share__input-group">
                         <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                        <select class="share__input-group-select">
+                        <select class="share__input-group-select" id="select-panels">
                             <option value="1">All panels</option>
                         </select>
                     </div>
