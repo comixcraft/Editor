@@ -64,6 +64,7 @@
 
     onMounted(() => {
         emitCatalogChanged();
+        scrollToTop();
     });
 </script>
 
