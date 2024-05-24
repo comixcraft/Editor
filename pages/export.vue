@@ -118,6 +118,7 @@
                 @discard="reloadApp"
             />
         </OverlayModal>
+        <FooterComponent />
     </div>
 </template>
 
