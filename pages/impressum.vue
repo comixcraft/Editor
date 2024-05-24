@@ -87,7 +87,7 @@
             <div class="content">
                 <h2>GitHub</h2>
                 <p>
-                    Comixcraft is an open-source project and the repository is accessible on
+                    comixcraft is an open-source project and the repository is accessible on
                     <NuxtLink class="link_text" to="https://github.com/comixcraft" target="_blank">GitHub</NuxtLink>.
                 </p>
             </div>
