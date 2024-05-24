@@ -1,5 +1,4 @@
 <script setup>
-    import Comic from '~/utils/Classes/Comic';
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
@@ -32,7 +31,6 @@
     function createComicFromDraft() {
         if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
 
-        comicStore.createComicFromDraft();
         return navigateTo('/editor');
     }
 
@@ -53,6 +51,7 @@
 
         if (draftAvailable.value) {
             draftSelected.value = true;
+            comicStore.createComicFromDraft();
         } else {
             selectedComicConfiguration.value = templatePanelConfig[0];
         }
@@ -60,109 +59,118 @@
 </script>
 
 <template>
-    <div class="index">
-        <div class="top-nav">
-            <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" />
-        </div>
-        <div class="container-fluid">
-            <div class="intro">
-                <div class="col-lg-5">
-                    <div class="welcome-text">
-                        <div class="welcome">
-                            <h1>Welcome to comixcraft!</h1>
+    <div>
+        <div class="index">
+            <div class="top-nav">
+                <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" draggable="false" />
+            </div>
+            <div class="container-fluid">
+                <div class="intro">
+                    <div class="col-lg-5">
+                        <div class="welcome-text">
+                            <div class="welcome">
+                                <h1>Welcome to comixcraft!</h1>
+                            </div>
+                            <div class="desktop-intro-text d-none d-lg-block">
+                                <p>
+                                    Breathe life into your science lectures! Comixplain's intuitive editor lets you
+                                    create engaging science comics for any university subject – no sign-up needed.
+                                    Simply jump in and start making complex concepts clear and captivating for your
+                                    students.
+                                </p>
+                            </div>
+                            <div class="mobile-intro-text d-block d-lg-none">
+                                <p>
+                                    Breathe life into your science lectures! Comixplain's intuitive editor lets you
+                                    create engaging science comics for any university subject – no sign-up needed.
+                                    Simply jump in and start making complex concepts clear and captivating for your
+                                    students.
+                                </p>
+                            </div>
                         </div>
-                        <div class="desktop-intro-text d-none d-lg-block">
-                            <p>
-                                Breathe life into your science lectures! Comixplain's intuitive editor lets you create
-                                engaging science comics for any university subject – no sign-up needed. Simply jump in
-                                and start making complex concepts clear and captivating for your students.
-                            </p>
-                        </div>
-                        <div class="mobile-intro-text d-block d-lg-none">
-                            <p>
-                                Breathe life into your science lectures! Comixplain's intuitive editor lets you create
-                                engaging science comics for any university subject – no sign-up needed. Simply jump in
-                                and start making complex concepts clear and captivating for your students.
-                            </p>
+                    </div>
+                    <div class="col-lg-5 justify-content-center" style="display: flex">
+                        <div class="comic-image">
+                            <img src="/public/comic-image@2x.png" alt="" draggable="false" />
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 justify-content-center" style="display: flex">
-                    <div class="comic-image">
-                        <img src="/public/comic-image@2x.png" alt="" />
+                <div v-if="draftAvailable" class="draft-container">
+                    <h2>Draft</h2>
+                    <p class="font-italic">Continue working on your previous draft</p>
+                    <div
+                        class="draft-preview"
+                        :class="{ 'draft-preview--selected': draftSelected }"
+                        @click="selectDraftToContinue"
+                    >
+                        <PreviewCanvas :inIndex="true" />
+                        <button
+                            v-if="draftSelected"
+                            class="draft-btn--cancel icon"
+                            @click="deleteDraftPopUpShow = true"
+                        >
+                            delete
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div v-if="draftAvailable" class="draft-container">
-                <h2>Draft</h2>
-                <p class="font-italic">Continue working on your previous draft</p>
-                <div
-                    class="draft-preview"
-                    :class="{ 'draft-preview--selected': draftSelected }"
-                    @click="selectDraftToContinue"
-                >
-                    <canvas class="draft-canvas"></canvas>
-                    <button v-if="draftSelected" class="draft-btn--cancel icon" @click="deleteDraftPopUpShow = true">
-                        delete
-                    </button>
-                </div>
-            </div>
-            <div class="templates">
-                <h2>Templates</h2>
-                <p class="font-italic">Start by choosing a template</p>
+                <div class="templates">
+                    <h2>Templates</h2>
+                    <p class="font-italic">Start by choosing a template</p>
 
-                <div class="comic-sections">
-                    <h3>Comic Panels</h3>
-                    <p>A comic panel is a single frame within a comic strip.</p>
-                    <div class="comic-panels">
-                        <TemplateDisplay
-                            @select-template="selectTemplate"
-                            v-for="option in templatePanelConfig"
-                            :key="option.title"
-                            :title="option.title"
-                            :preview="option.preview"
-                            :config="option.config"
-                            :selected="option.title === selectedComicConfiguration?.title"
-                        />
+                    <div class="comic-sections">
+                        <h3>Comic Panels</h3>
+                        <p>A comic panel is a single frame within a comic strip.</p>
+                        <div class="comic-panels">
+                            <TemplateDisplay
+                                @select-template="selectTemplate"
+                                v-for="option in templatePanelConfig"
+                                :key="option.title"
+                                :title="option.title"
+                                :preview="option.preview"
+                                :config="option.config"
+                                :selected="option.title === selectedComicConfiguration?.title"
+                            />
+                        </div>
+                    </div>
+                    <div class="comic-sections">
+                        <h3>Comic Strips</h3>
+                        <p>A comic strip consists of a series of panels.</p>
+                        <div class="comic-panels">
+                            <TemplateDisplay
+                                @select-template="selectTemplate"
+                                v-for="option in templateStripConfig"
+                                :key="option.title"
+                                :title="option.title"
+                                :preview="option.preview"
+                                :config="option.config"
+                                :selected="option.title === selectedComicConfiguration?.title"
+                            />
+                        </div>
                     </div>
                 </div>
-                <div class="comic-sections">
-                    <h3>Comic Strips</h3>
-                    <p>A comic strip consists of a series of panels.</p>
-                    <div class="comic-panels">
-                        <TemplateDisplay
-                            @select-template="selectTemplate"
-                            v-for="option in templateStripConfig"
-                            :key="option.title"
-                            :title="option.title"
-                            :preview="option.preview"
-                            :config="option.config"
-                            :selected="option.title === selectedComicConfiguration?.title"
-                        />
-                    </div>
-                </div>
+                <button
+                    class="accent-btn"
+                    @click="createComic(selectedComicConfiguration?.config)"
+                    :disabled="!draftSelected && !selectedComicConfiguration"
+                >
+                    {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
+                </button>
             </div>
-            <button
-                class="accent-btn"
-                @click="createComic(selectedComicConfiguration?.config)"
-                :disabled="!draftSelected && !selectedComicConfiguration"
-            >
-                {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
-            </button>
+            <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
+                <DecisionPopUp
+                    imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
+                    title="Poof, Your hard work disappears"
+                    body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                    :buttons="[
+                        { name: 'Delete Draft', emitName: 'discard' },
+                        { name: 'Keep Draft', emitName: 'cancel' },
+                    ]"
+                    @cancel="deleteDraftPopUpShow = false"
+                    @discard="deleteDraft"
+                />
+            </OverlayModal>
         </div>
-        <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
-            <DecisionPopUp
-                imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
-                title="Poof, Your hard work disappears"
-                body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
-                :buttons="[
-                    { name: 'Delete Draft', emitName: 'discard' },
-                    { name: 'Keep Draft', emitName: 'cancel' },
-                ]"
-                @cancel="deleteDraftPopUpShow = false"
-                @discard="deleteDraft"
-            />
-        </OverlayModal>
+        <FooterComponent />
     </div>
 </template>
 
@@ -242,8 +250,8 @@
     }
 
     .accent-btn {
-        position: fixed;
         bottom: $spacer-6;
+        transform: translateX(5%);
     }
 
     .draft-container {
@@ -256,12 +264,11 @@
 
     .draft-preview {
         position: relative;
-        width: fit-content;
-        max-height: 18vh;
+        max-height: 25svh;
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
-        padding: $spacer-2 $spacer-3;
-
+        display: flex;
+        width: fit-content;
         &:hover,
         &--selected {
             cursor: pointer;
@@ -311,6 +318,11 @@
 
         .modal-container {
             display: none;
+        }
+
+        .accent-btn {
+            left: 50%;
+            transform: translateX(-50%);
         }
     }
 </style>

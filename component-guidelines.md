@@ -36,6 +36,7 @@ The script setup tag should be ordered as follow
 - Methods
 - bus listeners
 - Vue life cycle hooks
+- defineExpose 
 
 ## Template
 
@@ -90,6 +91,8 @@ The template of a component should stay as clean as possible. here are a few rul
     // Bus Listeners
 
     // Vue life cycle hooks
+
+    // expose (defineExpose)
 
 </script>
 

@@ -1,203 +1,33 @@
 <script setup>
+    // Imports
+
+    // Middlewares
     definePageMeta({
         middleware: ['comic-defined'],
     });
 
+    // Emits
+
+    // Props
+
+    // Static Variables (let, const)
     const comicStore = useComicStore();
-    const canvasEl = ref(null);
+
+    // Reactive Variables
+    // computed
+
+    // Reactive
+
+    // Refs
+    const previewCanvas = ref(null);
     let downloadPopUpShow = ref(false);
     let disableButton = ref(true);
-    const gap = 10;
-    const creditSize = { w: 180, h: 40 };
-    const promisesArray = [];
 
-    async function displayPreview() {
-        const canvas = canvasEl.value;
-        canvas.width = gap;
-        canvas.height = gap + comicStore.comic.getPage(0).getStrip(0).height + creditSize.h;
-        // set the size of the canvas, should come from the wrapper, should be defined when choosing a template
-        const stripsHeight = comicStore.comic.getPage(0).getStrip(0).height;
-        const panels = comicStore.comic.getPage(0).getStrip(0).panels;
+    // Watchers
 
-        // set the width of the canvas according to the width of the panels
-        for (let i = 0; i < panels.length; i++) {
-            canvas.width += panels[i].width + gap;
-        }
-
-        let context = canvas.getContext('2d');
-
-        // draw a white background
-        context.save();
-        context.beginPath();
-        context.fillStyle = 'white';
-        context.rect(0, 0, canvas.width, canvas.height);
-        context.fill();
-        context.restore();
-
-        // draw the panels
-        let startPoint = gap;
-        for (let i = 0; i < panels.length; i++) {
-            drawPanel(context, panels[i], startPoint, stripsHeight, i);
-            startPoint += panels[i].width + gap;
-        }
-
-        // draw the credit logo
-        drawCredit(canvas, context);
-
-        Promise.all(promisesArray).then((disableButton.value = false));
-    }
-
-    function drawAsset(context, element, panelDimension, iterationNumber) {
-        let promiseName = `assetPromise${iterationNumber}`;
-        const img = new Image();
-        promiseName = new Promise((r) => {
-            img.onload = r;
-            img.src = element.type.path;
-        });
-        promisesArray.push(promiseName);
-        // Save the current context
-        context.save();
-
-        // Move the rotation point to the center of the image
-        context.translate(
-            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
-            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
-        );
-
-        // Rotate the canvas to the specified degrees
-        context.rotate((element.rotation * Math.PI) / 180);
-
-        // Mirror the canvas around the x-axis or y-axis if necessary
-        if (element.isMirroredHorizontal) {
-            context.scale(-1, 1);
-        }
-        if (element.isMirroredVertical) {
-            context.scale(1, -1);
-        }
-
-        // Draw the image
-        context.drawImage(
-            img,
-            (-element.width * panelDimension.width) / 2,
-            (-element.height * panelDimension.height) / 2,
-            element.width * panelDimension.width,
-            element.height * panelDimension.height
-        );
-
-        // Restore the saved context
-        context.restore();
-    }
-
-    function getLines(context, text, maxWidth) {
-        let words = text.split(' ');
-        let lines = [];
-        let currentLine = words[0];
-
-        // Loop through each word and add it to the current line if it fits
-        for (let i = 1; i < words.length; i++) {
-            let word = words[i];
-            let width = context.measureText(currentLine + ' ' + word).width;
-            if (width < maxWidth) {
-                currentLine += ' ' + word;
-            } else {
-                lines.push(currentLine);
-                currentLine = word;
-            }
-        }
-        lines.push(currentLine);
-        return lines;
-    }
-
-    function drawText(context, element, panelDimension) {
-        // Save the current context
-        context.save();
-
-        // Set the font properties
-        context.font = `${element.type.fontSize}px ${element.type.fontFamily}`;
-        context.fillStyle = 'black';
-        context.textBaseline = 'top';
-
-        // Move the rotation point to the center of the element
-        context.translate(
-            element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
-            element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
-        );
-
-        // Rotate the canvas to the specified degrees
-        context.rotate((element.rotation * Math.PI) / 180);
-
-        // Mirror the canvas around the x-axis or y-axis if necessary
-        if (element.isMirroredHorizontal) {
-            context.scale(-1, 1);
-        }
-        if (element.isMirroredVertical) {
-            context.scale(1, -1);
-        }
-
-        // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-        context.translate((-element.width * panelDimension.width) / 2, (-element.height * panelDimension.height) / 2);
-
-        // Draw the text once the lines are created
-        getLines(context, element.type.content, element.width * panelDimension.width).forEach((line, i) => {
-            context.fillText(line, 0, i * element.type.fontSize);
-        });
-
-        // Restore the saved context
-        context.restore();
-    }
-
-    function drawCredit(canvas, context) {
-        // draw credit logo at the bottom left
-        const credit = {
-            src: '/tempCredit.png',
-            width: creditSize.w,
-            height: creditSize.h,
-        };
-        const creditLogo = new Image();
-        let creditPromise = new Promise((r) => {
-            creditLogo.onload = r;
-            creditLogo.src = credit.src;
-        });
-        promisesArray.push(creditPromise);
-        context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
-    }
-
-    function drawPanel(context, panel, startPoint, height, index) {
-        // create a canvas to prerender the panel
-        const newCanvas = document.createElement('canvas');
-        newCanvas.width = panel.width;
-        newCanvas.height = height;
-        const newContext = newCanvas.getContext('2d');
-
-        let iterationNumber = 0;
-        // draw the panels
-        panel.elements.forEach((element) => {
-            if (element.type.name === 'Asset') {
-                drawAsset(newContext, element, { width: panel.width, height }, iterationNumber);
-                iterationNumber++;
-            } else if (element.type.name === 'Text') {
-                drawText(newContext, element, { width: panel.width, height });
-            } else {
-                console.log('Element not recognized in drawPanel in export.vue.');
-            }
-        });
-
-        // draw the border of the panel
-        let borderPromise = `borderPromise${index}`;
-        const img = new Image();
-        borderPromise = new Promise((r) => {
-            img.onload = r;
-            img.src = panel.border;
-        });
-        promisesArray.push(borderPromise);
-        newContext.drawImage(img, 0, 0, panel.width, height);
-
-        // draw the panel on the preview canvas
-        context.drawImage(newCanvas, startPoint, gap);
-    }
-
+    // Methods
     function download() {
-        const canvas = canvasEl.value;
+        const canvas = previewCanvas.value.canvasEl;
         const img = canvas.toDataURL('image/png');
         // create a link for download and click it
         const link = document.createElement('a');
@@ -206,6 +36,13 @@
         link.download = 'canvas.png';
         link.click();
         downloadPopUpShow.value = true;
+    }
+
+    function reloadApp() {
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
     }
 
     function saveDraft() {
@@ -220,16 +57,11 @@
         });
     }
 
-    function reloadApp() {
-        return reloadNuxtApp({
-            path: '/',
-            ttl: 1000,
-        });
-    }
+    // Bus Listeners
 
-    onMounted(() => {
-        displayPreview();
-    });
+    // Vue life cycle hooks
+
+    // defineExpose
 </script>
 
 <template>
@@ -266,13 +98,11 @@
                     </div>
                 </div>
 
-                <div ref="previewCanvas" class="preview__container">
-                    <canvas ref="canvasEl" class="preview__canvas"></canvas>
+                <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
+                <div class="btn-container">
+                    <button class="accent-btn" @click="download">Download Comic</button>
+                    <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
                 </div>
-            </div>
-            <div class="btn-container">
-                <button class="accent-btn" @click="download">Download Comic</button>
-                <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
             </div>
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
@@ -281,13 +111,14 @@
                 title="Download successful"
                 body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
                 :buttons="[
-                    { name: 'Create New Comic', function: 'discard' },
-                    { name: 'Save Draft', function: 'save' },
+                    { name: 'Create New Comic', emitName: 'discard' },
+                    { name: 'Save Draft', emitName: 'save' },
                 ]"
                 @save="saveDraft"
                 @discard="reloadApp"
             />
         </OverlayModal>
+        <FooterComponent />
     </div>
 </template>
 
@@ -295,11 +126,12 @@
     .share {
         padding-bottom: $spacer-8;
         width: 100%;
-        height: 100vh;
+        height: 100svh;
     }
 
     .share__body {
         padding: $spacer-3;
+        align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -412,7 +244,7 @@
 
     @include media-breakpoint-up(lg) {
         .share__body {
-            flex-direction: row;
+            flex-direction: column;
         }
 
         .btn-container {
