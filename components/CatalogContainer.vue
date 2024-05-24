@@ -37,7 +37,8 @@
         align-items: flex-start;
         gap: $spacer-4;
         overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: none;
+        // -webkit-overflow-scrolling: touch;
+        // -ms-overflow-style: none;
+        scroll-behavior: smooth;
     }
 </style>
