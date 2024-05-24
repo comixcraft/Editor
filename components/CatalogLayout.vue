@@ -57,12 +57,14 @@
     }
 
     function scrollToTop() {
-        if (catalogContainerRef.value) {
+        if (catalogContainerRef.value && catalogContainerRef.value.$refs.scrollContainerRef) {
+            // If catalogContainerRef and its scrollContainerRef exist, scroll to the top of the container
             catalogContainerRef.value.$refs.scrollContainerRef.scrollTop = 0;
         } else {
+            // If catalogContainerRef or its scrollContainerRef don't exist, scroll to the top of the window
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth', // Optionally, you can use smooth scrolling behavior
+                behavior: 'smooth', // Optionally, use smooth scrolling behavior
             });
         }
     }
