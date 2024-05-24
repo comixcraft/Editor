@@ -14,7 +14,7 @@
                 <p>
                     comixcraft is a project developed at the St. Pölten University of Applied Sciences (FHSTP), Austria,
                     as part of the MediaLab semester project of the Creative Computing program. comixcraft is based on
-                    <NuxtLink class="linkText" to="https://fhstp.github.io/comixplain/" target="_blank"
+                    <NuxtLink class="link_text" to="https://fhstp.github.io/comixplain/" target="_blank"
                         >Comixplain
                     </NuxtLink>
                     and utilizes the existing assets from that project.
@@ -24,9 +24,9 @@
             <div class="content">
                 <h2>Collected Data</h2>
                 <p>
-                    The application does not collect any personal data. The only data collected is the user's input for
-                    the comic creation process, which is stored in the browser's local storage. This data is not shared
-                    with any third party.
+                    The application does not collect any personal data. The only data collected is the created comic
+                    itself, which is stored in the browser's local storage. This is necessary to provide the user with
+                    the ability to save a temporary draft of their comic. This data is not shared with any third party.
                 </p>
             </div>
 
@@ -59,13 +59,13 @@
 
                 <p>
                     <NuxtLink
-                        class="linkText"
+                        class="link_text"
                         to="https://www.fhstp.ac.at/de/impressum/impressum?set_language=de"
                         target="_blank"
                         >Imprint </NuxtLink
                     >,
                     <NuxtLink
-                        class="linkText"
+                        class="link_text"
                         to="https://www.fhstp.ac.at/en/legal-information/legal-information?set_language=en"
                         target="_blank"
                         >Legal Information</NuxtLink
@@ -77,7 +77,7 @@
                 <h2>Licence</h2>
                 <p>
                     comixcraft and the used
-                    <NuxtLink class="linkText" to="https://fhstp.github.io/comixplain/" target="_blank"
+                    <NuxtLink class="link_text" to="https://fhstp.github.io/comixplain/" target="_blank"
                         >Comixplain
                     </NuxtLink>
                     assets are CC BY-SA licensed, and you can create comics and share them under the same license.
@@ -88,7 +88,7 @@
                 <h2>GitHub</h2>
                 <p>
                     Comixcraft is an open-source project and the repository is accessible on
-                    <NuxtLink class="linkText" to="https://github.com/comixcraft" target="_blank">GitHub</NuxtLink>.
+                    <NuxtLink class="link_text" to="https://github.com/comixcraft" target="_blank">GitHub</NuxtLink>.
                 </p>
             </div>
         </div>
@@ -122,11 +122,11 @@
         width: 10rem;
     }
 
-    .linkText {
+    .link_text {
         color: $black-100;
     }
 
-    .linkText:hover {
+    .link_text:hover {
         color: $primary-100;
         text-decoration: underline;
     }
