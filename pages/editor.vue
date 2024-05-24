@@ -255,6 +255,7 @@
     }
 
     .editor {
+        overscroll-behavior-y: none;
         display: flex;
         flex-direction: column;
         height: 100dvh;
