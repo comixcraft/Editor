@@ -1,9 +1,10 @@
 <script setup>
     const props = defineProps({
+        scrollToTop: Boolean,
         assets: Array,
     });
 
-    const emit = defineEmits(['element-added']);
+    const emit = defineEmits(['element-added', 'scrolled-top']);
 
     const comicStore = useComicStore();
 
@@ -14,6 +15,16 @@
 
     // Define a ref for the scroll container
     const scrollContainerRef = ref(null);
+
+    watch(
+        () => props.scrollToTop,
+        () => scrollTop()
+    );
+
+    function scrollTop() {
+        scrollContainerRef.value.scrollTo({ top: 0, behavior: 'smooth' });
+        emit('scrolled-top');
+    }
 </script>
 
 <template>

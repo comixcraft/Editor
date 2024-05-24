@@ -1,6 +1,7 @@
 <script setup>
     const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
+    let needToScrollTop = ref(false);
 
     const emit = defineEmits(['catalogChanged', 'element-added']);
 
@@ -26,7 +27,8 @@
             selectedSubCategory.value = {};
             selectedFilter.value = [];
             emitCatalogChanged();
-            scrollToTop();
+            //scrollToTop();
+            needToScrollTop.value = true;
         }
     );
 
@@ -35,7 +37,7 @@
         () => {
             selectedFilter.value = [];
             emitCatalogChanged();
-            scrollToTop();
+            //scrollToTop();
         }
     );
 
@@ -83,8 +85,10 @@
         <CatalogContainer
             ref="catalogContainerRef"
             class="catalog__container"
+            :scrollToTop="needToScrollTop"
             :assets="selectedCategoryAssets"
             @element-added="$emit('element-added')"
+            @scrolled-top="needToScrollTop = false"
         ></CatalogContainer>
         <span class="flex-grow-1"></span>
         <CatalogSubNavigation
