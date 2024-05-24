@@ -118,8 +118,8 @@
                 @discard="reloadApp"
             />
         </OverlayModal>
+        <FooterComponent />
     </div>
-    <FooterComponent />
 </template>
 
 <style scoped lang="scss">
