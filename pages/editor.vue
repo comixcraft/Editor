@@ -237,7 +237,7 @@
             </div>
         </div>
     </ScreenOverlay>
-    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false">
+    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false" class="preview__overlay">
         <div class="darken-background">
             <PreviewCanvas />
         </div>
@@ -245,6 +245,9 @@
 </template>
 
 <style scoped lang="scss">
+    .preview__overlay {
+        overflow-y: hidden !important;
+    }
     .editor:before {
         content: 's';
         display: none;
@@ -297,6 +300,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: $white;
     }
 
     .top-nav__left-btns {
