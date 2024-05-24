@@ -154,6 +154,9 @@
     .icon-btn {
         color: white;
         text-decoration: none;
+        &:hover {
+            scale: 1.2;
+        }
     }
 
     .export__details {
@@ -206,6 +209,10 @@
         color: $secondary-100;
         background-color: $white-100;
         border: $border-width solid $secondary-100;
+        &:hover {
+            background-color: $secondary-50;
+            color: $white;
+        }
     }
 
     .share__confirm-btn {

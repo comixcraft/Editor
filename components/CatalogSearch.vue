@@ -187,6 +187,12 @@
         &__tune {
             cursor: pointer;
             padding: $spacer-1;
+            border-radius: $border-radius;
+
+            &:hover {
+                background-color: $secondary-50;
+                color: $white;
+            }
 
             &--active {
                 color: $secondary;
@@ -195,6 +201,9 @@
             &--disabled {
                 color: $grey-100;
                 pointer-events: none;
+                &:hover {
+                    background-color: transparent;
+                }
             }
         }
     }

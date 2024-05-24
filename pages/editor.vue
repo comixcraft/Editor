@@ -262,6 +262,9 @@
             width: 100%;
             height: 100%;
             padding: $spacer-3 $spacer-5;
+            &:hover {
+                scale: 1.1;
+            }
         }
     }
 
@@ -307,6 +310,7 @@
     }
 
     .bottom-nav__scrollable-nav {
+        width: min-content;
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
@@ -341,6 +345,9 @@
     .share__top-nav-item {
         color: $white;
         text-decoration: none;
+        &:hover {
+            scale: 1.1;
+        }
     }
 
     .catalog-container {
