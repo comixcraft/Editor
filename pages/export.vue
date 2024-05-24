@@ -24,6 +24,9 @@
     let disableButton = ref(true);
 
     // Watchers
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+    };
 
     // Methods
     function download() {
@@ -60,6 +63,9 @@
     // Bus Listeners
 
     // Vue life cycle hooks
+    onBeforeUnmount(() => {
+        window.onbeforeunload = null;
+    });
 
     // defineExpose
 </script>
