@@ -1,9 +1,14 @@
 <script setup>
+    import { ref, onMounted, watch } from 'vue';
+    import { useComicStore } from '#imports';
+
     const textarea = ref(null);
     const textValue = ref('');
     const comicStore = useComicStore();
     let fontSize = ref(24);
     let element = ref(null);
+
+    const accumulatedChanges = ref({});
 
     function startModifyText() {
         element.value = comicStore.getCurrentElement().value;
@@ -12,41 +17,42 @@
         fontSize.value = element.value.type.fontSize;
     }
 
-    function stopModifyText() {
-        if (element.value.type.content !== textValue.value) {
-            saveTextAlteration();
-        }
-        textValue.value = '';
-        comicStore.setCurrentElement(null);
-    }
-
-    function saveTextAlteration() {
-        element.value.type.content = textValue.value;
+    function applyAccumulatedChanges() {
+        const changes = accumulatedChanges.value;
         comicStore.bus.emit('updateText', {
             id: element.value.id,
-            text: textValue.value,
-            fontSize: fontSize.value,
+            text: changes.text || textValue.value,
+            fontSize: changes.fontSize || fontSize.value,
         });
+        accumulatedChanges.value = {};
+    }
+
+    watch(
+        [textValue, fontSize],
+        ([newTextValue, newFontSize]) => {
+            accumulatedChanges.value.text = newTextValue;
+            accumulatedChanges.value.fontSize = newFontSize;
+        },
+        { deep: true }
+    );
+
+    function stopModifyText() {
+        element.value.type.content = textValue.value;
+        applyAccumulatedChanges();
+        textValue.value = '';
+        comicStore.setCurrentElement(null);
     }
 
     function increaseFont() {
         element.value.type.increaseFontSize();
         fontSize.value = element.value.type.fontSize;
-        comicStore.bus.emit('updateText', {
-            id: element.value.id,
-            text: textValue.value,
-            fontSize: fontSize.value,
-        });
+        accumulatedChanges.value.fontSize = fontSize.value;
     }
 
     function decreaseFont() {
         element.value.type.decreaseFontSize();
         fontSize.value = element.value.type.fontSize;
-        comicStore.bus.emit('updateText', {
-            id: element.value.id,
-            text: textValue.value,
-            fontSize: fontSize.value,
-        });
+        accumulatedChanges.value.fontSize = fontSize.value;
     }
 
     onMounted(() => {
@@ -86,11 +92,12 @@
         justify-items: center;
         align-items: center;
         z-index: 100;
-        background-color: rgba(112 112 112 / 0.5);
+        background-color: rgba(112, 112, 112, 0.5);
 
         &__textarea {
             max-width: 80%;
         }
+
         .font-size {
             background-color: $white;
             display: grid;

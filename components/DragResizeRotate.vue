@@ -118,10 +118,12 @@
         counterRotation.value = `${-angle.value}deg`;
         comicStore.bus.on('updateText', (obj) => {
             if (obj.id == props.eId) {
-                text.value = obj.text;
-                fontSize.value = obj.fontSize;
+                if (obj.text !== text.value || obj.fontSize !== fontSize.value) {
+                    text.value = obj.text;
+                    fontSize.value = obj.fontSize;
+                    emit('textUpdate', obj.text);
+                }
             }
-            emit('textUpdate', obj.text);
         });
     });
 
@@ -161,7 +163,6 @@
         :h="h"
         :eId="eId"
         class-name-active="element--active"
-        class-name-handle="handle-large"
         ref="self"
         :x="x"
         :y="y"
@@ -204,7 +205,6 @@
         </div>
 
         <img
-            draggable="false"
             class="element__image"
             :src="url"
             :alt="altText"
@@ -229,7 +229,6 @@
         &__image {
             width: 100%;
             height: 100%;
-            user-select: none;
         }
     }
 
