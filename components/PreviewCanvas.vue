@@ -16,7 +16,8 @@
 
     // Static Variables (let, const)
     const comicStore = useComicStore();
-    const creditSize = { w: 180, h: 40 };
+    const creditSize = { w: 400, h: 50 };
+    const ccSize = { w: 80, h: 40 };
     const gap = 10;
     const promiseArray = [];
     // Reactive Variables
@@ -120,21 +121,40 @@
     }
 
     function drawCredit(canvas, context) {
-        return new Promise((res, reject) => {
+        return new Promise((resolve, reject) => {
             // draw credit logo at the bottom left
             const credit = {
-                src: '/tempCredit.png',
+                src: '/logoCredit.png',
                 width: creditSize.w,
                 height: creditSize.h,
             };
+            const ccbysa = {
+                src: '/CCbysa.png',
+                width: ccSize.w,
+                height: ccSize.h,
+            };
             const creditLogo = new Image();
-            // load the logo and draw it on the canvas
-            new Promise((resolve) => {
-                creditLogo.onload = resolve;
-                creditLogo.src = credit.src;
-            }).then(() => {
+            const ccbysaLogo = new Image();
+
+            // load both logos and draw them on the canvas
+            Promise.all([
+                new Promise((resolve) => {
+                    creditLogo.onload = resolve;
+                    creditLogo.src = credit.src;
+                }),
+                new Promise((resolve) => {
+                    ccbysaLogo.onload = resolve;
+                    ccbysaLogo.src = ccbysa.src;
+                }),
+            ]).then(() => {
+                // Draw the credit logo on the left side
                 context.drawImage(creditLogo, gap, canvas.height - credit.height, credit.width, credit.height);
-                res('credit drawn');
+
+                // Draw the cc by sa logo on the right side
+                const ccbysaX = canvas.width - ccbysa.width - gap;
+                context.drawImage(ccbysaLogo, ccbysaX, canvas.height - ccbysa.height, ccbysa.width, ccbysa.height);
+
+                resolve('credit drawn');
             });
         });
     }
