@@ -1,7 +1,4 @@
 <script setup>
-    import { ref, onMounted, watch } from 'vue';
-    import { useComicStore } from '#imports';
-
     const textarea = ref(null);
     const textValue = ref('');
     const comicStore = useComicStore();
