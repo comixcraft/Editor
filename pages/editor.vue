@@ -387,7 +387,7 @@
         z-index: 2;
     }
     .catalog-overlay-content {
-        height: calc(100vh - 10vh);
+        height: calc(100vh - 18vh);
         overflow-y: auto;
     }
 </style>
