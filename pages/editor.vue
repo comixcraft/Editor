@@ -54,10 +54,12 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-
         // Scroll the catalog overlay to the top
         if (catalogOverlayRef.value) {
-            catalogOverlayRef.value.scrollTop = 0;
+            catalogOverlayRef.value.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
         }
     }
     function handleSelectAllAssets() {
@@ -385,7 +387,7 @@
         z-index: 2;
     }
     .catalog-overlay-content {
-        height: calc(100vh - 6rem);
+        height: calc(100vh - 10vh);
         overflow-y: auto;
     }
 </style>

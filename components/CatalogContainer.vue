@@ -21,7 +21,10 @@
         () => {
             // Scroll the catalog container to the top
             if (catalogContainer.value) {
-                catalogContainer.value.scrollTop = 0;
+                catalogContainer.value.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                });
             }
         }
     );
