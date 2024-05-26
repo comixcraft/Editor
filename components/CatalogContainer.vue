@@ -1,4 +1,6 @@
 <script setup>
+    import { ref, watch, nextTick } from 'vue';
+
     const props = defineProps({
         scrollToTop: Boolean,
         assets: Array,
@@ -13,8 +15,8 @@
         comicStore.bus.emit('add-element', event);
     }
 
-    // Define a ref for the scroll container
     const scrollContainerRef = ref(null);
+    const firstElementRef = ref(null);
 
     watch(
         () => props.scrollToTop,
@@ -22,19 +24,27 @@
     );
 
     function scrollTop() {
-        scrollContainerRef.value.scrollTo({ top: 0, behavior: 'smooth' });
-        emit('scrolled-top');
+        if (scrollContainerRef.value) {
+            scrollContainerRef.value.scrollTo({ top: 0, behavior: 'smooth' });
+            emit('scrolled-top');
+
+            nextTick(() => {
+                if (firstElementRef.value?.$el) {
+                    firstElementRef.value.$el.focus();
+                }
+            });
+        }
     }
 </script>
-
 <template>
     <div ref="scrollContainerRef" class="catalog__scroll-container">
         <CatalogImagePreview
-            v-for="asset in assets"
+            v-for="(asset, index) in assets"
             :key="asset.id"
             :alt-text="asset.name"
             :url="asset.file_location"
             @click="addNewElementToDisplay"
+            :ref="index === 0 ? 'firstElementRef' : undefined"
         />
     </div>
 </template>
@@ -48,8 +58,6 @@
         align-items: flex-start;
         gap: $spacer-4;
         overflow-y: auto;
-        // -webkit-overflow-scrolling: touch;
-        // -ms-overflow-style: none;
         scroll-behavior: smooth;
     }
 </style>

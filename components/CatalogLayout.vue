@@ -1,7 +1,7 @@
 <script setup>
     const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
-    let needToScrollTop = ref(false);
+    const needToScrollTop = ref(false);
 
     const emit = defineEmits(['catalogChanged', 'element-added']);
 
@@ -19,7 +19,7 @@
         },
     });
 
-    const catalogContainerRef = ref(null); // Ref for the CatalogContainer
+    const catalogContainerRef = ref(null);
 
     watch(
         () => props.selectedCategory,
@@ -27,7 +27,6 @@
             selectedSubCategory.value = {};
             selectedFilter.value = [];
             emitCatalogChanged();
-            //scrollToTop();
             needToScrollTop.value = true;
         }
     );
@@ -37,7 +36,6 @@
         () => {
             selectedFilter.value = [];
             emitCatalogChanged();
-            //scrollToTop();
             needToScrollTop.value = true;
         }
     );
@@ -59,10 +57,6 @@
         emitCatalogChanged();
     }
 
-    function scrollToTop() {
-        catalogContainerRef.value.$refs.scrollContainerRef.scrollTop = 0;
-    }
-
     onMounted(() => {
         emitCatalogChanged();
     });
@@ -78,7 +72,7 @@
             :category="selectedCategory"
             @search="
                 (selectedFilterFromSearch) => {
-                    selectedFilter = selectedFilterFromSearch;
+                    selectedFilter.value = selectedFilterFromSearch;
                     emitCatalogChanged();
                 }
             "
