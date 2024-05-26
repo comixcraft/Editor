@@ -1,7 +1,6 @@
 <script setup>
     const selectedSubCategory = ref({});
     const selectedFilter = ref([]);
-    const needToScrollTop = ref(false);
 
     const emit = defineEmits(['catalogChanged', 'element-added']);
 
@@ -19,24 +18,23 @@
         },
     });
 
-    const catalogContainerRef = ref(null);
-
+    // Watch for changes in selectedCategory
     watch(
         () => props.selectedCategory,
         () => {
             selectedSubCategory.value = {};
+            // Reset selected filters when category changes
             selectedFilter.value = [];
             emitCatalogChanged();
-            needToScrollTop.value = true;
         }
     );
 
+    // Watch for changes in selectedSubCategory
     watch(
         () => selectedSubCategory.value,
         () => {
             selectedFilter.value = [];
             emitCatalogChanged();
-            needToScrollTop.value = true;
         }
     );
 
@@ -72,18 +70,15 @@
             :category="selectedCategory"
             @search="
                 (selectedFilterFromSearch) => {
-                    selectedFilter.value = selectedFilterFromSearch;
+                    selectedFilter = selectedFilterFromSearch;
                     emitCatalogChanged();
                 }
             "
         />
         <CatalogContainer
-            ref="catalogContainerRef"
             class="catalog__container"
-            :scrollToTop="needToScrollTop"
             :assets="selectedCategoryAssets"
             @element-added="$emit('element-added')"
-            @scrolled-top="needToScrollTop = false"
         ></CatalogContainer>
         <span class="flex-grow-1"></span>
         <CatalogSubNavigation

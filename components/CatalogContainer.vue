@@ -1,58 +1,40 @@
 <script setup>
-    import { ref, watch, nextTick } from 'vue';
-
     const props = defineProps({
-        scrollToTop: Boolean,
         assets: Array,
     });
 
-    const emit = defineEmits(['element-added', 'scrolled-top']);
+    const emit = defineEmits(['element-added']);
 
     const comicStore = useComicStore();
+    const catalogContainer = ref(null); // Add a ref for the scroll container
+
+    let unsubscribeFromAddElement; // Store the unsubscribe function
 
     function addNewElementToDisplay(event) {
         emit('element-added');
         comicStore.bus.emit('add-element', event);
     }
 
-    const scrollContainerRef = ref(null);
-    const firstElementRef = ref(null);
-
+    // Watch for changes in assets prop
     watch(
-        () => props.scrollToTop,
-        () => scrollTop()
-    );
-
-    function scrollTop() {
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        if (isMobile) {
-            // Scroll using the window object on mobile devices
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            // Scroll using the scrollable container reference on desktop
-            if (scrollContainerRef.value) {
-                scrollContainerRef.value.scrollTo({ top: 0, behavior: 'smooth' });
-                emit('scrolled-top');
-
-                nextTick(() => {
-                    if (firstElementRef.value?.$el) {
-                        firstElementRef.value.$el.focus();
-                    }
-                });
+        () => props.assets,
+        () => {
+            // Scroll the catalog container to the top
+            if (catalogContainer.value) {
+                catalogContainer.value.scrollTop = 0;
             }
         }
-    }
+    );
 </script>
+
 <template>
-    <div ref="scrollContainerRef" class="catalog__scroll-container">
+    <div class="catalog__scroll-container" ref="catalogContainer">
         <CatalogImagePreview
-            v-for="(asset, index) in assets"
+            v-for="asset in assets"
             :key="asset.id"
             :alt-text="asset.name"
             :url="asset.file_location"
             @click="addNewElementToDisplay"
-            :ref="index === 0 ? 'firstElementRef' : undefined"
         />
     </div>
 </template>
@@ -66,6 +48,7 @@
         align-items: flex-start;
         gap: $spacer-4;
         overflow-y: auto;
-        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
     }
 </style>

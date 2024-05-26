@@ -22,6 +22,7 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
+    const catalogOverlayRef = ref(null); // Add a ref for the catalog overlay
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -53,8 +54,12 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-    }
 
+        // Scroll the catalog overlay to the top
+        if (catalogOverlayRef.value) {
+            catalogOverlayRef.value.scrollTop = 0;
+        }
+    }
     function handleSelectAllAssets() {
         selectedCategory.value = {
             name: allAssetsCategoryName,
@@ -62,6 +67,11 @@
         };
         catalogShow.value = true;
         fetchCatalogElements([], [], []);
+
+        // Scroll the catalog overlay to the top
+        if (catalogOverlayRef.value) {
+            catalogOverlayRef.value.scrollTop = 0;
+        }
     }
 
     function selectElement(eId) {
@@ -173,19 +183,27 @@
         </div>
     </div>
     <div class="d-lg-none">
-        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false" :padding="'0'">
+        <OverlayModal
+            ref="catalogOverlayRef"
+            :full="true"
+            :show="catalogShow"
+            @close="catalogShow = false"
+            :padding="'0'"
+        >
             <div class="category__description">
                 <div class="edit-icon icon text-primary">
                     {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
                 </div>
                 <div class="navigation__title h1">{{ selectedCategory.name }}</div>
             </div>
-            <CatalogLayout
-                :selectedCategoryAssets="catalogElements"
-                :selectedCategory="selectedCategory"
-                @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                @element-added="catalogShow = false"
-            />
+            <div class="catalog-overlay-content">
+                <CatalogLayout
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                    @element-added="catalogShow = false"
+                />
+            </div>
         </OverlayModal>
     </div>
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
@@ -365,5 +383,9 @@
         width: 100%;
         background-color: $white;
         z-index: 2;
+    }
+    .catalog-overlay-content {
+        height: calc(100vh - 4rem);
+        overflow-y: auto;
     }
 </style>
