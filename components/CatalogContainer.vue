@@ -24,15 +24,23 @@
     );
 
     function scrollTop() {
-        if (scrollContainerRef.value) {
-            scrollContainerRef.value.scrollTo({ top: 0, behavior: 'smooth' });
-            emit('scrolled-top');
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            nextTick(() => {
-                if (firstElementRef.value?.$el) {
-                    firstElementRef.value.$el.focus();
-                }
-            });
+        if (isMobile) {
+            // Scroll using the window object on mobile devices
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            // Scroll using the scrollable container reference on desktop
+            if (scrollContainerRef.value) {
+                scrollContainerRef.value.scrollTo({ top: 0, behavior: 'smooth' });
+                emit('scrolled-top');
+
+                nextTick(() => {
+                    if (firstElementRef.value?.$el) {
+                        firstElementRef.value.$el.focus();
+                    }
+                });
+            }
         }
     }
 </script>
