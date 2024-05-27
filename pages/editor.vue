@@ -9,8 +9,17 @@
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
+    let refreshCount = ref(0);
 
     let selectedCategory = ref({});
+
+    const undoEmpty = computed(() => {
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantUndo;
+    });
+
+    const redoEmpty = computed(() => {
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantRedo;
+    });
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -85,6 +94,16 @@
         });
     }
 
+    function handleUndo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
+        refreshCount.value++;
+    }
+
+    function handleRedo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
+        refreshCount.value++;
+    }
+
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;
@@ -113,9 +132,13 @@
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
                     arrow_back
                 </button>
-                <div class="undo-redo-container d-none">
-                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
-                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                <div class="undo-redo-container">
+                    <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo" :disabled="undoEmpty">
+                        Undo
+                    </button>
+                    <button class="top-nav__item-redo-btn icon icon-btn" @click="handleRedo" :disabled="redoEmpty">
+                        Redo
+                    </button>
                 </div>
             </div>
 
@@ -152,6 +175,7 @@
                 <ComicPanels
                     :lockAspectRatio="lockAspectRatio"
                     :comic="comic"
+                    :refreshCount="refreshCount"
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
@@ -365,5 +389,12 @@
         width: 100%;
         background-color: $white;
         z-index: 2;
+    }
+
+    .top-nav__item-undo-btn {
+        color: $grey-0;
+    }
+    .top-nav__item-redo-btn {
+        color: $grey-0;
     }
 </style>
