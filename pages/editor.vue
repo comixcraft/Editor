@@ -10,8 +10,17 @@
     let lockAspectRatio = ref(false);
     let editor = ref(null);
     let userDidSomething = ref(false);
+    let refreshCount = ref(0);
 
     let selectedCategory = ref({});
+
+    const undoEmpty = computed(() => {
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantUndo;
+    });
+
+    const redoEmpty = computed(() => {
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantRedo;
+    });
 
     definePageMeta({
         middleware: ['comic-defined'],
@@ -86,6 +95,16 @@
         });
     }
 
+    function handleUndo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
+        refreshCount.value++;
+    }
+
+    function handleRedo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
+        refreshCount.value++;
+    }
+
     function handleGoingBack() {
         if (userDidSomething.value) {
             goingBackPopUpShow.value = true;
@@ -136,9 +155,13 @@
         <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="handleGoingBack">arrow_back</button>
-                <div class="undo-redo-container d-none">
-                    <button class="top-nav__item undo-btn icon icon-btn">Undo</button>
-                    <button class="top-nav__item redo-btn icon icon-btn">Redo</button>
+                <div class="undo-redo-container">
+                    <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo" :disabled="undoEmpty">
+                        Undo
+                    </button>
+                    <button class="top-nav__item-redo-btn icon icon-btn" @click="handleRedo" :disabled="redoEmpty">
+                        Redo
+                    </button>
                 </div>
             </div>
 
@@ -175,6 +198,7 @@
                 <ComicPanels
                     :lockAspectRatio="lockAspectRatio"
                     :comic="comic"
+                    :refreshCount="refreshCount"
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
@@ -285,6 +309,9 @@
             width: 100%;
             height: 100%;
             padding: $spacer-3 $spacer-5;
+            &:hover {
+                scale: 1.1;
+            }
         }
     }
 
@@ -330,6 +357,7 @@
     }
 
     .bottom-nav__scrollable-nav {
+        width: min-content;
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
@@ -364,6 +392,9 @@
     .share__top-nav-item {
         color: $white;
         text-decoration: none;
+        &:hover {
+            scale: 1.1;
+        }
     }
 
     .catalog-container {
@@ -388,5 +419,12 @@
         width: 100%;
         background-color: $white;
         z-index: 2;
+    }
+
+    .top-nav__item-undo-btn {
+        color: $grey-0;
+    }
+    .top-nav__item-redo-btn {
+        color: $grey-0;
     }
 </style>

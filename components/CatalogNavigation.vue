@@ -69,7 +69,12 @@
         border: none;
         color: white;
         margin: 0;
-        padding: $spacer-2 0;
+        padding: $spacer-2;
+
+        border-radius: $border-radius;
+        &:hover {
+            background-color: $secondary-50;
+        }
     }
     .navigation__icon {
         height: 24px;
@@ -90,6 +95,9 @@
                 background-color: $secondary;
                 color: $white;
                 border-radius: $border-radius;
+                &:hover {
+                    background-color: $secondary-50;
+                }
             }
         }
     }

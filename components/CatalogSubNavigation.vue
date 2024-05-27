@@ -89,13 +89,18 @@
             text-overflow: ellipsis;
         }
 
-        &.selected {
+        &.selected,
+        &:hover {
             background-color: $primary;
             color: $white;
 
             .name {
                 color: $white;
             }
+        }
+
+        &:hover {
+            background-color: $primary-50;
         }
     }
 

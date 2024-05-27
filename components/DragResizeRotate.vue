@@ -46,6 +46,7 @@
         'rotateEvent',
         'backEvent',
         'frontEvent',
+        'textUpdate',
     ]);
 
     // computed functions
@@ -117,8 +118,11 @@
         counterRotation.value = `${-angle.value}deg`;
         comicStore.bus.on('updateText', (obj) => {
             if (obj.id == props.eId) {
-                text.value = obj.text;
-                fontSize.value = obj.fontSize;
+                if (obj.text !== text.value || obj.fontSize !== fontSize.value) {
+                    text.value = obj.text;
+                    fontSize.value = obj.fontSize;
+                    emit('textUpdate', obj.text);
+                }
             }
         });
     });
@@ -213,6 +217,10 @@
 </template>
 
 <style lang="scss" scoped>
+    .vue-drag-resize-rotate:hover {
+        outline: 2px solid $info;
+    }
+
     .element {
         &--active {
             border: $border-width solid $info;
@@ -228,6 +236,10 @@
             width: 100%;
             height: 100%;
             user-select: none;
+
+            &:hover {
+                cursor: move;
+            }
         }
     }
 
@@ -251,6 +263,9 @@
     .text {
         width: 100%;
         height: 100%;
+        &:hover {
+            cursor: move;
+        }
 
         &__content {
             width: 100%;
