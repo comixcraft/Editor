@@ -37,6 +37,7 @@
                     el.z = fixedCopy[index];
                 });
                 updateArrayZ();
+                props.panel.addAlteration();
             },
         });
     });
