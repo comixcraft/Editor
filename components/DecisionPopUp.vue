@@ -91,5 +91,9 @@
             color: $grey-0;
             border: none;
         }
+        &:hover {
+            background-color: $secondary-50;
+            color: $white;
+        }
     }
 </style>

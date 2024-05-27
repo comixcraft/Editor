@@ -113,9 +113,9 @@ export default class ElementDS {
     }
 
     /** @param {Position} pos */
-    set pos(pos) {
-        this._pos.x = pos.x;
-        this._pos.y = pos.y;
+    set pos(position) {
+        this._pos.x = position.x;
+        this._pos.y = position.y;
     }
 
     /** @param {Boolean} isFocused */
