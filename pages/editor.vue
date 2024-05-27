@@ -9,6 +9,7 @@
     let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
+    let userDidSomething = ref(false);
     let refreshCount = ref(0);
 
     let selectedCategory = ref({});
@@ -104,6 +105,23 @@
         refreshCount.value++;
     }
 
+    function handleGoingBack() {
+        if (userDidSomething.value) {
+            goingBackPopUpShow.value = true;
+        } else {
+            return reloadNuxtApp({
+                path: '/',
+                ttl: 1000,
+            });
+        }
+    }
+
+    window.onbeforeunload = function (e) {
+        if (userDidSomething.value && e.target.activeElement === this.document.body) {
+            e.preventDefault();
+        }
+    };
+
     window.onkeydown = function (e) {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             lockAspectRatio.value = true;
@@ -115,6 +133,12 @@
         }
     };
 
+    watch(
+        () => comic.getPage(0).getStrip(0).getPanel(0).elements,
+        () => (userDidSomething.value = true),
+        { deep: true }
+    );
+
     onMounted(() => {
         fetchCatalogElements();
     });
@@ -122,6 +146,7 @@
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
+        window.onbeforeunload = null;
     });
 </script>
 
@@ -129,9 +154,7 @@
     <div class="editor" ref="editor">
         <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
-                <button class="share__top-nav-item back-btn icon icon-btn" @click="goingBackPopUpShow = true">
-                    arrow_back
-                </button>
+                <button class="share__top-nav-item back-btn icon icon-btn" @click="handleGoingBack">arrow_back</button>
                 <div class="undo-redo-container">
                     <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo" :disabled="undoEmpty">
                         Undo
