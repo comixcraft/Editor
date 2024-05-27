@@ -98,6 +98,7 @@
         width: 100%;
 
         &__search {
+            user-select: none;
             position: sticky;
             top: $spacer-4;
             background-color: $white;
