@@ -176,6 +176,9 @@
             cursor: pointer;
             color: $medium-grey-100;
             right: $spacer-3;
+            &:hover {
+                scale: 1.2;
+            }
         }
 
         &__input {

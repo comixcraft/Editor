@@ -214,7 +214,7 @@
 
 <style lang="scss" scoped>
     .vue-drag-resize-rotate:hover {
-        border: 2px solid $info;
+        outline: 2px solid $info;
     }
 
     .element {
@@ -232,6 +232,7 @@
             width: 100%;
             height: 100%;
             user-select: none;
+
             &:hover {
                 cursor: move;
             }
@@ -258,6 +259,9 @@
     .text {
         width: 100%;
         height: 100%;
+        &:hover {
+            cursor: move;
+        }
 
         &__content {
             width: 100%;
