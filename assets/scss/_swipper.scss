@@ -28,11 +28,17 @@
             padding: $spacer-5;
             margin: 0 0;
             border-radius: $border-radius;
+            &:hover {
+                background-color: $secondary;
+            }
         }
     }
 
     .swiper-pagination-bullet-active {
         background-color: $secondary;
+        &:hover {
+            background-color: $secondary;
+        }
     }
 
     @include media-breakpoint-up(lg) {

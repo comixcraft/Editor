@@ -176,6 +176,9 @@
             cursor: pointer;
             color: $medium-grey-100;
             right: $spacer-3;
+            &:hover {
+                scale: 1.2;
+            }
         }
 
         &__input {
@@ -187,6 +190,12 @@
         &__tune {
             cursor: pointer;
             padding: $spacer-1;
+            border-radius: $border-radius;
+
+            &:hover {
+                background-color: $secondary-50;
+                color: $white;
+            }
 
             &--active {
                 color: $secondary;
@@ -195,6 +204,9 @@
             &--disabled {
                 color: $grey-100;
                 pointer-events: none;
+                &:hover {
+                    background-color: transparent;
+                }
             }
         }
     }

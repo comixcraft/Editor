@@ -148,6 +148,10 @@
         display: flex;
         align-items: center;
 
+        &:hover {
+            cursor: move;
+        }
+
         &--selected {
             border-width: $border-width-lg solid $primary;
         }
@@ -188,9 +192,15 @@
             cursor: pointer;
         }
 
+        .expand-less:hover,
+        .expand-more:hover {
+            scale: 1.2;
+        }
+
         button.disabled {
             color: $grey-60;
             cursor: not-allowed;
+            scale: 1;
         }
     }
 </style>

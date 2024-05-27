@@ -100,7 +100,7 @@
 
                 <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
                 <div class="btn-container">
-                    <button class="accent-btn" @click="download">Download Comic</button>
+                    <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
                     <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
                 </div>
             </div>
@@ -154,6 +154,9 @@
     .icon-btn {
         color: white;
         text-decoration: none;
+        &:hover {
+            scale: 1.2;
+        }
     }
 
     .export__details {
@@ -206,6 +209,10 @@
         color: $secondary-100;
         background-color: $white-100;
         border: $border-width solid $secondary-100;
+        &:hover {
+            background-color: $secondary-50;
+            color: $white;
+        }
     }
 
     .share__confirm-btn {

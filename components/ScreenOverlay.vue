@@ -30,6 +30,9 @@
 
     .icon-btn {
         color: $white;
+        &:hover {
+            scale: 1.2;
+        }
     }
 
     .overlay {
