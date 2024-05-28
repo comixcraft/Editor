@@ -22,7 +22,7 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
-    const catalogOverlayRef = ref(null); // Add a ref for the catalog overlay
+    const catalogLayoutRef = ref(null);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -55,8 +55,8 @@
         selectedCategory.value = category;
         catalogShow.value = true;
         // Scroll the catalog overlay to the top
-        if (catalogOverlayRef.value) {
-            catalogOverlayRef.value.scrollTo({
+        if (catalogLayoutRef.value) {
+            catalogLayoutRef.value.scrollTo({
                 top: 0,
                 behavior: 'smooth',
             });
@@ -71,8 +71,8 @@
         fetchCatalogElements([], [], []);
 
         // Scroll the catalog overlay to the top
-        if (catalogOverlayRef.value) {
-            catalogOverlayRef.value.scrollTop = 0;
+        if (catalogLayoutRef.value) {
+            catalogLayoutRef.value.scrollTop = 0;
         }
     }
 
@@ -200,6 +200,7 @@
             </div>
             <div class="catalog-overlay-content">
                 <CatalogLayout
+                    ref="catalogLayoutRef"
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
@@ -387,7 +388,7 @@
         z-index: 2;
     }
     .catalog-overlay-content {
-        height: calc(100vh - 15vh);
+        height: 85svh;
         overflow-y: auto;
     }
 </style>
