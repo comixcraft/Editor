@@ -379,7 +379,6 @@
     }
 
     .bottom-nav__scrollable-nav {
-        width: min-content;
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
