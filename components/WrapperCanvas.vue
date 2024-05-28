@@ -7,6 +7,7 @@
         panel: Object,
         panelIsActive: Boolean,
         lockAspectRatio: Boolean,
+        refreshCount: Number,
     });
 
     const aspectRatioWidth = parseFloat(props.panel.width / props.panel.width);
@@ -60,28 +61,41 @@
         };
         elements.get(obj.eId).width = setToRelative(obj.width, currentWidth.value);
         elements.get(obj.eId).height = setToRelative(obj.height, currentHeight.value);
+        props.panel.addAlteration();
     }
 
     function updatePosition(obj) {
-        // update element position
-        elements.get(obj.eId).pos = {
+        const element = elements.get(obj.eId);
+        const newPos = {
             x: setToRelative(obj.pos.x, currentWidth.value),
             y: setToRelative(obj.pos.y, currentHeight.value),
         };
+
+        // Check if the new position is different from the current position
+        if (element.pos.x !== newPos.x || element.pos.y !== newPos.y) {
+            element.pos = newPos;
+            props.panel.addAlteration();
+        }
     }
 
     function updateMirrorValues(obj) {
         // update element mirror values
+        const element = elements.get(obj.eId);
+        if (!element) return;
+
         if (obj.direction === 'x') {
-            elements.get(obj.eId).isMirroredHorizontal = obj.isMirrored;
-            return;
+            element.isMirroredHorizontal = obj.isMirrored;
+        } else {
+            element.isMirroredVertical = obj.isMirrored;
         }
-        elements.get(obj.eId).isMirroredVertical = obj.isMirrored;
+
+        props.panel.addAlteration();
     }
 
     function updateRotation(obj) {
         // update element rotation
         elements.get(obj.eId).rotation = obj.rotation;
+        props.panel.addAlteration();
     }
 
     // Bus listeners
@@ -133,11 +147,17 @@
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexUp(eId);
+        props.panel.addAlteration();
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
+        props.panel.addAlteration();
+    }
+
+    function textUpdate(text) {
+        props.panel.addAlteration();
     }
 
     function delayUpdatePanelBoundingBox() {
@@ -155,6 +175,7 @@
         updatePanelBoundingBox();
     });
 
+    //could add addAlteration method here in the future?
     onUpdated(() => {
         updatePanelBoundingBox();
     });
@@ -170,6 +191,7 @@
 <template>
     <div class="wrapper-canvas" ref="wrapperCanvas">
         <div
+            :key="props.refreshCount"
             ref="panelElement"
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
@@ -204,6 +226,7 @@
                     @rotate-event="updateRotation"
                     @front-event="upElement"
                     @back-event="downElement"
+                    @text-update="textUpdate"
                     @dragging="isDragging = true"
                     @dragstop="isDragging = false"
                     @activated="setActiveElement(value.id)"

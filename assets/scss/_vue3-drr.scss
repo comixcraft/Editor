@@ -7,6 +7,9 @@
 
 .handle-large-rot {
     position: absolute;
+    &:hover {
+        scale: 1.1;
+    }
 }
 
 .handle-large-rot[data-v-3c286975]:after {

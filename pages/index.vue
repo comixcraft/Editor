@@ -300,6 +300,9 @@
         top: 0;
         right: 0;
         transform: translate(50%, 10%);
+        &:hover {
+            scale: 1.1;
+        }
     }
 
     @include media-breakpoint-up(lg) {

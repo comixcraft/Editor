@@ -27,3 +27,9 @@
 
 // Vue draggable
 @import '@gausszhou/vue3-drag-resize-rotate/lib/bundle.esm.css';
+
+// scroll on pull-down block
+html,
+body {
+    overscroll-behavior-y: none;
+}
