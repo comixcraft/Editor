@@ -23,16 +23,6 @@
         () => props.selectedCategory,
         () => {
             selectedSubCategory.value = {};
-            // Reset selected filters when category changes
-            selectedFilter.value = [];
-            emitCatalogChanged();
-        }
-    );
-
-    // Watch for changes in selectedSubCategory
-    watch(
-        () => selectedSubCategory.value,
-        () => {
             selectedFilter.value = [];
             emitCatalogChanged();
         }
@@ -51,6 +41,7 @@
             selectedSubCategory.value = {};
         } else {
             selectedSubCategory.value = subCategory;
+            selectedFilter.value = [];
         }
         emitCatalogChanged();
     }
