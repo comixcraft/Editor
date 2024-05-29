@@ -201,8 +201,9 @@
             // Save the current context
             context.save();
 
+            let fontSize = element.type.fontSize * panelDimension.width;
             // Set the font properties
-            context.font = `${element.type.fontSize}px ${element.type.fontFamily}`;
+            context.font = `${fontSize}px ${element.type.fontFamily}`;
             context.fillStyle = 'black';
             context.textBaseline = 'top';
 
@@ -232,7 +233,7 @@
             // Draw the text once the lines are created
             new Promise((resolveLine) => {
                 getLines(context, element.type.content, element.width * panelDimension.width).forEach((line, i) => {
-                    context.fillText(line, 0, i * element.type.fontSize);
+                    context.fillText(line, 0, i * fontSize);
                 });
                 context.restore();
                 resolveLine('line drawn');
@@ -244,17 +245,22 @@
     function getLines(context, text, maxWidth) {
         let words = text.split(' ');
         let lines = [];
-        let currentLine = words[0];
+        let currentLine = '';
 
         // Loop through each word and add it to the current line if it fits
-        for (let i = 1; i < words.length; i++) {
+        for (let i = 0; i < words.length; i++) {
             let word = words[i];
-            let width = context.measureText(currentLine + ' ' + word).width;
+            let width = context.measureText(currentLine + word + ' ').width;
             if (width < maxWidth) {
-                currentLine += ' ' + word;
+                currentLine += word + ' ';
+            } else if (word.includes('-') && width > maxWidth) {
+                const splitWord = word.split('-');
+                currentLine += splitWord[0] + '-';
+                lines.push(currentLine);
+                currentLine = splitWord[1] + ' ';
             } else {
                 lines.push(currentLine);
-                currentLine = word;
+                currentLine = word + ' ';
             }
         }
         lines.push(currentLine);

@@ -274,7 +274,6 @@
             width: 100%;
             height: 100%;
             font-family: 'Pangolin';
-            word-break: break-word;
         }
     }
 </style>
