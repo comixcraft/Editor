@@ -1,29 +1,28 @@
 <script setup>
+    // Imports
+
+    // Middlewares
+
+    // Emits
+
+    // Props
+
+    // Static Variables (let, const)
+    const accumulatedChanges = ref({});
+    const comicStore = useComicStore();
     const textarea = ref(null);
     const textValue = ref('');
-    const comicStore = useComicStore();
-    let fontSize = ref(24);
     let element = ref(null);
+    let fontSize = ref(24);
 
-    const accumulatedChanges = ref({});
+    // Reactive Variables
+    // computed
 
-    function startModifyText() {
-        element.value = comicStore.getCurrentElement().value;
-        textarea.value.focus();
-        textValue.value = element.value.type.content;
-        fontSize.value = element.value.type.fontSize;
-    }
+    // Reactive
 
-    function applyAccumulatedChanges() {
-        const changes = accumulatedChanges.value;
-        comicStore.bus.emit('updateText', {
-            id: element.value.id,
-            text: changes.text || textValue.value,
-            fontSize: changes.fontSize || fontSize.value,
-        });
-        accumulatedChanges.value = {};
-    }
+    // Refs
 
+    // Watchers
     watch(
         [textValue, fontSize],
         ([newTextValue, newFontSize]) => {
@@ -33,6 +32,46 @@
         { deep: true }
     );
 
+    // Methods
+    function applyAccumulatedChanges() {
+        const changes = accumulatedChanges.value;
+        comicStore.bus.emit('updateText', {
+            id: element.value.id,
+            text: changes.text || textValue.value,
+            fontSize:
+                changes.fontSize / comicStore.getCurrentCanvas().width ||
+                fontSize.value / comicStore.getCurrentCanvas().width,
+        });
+        accumulatedChanges.value = {};
+    }
+
+    function decreaseFont() {
+        fontSize.value -= 1;
+        element.value.type.fontSize = getRelative(fontSize.value, comicStore.getCurrentCanvas().width);
+        accumulatedChanges.value.fontSize = fontSize.value;
+    }
+
+    function getFixed(num, panelNum) {
+        return num * panelNum;
+    }
+
+    function getRelative(num, panelNum) {
+        return num / panelNum;
+    }
+
+    function increaseFont() {
+        fontSize.value += 1;
+        element.value.type.fontSize = getRelative(fontSize.value, comicStore.getCurrentCanvas().width);
+        accumulatedChanges.value.fontSize = fontSize.value;
+    }
+
+    function startModifyText() {
+        element.value = comicStore.getCurrentElement().value;
+        textarea.value.focus();
+        textValue.value = element.value.type.content;
+        fontSize.value = Math.round(element.value.type.fontSize * comicStore.getCurrentCanvas().width);
+    }
+
     function stopModifyText() {
         element.value.type.content = textValue.value;
         applyAccumulatedChanges();
@@ -40,21 +79,14 @@
         comicStore.setCurrentElement(null);
     }
 
-    function increaseFont() {
-        element.value.type.increaseFontSize();
-        fontSize.value = element.value.type.fontSize;
-        accumulatedChanges.value.fontSize = fontSize.value;
-    }
+    // Bus Listeners
 
-    function decreaseFont() {
-        element.value.type.decreaseFontSize();
-        fontSize.value = element.value.type.fontSize;
-        accumulatedChanges.value.fontSize = fontSize.value;
-    }
-
+    // Vue life cycle hooks
     onMounted(() => {
         startModifyText();
     });
+
+    // expose (defineExpose)
 </script>
 
 <template>
