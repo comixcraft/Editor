@@ -424,8 +424,18 @@
 
     .top-nav__item-undo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+        }
     }
     .top-nav__item-redo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+        }
     }
 </style>
