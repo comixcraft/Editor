@@ -180,7 +180,6 @@
         display: flex;
         gap: $spacer-4;
         flex-direction: column;
-        overflow-y: scroll;
     }
 
     .chevrons {
