@@ -421,6 +421,7 @@
         width: 100%;
         background-color: $white;
         z-index: 2;
+        align-items: center;
     }
     .catalog-overlay-content {
         height: 87svh;
@@ -432,5 +433,11 @@
     }
     .top-nav__item-redo-btn {
         color: $grey-0;
+    }
+
+    @include media-breakpoint-up(md) {
+        .edit-icon {
+            font-size: 40px;
+        }
     }
 </style>
