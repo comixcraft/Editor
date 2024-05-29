@@ -197,6 +197,10 @@
             scale: 1.2;
         }
 
+        button {
+            color: black;
+        }
+
         button.disabled {
             color: $grey-60;
             cursor: not-allowed;
