@@ -46,6 +46,7 @@
     }
 
     function decreaseFont() {
+        if (fontSize.value <= 1) return;
         fontSize.value -= 1;
         element.value.type.fontSize = getRelative(fontSize.value, canvasWidth.value);
         accumulatedChanges.value.fontSize = fontSize.value;
@@ -104,7 +105,7 @@
 
         <div class="font-size" @click.stop="true">
             <button class="font-size__button" @click="increaseFont">+</button>
-            <p class="font-size__text p5">{{ fontSize }}</p>
+            <p class="font-size__text p5">{{ Math.round(fontSize) }}</p>
             <button class="font-size__button" @click="decreaseFont">-</button>
         </div>
     </div>

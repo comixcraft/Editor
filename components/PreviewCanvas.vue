@@ -210,7 +210,7 @@
             // Move the rotation point to the center of the element
             context.translate(
                 element.pos.x * panelDimension.width + (element.width * panelDimension.width) / 2,
-                element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2
+                element.pos.y * panelDimension.height + (element.height * panelDimension.height) / 2 + fontSize / 10
             );
 
             // Rotate the canvas to the specified degrees
@@ -251,7 +251,7 @@
         for (let i = 0; i < words.length; i++) {
             let word = words[i];
             let width = context.measureText(currentLine + word + ' ').width;
-            if (width < maxWidth) {
+            if (width < maxWidth || i === 0) {
                 currentLine += word + ' ';
             } else if (word.includes('-') && width > maxWidth) {
                 const splitWord = word.split('-');
