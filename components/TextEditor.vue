@@ -102,6 +102,7 @@
             grid-template-rows: repeat(3, auto);
             border: $border-width $black solid;
             border-radius: $border-radius;
+            user-select: none;
 
             &__button {
                 background: none;
