@@ -107,4 +107,15 @@
             padding: $spacer-2;
         }
     }
+    @include media-breakpoint-up(md) {
+        .catalog {
+            padding-top: 3rem;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .catalog {
+            padding-top: 0;
+        }
+    }
 </style>
