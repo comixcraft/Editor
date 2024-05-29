@@ -64,13 +64,6 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-        // Scroll the catalog overlay to the top
-        if (catalogLayoutRef.value) {
-            catalogLayoutRef.value.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
     }
     function handleSelectAllAssets() {
         selectedCategory.value = {
@@ -79,14 +72,6 @@
         };
         catalogShow.value = true;
         fetchCatalogElements([], [], []);
-
-        // Scroll the catalog overlay to the top
-        if (catalogLayoutRef.value) {
-            catalogLayoutRef.value.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
     }
 
     function selectElement(eId) {
@@ -445,7 +430,7 @@
         z-index: 2;
     }
     .catalog-overlay-content {
-        height: 85svh;
+        height: 90svh;
         overflow-y: auto;
     }
 
