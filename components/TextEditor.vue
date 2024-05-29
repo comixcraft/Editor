@@ -62,7 +62,6 @@
         <textarea
             class="text-editor__textarea"
             tabindex="0"
-            rows="4"
             ref="textarea"
             :style="{ fontSize: fontSize + 'px' }"
             v-model="textValue"
@@ -72,7 +71,7 @@
 
         <div class="font-size" @click.stop="true">
             <button class="font-size__button" @click="decreaseFont">-</button>
-            <p class="font-size__text">{{ fontSize }}px</p>
+            <p class="font-size__text p5">{{ fontSize }}</p>
             <button class="font-size__button" @click="increaseFont">+</button>
         </div>
     </div>
@@ -85,24 +84,24 @@
         top: 0;
         width: 100%;
         height: 100%;
-        display: grid;
-        justify-items: center;
+        display: flex;
+        justify-content: center;
         align-items: center;
-        z-index: 100;
-        background-color: rgba(112, 112, 112, 0.5);
+        gap: $spacer-3;
+        z-index: 1;
+        background-color: rgba($medium-grey-100, 0.5);
 
         &__textarea {
-            max-width: 80%;
+            width: calc(80% - $spacer-7);
+            height: 40svh;
         }
 
         .font-size {
             background-color: $white;
             display: grid;
-            align-self: end;
-            grid-template-columns: repeat(3, auto);
+            grid-template-rows: repeat(3, auto);
             border: $border-width $black solid;
             border-radius: $border-radius;
-            margin-bottom: $spacer-2;
 
             &__button {
                 background: none;
