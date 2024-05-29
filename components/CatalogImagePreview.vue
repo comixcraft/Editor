@@ -20,10 +20,12 @@
         border: 1px solid $grey-0;
 
         &:hover {
-            cursor: pointer;
-            background-color: $grey-40;
-            border-radius: $border-radius;
-            border: 1px solid $grey-50;
+            @include media-breakpoint-up(lg) {
+                cursor: pointer;
+                background-color: $grey-40;
+                border-radius: $border-radius;
+                border: 1px solid $grey-50;
+            }
         }
     }
 

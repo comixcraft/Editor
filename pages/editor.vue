@@ -32,6 +32,7 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
+    const catalogLayoutRef = ref(null);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -64,7 +65,6 @@
         selectedCategory.value = category;
         catalogShow.value = true;
     }
-
     function handleSelectAllAssets() {
         selectedCategory.value = {
             name: allAssetsCategoryName,
@@ -227,12 +227,14 @@
                 </div>
                 <div class="navigation__title h1">{{ selectedCategory.name }}</div>
             </div>
-            <CatalogLayout
-                :selectedCategoryAssets="catalogElements"
-                :selectedCategory="selectedCategory"
-                @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                @element-added="catalogShow = false"
-            />
+            <div class="catalog-overlay-content">
+                <CatalogLayout
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                    @element-added="catalogShow = false"
+                />
+            </div>
         </OverlayModal>
     </div>
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
@@ -357,7 +359,6 @@
     }
 
     .bottom-nav__scrollable-nav {
-        width: min-content;
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
@@ -420,11 +421,40 @@
         background-color: $white;
         z-index: 2;
     }
+    .catalog-overlay-content {
+        height: 87svh;
+        overflow-y: auto;
+    }
 
     .top-nav__item-undo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+            &:disabled {
+                scale: 1; // Prevent scaling on hover when disabled
+                cursor: not-allowed; // Change cursor to indicate disabled state
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
     }
+
     .top-nav__item-redo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+            &:disabled {
+                scale: 1;
+                cursor: not-allowed;
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
     }
 </style>
