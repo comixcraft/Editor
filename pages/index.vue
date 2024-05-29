@@ -269,7 +269,6 @@
         border-radius: $border-radius;
         display: flex;
         width: fit-content;
-        &:hover,
         &--selected {
             cursor: pointer;
             border: $border-width-lg solid $primary;
@@ -326,6 +325,17 @@
         .accent-btn {
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        .draft-preview {
+            cursor: pointer;
+            border: $border-width-lg solid $primary;
+        }
+
+        .draft-btn--cancel {
+            &:hover {
+                scale: 1.1;
+            }
         }
     }
 </style>
