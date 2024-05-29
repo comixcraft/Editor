@@ -82,7 +82,10 @@
 
         // Scroll the catalog overlay to the top
         if (catalogLayoutRef.value) {
-            catalogLayoutRef.value.scrollTop = 0;
+            catalogLayoutRef.value.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
         }
     }
 
