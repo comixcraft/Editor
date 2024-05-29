@@ -277,6 +277,12 @@
                 color: $primary !important;
             }
         }
+        &:hover {
+            @include media-breakpoint-up(lg) {
+                cursor: pointer;
+                border: $border-width-lg solid $primary;
+            }
+        }
     }
 
     .draft-canvas {
@@ -299,6 +305,11 @@
         top: 0;
         right: 0;
         transform: translate(50%, 10%);
+        &:hover {
+            @include media-breakpoint-up(lg) {
+                scale: 1.1;
+            }
+        }
     }
 
     @include media-breakpoint-up(lg) {
@@ -325,16 +336,6 @@
         }
 
         .draft-preview {
-            &:hover {
-                cursor: pointer;
-                border: $border-width-lg solid $primary;
-            }
-        }
-
-        .draft-btn--cancel {
-            &:hover {
-                scale: 1.1;
-            }
         }
     }
 </style>
