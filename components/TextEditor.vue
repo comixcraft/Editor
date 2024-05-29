@@ -9,6 +9,7 @@
 
     // Static Variables (let, const)
     const accumulatedChanges = ref({});
+    const canvasWidth = ref(0);
     const comicStore = useComicStore();
     const textarea = ref(null);
     const textValue = ref('');
@@ -39,15 +40,14 @@
             id: element.value.id,
             text: changes.text || textValue.value,
             fontSize:
-                changes.fontSize / comicStore.getCurrentCanvas().width ||
-                fontSize.value / comicStore.getCurrentCanvas().width,
+                getRelative(changes.fontSize, canvasWidth.value) || getRelative(fontSize.value, canvasWidth.value),
         });
         accumulatedChanges.value = {};
     }
 
     function decreaseFont() {
         fontSize.value -= 1;
-        element.value.type.fontSize = getRelative(fontSize.value, comicStore.getCurrentCanvas().width);
+        element.value.type.fontSize = getRelative(fontSize.value, canvasWidth.value);
         accumulatedChanges.value.fontSize = fontSize.value;
     }
 
@@ -61,7 +61,7 @@
 
     function increaseFont() {
         fontSize.value += 1;
-        element.value.type.fontSize = getRelative(fontSize.value, comicStore.getCurrentCanvas().width);
+        element.value.type.fontSize = getRelative(fontSize.value, canvasWidth.value);
         accumulatedChanges.value.fontSize = fontSize.value;
     }
 
@@ -69,7 +69,7 @@
         element.value = comicStore.getCurrentElement().value;
         textarea.value.focus();
         textValue.value = element.value.type.content;
-        fontSize.value = Math.round(element.value.type.fontSize * comicStore.getCurrentCanvas().width);
+        fontSize.value = getFixed(element.value.type.fontSize, canvasWidth.value);
     }
 
     function stopModifyText() {
@@ -83,6 +83,7 @@
 
     // Vue life cycle hooks
     onMounted(() => {
+        canvasWidth.value = comicStore.getCurrentCanvas().width;
         startModifyText();
     });
 

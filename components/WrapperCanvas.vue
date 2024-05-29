@@ -141,7 +141,7 @@
             const height = setToRelative(200, currentHeight.value);
             const width = setToRelative(200, currentWidth.value);
             let name = 'Double-click to edit me.';
-            let type = new Text(name, 0.05, 'Pangolin');
+            let type = new Text(name, 0.03206997084548105, 'Pangolin');
             tempEl = new ElementDS(width, height, name, type);
         }
         props.panel.addElement(tempEl);

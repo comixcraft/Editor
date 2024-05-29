@@ -19,7 +19,7 @@ export default class Text {
      */
     constructor(content = null, fontSize = null, fontFamily = null) {
         this._content = content ?? 'undefined';
-        this._fontSize = fontSize ?? 0.05;
+        this._fontSize = fontSize ?? 0.03206997084548105;
         this._fontFamily = fontFamily ?? 'Nunito';
     }
 
