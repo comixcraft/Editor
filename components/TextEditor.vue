@@ -70,9 +70,9 @@
         ></textarea>
 
         <div class="font-size" @click.stop="true">
-            <button class="font-size__button" @click="decreaseFont">-</button>
-            <p class="font-size__text p5">{{ fontSize }}</p>
             <button class="font-size__button" @click="increaseFont">+</button>
+            <p class="font-size__text p5">{{ fontSize }}</p>
+            <button class="font-size__button" @click="decreaseFont">-</button>
         </div>
     </div>
 </template>
