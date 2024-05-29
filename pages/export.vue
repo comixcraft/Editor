@@ -113,7 +113,7 @@
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
-                imgSrc="http://localhost:3000/catalog/Scenes/items/Rats%20In%20Love.png?raw=true"
+                imgSrc="./Rats_In_Love.png"
                 title="Download successful"
                 body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
                 :buttons="[

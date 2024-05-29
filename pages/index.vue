@@ -158,8 +158,8 @@
             </div>
             <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
                 <DecisionPopUp
-                    imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
-                    title="Poof, Your hard work disappears"
+                    imgSrc="./Barista_pouring4.png"
+                    title="Poof, your hard work disappears..."
                     body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
                     :buttons="[
                         { name: 'Delete Draft', emitName: 'discard' },
