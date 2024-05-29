@@ -1,4 +1,6 @@
 <script setup>
+    import { nextTick } from 'vue';
+
     const props = defineProps({
         assets: Array,
     });
@@ -6,26 +8,25 @@
     const emit = defineEmits(['element-added']);
 
     const comicStore = useComicStore();
-    const catalogContainer = ref(null); // Add a ref for the scroll container
+    const catalogContainer = ref(null);
 
-    let unsubscribeFromAddElement; // Store the unsubscribe function
+    let unsubscribeFromAddElement;
 
     function addNewElementToDisplay(event) {
         emit('element-added');
         comicStore.bus.emit('add-element', event);
     }
 
-    // Watch for changes in assets prop
     watch(
         () => props.assets,
         () => {
-            // Scroll the catalog container to the top
-            if (catalogContainer.value) {
-                catalogContainer.value.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                });
-            }
+            nextTick(() => {
+                if (catalogContainer.value && catalogContainer.value.firstElementChild) {
+                    catalogContainer.value.firstElementChild.scrollIntoView({
+                        behavior: 'smooth',
+                    });
+                }
+            });
         }
     );
 </script>
