@@ -65,14 +65,6 @@
         selectedCategory.value = category;
         catalogShow.value = true;
     }
-    function handleSelectAllAssets() {
-        selectedCategory.value = {
-            name: allAssetsCategoryName,
-            subCategories: [],
-        };
-        catalogShow.value = true;
-        fetchCatalogElements([], [], []);
-    }
 
     function selectElement(eId) {
         selectedElementId.value = eId;
@@ -139,10 +131,6 @@
         { deep: true }
     );
 
-    onMounted(() => {
-        fetchCatalogElements();
-    });
-
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
@@ -206,7 +194,6 @@
                 <CatalogNavigation
                     :categories="catalogStructure.categories"
                     @categorySelected="updateSelectedCategory"
-                    @selectAllAssets="handleSelectAllAssets"
                 />
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">

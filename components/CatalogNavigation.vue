@@ -9,7 +9,7 @@
         allAssetsButtonName: { type: String, default: 'All Assets' },
     });
 
-    const emit = defineEmits(['categorySelected', 'selectAllAssets']);
+    const emit = defineEmits(['categorySelected']);
     const comicStore = useComicStore();
 
     // Initialize selectedCategory with allAssetsButtonName by default
@@ -23,8 +23,10 @@
     }
 
     function selectAllAssets() {
-        selectedCategory.value = props.allAssetsButtonName; // Select "All Assets" button
-        emit('selectAllAssets');
+        selectCategory({
+            name: props.allAssetsButtonName,
+            subCategories: [],
+        });
     }
 
     // Functionality to add new text to display
