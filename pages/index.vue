@@ -325,8 +325,10 @@
         }
 
         .draft-preview {
-            cursor: pointer;
-            border: $border-width-lg solid $primary;
+            &:hover {
+                cursor: pointer;
+                border: $border-width-lg solid $primary;
+            }
         }
 
         .draft-btn--cancel {
