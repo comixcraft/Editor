@@ -19,7 +19,6 @@
     }
 
     function showSubNavigation() {
-        // Check if any subcategory is selected and not "All assets"
         return selectedSubCategory.value !== null && !props.subCategories[0].name === 'All assets';
     }
 
@@ -89,8 +88,7 @@
             text-overflow: ellipsis;
         }
 
-        &.selected,
-        &:hover {
+        &.selected {
             background-color: $primary;
             color: $white;
 
@@ -100,7 +98,13 @@
         }
 
         &:hover {
-            background-color: $primary-50;
+            @include media-breakpoint-up(lg) {
+                background-color: $primary-50;
+                color: black;
+                .name {
+                    color: black;
+                }
+            }
         }
     }
 

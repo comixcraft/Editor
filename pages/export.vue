@@ -24,9 +24,6 @@
     let disableButton = ref(true);
 
     // Watchers
-    window.onbeforeunload = function (e) {
-        e.preventDefault();
-    };
 
     // Methods
     function download() {
@@ -63,6 +60,14 @@
     // Bus Listeners
 
     // Vue life cycle hooks
+    onMounted(() => {
+        window.onbeforeunload = function (e) {
+            if (e.target.activeElement === this.document.body) {
+                e.preventDefault();
+            }
+        };
+    });
+
     onBeforeUnmount(() => {
         window.onbeforeunload = null;
     });
