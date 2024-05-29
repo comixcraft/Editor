@@ -41,8 +41,8 @@
             selectedSubCategory.value = {};
         } else {
             selectedSubCategory.value = subCategory;
-            selectedFilter.value = [];
         }
+        selectedFilter.value = [];
         emitCatalogChanged();
     }
 
