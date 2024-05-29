@@ -19,7 +19,6 @@
     }
 
     function showSubNavigation() {
-        // Check if any subcategory is selected and not "All assets"
         return selectedSubCategory.value !== null && !props.subCategories[0].name === 'All assets';
     }
 
