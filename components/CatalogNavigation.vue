@@ -87,6 +87,9 @@
         }
 
         .navigation button {
+            text-overflow: ellipsis;
+            overflow: hidden;
+
             &.selected {
                 background-color: $secondary;
                 color: $white;
