@@ -44,6 +44,16 @@
         draftSelected.value = true;
     }
 
+    function preventScrollingDraftPopUp() {
+        if ((deleteDraftPopUpShow.value = true)) {
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function enableScrolling() {
+        document.body.style.overflow = 'visible';
+    }
+
     onMounted(() => {
         !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
             ? (draftAvailable.value = false)
@@ -107,7 +117,7 @@
                         <button
                             v-if="draftSelected"
                             class="draft-btn--cancel icon"
-                            @click="deleteDraftPopUpShow = true"
+                            @click="(deleteDraftPopUpShow = true), preventScrollingDraftPopUp()"
                         >
                             delete
                         </button>
@@ -156,7 +166,11 @@
                     {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
                 </button>
             </div>
-            <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
+            <OverlayModal
+                :show="deleteDraftPopUpShow"
+                :full="false"
+                @close="(deleteDraftPopUpShow = false), enableScrolling()"
+            >
                 <DecisionPopUp
                     imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
                     title="Poof, Your hard work disappears"
@@ -303,6 +317,11 @@
         &:hover {
             scale: 1.1;
         }
+    }
+
+    .testDiv {
+        height: 100%;
+        overflow: hidden;
     }
 
     @include media-breakpoint-up(lg) {
