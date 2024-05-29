@@ -218,7 +218,9 @@
 
 <style lang="scss" scoped>
     .vue-drag-resize-rotate:hover {
-        outline: 2px solid $info;
+        @include media-breakpoint-up(lg) {
+            outline: 2px solid $info;
+        }
     }
 
     .element {

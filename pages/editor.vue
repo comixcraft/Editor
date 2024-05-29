@@ -430,9 +430,34 @@
 
     .top-nav__item-undo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+            &:disabled {
+                scale: 1; // Prevent scaling on hover when disabled
+                cursor: not-allowed; // Change cursor to indicate disabled state
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
     }
+
     .top-nav__item-redo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+            &:disabled {
+                scale: 1;
+                cursor: not-allowed;
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
     }
 
     @include media-breakpoint-up(md) {
