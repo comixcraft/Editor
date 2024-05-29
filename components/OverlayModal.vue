@@ -51,9 +51,6 @@
 </template>
 
 <style lang="scss" scoped>
-    body {
-        overflow: hidden;
-    }
     .background {
         z-index: 9999999;
         position: fixed;
