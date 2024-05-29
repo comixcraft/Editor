@@ -102,9 +102,9 @@
             @include media-breakpoint-up(lg) {
                 background-color: $primary-50;
                 color: black;
-            }
-            &.name {
-                color: black;
+                .name {
+                    color: black;
+                }
             }
         }
     }
