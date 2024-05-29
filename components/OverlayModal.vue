@@ -14,6 +14,29 @@
     });
 
     const emit = defineEmits(['close']);
+
+    function preventScrolling() {
+        document.body.style.overflow = 'hidden';
+    }
+
+    function enableScrolling() {
+        document.body.style.overflow = 'visible';
+    }
+
+    watch(
+        () => props.show,
+        (newValue) => {
+            if (newValue) {
+                preventScrolling();
+            } else {
+                enableScrolling();
+            }
+        }
+    );
+
+    onUnmounted(() => {
+        enableScrolling();
+    });
 </script>
 
 <template>
@@ -28,6 +51,9 @@
 </template>
 
 <style lang="scss" scoped>
+    body {
+        overflow: hidden;
+    }
     .background {
         z-index: 9999999;
         position: fixed;

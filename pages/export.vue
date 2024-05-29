@@ -60,16 +60,6 @@
         });
     }
 
-    function preventScrollingExportPopUp() {
-        if ((downloadPopUpShow.value = true)) {
-            document.body.style.overflow = 'hidden';
-        }
-    }
-
-    function enableScrolling() {
-        document.body.style.overflow = 'visible';
-    }
-
     // Bus Listeners
 
     // Vue life cycle hooks
@@ -116,18 +106,12 @@
 
                 <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
                 <div class="btn-container">
-                    <button
-                        class="accent-btn"
-                        @click="download, preventScrollingExportPopUp()"
-                        :disabled="disableButton"
-                    >
-                        Download Comic
-                    </button>
+                    <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
                     <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
                 </div>
             </div>
         </div>
-        <OverlayModal :show="downloadPopUpShow" :full="false" @close="(downloadPopUpShow = false), enableScrolling()">
+        <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
                 imgSrc="http://localhost:3000/catalog/Scenes/items/Rats%20In%20Love.png?raw=true"
                 title="Download successful"
