@@ -244,8 +244,8 @@
             body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
             :buttons="[
                 { name: 'Save Draft', emitName: 'save' },
-                { name: 'Discard all changes', emitName: 'discard' },
-                { name: 'Cancel', emitName: 'cancel' },
+                { name: 'Discard All Changes', emitName: 'discard' },
+                { name: 'Back to Editing', emitName: 'cancel' },
             ]"
             @cancel="goingBackPopUpShow = false"
             @save="saveComic"
