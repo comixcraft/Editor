@@ -17,10 +17,12 @@
 
     function preventScrolling() {
         document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
     }
 
     function enableScrolling() {
         document.body.style.overflow = 'visible';
+        document.body.style.touchAction = 'auto';
     }
 
     watch(
