@@ -8,11 +8,17 @@
     background-color: transparent;
 }
 
+.icon-btn:disabled {
+    cursor: not-allowed !important;
+    color: $grey-60 !important;
+}
+
 .icon-btn:hover {
     cursor: pointer;
 }
 
 .accent-btn {
+    position: sticky;
     text-align: center;
     z-index: 1;
     background-color: $secondary;
@@ -20,8 +26,6 @@
     padding: $spacer-3 $spacer-5;
     border-radius: $border-radius-lg;
     border: none;
-    left: 50%;
-    transform: translateX(-50%);
     width: calc(100% - $spacer-6);
 }
 

@@ -24,6 +24,9 @@
     let disableButton = ref(true);
 
     // Watchers
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+    };
 
     // Methods
     function download() {
@@ -60,6 +63,9 @@
     // Bus Listeners
 
     // Vue life cycle hooks
+    onBeforeUnmount(() => {
+        window.onbeforeunload = null;
+    });
 
     // defineExpose
 </script>
@@ -86,13 +92,13 @@
                     </div>
                     <div class="share__input-group">
                         <label class="share__input-group-label" for="file-type">File Type:</label>
-                        <select class="share__input-group-select">
+                        <select class="share__input-group-select" id="file.type">
                             <option value="png">PNG</option>
                         </select>
                     </div>
                     <div class="share__input-group">
                         <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                        <select class="share__input-group-select">
+                        <select class="share__input-group-select" id="select-panels">
                             <option value="1">All panels</option>
                         </select>
                     </div>
@@ -100,7 +106,7 @@
 
                 <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
                 <div class="btn-container">
-                    <button class="accent-btn" @click="download">Download Comic</button>
+                    <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
                     <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
                 </div>
             </div>
@@ -118,6 +124,7 @@
                 @discard="reloadApp"
             />
         </OverlayModal>
+        <FooterComponent />
     </div>
 </template>
 
@@ -153,6 +160,9 @@
     .icon-btn {
         color: white;
         text-decoration: none;
+        &:hover {
+            scale: 1.2;
+        }
     }
 
     .export__details {
@@ -171,6 +181,7 @@
 
     .share__top-nav {
         width: 100%;
+        user-select: none;
     }
 
     .share__input-group-input,
@@ -205,6 +216,10 @@
         color: $secondary-100;
         background-color: $white-100;
         border: $border-width solid $secondary-100;
+        &:hover {
+            background-color: $secondary-50;
+            color: $white;
+        }
     }
 
     .share__confirm-btn {

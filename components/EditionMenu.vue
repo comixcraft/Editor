@@ -37,6 +37,9 @@
         user-select: none;
         cursor: pointer;
         border-bottom: $border-width solid $light-grey-100;
+        &:hover {
+            scale: 1.2;
+        }
 
         &:last-child {
             border-bottom: none;

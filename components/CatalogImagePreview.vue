@@ -16,6 +16,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: $spacer-2;
+        border: 1px solid $grey-0;
+
+        &:hover {
+            cursor: pointer;
+            background-color: $grey-40;
+            border-radius: $border-radius;
+            border: 1px solid $grey-50;
+        }
     }
 
     .card > img {
