@@ -421,6 +421,7 @@
         width: 100%;
         background-color: $white;
         z-index: 2;
+        align-items: center;
     }
     .catalog-overlay-content {
         height: 87svh;
@@ -456,6 +457,12 @@
                     scale: 1;
                 }
             }
+        }
+    }
+
+    @include media-breakpoint-up(md) {
+        .edit-icon {
+            font-size: 40px;
         }
     }
 </style>
