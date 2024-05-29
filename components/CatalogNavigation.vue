@@ -16,10 +16,8 @@
     selectedCategory.value = props.allAssetsButtonName;
 
     function selectCategory(category) {
-        if (selectedCategory.value !== category.name) {
-            selectedCategory.value = category.name; // Select category
-            emit('categorySelected', category, []);
-        }
+        selectedCategory.value = category.name;
+        emit('categorySelected', category, []);
     }
 
     function selectAllAssets() {
