@@ -108,6 +108,7 @@
                 border: none;
                 padding: $spacer-2 $spacer-3;
                 cursor: pointer;
+                color: $black;
 
                 &:hover {
                     background-color: $grey-40;
