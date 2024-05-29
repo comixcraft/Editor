@@ -141,7 +141,7 @@
 
     .layer {
         padding: $spacer-3;
-        width: 80vw;
+        width: 75vw;
         background-color: $white-100;
         border: $primary $border-width solid;
         border-radius: $border-radius;
