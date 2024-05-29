@@ -430,7 +430,7 @@
         z-index: 2;
     }
     .catalog-overlay-content {
-        height: 90svh;
+        height: 87svh;
         overflow-y: auto;
     }
 
