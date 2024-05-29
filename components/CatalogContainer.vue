@@ -1,6 +1,4 @@
 <script setup>
-    import { nextTick } from 'vue';
-
     const props = defineProps({
         assets: Array,
     });
@@ -9,8 +7,6 @@
 
     const comicStore = useComicStore();
     const catalogContainer = ref(null);
-
-    let unsubscribeFromAddElement;
 
     function addNewElementToDisplay(event) {
         emit('element-added');

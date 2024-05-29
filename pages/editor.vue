@@ -220,13 +220,7 @@
         </div>
     </div>
     <div class="d-lg-none">
-        <OverlayModal
-            ref="catalogOverlayRef"
-            :full="true"
-            :show="catalogShow"
-            @close="catalogShow = false"
-            :padding="'0'"
-        >
+        <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false" :padding="'0'">
             <div class="category__description">
                 <div class="edit-icon icon text-primary">
                     {{ iconConfig.get(selectedCategory.name) || 'default_icon' }}
@@ -235,7 +229,6 @@
             </div>
             <div class="catalog-overlay-content">
                 <CatalogLayout
-                    ref="catalogLayoutRef"
                     :selectedCategoryAssets="catalogElements"
                     :selectedCategory="selectedCategory"
                     @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
