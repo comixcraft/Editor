@@ -125,7 +125,7 @@
             />
         </OverlayModal> -->
 
-        <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
+        <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
                 imgSrc="./Barista_pouring4.png"
                 title="Poof, your hard work disappears..."
