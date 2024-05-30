@@ -104,7 +104,7 @@
         }
 
         &__container {
-            padding: $spacer-2;
+            padding: 0 $spacer-2 $spacer-2 $spacer-2;
         }
     }
     @include media-breakpoint-up(md) {
