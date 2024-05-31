@@ -112,6 +112,9 @@
 
         @include media-breakpoint-up(lg) {
             right: $spacer-5;
+            &:hover {
+                scale: 1.2;
+            }
         }
     }
 </style>

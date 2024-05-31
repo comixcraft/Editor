@@ -57,17 +57,6 @@
         });
     }
 
-    useHead({
-        link: [
-            {
-                rel: 'preload',
-                as: 'image',
-                href: './RatsInLove.png',
-                type: 'image/png',
-            },
-        ],
-    });
-
     // Bus Listeners
 
     // Vue life cycle hooks
@@ -129,9 +118,9 @@
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
-                imgSrc="./RatsInLove.png"
+                imgSrc="/RatsInLove.png"
                 title="Download successful!"
-                body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
+                body="Congratulations! Your comic has been downloaded. It's time to share it with the world."
                 :buttons="[
                     { name: 'Create New Comic', emitName: 'discard' },
                     { name: 'Save Draft', emitName: 'save' },
