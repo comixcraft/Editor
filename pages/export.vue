@@ -1,5 +1,6 @@
 <script setup>
     // Imports
+    import { useHead } from '#imports';
 
     // Middlewares
     definePageMeta({
@@ -56,6 +57,17 @@
             ttl: 1000,
         });
     }
+
+    useHead({
+        link: [
+            {
+                rel: 'preload',
+                as: 'image',
+                href: './RatsInLove.png',
+                type: 'image/png',
+            },
+        ],
+    });
 
     // Bus Listeners
 
@@ -118,7 +130,7 @@
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
-                imgSrc="./logoCredit.png"
+                imgSrc="./RatsInLove.png"
                 title="Download successful"
                 body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
                 :buttons="[
