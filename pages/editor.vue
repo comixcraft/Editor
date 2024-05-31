@@ -363,12 +363,16 @@
             right: 0;
             top: 0;
             bottom: 0;
-            width: 20%;
-            background: linear-gradient(to left, rgba(39, 39, 39, 0.7), rgba(39, 39, 39, 0));
+            width: 12%;
+            background: linear-gradient(to left, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
             border-radius: 10px 0 0 10px;
             pointer-events: none;
 
             @include media-breakpoint-up(lg) {
+                display: none;
+            }
+
+            @include media-breakpoint-up(md) {
                 display: none;
             }
         }
@@ -378,12 +382,16 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 15%;
-            background: linear-gradient(to right, rgba(39, 39, 39, 0.7), rgba(39, 39, 39, 0));
-            border-radius: 10px 0 0 10px;
+            width: 12%;
+            background: linear-gradient(to right, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
+            border-radius: 0 10px 10px 0;
             pointer-events: none;
 
             @include media-breakpoint-up(lg) {
+                display: none;
+            }
+
+            @include media-breakpoint-up(md) {
                 display: none;
             }
         }
