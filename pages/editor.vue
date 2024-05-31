@@ -185,11 +185,14 @@
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
-            <div class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first">
-                <CatalogNavigation
-                    :categories="catalogStructure.categories"
-                    @categorySelected="updateSelectedCategory"
-                />
+            <div class="bottom-nav col-12 col-lg-2 col-xl-1 order-lg-first">
+                <div class="bottom-nav__scrollable-nav">
+                    <CatalogNavigation
+                        :categories="catalogStructure.categories"
+                        @categorySelected="updateSelectedCategory"
+                    />
+                </div>
+                <div class="blur-effect"></div>
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
                 <CatalogLayout
@@ -336,18 +339,36 @@
         flex-grow: 1;
     }
 
-    .bottom-nav__scrollable-nav {
-        display: flex;
+    .bottom-nav {
         background-color: $grey-90;
-        padding: $spacer-3;
-        overflow-x: auto;
-        scroll-behavior: smooth;
+        position: relative;
 
-        @include media-breakpoint-up(lg) {
-            flex-direction: column;
-            gap: $spacer-2;
-            overflow-x: visible;
-            flex-grow: 0;
+        .bottom-nav__scrollable-nav {
+            display: flex;
+            padding: $spacer-3;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+
+            @include media-breakpoint-up(lg) {
+                flex-direction: column;
+                gap: $spacer-2;
+                overflow-x: visible;
+                flex-grow: 0;
+            }
+        }
+
+        .blur-effect {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+            pointer-events: none;
+
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }
         }
     }
 
