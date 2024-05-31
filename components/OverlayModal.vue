@@ -29,7 +29,7 @@
 
 <style lang="scss" scoped>
     .background {
-        z-index: 9999999;
+        z-index: 666666;
         position: absolute;
         top: 0;
         background-color: rgba($black-100, 0.3);
@@ -87,9 +87,6 @@
 
         @include media-breakpoint-up(lg) {
             right: $spacer-5;
-            &:hover {
-                scale: 1.2;
-            }
         }
     }
 </style>
