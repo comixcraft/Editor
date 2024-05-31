@@ -45,6 +45,7 @@
         height: 50%;
         max-height: 30vh;
         margin-top: $spacer-7;
+        z-index: 999999;
     }
 
     .title {

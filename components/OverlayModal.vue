@@ -29,7 +29,7 @@
 
 <style lang="scss" scoped>
     .background {
-        z-index: 666666;
+        z-index: 9999999;
         position: absolute;
         top: 0;
         background-color: rgba($black-100, 0.3);
