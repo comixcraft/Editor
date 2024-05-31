@@ -298,8 +298,7 @@
 
     .layer-background {
         padding-top: $spacer-5;
-        width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         background-color: $white;
     }
 
