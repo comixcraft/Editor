@@ -299,6 +299,7 @@
         top: 0;
         right: 0;
         transform: translate(50%, 10%);
+        color: black;
     }
 
     @include media-breakpoint-up(lg) {

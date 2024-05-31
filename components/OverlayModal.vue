@@ -14,6 +14,31 @@
     });
 
     const emit = defineEmits(['close']);
+
+    function preventScrolling() {
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+    }
+
+    function enableScrolling() {
+        document.body.style.overflow = 'visible';
+        document.body.style.touchAction = 'auto';
+    }
+
+    watch(
+        () => props.show,
+        (newValue) => {
+            if (newValue) {
+                preventScrolling();
+            } else {
+                enableScrolling();
+            }
+        }
+    );
+
+    onUnmounted(() => {
+        enableScrolling();
+    });
 </script>
 
 <template>
@@ -30,7 +55,7 @@
 <style lang="scss" scoped>
     .background {
         z-index: 9999999;
-        position: absolute;
+        position: fixed;
         top: 0;
         background-color: rgba($black-100, 0.3);
         height: 100dvh;
