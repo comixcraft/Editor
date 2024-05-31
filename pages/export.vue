@@ -1,5 +1,6 @@
 <script setup>
     // Imports
+    import RatsInLoveImage from '@/public/RatsInLove.png';
 
     // Middlewares
     definePageMeta({
@@ -113,7 +114,7 @@
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
-                imgSrc="./Rats_In_Love.png"
+                :imgSrc="RatsInLoveImage"
                 title="Download successful"
                 body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
                 :buttons="[
