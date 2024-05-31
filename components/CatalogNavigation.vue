@@ -79,6 +79,8 @@
     .navigation {
         display: flex;
         column-gap: $spacer-4;
+        padding-right: $spacer-1;
+        padding-left: $spacer-1;
     }
     @include media-breakpoint-up(lg) {
         .navigation {

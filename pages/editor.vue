@@ -192,7 +192,8 @@
                         @categorySelected="updateSelectedCategory"
                     />
                 </div>
-                <div class="blur-effect"></div>
+                <div class="blur-effect-left"></div>
+                <div class="blur-effect-right"></div>
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
                 <CatalogLayout
@@ -357,13 +358,29 @@
             }
         }
 
-        .blur-effect {
+        .blur-effect-right {
             position: absolute;
             right: 0;
             top: 0;
             bottom: 0;
-            width: 50px;
-            background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+            width: 25px;
+            background: linear-gradient(to left, rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.5));
+            border-radius: 10px 0 0 10px;
+            pointer-events: none;
+
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }
+        }
+
+        .blur-effect-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 25px;
+            background: linear-gradient(to left, rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.5));
+            border-radius: 10px 0 0 10px;
             pointer-events: none;
 
             @include media-breakpoint-up(lg) {
