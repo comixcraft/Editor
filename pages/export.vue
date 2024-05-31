@@ -1,6 +1,5 @@
 <script setup>
     // Imports
-    import { useHead } from '#imports';
 
     // Middlewares
     definePageMeta({
