@@ -129,6 +129,7 @@
 
     function detectDoubleClick(e) {
         e.preventDefault();
+        let currentClickTime = Date.now();
         if (currentClickTime - lastClickTime < 300) {
             comicStore.setCurrentElement(props.element);
         }
