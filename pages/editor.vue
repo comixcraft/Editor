@@ -239,7 +239,7 @@
     </div>
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
         <DecisionPopUp
-            imgSrc="./Rats_In_Love.png"
+            imgSrc="./Barista_pouring4.png"
             title="Poof, your hard work disappears..."
             body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
             :buttons="[
