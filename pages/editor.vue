@@ -363,8 +363,8 @@
             right: 0;
             top: 0;
             bottom: 0;
-            width: 25px;
-            background: linear-gradient(to left, rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.5));
+            width: 20%;
+            background: linear-gradient(to left, rgba(39, 39, 39, 0.7), rgba(39, 39, 39, 0));
             border-radius: 10px 0 0 10px;
             pointer-events: none;
 
@@ -378,8 +378,8 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 25px;
-            background: linear-gradient(to left, rgba(39, 39, 39, 0.8), rgba(39, 39, 39, 0.5));
+            width: 15%;
+            background: linear-gradient(to right, rgba(39, 39, 39, 0.7), rgba(39, 39, 39, 0));
             border-radius: 10px 0 0 10px;
             pointer-events: none;
 
