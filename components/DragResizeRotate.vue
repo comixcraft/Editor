@@ -28,7 +28,7 @@
     let fontSize = ref(props.fontSize);
     let maxDiagonal = ref('0px');
     let counterRotation = ref('0deg');
-    let tapedTwice = ref(false);
+    let lastClickTime = Date.now();
 
     // Define reactive variables
     const angle = ref(props.rotation);
@@ -128,15 +128,11 @@
     });
 
     function detectDoubleClick(e) {
-        if (!tapedTwice.value) {
-            tapedTwice.value = true;
-            setTimeout(function () {
-                tapedTwice.value = false;
-            }, 300);
-            return false;
-        }
         e.preventDefault();
-        comicStore.setCurrentElement(props.element);
+        if (currentClickTime - lastClickTime < 300) {
+            comicStore.setCurrentElement(props.element);
+        }
+        lastClickTime = currentClickTime;
     }
 
     function updateCornersPosition() {
