@@ -6,7 +6,6 @@
     let previewShow = ref(false);
     let catalogShow = ref(false);
     let goingBackPopUpShow = ref(false);
-    let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
     let userDidSomething = ref(false);
@@ -64,18 +63,6 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-    }
-    function handleSelectAllAssets() {
-        selectedCategory.value = {
-            name: allAssetsCategoryName,
-            subCategories: [],
-        };
-        catalogShow.value = true;
-        fetchCatalogElements([], [], []);
-    }
-
-    function selectElement(eId) {
-        selectedElementId.value = eId;
     }
 
     function saveComic() {
@@ -138,10 +125,6 @@
         () => (userDidSomething.value = true),
         { deep: true }
     );
-
-    onMounted(() => {
-        fetchCatalogElements();
-    });
 
     onBeforeUnmount(() => {
         window.onkeydown = null;
@@ -206,7 +189,6 @@
                 <CatalogNavigation
                     :categories="catalogStructure.categories"
                     @categorySelected="updateSelectedCategory"
-                    @selectAllAssets="handleSelectAllAssets"
                 />
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
@@ -255,11 +237,7 @@
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
             <div class="layer-container">
-                <LayerObject
-                    :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"
-                    @selection-event="selectElement"
-                >
-                </LayerObject>
+                <LayerObject :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"> </LayerObject>
             </div>
         </div>
     </ScreenOverlay>
