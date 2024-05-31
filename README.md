@@ -74,11 +74,16 @@ The naming of categories, sub-categories and filters all originate from this cat
 therefore it is important that all keys carry readable names.
 
 ### Updating the catalog with a new version from the Comixplain repository
-This paragraph describes how the existing catalog structure from the Comixplain repository most be adjusted to 
+The following steps describe how the existing catalog structure from the Comixplain repository most be adjusted to 
 properly work for comixcraft.
 
-1. Add the JSON-structure from the Comixplain repository (`/docs/assets.json`) to be 
-exported in `comixplain-catalog.js`.
+1. Copy the JSON-structure from the Comixplain repository (`/docs/assets.json`) 
+and paste it into `comixplain-catalog.js`. The structure needs to be a named export.
+```javascript
+export const catalog = {
+    /* structure goes here */
+}
+```
 2. Remove the category with the key `Template` from the catalog. 
 The data provided in this category is not usable in comixcraft.
 3. Over Strg+F and Strg+R replace all occurrences of `.png"` with `"`.
