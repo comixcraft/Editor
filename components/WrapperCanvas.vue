@@ -238,7 +238,7 @@
 
 <style scoped lang="scss">
     .wrapper-canvas {
-        width: 100%;
+        width: 95%;
         height: 100%;
         display: flex;
         justify-content: center;
