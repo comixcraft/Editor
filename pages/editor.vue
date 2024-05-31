@@ -192,8 +192,8 @@
                         @categorySelected="updateSelectedCategory"
                     />
                 </div>
-                <div class="blur-effect-left"></div>
-                <div class="blur-effect-right"></div>
+                <div class="bottom-nav__blur-effect bottom-nav__blur-effect--left"></div>
+                <div class="bottom-nav__blur-effect bottom-nav__blur-effect--right"></div>
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
                 <CatalogLayout
@@ -358,37 +358,23 @@
             }
         }
 
-        .blur-effect-right {
+        .bottom-nav__blur-effect {
             position: absolute;
-            right: 0;
             top: 0;
             bottom: 0;
             width: 12%;
-            background: linear-gradient(to left, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
-            border-radius: 10px 0 0 10px;
             pointer-events: none;
 
-            @include media-breakpoint-up(lg) {
-                display: none;
+            &--right {
+                right: 0;
+                background: linear-gradient(to left, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
+                border-radius: 10px 0 0 10px;
             }
 
-            @include media-breakpoint-up(md) {
-                display: none;
-            }
-        }
-
-        .blur-effect-left {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 12%;
-            background: linear-gradient(to right, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
-            border-radius: 0 10px 10px 0;
-            pointer-events: none;
-
-            @include media-breakpoint-up(lg) {
-                display: none;
+            &--left {
+                left: 0;
+                background: linear-gradient(to right, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
+                border-radius: 0 10px 10px 0;
             }
 
             @include media-breakpoint-up(md) {
