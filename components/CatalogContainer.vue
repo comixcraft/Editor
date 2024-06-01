@@ -29,6 +29,13 @@
 
 <template>
     <div class="catalog__scroll-container" ref="catalogContainer">
+        <div class="empty-display" v-if="props.assets.length === 0">
+            <img src="/Barista explaining6.png" alt="" class="empty-display__img" draggable="false" />
+            <div class="empty-display__text">
+                <h1>No assets fit the description</h1>
+                <p>Try to adjust the filters or searched terms.</p>
+            </div>
+        </div>
         <CatalogImagePreview
             v-for="asset in assets"
             :key="asset.id"
@@ -48,7 +55,32 @@
         align-items: flex-start;
         gap: $spacer-4;
         overflow-y: auto;
+        user-select: none;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+    }
+
+    .empty-display {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        row-gap: $spacer-5;
+        align-items: center;
+        margin-top: $spacer-3;
+
+        &__img {
+            z-index: 10;
+            max-width: 8rem !important;
+        }
+
+        & h1 {
+            color: $primary;
+        }
+
+        &__text {
+            text-align: center;
+            row-gap: $spacer-4;
+        }
     }
 </style>
