@@ -32,6 +32,9 @@
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
     const catalogLayoutRef = ref(null);
+    const scrollableNav = ref(null);
+    const isScrollableRight = ref(false);
+    const isScrollableLeft = ref(false);
 
     await useFetch('/api/catalog/structure')
         .then((response) => {
@@ -126,10 +129,23 @@
         { deep: true }
     );
 
+    onMounted(() => {
+        const container = scrollableNav.value;
+        const checkScroll = () => {
+            isScrollableRight.value = container.scrollLeft + container.offsetWidth < container.scrollWidth;
+            isScrollableLeft.value = container.scrollLeft > 20;
+
+            console.log(isScrollableRight.value, isScrollableLeft.value);
+        };
+        container.addEventListener('scroll', checkScroll);
+        checkScroll();
+    });
+
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
         window.onbeforeunload = null;
+        scrollableNav.value.removeEventListener('scroll', checkScroll);
     });
 </script>
 
@@ -185,15 +201,19 @@
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
-            <div class="bottom-nav col-12 col-lg-2 col-xl-1 order-lg-first">
-                <div class="bottom-nav__scrollable-nav">
-                    <CatalogNavigation
-                        :categories="catalogStructure.categories"
-                        @categorySelected="updateSelectedCategory"
-                    />
-                </div>
-                <div class="bottom-nav__blur-effect bottom-nav__blur-effect--left"></div>
-                <div class="bottom-nav__blur-effect bottom-nav__blur-effect--right"></div>
+            <div
+                class="bottom-nav__scrollable-nav bottom-nav_inner-shadow col-12 col-lg-2 col-xl-1 order-lg-first"
+                :class="{
+                    'bottom-nav__inner-shadow--left': isScrollableLeft,
+                    'bottom-nav__inner-shadow--right': isScrollableRight,
+                    'bottom-nav__inner-shadow--both': isScrollableLeft && isScrollableRight,
+                }"
+                ref="scrollableNav"
+            >
+                <CatalogNavigation
+                    :categories="catalogStructure.categories"
+                    @categorySelected="updateSelectedCategory"
+                />
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
                 <CatalogLayout
@@ -340,45 +360,38 @@
         flex-grow: 1;
     }
 
-    .bottom-nav {
+    .bottom-nav__scrollable-nav {
+        display: flex;
         background-color: $grey-90;
-        position: relative;
+        padding: $spacer-3;
+        overflow-x: auto;
+        scroll-behavior: smooth;
 
-        .bottom-nav__scrollable-nav {
-            display: flex;
-            padding: $spacer-3;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-
-            @include media-breakpoint-up(lg) {
-                flex-direction: column;
-                gap: $spacer-2;
-                overflow-x: visible;
-                flex-grow: 0;
-            }
+        @include media-breakpoint-up(lg) {
+            flex-direction: column;
+            gap: $spacer-2;
+            overflow-x: visible;
+            flex-grow: 0;
         }
+    }
 
-        .bottom-nav__blur-effect {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 12%;
-            pointer-events: none;
+    .bottom-nav__inner-shadow {
+        $shadows: (
+            '--left': inset 35px 0px 25px -25px rgba(184, 184, 184, 0.45),
+            '--right': inset -35px 0px 25px -25px rgba(184, 184, 184, 0.45),
+            '--both': (
+                inset 35px 0px 25px -25px rgba(184, 184, 184, 0.45),
+                inset -35px 0px 25px -25px rgba(184, 184, 184, 0.45),
+            ),
+        );
 
-            &--right {
-                right: 0;
-                background: linear-gradient(to left, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
-                border-radius: 10px 0 0 10px;
-            }
+        @each $name, $shadow in $shadows {
+            &#{'' + $name} {
+                box-shadow: $shadow;
 
-            &--left {
-                left: 0;
-                background: linear-gradient(to right, rgba(39, 39, 39, 0.9), rgba(39, 39, 39, 0.4));
-                border-radius: 0 10px 10px 0;
-            }
-
-            @include media-breakpoint-up(md) {
-                display: none;
+                @include media-breakpoint-up(md) {
+                    box-shadow: none;
+                }
             }
         }
     }
