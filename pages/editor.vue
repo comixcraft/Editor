@@ -127,19 +127,16 @@
         { deep: true }
     );
 
-    function createIntersectionObserver(callback, options, arrayToObserve) {
-        return new IntersectionObserver(callback, options);
-    }
-
     function detectScrollingPosition(entries, observer) {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                // it means that the 90% (because of the option {threshold: 0.9} DOMElement (here: entry.target) is in the container
+                // it means that 90% (because of the option {threshold: 0.9} of the DOMElement (here: entry.target) is in the container
                 entry.target.style.backgroundColor = 'blue';
-                changeScrollingBooleans(entry.target, false);
+                changeScrollingBooleans(entry.target, false); // I pass false and deal with the logic in the function, but basically, the element that is in would mean the container is not scrollable on the side of this element
             } else {
+                // means at least 10% of the element is outside of the container (container is defined in the options as root)
                 entry.target.style.backgroundColor = 'orange';
-                changeScrollingBooleans(entry.target, true);
+                changeScrollingBooleans(entry.target, true); // inverted logic
             }
         });
         /**
@@ -158,9 +155,9 @@
     }
 
     onMounted(() => {
-        let intersectionObserver = createIntersectionObserver(detectScrollingPosition, {
-            threshold: 0.9,
-            root: scrollableNav.value,
+        let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
+            threshold: 0.9, // percentage of the element that should be visible in order to return true or false
+            root: scrollableNav.value, // ancestor of the element
         });
 
         intersectionObserver.observe(scrollableNav.value.firstChild.firstChild);
