@@ -31,11 +31,9 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
-    const catalogLayoutRef = ref(null);
     const scrollableNav = ref(null);
     const isScrollableRight = ref(false);
     const isScrollableLeft = ref(false);
-
     await useFetch('/api/catalog/structure')
         .then((response) => {
             catalogStructure.value = response.data.value;
@@ -129,27 +127,48 @@
         { deep: true }
     );
 
+    const elementToObserve = [];
+
+    function createIntersectionObserver(callback, options, arrayToObserve) {
+        arrayToObserve.forEach((element) => {
+            elementToObserve.push(element);
+        });
+        return new IntersectionObserver(callback, options);
+    }
+
+    function detectScrollingPosition(entries, observer) {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                // it means that the 90% (because of the option {threshold: 0.9} DOMElement (here: entry.target) is in the container
+                entry.target.style.backgroundColor = 'blue';
+                changeScrollingBooleans(entry.target, false);
+            } else {
+                entry.target.style.backgroundColor = 'orange';
+                changeScrollingBooleans(entry.target, true);
+            }
+        });
+        /**
+         * the above code should be replaced by: (I left it like this so I could add style change for better understanding)
+         * entries.forEach((entry) => {
+         *      entry.isIntersecting ? changeScrollingBooleans(entry.target, false) : changeScrollingBooleans(entry.target, true)
+         * }
+         */
+    }
+
+    function changeScrollingBooleans(element, bool) {
+        elementToObserve.indexOf(element) === 0 ? (isScrollableLeft.value = bool) : (isScrollableRight.value = bool);
+    }
+
     onMounted(() => {
-        let intersectionObserverLeft = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    entry.target.style.backgroundColor = entry.isIntersecting ? 'blue' : 'orange';
-                });
-            },
-            { threshold: 0.9 }
+        let intersectionObserver = createIntersectionObserver(
+            detectScrollingPosition,
+            { threshold: 0.9, root: scrollableNav.value },
+            [scrollableNav.value.firstChild.firstChild, scrollableNav.value.firstChild.lastChild]
         );
 
-        let intersectionObserverRight = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    entry.target.style.backgroundColor = entry.isIntersecting ? 'blue' : 'orange';
-                });
-            },
-            { threshold: 0.9 }
-        );
+        intersectionObserver.observe(elementToObserve[0]);
+        intersectionObserver.observe(elementToObserve[1]);
 
-        intersectionObserverLeft.observe(scrollableNav.value.firstChild.firstChild);
-        intersectionObserverRight.observe(scrollableNav.value.firstChild.lastChild);
         /** THIS IS THEN HAPPENING ALL THE TIME ON SCROLL, THEREFORE NOT SO EFFICIENT **/
         // const container = scrollableNav.value;
         // const checkScroll = () => {
