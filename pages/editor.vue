@@ -130,22 +130,43 @@
     );
 
     onMounted(() => {
-        const container = scrollableNav.value;
-        const checkScroll = () => {
-            isScrollableRight.value = container.scrollLeft + container.offsetWidth < container.scrollWidth;
-            isScrollableLeft.value = container.scrollLeft > 20;
+        let intersectionObserverLeft = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    entry.target.style.backgroundColor = entry.isIntersecting ? 'blue' : 'orange';
+                });
+            },
+            { threshold: 0.9 }
+        );
 
-            console.log(isScrollableRight.value, isScrollableLeft.value);
-        };
-        container.addEventListener('scroll', checkScroll);
-        checkScroll();
+        let intersectionObserverRight = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    entry.target.style.backgroundColor = entry.isIntersecting ? 'blue' : 'orange';
+                });
+            },
+            { threshold: 0.9 }
+        );
+
+        intersectionObserverLeft.observe(scrollableNav.value.firstChild.firstChild);
+        intersectionObserverRight.observe(scrollableNav.value.firstChild.lastChild);
+        /** THIS IS THEN HAPPENING ALL THE TIME ON SCROLL, THEREFORE NOT SO EFFICIENT **/
+        // const container = scrollableNav.value;
+        // const checkScroll = () => {
+        //     isScrollableRight.value = container.scrollLeft + container.offsetWidth < container.scrollWidth;
+        //     isScrollableLeft.value = container.scrollLeft > 20;
+
+        //     console.log(isScrollableRight.value, isScrollableLeft.value);
+        // };
+        // container.addEventListener('scroll', checkScroll);
+        // checkScroll();
     });
 
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
         window.onbeforeunload = null;
-        scrollableNav.value.removeEventListener('scroll', checkScroll);
+        //scrollableNav.value.removeEventListener('scroll', checkScroll);
     });
 </script>
 
