@@ -127,12 +127,7 @@
         { deep: true }
     );
 
-    const elementToObserve = [];
-
     function createIntersectionObserver(callback, options, arrayToObserve) {
-        arrayToObserve.forEach((element) => {
-            elementToObserve.push(element);
-        });
         return new IntersectionObserver(callback, options);
     }
 
@@ -156,18 +151,20 @@
     }
 
     function changeScrollingBooleans(element, bool) {
-        elementToObserve.indexOf(element) === 0 ? (isScrollableLeft.value = bool) : (isScrollableRight.value = bool);
+        // i check if it is the first element, and change my variables accordingly
+        element === scrollableNav.value.firstChild.firstChild
+            ? (isScrollableLeft.value = bool)
+            : (isScrollableRight.value = bool);
     }
 
     onMounted(() => {
-        let intersectionObserver = createIntersectionObserver(
-            detectScrollingPosition,
-            { threshold: 0.9, root: scrollableNav.value },
-            [scrollableNav.value.firstChild.firstChild, scrollableNav.value.firstChild.lastChild]
-        );
+        let intersectionObserver = createIntersectionObserver(detectScrollingPosition, {
+            threshold: 0.9,
+            root: scrollableNav.value,
+        });
 
-        intersectionObserver.observe(elementToObserve[0]);
-        intersectionObserver.observe(elementToObserve[1]);
+        intersectionObserver.observe(scrollableNav.value.firstChild.firstChild);
+        intersectionObserver.observe(scrollableNav.value.firstChild.lastChild);
 
         /** THIS IS THEN HAPPENING ALL THE TIME ON SCROLL, THEREFORE NOT SO EFFICIENT **/
         // const container = scrollableNav.value;
