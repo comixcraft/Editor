@@ -28,7 +28,7 @@
     let fontSize = ref(props.fontSize);
     let maxDiagonal = ref('0px');
     let counterRotation = ref('0deg');
-    let tapedTwice = ref(false);
+    let lastClickTime = Date.now();
 
     // Define reactive variables
     const angle = ref(props.rotation);
@@ -128,15 +128,12 @@
     });
 
     function detectDoubleClick(e) {
-        if (!tapedTwice.value) {
-            tapedTwice.value = true;
-            setTimeout(function () {
-                tapedTwice.value = false;
-            }, 300);
-            return false;
-        }
         e.preventDefault();
-        comicStore.setCurrentElement(props.element);
+        let currentClickTime = Date.now();
+        if (currentClickTime - lastClickTime < 300) {
+            comicStore.setCurrentElement(props.element);
+        }
+        lastClickTime = currentClickTime;
     }
 
     function updateCornersPosition() {
@@ -200,7 +197,10 @@
             @dblclick="comicStore.setCurrentElement(props.element)"
             @touchstart="detectDoubleClick"
         >
-            <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
+            <p
+                class="text__content"
+                :style="{ fontSize: Math.round(fontSize * comicStore.getCurrentCanvas().width) + 'px' }"
+            >
                 {{ text }}
             </p>
         </div>
@@ -218,7 +218,9 @@
 
 <style lang="scss" scoped>
     .vue-drag-resize-rotate:hover {
-        outline: 2px solid $info;
+        @include media-breakpoint-up(lg) {
+            outline: 2px solid $info;
+        }
     }
 
     .element {
@@ -271,7 +273,7 @@
             width: 100%;
             height: 100%;
             font-family: 'Pangolin';
-            word-break: break-word;
+            line-height: 1;
         }
     }
 </style>

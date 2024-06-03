@@ -44,7 +44,6 @@
         border: $border-width-lg solid $grey-100;
         border-radius: $border-radius;
 
-        &:hover,
         &--selected {
             cursor: pointer;
             border: $border-width-lg solid $primary;
@@ -54,6 +53,12 @@
             }
         }
 
+        &:hover {
+            @include media-breakpoint-up(lg) {
+                cursor: pointer;
+                border: $border-width-lg solid $primary;
+            }
+        }
         &__preview {
             height: 20vh;
             max-height: 250px;

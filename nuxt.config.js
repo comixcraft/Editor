@@ -22,4 +22,16 @@ export default defineNuxtConfig({
             },
         },
     },
+    app: {
+        head: {
+            link: [
+                {
+                    rel: 'preload',
+                    as: 'image',
+                    href: './RatsInLove.png',
+                    type: 'image/png',
+                },
+            ],
+        },
+    },
 });

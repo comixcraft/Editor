@@ -18,6 +18,8 @@ Here are a few step that you should follow:
    - Do a search with the catalog
    - Filter results
    - delete an asset
+   - undo an action
+   - redo an action
 4. Add an asset without modification
 5. move some asset up and down using the buttons
 6. move some asset up and down using the layers popup

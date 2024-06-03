@@ -9,22 +9,22 @@
         allAssetsButtonName: { type: String, default: 'All Assets' },
     });
 
-    const emit = defineEmits(['categorySelected', 'selectAllAssets']);
+    const emit = defineEmits(['categorySelected']);
     const comicStore = useComicStore();
 
     // Initialize selectedCategory with allAssetsButtonName by default
     selectedCategory.value = props.allAssetsButtonName;
 
     function selectCategory(category) {
-        if (selectedCategory.value !== category.name) {
-            selectedCategory.value = category.name; // Select category
-            emit('categorySelected', category, []);
-        }
+        selectedCategory.value = category.name;
+        emit('categorySelected', category, []);
     }
 
     function selectAllAssets() {
-        selectedCategory.value = props.allAssetsButtonName; // Select "All Assets" button
-        emit('selectAllAssets');
+        selectCategory({
+            name: props.allAssetsButtonName,
+            subCategories: [],
+        });
     }
 
     // Functionality to add new text to display
@@ -70,11 +70,7 @@
         color: white;
         margin: 0;
         padding: $spacer-2;
-
         border-radius: $border-radius;
-        &:hover {
-            background-color: $secondary-50;
-        }
     }
     .navigation__icon {
         height: 24px;
@@ -88,16 +84,20 @@
         .navigation {
             flex-direction: column;
             row-gap: $spacer-6;
+            pointer-events: all;
         }
 
         .navigation button {
+            text-overflow: ellipsis;
+            overflow: hidden;
+
             &.selected {
                 background-color: $secondary;
                 color: $white;
                 border-radius: $border-radius;
-                &:hover {
-                    background-color: $secondary-50;
-                }
+            }
+            &:hover {
+                background-color: $secondary-50;
             }
         }
     }

@@ -158,8 +158,8 @@
             </div>
             <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
                 <DecisionPopUp
-                    imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
-                    title="Poof, Your hard work disappears"
+                    imgSrc="./Barista_pouring4.png"
+                    title="Poof, your hard work disappears..."
                     body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
                     :buttons="[
                         { name: 'Delete Draft', emitName: 'discard' },
@@ -252,6 +252,7 @@
     .accent-btn {
         bottom: $spacer-6;
         transform: translateX(5%);
+        z-index: 99999;
     }
 
     .draft-container {
@@ -269,7 +270,6 @@
         border-radius: $border-radius;
         display: flex;
         width: fit-content;
-        &:hover,
         &--selected {
             cursor: pointer;
             border: $border-width-lg solid $primary;
@@ -300,9 +300,7 @@
         top: 0;
         right: 0;
         transform: translate(50%, 10%);
-        &:hover {
-            scale: 1.1;
-        }
+        color: black;
     }
 
     @include media-breakpoint-up(lg) {
@@ -326,6 +324,18 @@
         .accent-btn {
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        .draft-preview {
+            &:hover {
+                border: $border-width-lg solid $primary;
+            }
+        }
+
+        .draft-btn--cancel {
+            &:hover {
+                scale: 1.1;
+            }
         }
     }
 </style>

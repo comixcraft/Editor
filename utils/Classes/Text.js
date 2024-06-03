@@ -8,7 +8,7 @@ export default class Text {
     /** @type {String} */
     _fontFamily;
     /** @type {String} */
-    _path = 'http://localhost:3000/catalog/Annotation/others/T%20Cell.png?raw=true';
+    _path = '/TextSymbol.png';
     /** @type {Number} */
     _fontWeight = 400;
 
@@ -19,7 +19,7 @@ export default class Text {
      */
     constructor(content = null, fontSize = null, fontFamily = null) {
         this._content = content ?? 'undefined';
-        this._fontSize = fontSize ?? 16;
+        this._fontSize = fontSize ?? 0.05;
         this._fontFamily = fontFamily ?? 'Nunito';
     }
 

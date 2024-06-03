@@ -6,7 +6,6 @@
     let previewShow = ref(false);
     let catalogShow = ref(false);
     let goingBackPopUpShow = ref(false);
-    let selectedElementId = ref(null);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
     let userDidSomething = ref(false);
@@ -32,7 +31,10 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
-
+    const scrollableNav = ref(null);
+    const isScrollableLeft = ref(false);
+    const isScrollableRight = ref(true);
+    const navReactiveHeight = ref(undefined);
     await useFetch('/api/catalog/structure')
         .then((response) => {
             catalogStructure.value = response.data.value;
@@ -40,6 +42,10 @@
         .catch((error) => {
             createError(error);
         });
+
+    let bottomNavHeight = computed(() => {
+        return `${Math.floor(navReactiveHeight.value * 10) / 10}px`;
+    });
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
@@ -63,19 +69,6 @@
     function updateSelectedCategory(category) {
         selectedCategory.value = category;
         catalogShow.value = true;
-    }
-
-    function handleSelectAllAssets() {
-        selectedCategory.value = {
-            name: allAssetsCategoryName,
-            subCategories: [],
-        };
-        catalogShow.value = true;
-        fetchCatalogElements([], [], []);
-    }
-
-    function selectElement(eId) {
-        selectedElementId.value = eId;
     }
 
     function saveComic() {
@@ -132,6 +125,9 @@
             lockAspectRatio.value = false;
         }
     };
+    window.onresize = function (e) {
+        navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
+    };
 
     watch(
         () => comic.getPage(0).getStrip(0).getPanel(0).elements,
@@ -139,14 +135,39 @@
         { deep: true }
     );
 
+    function detectScrollingPosition(entries) {
+        entries.forEach((entry) => {
+            entry.isIntersecting
+                ? changeScrollingBooleans(entry.target, false)
+                : changeScrollingBooleans(entry.target, true);
+        });
+    }
+
+    function changeScrollingBooleans(element, bool) {
+        element === scrollableNav.value.firstChild.firstChild
+            ? (isScrollableLeft.value = bool)
+            : (isScrollableRight.value = bool);
+    }
+
     onMounted(() => {
-        fetchCatalogElements();
+        let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
+            threshold: 0.9,
+            root: scrollableNav.value,
+        });
+
+        intersectionObserver.observe(scrollableNav.value.firstChild.firstChild);
+        intersectionObserver.observe(scrollableNav.value.firstChild.lastChild);
+
+        document.fonts.ready.then(() => {
+            navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
+        });
     });
 
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
         window.onbeforeunload = null;
+        window.onresize = null;
     });
 </script>
 
@@ -202,11 +223,17 @@
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
-            <div class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first">
+            <div
+                class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first"
+                :class="{
+                    'bottom-nav__scrollable-nav-before': isScrollableLeft,
+                    'bottom-nav__scrollable-nav-after': isScrollableRight,
+                }"
+                ref="scrollableNav"
+            >
                 <CatalogNavigation
                     :categories="catalogStructure.categories"
                     @categorySelected="updateSelectedCategory"
-                    @selectAllAssets="handleSelectAllAssets"
                 />
             </div>
             <div class="catalog-container col-lg-2 col-xl-3 order-lg-first">
@@ -227,23 +254,25 @@
                 </div>
                 <div class="navigation__title h1">{{ selectedCategory.name }}</div>
             </div>
-            <CatalogLayout
-                :selectedCategoryAssets="catalogElements"
-                :selectedCategory="selectedCategory"
-                @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
-                @element-added="catalogShow = false"
-            />
+            <div class="catalog-overlay-content">
+                <CatalogLayout
+                    :selectedCategoryAssets="catalogElements"
+                    :selectedCategory="selectedCategory"
+                    @catalog-changed="(e) => fetchCatalogElements(e.category, e.subCategory, e.filter)"
+                    @element-added="catalogShow = false"
+                />
+            </div>
         </OverlayModal>
     </div>
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
         <DecisionPopUp
-            imgSrc="http://localhost:3000/catalog/Characters/single/Barista%20pouring4.png?raw=true"
-            title="Poof, Your hard work disappears"
+            imgSrc="/Barista_pouring4.png"
+            title="Poof, your hard work disappears..."
             body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
             :buttons="[
                 { name: 'Save Draft', emitName: 'save' },
-                { name: 'Discard all changes', emitName: 'discard' },
-                { name: 'Cancel', emitName: 'cancel' },
+                { name: 'Discard All Changes', emitName: 'discard' },
+                { name: 'Return to Editing', emitName: 'cancel' },
             ]"
             @cancel="goingBackPopUpShow = false"
             @save="saveComic"
@@ -253,11 +282,7 @@
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
             <div class="layer-container">
-                <LayerObject
-                    :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"
-                    @selection-event="selectElement"
-                >
-                </LayerObject>
+                <LayerObject :panel="comic.getPage(0).getStrip(0).getPanel(activePanelIndex)"> </LayerObject>
             </div>
         </div>
     </ScreenOverlay>
@@ -318,8 +343,7 @@
 
     .layer-background {
         padding-top: $spacer-5;
-        width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         background-color: $white;
     }
 
@@ -358,19 +382,41 @@
     }
 
     .bottom-nav__scrollable-nav {
-        width: min-content;
         display: flex;
         background-color: $grey-90;
         padding: $spacer-3;
         overflow-x: auto;
         scroll-behavior: smooth;
-
+        position: relative;
         @include media-breakpoint-up(lg) {
             flex-direction: column;
             gap: $spacer-2;
             overflow-x: visible;
             flex-grow: 0;
         }
+    }
+
+    .bottom-nav__scrollable-nav-before::before {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: v-bind(bottomNavHeight);
+        width: 150px;
+        box-shadow: inset 95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+        pointer-events: none;
+        display: table-cell;
+    }
+    .bottom-nav__scrollable-nav-after::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        height: v-bind(bottomNavHeight);
+        width: 150px;
+        box-shadow: inset -95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+        pointer-events: none;
+        display: table-cell;
     }
 
     .darken-background {
@@ -420,12 +466,48 @@
         width: 100%;
         background-color: $white;
         z-index: 2;
+        align-items: center;
+    }
+    .catalog-overlay-content {
+        height: 87svh;
+        overflow-y: auto;
     }
 
     .top-nav__item-undo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+            &:disabled {
+                scale: 1; // Prevent scaling on hover when disabled
+                cursor: not-allowed; // Change cursor to indicate disabled state
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
     }
+
     .top-nav__item-redo-btn {
         color: $grey-0;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
+            &:disabled {
+                scale: 1;
+                cursor: not-allowed;
+                &:hover {
+                    scale: 1;
+                }
+            }
+        }
+    }
+
+    @include media-breakpoint-up(md) {
+        .edit-icon {
+            font-size: 40px;
+        }
     }
 </style>

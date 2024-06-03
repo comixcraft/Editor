@@ -13,6 +13,7 @@ export const useComicStore = defineStore('comic', () => {
     let comic = new Comic(null, null, null);
     let currentElement = ref(null);
     let bus = mitt();
+    let currentCanvas = ref({});
 
     const draft = ref(null);
 
@@ -50,6 +51,14 @@ export const useComicStore = defineStore('comic', () => {
 
     function getCurrentElement() {
         return currentElement;
+    }
+
+    function setCurrentCanvas(canvas) {
+        currentCanvas.value = canvas;
+    }
+
+    function getCurrentCanvas() {
+        return currentCanvas.value;
     }
 
     /**
@@ -123,13 +132,13 @@ export const useComicStore = defineStore('comic', () => {
                         // create new element
                         let tempElement = new ElementDS(element.width, element.height, element.alt, tempType);
                         // set non-constructor proprieties
-                        tempElement.z = element.z;
                         tempElement.isFocused = element.isFocused;
                         tempElement.isMirroredHorizontal = element.isMirroredHorizontal;
                         tempElement.isMirroredVertical = element.isMirroredVertical;
                         tempElement.rotation = element.rotation;
                         tempElement.pos = new Position(element.pos._x, element.pos._y);
                         currPanel.addElement(tempElement);
+                        currPanel.getElement(tempElement.id).z = element.z;
                     });
                 });
             });
@@ -146,5 +155,7 @@ export const useComicStore = defineStore('comic', () => {
         createComicFromDraft,
         setCurrentElement,
         getCurrentElement,
+        setCurrentCanvas,
+        getCurrentCanvas,
     };
 });

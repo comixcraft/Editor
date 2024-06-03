@@ -24,9 +24,6 @@
     let disableButton = ref(true);
 
     // Watchers
-    window.onbeforeunload = function (e) {
-        e.preventDefault();
-    };
 
     // Methods
     function download() {
@@ -63,6 +60,14 @@
     // Bus Listeners
 
     // Vue life cycle hooks
+    onMounted(() => {
+        window.onbeforeunload = function (e) {
+            if (e.target.activeElement === this.document.body) {
+                e.preventDefault();
+            }
+        };
+    });
+
     onBeforeUnmount(() => {
         window.onbeforeunload = null;
     });
@@ -113,9 +118,9 @@
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
-                imgSrc="http://localhost:3000/catalog/Scenes/items/Rats%20In%20Love.png?raw=true"
-                title="Download successful"
-                body="Congratulations! Your comic has been downloaded. It's time to share it with the world"
+                imgSrc="/RatsInLove.png"
+                title="Download successful!"
+                body="Congratulations! Your comic has been downloaded. It's time to share it with the world."
                 :buttons="[
                     { name: 'Create New Comic', emitName: 'discard' },
                     { name: 'Save Draft', emitName: 'save' },
