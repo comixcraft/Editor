@@ -148,8 +148,10 @@
             gap: $spacer-1;
 
             &:hover {
-                background-color: $secondary;
-                color: $white;
+                @include media-breakpoint-up(lg) {
+                    background-color: $secondary;
+                    color: $white;
+                }
             }
 
             &--selected {
@@ -177,7 +179,9 @@
             color: $medium-grey-100;
             right: $spacer-3;
             &:hover {
-                scale: 1.2;
+                @include media-breakpoint-up(lg) {
+                    scale: 1.2;
+                }
             }
         }
 
@@ -193,8 +197,10 @@
             border-radius: $border-radius;
 
             &:hover {
-                background-color: $secondary-50;
-                color: $white;
+                @include media-breakpoint-up(lg) {
+                    background-color: $secondary-50;
+                    color: $white;
+                }
             }
 
             &--active {

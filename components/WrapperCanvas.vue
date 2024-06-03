@@ -251,9 +251,8 @@
 
     .panel {
         aspect-ratio: v-bind(aspectRatioWidth) / v-bind(aspectRatioHeight);
-        position: relative;
         background-image: v-bind(panelBorder);
-        background-size: cover;
+        background-size: 100% 100%;
 
         &--scale-by-height {
             width: auto !important;

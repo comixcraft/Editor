@@ -141,12 +141,16 @@
 
     .layer {
         padding: $spacer-3;
-        width: 90vw;
+        width: 75vw;
         background-color: $white-100;
         border: $primary $border-width solid;
         border-radius: $border-radius;
         display: flex;
         align-items: center;
+
+        @include media-breakpoint-up(lg) {
+            width: 90vw;
+        }
 
         &:hover {
             cursor: move;
@@ -180,7 +184,6 @@
         display: flex;
         gap: $spacer-4;
         flex-direction: column;
-        overflow-y: scroll;
     }
 
     .chevrons {
@@ -195,6 +198,10 @@
         .expand-less:hover,
         .expand-more:hover {
             scale: 1.2;
+        }
+
+        button {
+            color: black;
         }
 
         button.disabled {

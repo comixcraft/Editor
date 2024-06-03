@@ -26,6 +26,7 @@
         align-items: center;
         justify-content: space-between;
         color: $white;
+        z-index: 99999;
     }
 
     .icon-btn {

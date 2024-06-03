@@ -65,3 +65,31 @@ always define it in the `_variables.scss` file.
 ## Hosting
 The content of this repository is hosted on https://comixcraft.com/ over [Netlify](https://www.netlify.com/).
 Updates on the website are done automatically on update of the `main`-branch.
+
+## Updating the catalog
+The catalog-structure is defined in `server/assets/comixplain-catalog.js`. 
+This catalog follows the same structure as in the [Comixplain repository](https://github.com/fhstp/comixplain/blob/main/docs/assets.json).
+The structure in the `comixplain-catalog.js` is used to generate the catalog on the website. 
+The naming of categories, sub-categories and filters all originate from this catalog, 
+therefore it is important that all keys carry readable names.
+
+### Updating the catalog with a new version from the Comixplain repository
+The following steps describe how the existing catalog structure from the Comixplain repository most be adjusted to 
+properly work for comixcraft.
+
+1. Copy the JSON-structure from the Comixplain repository (`/docs/assets.json`) 
+and paste it into `comixplain-catalog.js`. The structure needs to be a named export.
+```javascript
+export const catalog = {
+    /* structure goes here */
+}
+```
+2. Remove the category with the key `Template` from the catalog. 
+The data provided in this category is not usable in comixcraft.
+3. Over Strg+F and Strg+R replace all occurrences of `.png"` with `"`.
+This provides better alt-texts for the images.
+4. Over Strg+F and Strg+R replace all occurrences of `https://github.com/fhstp/comixplain/blob/main/Comixplain_Assets` with `/catalog`.
+This provides relative urls.
+5. If new images were added update the `public/catalog`-folder with the new images.
+6. If new categories or sub-categories were added please add/adapt the corresponding icons 
+in `config/iconsConfig.js` ith the icons-name from [Material Symbols](https://fonts.google.com/icons)

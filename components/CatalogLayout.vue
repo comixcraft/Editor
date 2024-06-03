@@ -23,16 +23,6 @@
         () => props.selectedCategory,
         () => {
             selectedSubCategory.value = {};
-            // Reset selected filters when category changes
-            selectedFilter.value = [];
-            emitCatalogChanged();
-        }
-    );
-
-    // Watch for changes in selectedSubCategory
-    watch(
-        () => selectedSubCategory.value,
-        () => {
             selectedFilter.value = [];
             emitCatalogChanged();
         }
@@ -52,6 +42,7 @@
         } else {
             selectedSubCategory.value = subCategory;
         }
+        selectedFilter.value = [];
         emitCatalogChanged();
     }
 
@@ -113,7 +104,18 @@
         }
 
         &__container {
-            padding: $spacer-2;
+            padding: 0 $spacer-2 $spacer-2 $spacer-2;
+        }
+    }
+    @include media-breakpoint-up(md) {
+        .catalog {
+            padding-top: 3rem;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        .catalog {
+            padding-top: 0;
         }
     }
 </style>
