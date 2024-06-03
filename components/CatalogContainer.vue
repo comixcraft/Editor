@@ -32,7 +32,7 @@
         <div class="empty-display" v-if="props.assets.length === 0">
             <img src="/Barista explaining6.png" alt="" class="empty-display__img" draggable="false" />
             <div class="empty-display__text">
-                <h1>No assets fit the description</h1>
+                <h3>No assets fit the description</h3>
                 <p>Try to adjust the filters or searched terms.</p>
             </div>
         </div>
