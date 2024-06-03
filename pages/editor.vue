@@ -32,8 +32,8 @@
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
     const scrollableNav = ref(null);
-    const isScrollableRight = ref(false);
     const isScrollableLeft = ref(false);
+    const isScrollableRight = ref(true);
     await useFetch('/api/catalog/structure')
         .then((response) => {
             catalogStructure.value = response.data.value;
@@ -41,6 +41,10 @@
         .catch((error) => {
             createError(error);
         });
+
+    const bottomNavHeight = computed(() => {
+        return `${Math.floor(scrollableNav.value.getBoundingClientRect().height * 10) / 10}px`;
+    });
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
@@ -127,28 +131,15 @@
         { deep: true }
     );
 
-    function detectScrollingPosition(entries, observer) {
+    function detectScrollingPosition(entries) {
         entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                // it means that 90% (because of the option {threshold: 0.9} of the DOMElement (here: entry.target) is in the container
-                entry.target.style.backgroundColor = 'blue';
-                changeScrollingBooleans(entry.target, false); // I pass false and deal with the logic in the function, but basically, the element that is in would mean the container is not scrollable on the side of this element
-            } else {
-                // means at least 10% of the element is outside of the container (container is defined in the options as root)
-                entry.target.style.backgroundColor = 'orange';
-                changeScrollingBooleans(entry.target, true); // inverted logic
-            }
+            entry.isIntersecting
+                ? changeScrollingBooleans(entry.target, false)
+                : changeScrollingBooleans(entry.target, true);
         });
-        /**
-         * the above code should be replaced by: (I left it like this so I could add style change for better understanding)
-         * entries.forEach((entry) => {
-         *      entry.isIntersecting ? changeScrollingBooleans(entry.target, false) : changeScrollingBooleans(entry.target, true)
-         * }
-         */
     }
 
     function changeScrollingBooleans(element, bool) {
-        // i check if it is the first element, and change my variables accordingly
         element === scrollableNav.value.firstChild.firstChild
             ? (isScrollableLeft.value = bool)
             : (isScrollableRight.value = bool);
@@ -156,30 +147,18 @@
 
     onMounted(() => {
         let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
-            threshold: 0.9, // percentage of the element that should be visible in order to return true or false
-            root: scrollableNav.value, // ancestor of the element
+            threshold: 0.9,
+            root: scrollableNav.value,
         });
 
         intersectionObserver.observe(scrollableNav.value.firstChild.firstChild);
         intersectionObserver.observe(scrollableNav.value.firstChild.lastChild);
-
-        /** THIS IS THEN HAPPENING ALL THE TIME ON SCROLL, THEREFORE NOT SO EFFICIENT **/
-        // const container = scrollableNav.value;
-        // const checkScroll = () => {
-        //     isScrollableRight.value = container.scrollLeft + container.offsetWidth < container.scrollWidth;
-        //     isScrollableLeft.value = container.scrollLeft > 20;
-
-        //     console.log(isScrollableRight.value, isScrollableLeft.value);
-        // };
-        // container.addEventListener('scroll', checkScroll);
-        // checkScroll();
     });
 
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
         window.onbeforeunload = null;
-        //scrollableNav.value.removeEventListener('scroll', checkScroll);
     });
 </script>
 
@@ -236,12 +215,8 @@
                 ></ComicPanels>
             </div>
             <div
-                class="bottom-nav__scrollable-nav bottom-nav_inner-shadow col-12 col-lg-2 col-xl-1 order-lg-first"
-                :class="{
-                    'bottom-nav__inner-shadow--left': isScrollableLeft,
-                    'bottom-nav__inner-shadow--right': isScrollableRight,
-                    'bottom-nav__inner-shadow--both': isScrollableLeft && isScrollableRight,
-                }"
+                class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first"
+                :class="{ 'before-content': isScrollableLeft, 'after-content': isScrollableRight }"
                 ref="scrollableNav"
             >
                 <CatalogNavigation
@@ -400,7 +375,7 @@
         padding: $spacer-3;
         overflow-x: auto;
         scroll-behavior: smooth;
-
+        position: relative;
         @include media-breakpoint-up(lg) {
             flex-direction: column;
             gap: $spacer-2;
@@ -409,25 +384,23 @@
         }
     }
 
-    .bottom-nav__inner-shadow {
-        $shadows: (
-            '--left': inset 35px 0px 25px -25px rgba(184, 184, 184, 0.45),
-            '--right': inset -35px 0px 25px -25px rgba(184, 184, 184, 0.45),
-            '--both': (
-                inset 35px 0px 25px -25px rgba(184, 184, 184, 0.45),
-                inset -35px 0px 25px -25px rgba(184, 184, 184, 0.45),
-            ),
-        );
-
-        @each $name, $shadow in $shadows {
-            &#{'' + $name} {
-                box-shadow: $shadow;
-
-                @include media-breakpoint-up(md) {
-                    box-shadow: none;
-                }
-            }
-        }
+    .before-content::before {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: v-bind(bottomNavHeight);
+        width: 150px;
+        box-shadow: inset 95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+    }
+    .after-content::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        height: v-bind(bottomNavHeight);
+        width: 150px;
+        box-shadow: inset -95px 0px 35px -35px rgba(27, 27, 27, 0.8);
     }
 
     .darken-background {
