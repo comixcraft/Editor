@@ -225,7 +225,10 @@
             </div>
             <div
                 class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first"
-                :class="{ 'before-content': isScrollableLeft, 'after-content': isScrollableRight }"
+                :class="{
+                    'bottom-nav__scrollable-nav-before': isScrollableLeft,
+                    'bottom-nav__scrollable-nav-after': isScrollableRight,
+                }"
                 ref="scrollableNav"
             >
                 <CatalogNavigation
@@ -393,7 +396,7 @@
         }
     }
 
-    .before-content::before {
+    .bottom-nav__scrollable-nav-before::before {
         content: '';
         position: fixed;
         bottom: 0;
@@ -404,7 +407,7 @@
         pointer-events: none;
         display: table-cell;
     }
-    .after-content::after {
+    .bottom-nav__scrollable-nav-after::after {
         content: '';
         position: fixed;
         bottom: 0;
