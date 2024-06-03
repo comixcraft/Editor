@@ -87,30 +87,32 @@
 <template>
     <div>
         <div class="search">
+            <div class="search__field">
+                <input
+                    class="input search__input"
+                    type="text"
+                    :placeholder="placeholder"
+                    @input="emitSearch"
+                    v-model="searchTerm"
+                />
+                <span
+                    v-if="searchTerm"
+                    class="icon p5 search__clear"
+                    @click="
+                        () => {
+                            searchTerm = '';
+                            emitSearch();
+                        }
+                    "
+                    >close
+                </span>
+            </div>
             <span
                 v-if="filterable"
                 class="icon search__tune"
                 :class="{ 'search__tune--active': showAllFilters, 'search__tune--disabled': !canFilter }"
                 @click="showAllFilters = !showAllFilters"
-                >tune</span
-            >
-            <input
-                class="input search__input"
-                type="text"
-                :placeholder="placeholder"
-                @input="emitSearch"
-                v-model="searchTerm"
-            />
-            <span
-                v-if="searchTerm"
-                class="icon p5 search__clear"
-                @click="
-                    () => {
-                        searchTerm = '';
-                        emitSearch();
-                    }
-                "
-                >close
+                >tune
             </span>
         </div>
         <div class="filter">
@@ -166,18 +168,25 @@
     }
 
     .search {
-        position: relative;
         display: flex;
         gap: $spacer-2;
         align-items: center;
         padding: $spacer-3 $spacer-2;
+
+        &__field {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: $spacer-2;
+            flex-grow: 1;
+        }
 
         &__clear {
             position: absolute;
             padding: $spacer-1;
             cursor: pointer;
             color: $medium-grey-100;
-            right: $spacer-3;
+            right: $spacer-2;
             &:hover {
                 @include media-breakpoint-up(lg) {
                     scale: 1.2;
@@ -186,9 +195,7 @@
         }
 
         &__input {
-            flex-grow: 1;
             width: 100%;
-            margin-right: $spacer-2;
         }
 
         &__tune {
