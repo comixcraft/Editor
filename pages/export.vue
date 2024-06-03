@@ -57,17 +57,6 @@
         });
     }
 
-    // useHead({
-    //     link: [
-    //         {
-    //             rel: 'preload',
-    //             as: 'image',
-    //             href: './RatsInLove.png',
-    //             type: 'image/png',
-    //         },
-    //     ],
-    // });
-
     // Bus Listeners
 
     // Vue life cycle hooks
