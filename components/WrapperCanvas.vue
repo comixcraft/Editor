@@ -123,11 +123,13 @@
     comicStore.bus.on('add-element', (event) => {
         if (!props.panelIsActive) return;
 
-        let tempEl;
+        let elementType = null;
+        let height = 0;
+        let width = 0;
+        let name = '';
+
         if (event) {
-            let height = 0;
-            let width = 0;
-            let percentageFill = 0.2;
+            let percentageFill = 0.3;
 
             if (event.target.naturalWidth < event.target.naturalHeight) {
                 width = percentageFill;
@@ -151,7 +153,7 @@
                 }
             } else {
                 height = percentageFill;
-                width = width = calculateRelativeLengthB(
+                width = calculateRelativeLengthB(
                     height,
                     event.target.naturalHeight,
                     currentHeight.value,
@@ -171,18 +173,15 @@
                 }
             }
 
-            let name = event.target.alt;
-            let src = event.target.src;
-            let newAsset = new Asset(src);
-            tempEl = new ElementDS(width, height, name, newAsset);
+            name = event.target.alt;
+            elementType = new Asset(event.target.src);
         } else {
-            const height = setToRelative(200, currentHeight.value);
-            const width = setToRelative(200, currentWidth.value);
-            let name = 'Double-click to edit me.';
-            let type = new Text(name, 24, 'Pangolin');
-            tempEl = new ElementDS(width, height, name, type);
+            height = setToRelative(200, currentHeight.value);
+            width = setToRelative(200, currentWidth.value);
+            name = 'Double-click to edit me.';
+            elementType = new Text(name, 24, 'Pangolin');
         }
-        props.panel.addElement(tempEl);
+        props.panel.addElement(new ElementDS(width, height, name, elementType));
     });
 
     // functions
