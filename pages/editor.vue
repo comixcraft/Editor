@@ -402,6 +402,7 @@
         width: 150px;
         box-shadow: inset 95px 0px 35px -35px rgba(27, 27, 27, 0.8);
         pointer-events: none;
+        display: table-cell;
     }
     .after-content::after {
         content: '';
@@ -412,6 +413,7 @@
         width: 150px;
         box-shadow: inset -95px 0px 35px -35px rgba(27, 27, 27, 0.8);
         pointer-events: none;
+        display: table-cell;
     }
 
     .darken-background {
