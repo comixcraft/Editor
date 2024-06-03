@@ -34,6 +34,7 @@
     const scrollableNav = ref(null);
     const isScrollableLeft = ref(false);
     const isScrollableRight = ref(true);
+    const navReactiveHeight = ref(undefined);
     await useFetch('/api/catalog/structure')
         .then((response) => {
             catalogStructure.value = response.data.value;
@@ -42,8 +43,8 @@
             createError(error);
         });
 
-    const bottomNavHeight = computed(() => {
-        return `${Math.floor(scrollableNav.value.getBoundingClientRect().height * 10) / 10}px`;
+    let bottomNavHeight = computed(() => {
+        return `${Math.floor(navReactiveHeight.value * 10) / 10}px`;
     });
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
@@ -124,6 +125,9 @@
             lockAspectRatio.value = false;
         }
     };
+    window.onresize = function (e) {
+        navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
+    };
 
     watch(
         () => comic.getPage(0).getStrip(0).getPanel(0).elements,
@@ -153,12 +157,17 @@
 
         intersectionObserver.observe(scrollableNav.value.firstChild.firstChild);
         intersectionObserver.observe(scrollableNav.value.firstChild.lastChild);
+
+        document.fonts.ready.then(() => {
+            navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
+        });
     });
 
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
         window.onbeforeunload = null;
+        window.onresize = null;
     });
 </script>
 
