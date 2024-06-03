@@ -13,6 +13,7 @@ export const useComicStore = defineStore('comic', () => {
     let comic = new Comic(null, null, null);
     let currentElement = ref(null);
     let bus = mitt();
+    let currentCanvas = ref({});
 
     const draft = ref(null);
 
@@ -50,6 +51,14 @@ export const useComicStore = defineStore('comic', () => {
 
     function getCurrentElement() {
         return currentElement;
+    }
+
+    function setCurrentCanvas(canvas) {
+        currentCanvas.value = canvas;
+    }
+
+    function getCurrentCanvas() {
+        return currentCanvas.value;
     }
 
     /**
@@ -146,5 +155,7 @@ export const useComicStore = defineStore('comic', () => {
         createComicFromDraft,
         setCurrentElement,
         getCurrentElement,
+        setCurrentCanvas,
+        getCurrentCanvas,
     };
 });

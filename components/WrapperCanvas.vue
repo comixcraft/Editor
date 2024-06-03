@@ -59,6 +59,12 @@
             wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
         currentWidth.value = panelElement.value.clientWidth;
         currentHeight.value = panelElement.value.clientHeight;
+        if (props.panelIsActive) {
+            comicStore.setCurrentCanvas({
+                width: currentWidth.value,
+                height: currentHeight.value,
+            });
+        }
     }
 
     function deleteElement(eId) {
@@ -179,7 +185,7 @@
             height = setToRelative(200, currentHeight.value);
             width = setToRelative(200, currentWidth.value);
             name = 'Double-click to edit me.';
-            elementType = new Text(name, 24, 'Pangolin');
+            elementType = new Text(name, setToRelative(24, currentWidth.value), 'Pangolin');
         }
         props.panel.addElement(new ElementDS(width, height, name, elementType));
     });

@@ -1,29 +1,29 @@
 <script setup>
+    // Imports
+
+    // Middlewares
+
+    // Emits
+
+    // Props
+
+    // Static Variables (let, const)
+    const accumulatedChanges = ref({});
+    const canvasWidth = ref(0);
+    const comicStore = useComicStore();
     const textarea = ref(null);
     const textValue = ref('');
-    const comicStore = useComicStore();
-    let fontSize = ref(24);
     let element = ref(null);
+    let fontSize = ref(24);
 
-    const accumulatedChanges = ref({});
+    // Reactive Variables
+    // computed
 
-    function startModifyText() {
-        element.value = comicStore.getCurrentElement().value;
-        textarea.value.focus();
-        textValue.value = element.value.type.content;
-        fontSize.value = element.value.type.fontSize;
-    }
+    // Reactive
 
-    function applyAccumulatedChanges() {
-        const changes = accumulatedChanges.value;
-        comicStore.bus.emit('updateText', {
-            id: element.value.id,
-            text: changes.text || textValue.value,
-            fontSize: changes.fontSize || fontSize.value,
-        });
-        accumulatedChanges.value = {};
-    }
+    // Refs
 
+    // Watchers
     watch(
         [textValue, fontSize],
         ([newTextValue, newFontSize]) => {
@@ -33,6 +33,46 @@
         { deep: true }
     );
 
+    // Methods
+    function applyAccumulatedChanges() {
+        const changes = accumulatedChanges.value;
+        comicStore.bus.emit('updateText', {
+            id: element.value.id,
+            text: changes.text || textValue.value,
+            fontSize:
+                getRelative(changes.fontSize, canvasWidth.value) || getRelative(fontSize.value, canvasWidth.value),
+        });
+        accumulatedChanges.value = {};
+    }
+
+    function decreaseFont() {
+        if (fontSize.value <= 1) return;
+        fontSize.value -= 1;
+        element.value.type.fontSize = getRelative(fontSize.value, canvasWidth.value);
+        accumulatedChanges.value.fontSize = fontSize.value;
+    }
+
+    function getFixed(num, panelNum) {
+        return num * panelNum;
+    }
+
+    function getRelative(num, panelNum) {
+        return num / panelNum;
+    }
+
+    function increaseFont() {
+        fontSize.value += 1;
+        element.value.type.fontSize = getRelative(fontSize.value, canvasWidth.value);
+        accumulatedChanges.value.fontSize = fontSize.value;
+    }
+
+    function startModifyText() {
+        element.value = comicStore.getCurrentElement().value;
+        textarea.value.focus();
+        textValue.value = element.value.type.content;
+        fontSize.value = getFixed(element.value.type.fontSize, canvasWidth.value);
+    }
+
     function stopModifyText() {
         element.value.type.content = textValue.value;
         applyAccumulatedChanges();
@@ -40,21 +80,15 @@
         comicStore.setCurrentElement(null);
     }
 
-    function increaseFont() {
-        element.value.type.increaseFontSize();
-        fontSize.value = element.value.type.fontSize;
-        accumulatedChanges.value.fontSize = fontSize.value;
-    }
+    // Bus Listeners
 
-    function decreaseFont() {
-        element.value.type.decreaseFontSize();
-        fontSize.value = element.value.type.fontSize;
-        accumulatedChanges.value.fontSize = fontSize.value;
-    }
-
+    // Vue life cycle hooks
     onMounted(() => {
+        canvasWidth.value = comicStore.getCurrentCanvas().width;
         startModifyText();
     });
+
+    // expose (defineExpose)
 </script>
 
 <template>
@@ -71,7 +105,7 @@
 
         <div class="font-size" @click.stop="true">
             <button class="font-size__button" @click="increaseFont">+</button>
-            <p class="font-size__text p5">{{ fontSize }}</p>
+            <p class="font-size__text p5">{{ Math.round(fontSize) }}</p>
             <button class="font-size__button" @click="decreaseFont">-</button>
         </div>
     </div>
