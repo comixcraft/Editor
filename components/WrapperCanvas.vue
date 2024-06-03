@@ -41,6 +41,19 @@
         return num * panelNum;
     }
 
+    function calculateRelativeLengthB(
+        relativeLengthA,
+        naturalLengthA,
+        maxAbsoluteLengthA,
+        naturalLengthB,
+        maxAbsoluteLengthB
+    ) {
+        return setToRelative(
+            (getFixed(relativeLengthA, maxAbsoluteLengthA) * naturalLengthB) / naturalLengthA,
+            maxAbsoluteLengthB
+        );
+    }
+
     function updatePanelBoundingBox() {
         scaleByHeight.value =
             wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
@@ -114,19 +127,48 @@
         if (event) {
             let height = 0;
             let width = 0;
+            let percentageFill = 0.2;
 
-            if (event.target.naturalWidth > event.target.naturalHeight) {
-                width = 0.2;
-                height = setToRelative(
-                    (getFixed(width, currentWidth.value) * event.target.naturalHeight) / event.target.naturalWidth,
+            if (event.target.naturalWidth < event.target.naturalHeight) {
+                width = percentageFill;
+                height = calculateRelativeLengthB(
+                    width,
+                    event.target.naturalWidth,
+                    currentWidth.value,
+                    event.target.naturalHeight,
                     currentHeight.value
                 );
+
+                if (height > 1) {
+                    height = 1;
+                    width = calculateRelativeLengthB(
+                        height,
+                        event.target.naturalHeight,
+                        currentHeight.value,
+                        event.target.naturalWidth,
+                        currentWidth.value
+                    );
+                }
             } else {
-                height = 0.2;
-                width = setToRelative(
-                    (getFixed(height, currentHeight.value) * event.target.naturalWidth) / event.target.naturalHeight,
+                height = percentageFill;
+                width = width = calculateRelativeLengthB(
+                    height,
+                    event.target.naturalHeight,
+                    currentHeight.value,
+                    event.target.naturalWidth,
                     currentWidth.value
                 );
+
+                if (width > 1) {
+                    width = 1;
+                    height = calculateRelativeLengthB(
+                        width,
+                        event.target.naturalWidth,
+                        currentWidth.value,
+                        event.target.naturalHeight,
+                        currentHeight.value
+                    );
+                }
             }
 
             let name = event.target.alt;
