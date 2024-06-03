@@ -10,10 +10,6 @@
             type: Array,
             default: () => [],
         },
-        filterable: {
-            type: Boolean,
-            default: true,
-        },
         placeholder: {
             type: String,
             default: '',
@@ -61,7 +57,7 @@
     });
 
     const canFilter = computed(() => {
-        return props.filters.length && props.filterable;
+        return props.filters.length > 0;
     });
 
     function toggleFilter(filter) {
@@ -108,9 +104,9 @@
                 </span>
             </div>
             <span
-                v-if="filterable"
+                v-if="canFilter"
                 class="icon search__tune"
-                :class="{ 'search__tune--active': showAllFilters, 'search__tune--disabled': !canFilter }"
+                :class="{ 'search__tune--active': showAllFilters }"
                 @click="showAllFilters = !showAllFilters"
                 >tune
             </span>
@@ -212,14 +208,6 @@
 
             &--active {
                 color: $secondary;
-            }
-
-            &--disabled {
-                color: $grey-100;
-                pointer-events: none;
-                &:hover {
-                    background-color: transparent;
-                }
             }
         }
     }
