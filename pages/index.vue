@@ -252,6 +252,7 @@
     .accent-btn {
         bottom: $spacer-6;
         transform: translateX(5%);
+        z-index: 99999;
     }
 
     .draft-container {

@@ -41,6 +41,19 @@
         return num * panelNum;
     }
 
+    function calculateRelativeLengthB(
+        relativeLengthA,
+        naturalLengthA,
+        maxAbsoluteLengthA,
+        naturalLengthB,
+        maxAbsoluteLengthB
+    ) {
+        return setToRelative(
+            (getFixed(relativeLengthA, maxAbsoluteLengthA) * naturalLengthB) / naturalLengthA,
+            maxAbsoluteLengthB
+        );
+    }
+
     function updatePanelBoundingBox() {
         scaleByHeight.value =
             wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
@@ -110,37 +123,65 @@
     comicStore.bus.on('add-element', (event) => {
         if (!props.panelIsActive) return;
 
-        let tempEl;
-        if (event) {
-            let height = 0;
-            let width = 0;
+        let elementType = null;
+        let height = 0;
+        let width = 0;
+        let name = '';
 
-            if (event.target.naturalWidth > event.target.naturalHeight) {
-                width = 0.2;
-                height = setToRelative(
-                    (getFixed(width, currentWidth.value) * event.target.naturalHeight) / event.target.naturalWidth,
+        if (event) {
+            let percentageFill = 0.3;
+
+            if (event.target.naturalWidth < event.target.naturalHeight) {
+                width = percentageFill;
+                height = calculateRelativeLengthB(
+                    width,
+                    event.target.naturalWidth,
+                    currentWidth.value,
+                    event.target.naturalHeight,
                     currentHeight.value
                 );
+
+                if (height > 1) {
+                    height = 1;
+                    width = calculateRelativeLengthB(
+                        height,
+                        event.target.naturalHeight,
+                        currentHeight.value,
+                        event.target.naturalWidth,
+                        currentWidth.value
+                    );
+                }
             } else {
-                height = 0.2;
-                width = setToRelative(
-                    (getFixed(height, currentHeight.value) * event.target.naturalWidth) / event.target.naturalHeight,
+                height = percentageFill;
+                width = calculateRelativeLengthB(
+                    height,
+                    event.target.naturalHeight,
+                    currentHeight.value,
+                    event.target.naturalWidth,
                     currentWidth.value
                 );
+
+                if (width > 1) {
+                    width = 1;
+                    height = calculateRelativeLengthB(
+                        width,
+                        event.target.naturalWidth,
+                        currentWidth.value,
+                        event.target.naturalHeight,
+                        currentHeight.value
+                    );
+                }
             }
 
-            let name = event.target.alt;
-            let src = event.target.src;
-            let newAsset = new Asset(src);
-            tempEl = new ElementDS(width, height, name, newAsset);
+            name = event.target.alt;
+            elementType = new Asset(event.target.src);
         } else {
-            const height = setToRelative(200, currentHeight.value);
-            const width = setToRelative(200, currentWidth.value);
-            let name = 'Double-click to edit me.';
-            let type = new Text(name, 24, 'Pangolin');
-            tempEl = new ElementDS(width, height, name, type);
+            height = setToRelative(200, currentHeight.value);
+            width = setToRelative(200, currentWidth.value);
+            name = 'Double-click to edit me.';
+            elementType = new Text(name, 24, 'Pangolin');
         }
-        props.panel.addElement(tempEl);
+        props.panel.addElement(new ElementDS(width, height, name, elementType));
     });
 
     // functions
