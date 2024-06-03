@@ -250,14 +250,14 @@
         // Loop through each word and add it to the current line if it fits
         for (let i = 0; i < words.length; i++) {
             let word = words[i];
-            let width = context.measureText(currentLine + word + ' ').width;
-            if (width < maxWidth || i === 0) {
-                currentLine += word + ' ';
-            } else if (word.includes('-') && width > maxWidth) {
+            let width = context.measureText(currentLine + word).width;
+            if (word.includes('-') && width > maxWidth) {
                 const splitWord = word.split('-');
                 currentLine += splitWord[0] + '-';
                 lines.push(currentLine);
                 currentLine = splitWord[1] + ' ';
+            } else if (width < maxWidth || i === 0) {
+                currentLine += word + ' ';
             } else {
                 lines.push(currentLine);
                 currentLine = word + ' ';
