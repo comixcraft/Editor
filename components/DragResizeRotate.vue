@@ -197,7 +197,10 @@
             @dblclick="comicStore.setCurrentElement(props.element)"
             @touchstart="detectDoubleClick"
         >
-            <p class="text__content" :style="{ fontSize: fontSize + 'px' }">
+            <p
+                class="text__content"
+                :style="{ fontSize: Math.round(fontSize * comicStore.getCurrentCanvas().width) + 'px' }"
+            >
                 {{ text }}
             </p>
         </div>
@@ -270,7 +273,7 @@
             width: 100%;
             height: 100%;
             font-family: 'Pangolin';
-            word-break: break-word;
+            line-height: 1;
         }
     }
 </style>

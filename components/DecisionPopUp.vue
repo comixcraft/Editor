@@ -92,8 +92,10 @@
             border: none;
         }
         &:hover {
-            background-color: $secondary-50;
-            color: $white;
+            @include media-breakpoint-up(lg) {
+                background-color: $secondary-50;
+                color: $white;
+            }
         }
     }
 </style>
