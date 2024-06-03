@@ -84,6 +84,7 @@
         .navigation {
             flex-direction: column;
             row-gap: $spacer-6;
+            pointer-events: all;
         }
 
         .navigation button {

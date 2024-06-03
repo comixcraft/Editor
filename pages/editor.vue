@@ -31,7 +31,10 @@
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
-
+    const scrollableNav = ref(null);
+    const isScrollableLeft = ref(false);
+    const isScrollableRight = ref(true);
+    const navReactiveHeight = ref(undefined);
     await useFetch('/api/catalog/structure')
         .then((response) => {
             catalogStructure.value = response.data.value;
@@ -39,6 +42,10 @@
         .catch((error) => {
             createError(error);
         });
+
+    let bottomNavHeight = computed(() => {
+        return `${Math.floor(navReactiveHeight.value * 10) / 10}px`;
+    });
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
@@ -118,6 +125,9 @@
             lockAspectRatio.value = false;
         }
     };
+    window.onresize = function (e) {
+        navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
+    };
 
     watch(
         () => comic.getPage(0).getStrip(0).getPanel(0).elements,
@@ -125,10 +135,39 @@
         { deep: true }
     );
 
+    function detectScrollingPosition(entries) {
+        entries.forEach((entry) => {
+            entry.isIntersecting
+                ? changeScrollingBooleans(entry.target, false)
+                : changeScrollingBooleans(entry.target, true);
+        });
+    }
+
+    function changeScrollingBooleans(element, bool) {
+        element === scrollableNav.value.firstChild.firstChild
+            ? (isScrollableLeft.value = bool)
+            : (isScrollableRight.value = bool);
+    }
+
+    onMounted(() => {
+        let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
+            threshold: 0.9,
+            root: scrollableNav.value,
+        });
+
+        intersectionObserver.observe(scrollableNav.value.firstChild.firstChild);
+        intersectionObserver.observe(scrollableNav.value.firstChild.lastChild);
+
+        document.fonts.ready.then(() => {
+            navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
+        });
+    });
+
     onBeforeUnmount(() => {
         window.onkeydown = null;
         window.onkeyup = null;
         window.onbeforeunload = null;
+        window.onresize = null;
     });
 </script>
 
@@ -184,7 +223,14 @@
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
-            <div class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first">
+            <div
+                class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first"
+                :class="{
+                    'bottom-nav__scrollable-nav-before': isScrollableLeft,
+                    'bottom-nav__scrollable-nav-after': isScrollableRight,
+                }"
+                ref="scrollableNav"
+            >
                 <CatalogNavigation
                     :categories="catalogStructure.categories"
                     @categorySelected="updateSelectedCategory"
@@ -341,13 +387,36 @@
         padding: $spacer-3;
         overflow-x: auto;
         scroll-behavior: smooth;
-
+        position: relative;
         @include media-breakpoint-up(lg) {
             flex-direction: column;
             gap: $spacer-2;
             overflow-x: visible;
             flex-grow: 0;
         }
+    }
+
+    .bottom-nav__scrollable-nav-before::before {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: v-bind(bottomNavHeight);
+        width: 150px;
+        box-shadow: inset 95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+        pointer-events: none;
+        display: table-cell;
+    }
+    .bottom-nav__scrollable-nav-after::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        height: v-bind(bottomNavHeight);
+        width: 150px;
+        box-shadow: inset -95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+        pointer-events: none;
+        display: table-cell;
     }
 
     .darken-background {
