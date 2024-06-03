@@ -46,10 +46,12 @@
             wrapperCanvas.value.clientWidth / wrapperCanvas.value.clientHeight > aspectRatioWidth / aspectRatioHeight;
         currentWidth.value = panelElement.value.clientWidth;
         currentHeight.value = panelElement.value.clientHeight;
-        comicStore.setCurrentCanvas({
-            width: currentWidth.value,
-            height: currentHeight.value,
-        });
+        if (props.panelIsActive) {
+            comicStore.setCurrentCanvas({
+                width: currentWidth.value,
+                height: currentHeight.value,
+            });
+        }
     }
 
     function deleteElement(eId) {
