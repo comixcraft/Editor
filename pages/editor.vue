@@ -392,6 +392,7 @@
         height: v-bind(bottomNavHeight);
         width: 150px;
         box-shadow: inset 95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+        pointer-events: none;
     }
     .after-content::after {
         content: '';
@@ -401,6 +402,7 @@
         height: v-bind(bottomNavHeight);
         width: 150px;
         box-shadow: inset -95px 0px 35px -35px rgba(27, 27, 27, 0.8);
+        pointer-events: none;
     }
 
     .darken-background {
