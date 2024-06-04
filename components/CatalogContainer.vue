@@ -29,14 +29,16 @@
 
 <template>
     <div class="catalog__scroll-container" ref="catalogContainer">
-        <div class="empty-display" v-if="props.assets.length === 0">
+        <div class="empty-display" v-if="props.assets?.length === 0">
             <img src="/public/Barista explaining6.png" alt="" class="empty-display__img" draggable="false" />
             <div class="empty-display__text">
                 <h3>No assets fit the description</h3>
                 <p>Try to adjust the filters or searched terms.</p>
             </div>
         </div>
+        <div v-if="!props.assets">Loading</div>
         <CatalogImagePreview
+            v-else
             v-for="asset in assets"
             :key="asset.id"
             :alt-text="asset.name"

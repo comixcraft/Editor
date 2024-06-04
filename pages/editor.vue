@@ -27,7 +27,7 @@
 
     const allAssetsCategoryName = 'All Assets';
     const comicStore = useComicStore();
-    const catalogElements = ref([]);
+    const catalogElements = ref(null);
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
@@ -49,6 +49,7 @@
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
+        catalogElements.value = null;
 
         useFetch('/api/catalog/', {
             method: 'POST',
@@ -62,6 +63,7 @@
                 catalogElements.value = response.data.value;
             })
             .catch((error) => {
+                catalogElements.value = [];
                 createError(error);
             });
     }
