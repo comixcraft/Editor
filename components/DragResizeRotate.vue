@@ -1,4 +1,6 @@
 <script setup>
+    import { detectDoubleClick } from '~/utils/composableFunctions';
+
     const props = defineProps({
         z: Number,
         w: Number,
@@ -127,14 +129,14 @@
         });
     });
 
-    function detectDoubleClick(e) {
-        e.preventDefault();
-        let currentClickTime = Date.now();
-        if (currentClickTime - lastClickTime < 300) {
-            comicStore.setCurrentElement(props.element);
-        }
-        lastClickTime = currentClickTime;
-    }
+    // function detectDoubleClick(e) {
+    //     e.preventDefault();
+    //     let currentClickTime = Date.now();
+    //     if (currentClickTime - lastClickTime < 300) {
+    //         comicStore.setCurrentElement(props.element);
+    //     }
+    //     lastClickTime = currentClickTime;
+    // }
 
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };
@@ -195,7 +197,7 @@
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"
             v-if="fontSize != 0"
             @dblclick="comicStore.setCurrentElement(props.element)"
-            @touchstart="detectDoubleClick"
+            @touchstart="detectDoubleClick($event, props.element)"
         >
             <p
                 class="text__content"

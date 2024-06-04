@@ -10,6 +10,7 @@
     let editor = ref(null);
     let userDidSomething = ref(false);
     let refreshCount = ref(0);
+    let intersectionObserver;
 
     let selectedCategory = ref({});
 
@@ -150,7 +151,7 @@
     }
 
     onMounted(() => {
-        let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
+        intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
             threshold: 0.9,
             root: scrollableNav.value,
         });
@@ -168,6 +169,7 @@
         window.onkeyup = null;
         window.onbeforeunload = null;
         window.onresize = null;
+        intersectionObserver.disconnect();
     });
 </script>
 
