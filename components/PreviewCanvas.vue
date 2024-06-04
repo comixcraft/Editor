@@ -283,8 +283,10 @@
 </script>
 
 <template>
-    <div ref="previewCanvas" :class="{ inIndex: 'preview--inIndex' }" class="preview">
-        <SpinnerLoader class="preview__loader" :loading="load"></SpinnerLoader>
+    <div ref="previewCanvas" :class="{ 'preview--inIndex': inIndex }" class="preview">
+        <div v-if="true" class="preview__loader">
+            <SpinnerLoader></SpinnerLoader>
+        </div>
         <canvas ref="canvasEl" class="preview__canvas"></canvas>
     </div>
 </template>
@@ -294,7 +296,6 @@
     .preview {
         position: relative;
         justify-content: center;
-        padding: $spacer-3 $spacer-4;
         align-self: baseline;
 
         @include media-breakpoint-up(lg) {
@@ -303,9 +304,6 @@
 
         &--inIndex {
             align-self: auto;
-            @include media-breakpoint-up(lg) {
-                align-self: auto;
-            }
             .preview__canvas {
                 max-height: 250px;
                 border: none;
@@ -323,8 +321,11 @@
 
         &__loader {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 </style>

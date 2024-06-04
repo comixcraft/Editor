@@ -36,7 +36,7 @@
                 <p>Try to adjust the filters or searched terms.</p>
             </div>
         </div>
-        <SpinnerLoader class="catalog__loader" v-if="!props.assets" :loading="true" />
+        <SpinnerLoader class="catalog__loader" v-if="!props.assets" />
         <CatalogImagePreview
             v-else
             v-for="asset in assets"

@@ -9,7 +9,7 @@
     const props = defineProps({
         loading: {
             type: Boolean,
-            default: false,
+            default: true,
         },
     });
 
@@ -34,8 +34,8 @@
 </script>
 
 <template>
-    <div>
-        <div class="loader" v-if="loading"></div>
+    <div v-if="loading">
+        <div class="loader"></div>
     </div>
 </template>
 
