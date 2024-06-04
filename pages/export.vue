@@ -84,36 +84,38 @@
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share-container">
-            <div class="share__body">
-                <div class="export__details d-none">
-                    <div class="share__input-group">
-                        <label class="share__input-group-label" for="project-name">Project Name:</label>
-                        <input
-                            class="share__input-group-input"
-                            type="text"
-                            id="project-name"
-                            placeholder="Enter project name"
-                        />
-                    </div>
-                    <div class="share__input-group">
-                        <label class="share__input-group-label" for="file-type">File Type:</label>
-                        <select class="share__input-group-select" id="file.type">
-                            <option value="png">PNG</option>
-                        </select>
-                    </div>
-                    <div class="share__input-group">
-                        <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                        <select class="share__input-group-select" id="select-panels">
-                            <option value="1">All panels</option>
-                        </select>
-                    </div>
+            <div class="export__details d-none">
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="project-name">Project Name:</label>
+                    <input
+                        class="share__input-group-input"
+                        type="text"
+                        id="project-name"
+                        placeholder="Enter project name"
+                    />
                 </div>
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="file-type">File Type:</label>
+                    <select class="share__input-group-select" id="file.type">
+                        <option value="png">PNG</option>
+                    </select>
+                </div>
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                    <select class="share__input-group-select" id="select-panels">
+                        <option value="1">All panels</option>
+                    </select>
+                </div>
+            </div>
 
-                <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
-                <div class="btn-container">
-                    <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
-                    <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
-                </div>
+            <PreviewCanvas
+                class="mt-3"
+                ref="previewCanvas"
+                @disable-button="(e) => (disableButton = e.disableButton)"
+            />
+            <div class="btn-container mt-3">
+                <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
+                <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
             </div>
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
@@ -140,18 +142,12 @@
         height: 100svh;
     }
 
-    .share__body {
-        padding: $spacer-3;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
     .share-container {
+        padding: $spacer-3;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-between;
     }
 
     .export__details {
