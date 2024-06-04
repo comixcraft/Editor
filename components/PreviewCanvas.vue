@@ -4,6 +4,8 @@
     // Middlewares
 
     // Emits
+    import SpinnerLoader from '~/components/SpinnerLoader.vue';
+
     const emit = defineEmits(['disableButton']);
 
     // Props
@@ -281,15 +283,16 @@
 </script>
 
 <template>
-    <div ref="previewCanvas" :class="inIndex ? 'preview__container--inIndex' : ''" class="preview__container">
-        <div class="loader" v-if="load"></div>
+    <div ref="previewCanvas" :class="inIndex ? 'preview--inIndex' : ''" class="preview">
+        <SpinnerLoader class="preview__loader" :loading="load"></SpinnerLoader>
         <canvas ref="canvasEl" class="preview__canvas"></canvas>
     </div>
 </template>
 
 <style scoped lang="scss">
     /* SCSS */
-    .preview__container {
+    .preview {
+        position: relative;
         justify-content: center;
         padding: $spacer-3 $spacer-4;
         align-self: baseline;
@@ -297,6 +300,7 @@
         @include media-breakpoint-up(lg) {
             align-self: center;
         }
+
         &--inIndex {
             align-self: auto;
             @include media-breakpoint-up(lg) {
@@ -309,35 +313,18 @@
             }
         }
 
-        .loader {
+        &__canvas {
+            border: 1px solid $grey-100;
+            width: auto;
+            max-height: 70svh;
+            max-width: 100%;
+            height: auto;
+        }
+
+        &__loader {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 50px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background:
-                radial-gradient(farthest-side, $secondary-100 94%, #0000) top/8px 8px no-repeat,
-                conic-gradient(#0000 30%, $secondary-100);
-            -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-            animation: l13 1s infinite linear;
-        }
-    }
-
-    .preview__canvas {
-        border: 1px solid $grey-100;
-        width: auto;
-        max-height: 70svh;
-        max-width: 100%;
-        height: auto;
-    }
-
-    @keyframes l13 {
-        0% {
-            transform: translate(-50%, -50%);
-        }
-        100% {
-            transform: translate(-50%, -50%) rotate(1turn);
         }
     }
 </style>
