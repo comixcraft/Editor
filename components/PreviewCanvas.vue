@@ -308,7 +308,7 @@
 
         &__canvas {
             max-height: 70svh;
-            max-width: 90%;
+            max-width: 100%;
             object-fit: contain;
             border: $border-width solid $grey-100;
         }
