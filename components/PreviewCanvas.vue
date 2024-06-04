@@ -4,8 +4,6 @@
     // Middlewares
 
     // Emits
-    import SpinnerLoader from '~/components/SpinnerLoader.vue';
-
     const emit = defineEmits(['disableButton']);
 
     // Props
