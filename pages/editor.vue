@@ -390,8 +390,14 @@
         overflow-x: auto;
         scroll-behavior: smooth;
         position: relative;
+
+        @include media-breakpoint-up(sm) {
+            justify-content: center;
+        }
+
         @include media-breakpoint-up(lg) {
             flex-direction: column;
+            justify-content: start;
             gap: $spacer-2;
             overflow-x: visible;
             flex-grow: 0;
