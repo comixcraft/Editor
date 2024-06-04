@@ -353,7 +353,7 @@
 
     .layer-background {
         padding-top: $spacer-5;
-        height: 100dvh;
+        height: calc(100dvh - $nav-bar-height);
         background-color: $white;
     }
 
@@ -436,13 +436,12 @@
     }
 
     .darken-background {
-        width: 100vw;
-        height: calc(100% - 3.5rem);
         display: flex;
         flex-direction: column;
         padding-top: $spacer-5;
         align-items: center;
         justify-content: flex-start;
+        height: 100%;
 
         @include media-breakpoint-up(lg) {
             padding-top: 0;
@@ -473,7 +472,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100dvh - 3.5rem);
+            height: calc(100dvh - $nav-bar-height);
             box-shadow: $box-shadow-right;
         }
     }
