@@ -71,20 +71,11 @@
                             <div class="welcome">
                                 <h1>Welcome to comixcraft!</h1>
                             </div>
-                            <div class="desktop-intro-text d-none d-lg-block">
+                            <div class="desktop-intro-text d-lg-block">
                                 <p>
-                                    Breathe life into your science lectures! Comixplain's intuitive editor lets you
-                                    create engaging science comics for any university subject – no sign-up needed.
-                                    Simply jump in and start making complex concepts clear and captivating for your
-                                    students.
-                                </p>
-                            </div>
-                            <div class="mobile-intro-text d-block d-lg-none">
-                                <p>
-                                    Breathe life into your science lectures! Comixplain's intuitive editor lets you
-                                    create engaging science comics for any university subject – no sign-up needed.
-                                    Simply jump in and start making complex concepts clear and captivating for your
-                                    students.
+                                    Comics are a powerful way to bring stories to life and can even support student
+                                    engagement in learning complex scientific subjects. With our user-friendly platform,
+                                    anyone can become a comic creator – no artistic skills required!
                                 </p>
                             </div>
                         </div>
