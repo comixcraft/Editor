@@ -12,7 +12,9 @@
         <div class="pop-up">
             <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" />
             <p class="title h1">{{ props.title }}</p>
-            <p class="body">{{ props.body }}</p>
+            <div class="body">
+                <slot name="body">{{ props.body }}</slot>
+            </div>
             <div class="btn-container">
                 <button
                     class="option-btn"

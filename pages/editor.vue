@@ -270,9 +270,8 @@
     </div>
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
         <DecisionPopUp
-            imgSrc="/Barista_pouring4.png"
+            imgSrc="/Barista Exclaiming4.png"
             title="Poof, your hard work disappears..."
-            body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
             :buttons="[
                 { name: 'Save Draft', emitName: 'save' },
                 { name: 'Discard All Changes', emitName: 'discard' },
@@ -281,7 +280,13 @@
             @cancel="goingBackPopUpShow = false"
             @save="saveComic"
             @discard="discardComic"
-        />
+        >
+            <template #body>
+                Do you want to save your progress as a draft? <br />
+                <strong>You can only have one draft at a time.</strong><br />
+                Saving a new one overwrites the existing one.
+            </template>
+        </DecisionPopUp>
     </OverlayModal>
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
