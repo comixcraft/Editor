@@ -36,7 +36,7 @@
                 <p>Try to adjust the filters or searched terms.</p>
             </div>
         </div>
-        <div v-if="!props.assets">Loading</div>
+        <SpinnerLoader class="catalog__loader" v-if="!props.assets" :loading="true" />
         <CatalogImagePreview
             v-else
             v-for="asset in assets"
@@ -49,6 +49,14 @@
 </template>
 
 <style lang="scss" scoped>
+    .catalog__loader {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
     .catalog__scroll-container {
         margin-top: $spacer-3;
         display: flex;
@@ -60,6 +68,7 @@
         user-select: none;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        flex-grow: 1;
     }
 
     .empty-display {

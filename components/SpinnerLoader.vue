@@ -34,7 +34,9 @@
 </script>
 
 <template>
-    <div class="loader" v-if="loading"></div>
+    <div>
+        <div class="loader" v-if="loading"></div>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -50,11 +52,8 @@
     }
 
     @keyframes rotate360 {
-        0% {
-            transform: translate(-50%, -50%);
-        }
         100% {
-            transform: translate(-50%, -50%) rotate(1turn);
+            transform: rotate(1turn);
         }
     }
 </style>
