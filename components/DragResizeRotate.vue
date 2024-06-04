@@ -21,6 +21,7 @@
     });
 
     const comicStore = useComicStore();
+    const element = props.element;
     // Define static variable
     let elementActive = ref(false);
     let tL, tR, bR, bL;
@@ -30,7 +31,7 @@
     let fontSize = ref(props.fontSize);
     let maxDiagonal = ref('0px');
     let counterRotation = ref('0deg');
-    let lastClickTime = Date.now();
+    let currAlignment = ref(undefined);
 
     // Define reactive variables
     const angle = ref(props.rotation);
@@ -49,6 +50,7 @@
         'backEvent',
         'frontEvent',
         'textUpdate',
+        'changeTextAlign',
     ]);
 
     // computed functions
@@ -115,8 +117,15 @@
         }
     }
 
+    function handleTextAlignChange(textAlign) {
+        currAlignment.value = textAlign;
+        element.type.textAlign = currAlignment.value;
+        emit('changeTextAlign', { id: props.eId, align: currAlignment.value });
+    }
+
     onMounted(() => {
         updateBB();
+        currAlignment.value = props.element.type.textAlign;
         counterRotation.value = `${-angle.value}deg`;
         comicStore.bus.on('updateText', (obj) => {
             if (obj.id == props.eId) {
@@ -175,11 +184,13 @@
         <div class="edition-menu">
             <EditionMenu
                 v-if="elementActive && !isRotating && !isResizing"
+                :element="props.element"
                 @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
                 @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
                 @delete-event="$emit('deleteEvent', eId)"
                 @front-event="upZIndex(eId)"
                 @back-event="downZIndex(eId)"
+                @change-text-align="handleTextAlignChange"
             />
         </div>
         <div
@@ -267,6 +278,7 @@
             height: 100%;
             font-family: 'Pangolin';
             line-height: 1;
+            text-align: v-bind(currAlignment);
         }
     }
 </style>

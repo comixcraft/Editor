@@ -11,6 +11,8 @@ export default class Text {
     _path = '/TextSymbol.png';
     /** @type {Number} */
     _fontWeight = 400;
+    /** @type {String} */
+    _textAlign = 'center';
 
     /**
      * @param {String} content
@@ -54,6 +56,11 @@ export default class Text {
         return this._path;
     }
 
+    /** @returns {String} */
+    get textAlign() {
+        return this._textAlign;
+    }
+
     // SETTERS
     /** @param {String} content */
     set content(content) {
@@ -78,6 +85,11 @@ export default class Text {
     /** @param {String} content */
     set path(content) {
         this._path = content;
+    }
+
+    /** @param {String} content */
+    set textAlign(setting) {
+        this._textAlign = setting;
     }
 
     // METHODS
