@@ -46,7 +46,7 @@
     }
 
     .overlay__content {
-        height: calc(100dvh - 3.5rem);
+        height: calc(100dvh - $nav-bar-height);
         width: 100vw;
     }
 </style>
