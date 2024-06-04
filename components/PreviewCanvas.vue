@@ -1,5 +1,6 @@
 <script setup type="module">
     // Imports
+    import SpinnerLoader from './SpinnerLoader.vue';
 
     // Middlewares
 
