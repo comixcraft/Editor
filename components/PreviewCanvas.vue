@@ -283,8 +283,8 @@
 </script>
 
 <template>
-    <div ref="previewCanvas" :class="inIndex ? 'preview--inIndex' : ''" class="preview">
-        <SpinnerLoader class="preview__loader" :loading="load"></SpinnerLoader>
+    <div ref="previewCanvas" :class="{ inIndex: 'preview--inIndex' }" class="preview">
+        <SpinnerLoader class="preview__loader" :loading="true"></SpinnerLoader>
         <canvas ref="canvasEl" class="preview__canvas"></canvas>
     </div>
 </template>
