@@ -197,7 +197,7 @@
             :class="{ mirror: mirroredHorizontal || mirroredVertical }"
             v-if="fontSize != 0"
             @dblclick="comicStore.setCurrentElement(props.element)"
-            @touchstart="detectDoubleClick($event, props.element)"
+            @touchstart="detectDoubleClick($event, comicStore.setCurrentElement, props.element)"
         >
             <p
                 class="text__content"

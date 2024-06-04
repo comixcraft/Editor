@@ -27,6 +27,7 @@
     border-radius: $border-radius-lg;
     border: none;
     width: calc(100% - $spacer-6);
+    user-select: none;
 }
 
 .accent-btn:hover {
