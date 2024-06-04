@@ -345,7 +345,7 @@
 
     .layer-background {
         padding-top: $spacer-5;
-        height: 100dvh;
+        height: calc(100dvh - 3.5rem);
         background-color: $white;
     }
 
@@ -428,13 +428,12 @@
     }
 
     .darken-background {
-        width: 100vw;
-        height: calc(100% - 3.5rem);
         display: flex;
         flex-direction: column;
         padding-top: $spacer-5;
         align-items: center;
         justify-content: flex-start;
+        height: 100%;
 
         @include media-breakpoint-up(lg) {
             padding-top: 0;
