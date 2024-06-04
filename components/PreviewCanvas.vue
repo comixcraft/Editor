@@ -284,7 +284,7 @@
 
 <template>
     <div ref="previewCanvas" :class="{ 'preview--inIndex': inIndex }" class="preview">
-        <div v-if="true" class="preview__loader">
+        <div v-if="load" class="preview__loader">
             <SpinnerLoader></SpinnerLoader>
         </div>
         <canvas ref="canvasEl" class="preview__canvas"></canvas>
@@ -295,6 +295,9 @@
     /* SCSS */
     .preview {
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &--inIndex {
             .preview__canvas {
@@ -305,11 +308,10 @@
         }
 
         &__canvas {
-            border: 1px solid $grey-100;
-            width: auto;
             max-height: 70svh;
-            max-width: 100%;
-            height: auto;
+            max-width: 90%;
+            object-fit: contain;
+            border: $border-width solid $grey-100;
         }
 
         &__loader {

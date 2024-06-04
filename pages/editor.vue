@@ -423,10 +423,17 @@
 
     .darken-background {
         width: 100vw;
-        height: 100%;
+        height: calc(100% - 3.5rem);
         display: flex;
+        flex-direction: column;
+        padding-top: $spacer-5;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+
+        @include media-breakpoint-up(lg) {
+            padding-top: 0;
+            justify-content: center;
+        }
     }
 
     .bottom-nav__container {
