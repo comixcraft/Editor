@@ -291,7 +291,7 @@
     /* SCSS */
     .preview__container {
         justify-content: center;
-        padding: $spacer-3 $spacer-4;
+        margin: $spacer-3 $spacer-4;
         align-self: baseline;
 
         @include media-breakpoint-up(lg) {
