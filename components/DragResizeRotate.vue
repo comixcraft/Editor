@@ -129,15 +129,6 @@
         });
     });
 
-    // function detectDoubleClick(e) {
-    //     e.preventDefault();
-    //     let currentClickTime = Date.now();
-    //     if (currentClickTime - lastClickTime < 300) {
-    //         comicStore.setCurrentElement(props.element);
-    //     }
-    //     lastClickTime = currentClickTime;
-    // }
-
     function updateCornersPosition() {
         tL = { x: self.value.left, y: self.value.top };
         tR = { x: self.value.left + self.value.width, y: self.value.top };
