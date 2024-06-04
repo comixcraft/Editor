@@ -71,7 +71,6 @@
             :assets="selectedCategoryAssets"
             @element-added="$emit('element-added')"
         ></CatalogContainer>
-        <span class="flex-grow-1"></span>
         <CatalogSubNavigation
             class="catalog__sub-navigation"
             v-if="selectedCategory.name && selectedCategory.name !== 'All Assets'"

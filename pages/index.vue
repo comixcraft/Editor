@@ -270,6 +270,7 @@
         border-radius: $border-radius;
         display: flex;
         width: fit-content;
+        padding: $spacer-3 $spacer-4;
         &--selected {
             cursor: pointer;
             border: $border-width-lg solid $primary;
@@ -278,12 +279,6 @@
                 color: $primary !important;
             }
         }
-    }
-
-    .draft-canvas {
-        max-width: 100%;
-        max-height: 100%;
-        border: 1px solid pink;
     }
 
     .icon {
