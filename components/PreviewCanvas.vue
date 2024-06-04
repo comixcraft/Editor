@@ -297,6 +297,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 0 $spacer-5;
 
         &--inIndex {
             .preview__canvas {
