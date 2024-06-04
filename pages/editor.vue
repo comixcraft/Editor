@@ -286,7 +286,13 @@
             </div>
         </div>
     </ScreenOverlay>
-    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false" class="preview__overlay">
+    <ScreenOverlay
+        title="Preview"
+        :show="previewShow"
+        @close="previewShow = false"
+        class="preview__overlay"
+        @click="previewShow = false"
+    >
         <div class="darken-background">
             <PreviewCanvas />
         </div>
