@@ -102,6 +102,8 @@
                         class="draft-preview"
                         :class="{ 'draft-preview--selected': draftSelected }"
                         @click="selectDraftToContinue"
+                        @dblclick="createComicFromDraft"
+                        @touchstart="detectDoubleClick($event, createComicFromDraft)"
                     >
                         <PreviewCanvas :inIndex="true" />
                         <button
@@ -129,6 +131,7 @@
                                 :preview="option.preview"
                                 :config="option.config"
                                 :selected="option.title === selectedComicConfiguration?.title"
+                                :function="createNewComic"
                             />
                         </div>
                     </div>
@@ -144,6 +147,7 @@
                                 :preview="option.preview"
                                 :config="option.config"
                                 :selected="option.title === selectedComicConfiguration?.title"
+                                :function="createNewComic"
                             />
                         </div>
                     </div>
@@ -204,6 +208,7 @@
 
     .templates {
         padding: $spacer-4 $spacer-5;
+        user-select: none;
     }
 
     .welcome-text {
