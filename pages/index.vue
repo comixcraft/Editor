@@ -190,11 +190,11 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: $spacer-4 $spacer-5;
+        padding: 0;
     }
 
     .templates {
-        padding: $spacer-4 $spacer-5;
+        padding: 0;
     }
 
     .welcome-text {
@@ -249,7 +249,7 @@
     .draft-container {
         width: calc(100% - $spacer-3);
         height: fit-content;
-        padding: $spacer-2 $spacer-5 0 $spacer-5;
+        padding: 0;
         margin-bottom: $spacer-2;
         overflow: visible;
     }
@@ -295,6 +295,9 @@
     }
 
     @include media-breakpoint-up(lg) {
+        .intro {
+            padding: $spacer-4 $spacer-5;
+        }
         .comic-image {
             max-width: 24vw !important;
         }
@@ -317,6 +320,10 @@
             transform: translateX(-50%);
         }
 
+        .draft-container {
+            padding: $spacer-2 $spacer-5 0 $spacer-5;
+        }
+
         .draft-preview {
             &:hover {
                 border: $border-width-lg solid $primary;
@@ -327,6 +334,10 @@
             &:hover {
                 scale: 1.1;
             }
+        }
+
+        .templates {
+            padding: $spacer-4 $spacer-5;
         }
     }
 </style>
