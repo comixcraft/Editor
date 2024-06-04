@@ -29,14 +29,16 @@
 
 <template>
     <div class="catalog__scroll-container" ref="catalogContainer">
-        <div class="empty-display" v-if="props.assets.length === 0">
+        <div class="empty-display" v-if="props.assets?.length === 0">
             <img src="/public/Barista explaining6.png" alt="" class="empty-display__img" draggable="false" />
             <div class="empty-display__text">
                 <h3>No assets fit the description</h3>
                 <p>Try to adjust the filters or searched terms.</p>
             </div>
         </div>
+        <SpinnerLoader class="catalog__loader" v-if="!props.assets" />
         <CatalogImagePreview
+            v-else
             v-for="asset in assets"
             :key="asset.id"
             :alt-text="asset.name"
@@ -47,6 +49,14 @@
 </template>
 
 <style lang="scss" scoped>
+    .catalog__loader {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
     .catalog__scroll-container {
         margin-top: $spacer-3;
         display: flex;
@@ -58,28 +68,19 @@
         user-select: none;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
+        flex-grow: 1;
     }
 
     .empty-display {
         width: 100%;
-        height: auto;
+        height: 100%;
         display: flex;
         flex-direction: column;
         row-gap: $spacer-5;
         align-items: center;
-        margin-top: $spacer-3;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        @include media-breakpoint-up(lg) {
-            position: inherit;
-            transform: translate(0, 0);
-        }
+        justify-content: center;
 
         &__img {
-            z-index: 10;
             max-width: 8rem !important;
 
             @include media-breakpoint-up(lg) {
