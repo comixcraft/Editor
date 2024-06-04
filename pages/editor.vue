@@ -294,7 +294,7 @@
         @click="previewShow = false"
     >
         <div class="darken-background">
-            <PreviewCanvas />
+            <PreviewCanvas @click.stop="true" />
         </div>
     </ScreenOverlay>
 </template>
