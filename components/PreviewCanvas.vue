@@ -295,15 +295,8 @@
     /* SCSS */
     .preview {
         position: relative;
-        justify-content: center;
-        align-self: baseline;
-
-        @include media-breakpoint-up(lg) {
-            align-self: center;
-        }
 
         &--inIndex {
-            align-self: auto;
             .preview__canvas {
                 max-height: 250px;
                 border: none;
