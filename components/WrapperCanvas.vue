@@ -207,6 +207,10 @@
         props.panel.addAlteration();
     }
 
+    function handleTextAlign(obj) {
+        props.panel.addAlteration();
+    }
+
     function delayUpdatePanelBoundingBox() {
         resizing.value = true;
         clearTimeout(resizeTimeout);
@@ -274,6 +278,7 @@
                     @front-event="upElement"
                     @back-event="downElement"
                     @text-update="textUpdate"
+                    @change-text-align="handleTextAlign"
                     @dragging="isDragging = true"
                     @dragstop="isDragging = false"
                     @activated="setActiveElement(value.id)"
