@@ -108,11 +108,14 @@
                 </div>
                 <div class="templates">
                     <h2>Layout</h2>
-                    <p class="font-italic">Do you need only a panel or a strip full of panels?</p>
+                    <p class="font-italic">
+                        Start by choosing the layout of your comic. You can either create one panel in different sizes
+                        or create a comic strip with multiple panels.
+                    </p>
 
                     <div class="comic-sections">
-                        <h3>Single Panel</h3>
-                        <p>A comic panel is a single frame within a comic strip.</p>
+                        <h3>Comic Panel</h3>
+                        <p>Choose the size of your comic panel.</p>
                         <div class="comic-panels">
                             <TemplateDisplay
                                 @select-template="selectTemplate"
@@ -127,8 +130,8 @@
                         </div>
                     </div>
                     <div class="comic-sections">
-                        <h3>Multiple Panels</h3>
-                        <p>A comic strip consists of a series of panels.</p>
+                        <h3>Comic Strip</h3>
+                        <p>Choose the layout for your comic strip.</p>
                         <div class="comic-panels">
                             <TemplateDisplay
                                 @select-template="selectTemplate"
@@ -206,7 +209,7 @@
         display: flex;
         flex-direction: column;
         padding: $spacer-2;
-        margin-top: $spacer-3;
+        row-gap: $spacer-1;
     }
 
     .welcome {
@@ -297,6 +300,9 @@
     @include media-breakpoint-up(lg) {
         .intro {
             padding: $spacer-4 $spacer-5;
+        }
+        .welcome-text {
+            row-gap: $spacer-3;
         }
         .comic-image {
             max-width: 24vw !important;
