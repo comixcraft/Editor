@@ -165,7 +165,9 @@
     // };
 
     onMounted(() => {
-        window.scrollTo(0, 1);
+        window.onload(() => {
+            editor.value.scrollTo(0, 1);
+        });
         editorSize.value = window.getComputedStyle(editor.value, ':before').getPropertyValue('content').slice(1, -1);
         if (editorSize.value === 's') {
             console.log('force fullscreen');
