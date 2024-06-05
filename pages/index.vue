@@ -109,8 +109,7 @@
                 <div class="templates">
                     <h2>Layout</h2>
                     <p class="font-italic">
-                        Start by choosing the layout of your comic. You can either create one panel in different sizes
-                        or create a comic strip with multiple panels.
+                        Choose your comic's layout. You can use a single panel or a multi-panel comic strip.
                     </p>
 
                     <div class="comic-sections">
