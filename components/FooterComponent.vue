@@ -29,6 +29,7 @@
         width: 100%;
         background-color: $primary-30;
         padding: $spacer-4;
+        position: absolute;
 
         .top_row {
             display: flex;
