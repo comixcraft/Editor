@@ -163,15 +163,16 @@
             <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
                 <DecisionPopUp
                     imgSrc="./Barista_pouring4.png"
-                    title="Poof, your hard work disappears..."
-                    body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                    title="Time to delete your draft?"
                     :buttons="[
                         { name: 'Delete Draft', emitName: 'discard' },
                         { name: 'Keep Draft', emitName: 'cancel' },
                     ]"
                     @cancel="deleteDraftPopUpShow = false"
                     @discard="deleteDraft"
-                />
+                >
+                    <div>Are you sure you want to delete your draft?<br />This can not be undone.</div>
+                </DecisionPopUp>
             </OverlayModal>
         </div>
         <FooterComponent />

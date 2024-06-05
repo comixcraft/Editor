@@ -281,11 +281,11 @@
             @save="saveComic"
             @discard="discardComic"
         >
-            <template #body>
+            <div>
                 Do you want to save your progress as a draft? <br />
                 <strong>You can only have one draft at a time.</strong><br />
                 Saving a new one overwrites the existing one.
-            </template>
+            </div>
         </DecisionPopUp>
     </OverlayModal>
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">

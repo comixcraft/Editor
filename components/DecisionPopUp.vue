@@ -11,10 +11,8 @@
     <div>
         <div class="pop-up">
             <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" />
-            <p class="title h1">{{ props.title }}</p>
-            <div class="body">
-                <slot name="body">{{ props.body }}</slot>
-            </div>
+            <p class="title h2">{{ props.title }}</p>
+            <slot class="body">{{ props.body }}</slot>
             <div class="btn-container">
                 <button
                     class="option-btn"
