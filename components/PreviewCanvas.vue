@@ -198,15 +198,17 @@
     }
 
     function drawText(context, element, panelDimension) {
-        return new Promise((resolveText) => {
+        return new Promise(async (resolveText) => {
             // Save the current context
             context.save();
 
             let fontSize = element.type.fontSize * panelDimension.width;
             // Set the font properties
             context.font = `${fontSize}px ${element.type.fontFamily}`;
+            await document.fonts.load(context.font);
             context.fillStyle = 'black';
             context.textBaseline = 'top';
+            context.textAlign = element.type.textAlign;
 
             // Move the rotation point to the center of the element
             context.translate(
@@ -226,10 +228,23 @@
             }
 
             // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-            context.translate(
-                (-element.width * panelDimension.width) / 2,
-                (-element.height * panelDimension.height) / 2
-            );
+            switch (element.type.textAlign) {
+                case 'left':
+                    context.translate(
+                        (-element.width * panelDimension.width) / 2,
+                        (-element.height * panelDimension.height) / 2
+                    );
+                    break;
+                case 'right':
+                    context.translate(
+                        (element.width * panelDimension.width) / 2,
+                        (-element.height * panelDimension.height) / 2
+                    );
+                    break;
+                default:
+                    context.translate(0, (-element.height * panelDimension.height) / 2);
+                    break;
+            }
 
             // Draw the text once the lines are created
             new Promise((resolveLine) => {

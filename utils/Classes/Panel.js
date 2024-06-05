@@ -145,16 +145,18 @@ export default class Panel {
      */
     applyState(state) {
         let parsedState = Panel.fromJSON(state);
-
         if (parsedState.elements.size > 0) {
             let elementsToDelete = new Set(this.elements.keys());
             parsedState.elements.forEach((value, key) => {
                 elementsToDelete.delete(key);
                 if (!this.hasElement(key)) {
-                    let tempType =
-                        value.type._name === 'Asset'
-                            ? new Asset(value.type._path)
-                            : new Text(value.type._content, value.type._fontSize, value.type._fontFamily);
+                    let tempType;
+                    if (value.type._name === 'Asset') {
+                        tempType = new Asset(value.type._path);
+                    } else {
+                        tempType = new Text(value.type._content, value.type._fontSize, value.type._fontFamily);
+                        tempType.textAlign = value.type._textAlign;
+                    }
                     let tempEl = new ElementDS(value.width, value.height, value.alt, tempType);
                     tempEl.id = value.id;
                     tempEl.pos = new Position(value.pos._x, value.pos._y);
@@ -297,6 +299,7 @@ export default class Panel {
             oTarget._type._content = oSource.type._content;
             oTarget._type._fontSize = oSource.type._fontSize;
             oTarget._type._fontFamily = oSource.type._fontFamily;
+            oTarget._type._textAlign = oSource.type._textAlign;
         }
         properties.forEach((property) => {
             let propertyName = useDashPrefix ? `_${property}` : property;
