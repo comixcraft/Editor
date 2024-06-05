@@ -93,6 +93,8 @@
                         class="draft-preview"
                         :class="{ 'draft-preview--selected': draftSelected }"
                         @click="selectDraftToContinue"
+                        @dblclick="createComicFromDraft"
+                        @touchstart="detectDoubleClick($event, createComicFromDraft)"
                     >
                         <PreviewCanvas :inIndex="true" />
                         <button
@@ -120,6 +122,7 @@
                                 :preview="option.preview"
                                 :config="option.config"
                                 :selected="option.title === selectedComicConfiguration?.title"
+                                :function="createNewComic"
                             />
                         </div>
                     </div>
@@ -135,6 +138,7 @@
                                 :preview="option.preview"
                                 :config="option.config"
                                 :selected="option.title === selectedComicConfiguration?.title"
+                                :function="createNewComic"
                             />
                         </div>
                     </div>
@@ -194,7 +198,8 @@
     }
 
     .templates {
-        padding: $spacer-3 $spacer-2;
+        padding: $spacer-4 $spacer-5;
+        user-select: none;
     }
 
     .welcome-text {
@@ -261,6 +266,7 @@
         border-radius: $border-radius;
         display: flex;
         width: fit-content;
+        padding: $spacer-3 $spacer-4;
         &--selected {
             cursor: pointer;
             border: $border-width-lg solid $primary;
@@ -269,12 +275,6 @@
                 color: $primary !important;
             }
         }
-    }
-
-    .draft-canvas {
-        max-width: 100%;
-        max-height: 100%;
-        border: 1px solid pink;
     }
 
     .icon {

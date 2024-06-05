@@ -143,7 +143,7 @@
                 border: none;
                 padding: $spacer-2 $spacer-3;
                 cursor: pointer;
-                color: $black;
+                color: $black-100;
 
                 &:hover {
                     background-color: $grey-40;

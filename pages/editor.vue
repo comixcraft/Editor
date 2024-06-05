@@ -10,6 +10,7 @@
     let editor = ref(null);
     let userDidSomething = ref(false);
     let refreshCount = ref(0);
+    let intersectionObserver;
 
     let selectedCategory = ref({});
 
@@ -27,7 +28,7 @@
 
     const allAssetsCategoryName = 'All Assets';
     const comicStore = useComicStore();
-    const catalogElements = ref([]);
+    const catalogElements = ref(null);
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
@@ -49,6 +50,7 @@
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
+        catalogElements.value = null;
 
         useFetch('/api/catalog/', {
             method: 'POST',
@@ -62,6 +64,7 @@
                 catalogElements.value = response.data.value;
             })
             .catch((error) => {
+                catalogElements.value = [];
                 createError(error);
             });
     }
@@ -150,7 +153,7 @@
     }
 
     onMounted(() => {
-        let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
+        intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
             threshold: 0.9,
             root: scrollableNav.value,
         });
@@ -168,6 +171,7 @@
         window.onkeyup = null;
         window.onbeforeunload = null;
         window.onresize = null;
+        intersectionObserver.disconnect();
     });
 </script>
 
@@ -286,9 +290,15 @@
             </div>
         </div>
     </ScreenOverlay>
-    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false" class="preview__overlay">
+    <ScreenOverlay
+        title="Preview"
+        :show="previewShow"
+        @close="previewShow = false"
+        class="preview__overlay"
+        @click="previewShow = false"
+    >
         <div class="darken-background">
-            <PreviewCanvas />
+            <PreviewCanvas @click.stop="true" />
         </div>
     </ScreenOverlay>
 </template>
@@ -343,7 +353,7 @@
 
     .layer-background {
         padding-top: $spacer-5;
-        height: 100dvh;
+        height: calc(100dvh - $nav-bar-height);
         background-color: $white;
     }
 
@@ -388,8 +398,14 @@
         overflow-x: auto;
         scroll-behavior: smooth;
         position: relative;
+
+        @include media-breakpoint-up(sm) {
+            justify-content: center;
+        }
+
         @include media-breakpoint-up(lg) {
             flex-direction: column;
+            justify-content: start;
             gap: $spacer-2;
             overflow-x: visible;
             flex-grow: 0;
@@ -420,11 +436,17 @@
     }
 
     .darken-background {
-        width: 100vw;
-        height: 100%;
         display: flex;
+        flex-direction: column;
+        padding-top: $spacer-5;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        height: 100%;
+
+        @include media-breakpoint-up(lg) {
+            padding-top: 0;
+            justify-content: center;
+        }
     }
 
     .bottom-nav__container {
@@ -450,7 +472,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100dvh - 3.5rem);
+            height: calc(100dvh - $nav-bar-height);
             box-shadow: $box-shadow-right;
         }
     }
