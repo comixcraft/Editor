@@ -57,6 +57,35 @@
         });
     }
 
+    async function share() {
+        const canvas = previewCanvas.value.canvasEl;
+        // share the comic
+        try {
+            const response = await fetch(canvas.toDataURL('image/png'));
+            const blob = await response.blob();
+            if (navigator.share) {
+                const filesArray = [
+                    new File([blob], 'comic.png', { type: 'image/png', lastModified: new Date().getTime() }),
+                ];
+                const shareData = {
+                    files: filesArray,
+                };
+
+                navigator.share(shareData).then(() => {
+                    console.log('Shared successfully');
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const blobUrl = URL.createObjectURL(blob);
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                URL.revokeObjectURL(blobUrl); // Cleanup
+                alert('Image copied to clipboard');
+            }
+        } catch (error) {
+            alert("Oh no! Your Browser doesn't support sharing images");
+        }
+    }
+
     // Bus Listeners
 
     // Vue life cycle hooks
@@ -114,7 +143,8 @@
                 @disable-button="(e) => (disableButton = e.disableButton)"
             />
             <div class="btn-container mt-3">
-                <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
+                <button class="accent-btn" @click="download" :disabled="disableButton">Download as PNG</button>
+                <button class="accent-btn btn-last" @click="share" :disabled="disableButton">Share</button>
                 <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
             </div>
         </div>
