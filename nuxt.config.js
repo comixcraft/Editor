@@ -22,4 +22,15 @@ export default defineNuxtConfig({
             },
         },
     },
+    app: {
+        link: [
+            {
+                rel: 'preload',
+                as: 'font',
+                href: '../../public/fonts/Pangolin-Regular.ttf',
+                type: 'font/ttf',
+                crossorigin: 'anonymous',
+            },
+        ],
+    },
 });
