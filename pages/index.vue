@@ -1,9 +1,11 @@
 <script setup>
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
+    import { useToast } from 'vue-toast-notification';
 
     const comicStore = useComicStore();
     const draftAvailable = ref(false);
+    const $toast = useToast();
 
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
@@ -55,6 +57,11 @@
         } else {
             selectedComicConfiguration.value = templatePanelConfig[0];
         }
+        //$toast.success('Hello world');
+        $toast.success('Profile saved.', {
+            position: 'top',
+            duration: 15000,
+        });
     });
 </script>
 
