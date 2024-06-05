@@ -88,7 +88,7 @@
                 </div>
                 <div v-if="draftAvailable" class="draft-container">
                     <h2>Draft</h2>
-                    <p class="font-italic">Continue working on your previous draft</p>
+                    <p class="font-italic">Continue working on your previous draft.</p>
                     <div
                         class="draft-preview"
                         :class="{ 'draft-preview--selected': draftSelected }"
@@ -105,11 +105,11 @@
                     </div>
                 </div>
                 <div class="templates">
-                    <h2>Templates</h2>
-                    <p class="font-italic">Start by choosing a template</p>
+                    <h2>Layout</h2>
+                    <p class="font-italic">Do you need only a panel or a strip full of panels?</p>
 
                     <div class="comic-sections">
-                        <h3>Comic Panels</h3>
+                        <h3>Single Panel</h3>
                         <p>A comic panel is a single frame within a comic strip.</p>
                         <div class="comic-panels">
                             <TemplateDisplay
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     <div class="comic-sections">
-                        <h3>Comic Strips</h3>
+                        <h3>Multiple Panels</h3>
                         <p>A comic strip consists of a series of panels.</p>
                         <div class="comic-panels">
                             <TemplateDisplay
