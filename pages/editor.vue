@@ -8,6 +8,7 @@
     let goingBackPopUpShow = ref(false);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
+    let editorSize = ref(null);
     let userDidSomething = ref(false);
     let refreshCount = ref(0);
     let intersectionObserver;
@@ -153,6 +154,12 @@
     }
 
     onMounted(() => {
+        editorSize.value = window.getComputedStyle(editor.value, ':before').getPropertyValue('content').slice(1, -1);
+        if (editorSize.value === 's') {
+            console.log('force fullscreen');
+            editor.value.requestFullscreen();
+        }
+
         intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
             threshold: 0.9,
             root: scrollableNav.value,
@@ -304,6 +311,11 @@
 </template>
 
 <style scoped lang="scss">
+    :fullscreen,
+    ::backdrop {
+        background-color: rgb(255, 255, 255);
+    }
+
     .preview__overlay {
         overflow-y: hidden !important;
     }
@@ -311,6 +323,10 @@
         content: 's';
         display: none;
         visibility: hidden;
+
+        @include media-breakpoint-up(lg) {
+            content: 'lg';
+        }
     }
 
     .editor {
