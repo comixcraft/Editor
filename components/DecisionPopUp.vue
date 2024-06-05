@@ -43,7 +43,7 @@
 
     .pop-up__image {
         height: 50%;
-        max-height: 30vh;
+        max-height: 25vh;
         margin-top: $spacer-7;
     }
 

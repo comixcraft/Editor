@@ -159,7 +159,7 @@
                 @save="saveDraft"
                 @discard="reloadApp"
             >
-                <div>Congratulations! Your comic has been downloaded.<br />It's time to share it with the world.</div>
+                <div>Your comic has been downloaded.<br />Creating a new comic will overwrite your current one.</div>
             </DecisionPopUp>
         </OverlayModal>
         <FooterComponent />
