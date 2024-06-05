@@ -11,6 +11,7 @@
     let userDidSomething = ref(false);
     let refreshCount = ref(0);
     let intersectionObserver;
+    let popUpText = ref('');
 
     let selectedCategory = ref({});
 
@@ -104,6 +105,12 @@
     function handleGoingBack() {
         if (userDidSomething.value) {
             goingBackPopUpShow.value = true;
+            if (comicStore.getDraft().value !== null) {
+                popUpText.value =
+                    'Do you want to save your progress as a draft? <br /> <strong>You can only have one draft at a time.</strong><br /> Saving a new one overwrites the existing one.';
+            } else {
+                popUpText.value = 'Do you want to save your current comic as a draft?';
+            }
         } else {
             return reloadNuxtApp({
                 path: '/',
@@ -281,11 +288,7 @@
             @save="saveComic"
             @discard="discardComic"
         >
-            <div>
-                Do you want to save your progress as a draft? <br />
-                <strong>You can only have one draft at a time.</strong><br />
-                Saving a new one overwrites the existing one.
-            </div>
+            <div v-html="popUpText"></div>
         </DecisionPopUp>
     </OverlayModal>
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
