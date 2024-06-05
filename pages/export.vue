@@ -144,7 +144,7 @@
             />
             <div class="btn-container mt-3">
                 <button class="accent-btn" @click="download" :disabled="disableButton">Download as PNG</button>
-                <button class="accent-btn" @click="share" :disabled="disableButton">Share</button>
+                <button class="accent-btn btn-last" @click="share" :disabled="disableButton">Share</button>
                 <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
             </div>
         </div>
