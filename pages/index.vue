@@ -194,7 +194,7 @@
     }
 
     .templates {
-        padding: 0;
+        padding: $spacer-3 $spacer-2;
     }
 
     .welcome-text {
@@ -228,7 +228,7 @@
     }
 
     .comic-sections {
-        padding: $spacer-4 0;
+        padding: $spacer-3 0;
     }
 
     .comic-panels {
@@ -249,7 +249,7 @@
     .draft-container {
         width: calc(100% - $spacer-3);
         height: fit-content;
-        padding: 0;
+        padding: $spacer-3 $spacer-2;
         margin-bottom: $spacer-2;
         overflow: visible;
     }
