@@ -8,7 +8,6 @@
     let goingBackPopUpShow = ref(false);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
-    let editorSize = ref(null);
     let userDidSomething = ref(false);
     let refreshCount = ref(0);
     let intersectionObserver;
