@@ -198,7 +198,7 @@
     }
 
     .templates {
-        padding: $spacer-4 $spacer-5;
+        padding: $spacer-3 $spacer-2;
         user-select: none;
     }
 
