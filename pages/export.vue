@@ -152,11 +152,7 @@
             <DecisionPopUp
                 imgSrc="/RatsInLove.png"
                 title="Download successful!"
-                :buttons="[
-                    { name: 'Create New Comic', emitName: 'discard' },
-                    { name: 'Save Draft', emitName: 'save' },
-                ]"
-                @save="saveDraft"
+                :buttons="[{ name: 'Create New Comic', emitName: 'discard' }]"
                 @discard="reloadApp"
             >
                 <div>Your comic has been downloaded.<br />Creating a new comic will overwrite your current one.</div>
