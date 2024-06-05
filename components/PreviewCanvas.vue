@@ -198,13 +198,14 @@
     }
 
     function drawText(context, element, panelDimension) {
-        return new Promise((resolveText) => {
+        return new Promise(async (resolveText) => {
             // Save the current context
             context.save();
 
             let fontSize = element.type.fontSize * panelDimension.width;
             // Set the font properties
             context.font = `${fontSize}px ${element.type.fontFamily}`;
+            await document.fonts.load(context.font);
             context.fillStyle = 'black';
             context.textBaseline = 'top';
             context.textAlign = element.type.textAlign;
