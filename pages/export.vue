@@ -35,6 +35,7 @@
         // Name of the file should come from a title of comic
         link.download = 'canvas.png';
         link.click();
+        generateToast('success', 'Comic was successfully downloaded!');
         downloadPopUpShow.value = true;
     }
 
@@ -51,10 +52,8 @@
 
         downloadPopUpShow.value = false;
 
-        return reloadNuxtApp({
-            path: '/',
-            ttl: 1000,
-        });
+        reloadApp();
+        // here add logic for
     }
 
     async function share() {
@@ -72,17 +71,17 @@
                 };
 
                 navigator.share(shareData).then(() => {
-                    console.log('Shared successfully');
+                    generateToast('success', 'Comic was successfully shared!');
                 });
             } else {
                 // Fallback for browsers that don't support Web Share API
                 const blobUrl = URL.createObjectURL(blob);
                 await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                 URL.revokeObjectURL(blobUrl); // Cleanup
-                alert('Image copied to clipboard');
+                generateToast('success', 'Image was copied to clipboard.');
             }
         } catch (error) {
-            alert("Oh no! Your Browser doesn't support sharing images");
+            generateToast('error', 'Browser is not compatible for sharing. Try downloading it.');
         }
     }
 

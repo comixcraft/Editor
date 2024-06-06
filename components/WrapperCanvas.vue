@@ -186,6 +186,7 @@
             width = setToRelative(200, currentWidth.value);
             name = 'Double-click to edit me.';
             elementType = new Text(name, setToRelative(24, currentWidth.value), 'Pangolin');
+            generateToast('success', 'Text was successfully added.');
         }
         props.panel.addElement(new ElementDS(width, height, name, elementType));
     });
@@ -194,12 +195,14 @@
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexUp(eId);
+        generateToast('info', 'Element was moved to front.');
         props.panel.addAlteration();
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
+        generateToast('info', 'Element was moved to back.');
         props.panel.addAlteration();
     }
 

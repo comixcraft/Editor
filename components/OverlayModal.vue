@@ -54,7 +54,7 @@
 
 <style lang="scss" scoped>
     .background {
-        z-index: 9999999;
+        z-index: 1089;
         position: fixed;
         top: 0;
         background-color: rgba($black-100, 0.3);
