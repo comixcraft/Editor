@@ -22,8 +22,8 @@
     <div>
         <div class="pop-up">
             <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" />
-            <p class="title h1">{{ props.title }}</p>
-            <p class="body">{{ props.body }}</p>
+            <p class="title h2">{{ props.title }}</p>
+            <slot class="body">{{ props.body }}</slot>
             <div class="btn-container">
                 <button
                     class="option-btn"
@@ -54,7 +54,7 @@
 
     .pop-up__image {
         height: 50%;
-        max-height: 30vh;
+        max-height: 25vh;
         margin-top: $spacer-7;
     }
 
