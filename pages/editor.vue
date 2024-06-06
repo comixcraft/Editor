@@ -12,29 +12,6 @@
     let refreshCount = ref(0);
     let intersectionObserver;
     let popUpText = ref('');
-
-    let resizeTimeout = null;
-    let resized = ref(false);
-
-    let onResize = ref(() => {
-        // Clear the previous timeout if it exists
-        if (resizeTimeout) {
-            clearTimeout(resizeTimeout);
-        }
-
-        // Set a new timeout
-        resizeTimeout = setTimeout(() => {
-            resized.value = true;
-
-            // Set another timeout to reset resized.value to false after a delay
-            setTimeout(() => {
-                resized.value = false;
-            }, 200);
-        }, 200);
-
-        console.log(resized.value);
-    });
-
     let selectedCategory = ref({});
 
     const undoEmpty = computed(() => {
@@ -193,12 +170,6 @@
         document.fonts.ready.then(() => {
             navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
         });
-
-        window.addEventListener('resize', onResize.value);
-    });
-
-    onUnmounted(() => {
-        window.removeEventListener('resize', onResize.value);
     });
 
     onBeforeUnmount(() => {
@@ -259,7 +230,6 @@
                     :lockAspectRatio="lockAspectRatio"
                     :comic="comic"
                     :refreshCount="refreshCount"
-                    :key="resized"
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>

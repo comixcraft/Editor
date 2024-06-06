@@ -247,7 +247,7 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <div class="w-100 h-100" v-if="!resizing">
+            <div class="w-100 h-100">
                 <DragResizeRotate
                     v-for="[key, value] in elements"
                     :key="key"
