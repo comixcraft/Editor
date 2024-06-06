@@ -21,6 +21,7 @@
     // Refs
     const previewCanvas = ref(null);
     let downloadPopUpShow = ref(false);
+    let saveDraftPopUpShow = ref(false);
     let disableButton = ref(true);
 
     // Watchers
@@ -50,10 +51,15 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
-        downloadPopUpShow.value = false;
-
-        comicStore.setComingBackAfterSaving(true);
         reloadApp();
+    }
+
+    function saveDraftPopUpCheck() {
+        if (comicStore.getDraft().value !== null) {
+            saveDraftPopUpShow.value = true;
+        } else {
+            saveDraft();
+        }
     }
 
     async function share() {
@@ -144,21 +150,32 @@
             <div class="btn-container mt-3">
                 <button class="accent-btn" @click="download" :disabled="disableButton">Download as PNG</button>
                 <button class="accent-btn btn-last" @click="share" :disabled="disableButton">Share</button>
-                <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
+                <button class="accent-btn btn-last" @click="saveDraftPopUpCheck()">Save Draft</button>
             </div>
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
                 imgSrc="/RatsInLove.png"
                 title="Download successful!"
-                body="Congratulations! Your comic has been downloaded. It's time to share it with the world."
-                :buttons="[
-                    { name: 'Create New Comic', emitName: 'discard' },
-                    { name: 'Save Draft', emitName: 'save' },
-                ]"
-                @save="saveDraft"
+                :buttons="[{ name: 'Create New Comic', emitName: 'discard' }]"
                 @discard="reloadApp"
-            />
+            >
+                <div>Your comic has been downloaded.<br />Creating a new comic will overwrite your current one.</div>
+            </DecisionPopUp>
+        </OverlayModal>
+        <OverlayModal :show="saveDraftPopUpShow" :full="false" @close="saveDraftPopUpShow = false">
+            <DecisionPopUp
+                imgSrc="/Barista Exclaiming4.png"
+                title="You can only have one draft."
+                :buttons="[
+                    { name: 'Save Draft', emitName: 'save' },
+                    { name: 'Cancel', emitName: 'cancel' },
+                ]"
+                @cancel="saveDraftPopUpShow = false"
+                @save="saveDraft"
+            >
+                <div>Saving a new one overwrites the existing one.</div>
+            </DecisionPopUp>
         </OverlayModal>
         <FooterComponent />
     </div>

@@ -74,20 +74,11 @@
                             <div class="welcome">
                                 <h1>Welcome to comixcraft!</h1>
                             </div>
-                            <div class="desktop-intro-text d-none d-lg-block">
+                            <div class="desktop-intro-text d-lg-block">
                                 <p>
-                                    Breathe life into your science lectures! Comixplain's intuitive editor lets you
-                                    create engaging science comics for any university subject – no sign-up needed.
-                                    Simply jump in and start making complex concepts clear and captivating for your
-                                    students.
-                                </p>
-                            </div>
-                            <div class="mobile-intro-text d-block d-lg-none">
-                                <p>
-                                    Breathe life into your science lectures! Comixplain's intuitive editor lets you
-                                    create engaging science comics for any university subject – no sign-up needed.
-                                    Simply jump in and start making complex concepts clear and captivating for your
-                                    students.
+                                    Comics are a powerful way to bring stories to life and can even support student
+                                    engagement in learning complex scientific subjects. With our user-friendly platform,
+                                    anyone can become a comic creator – no artistic skills required!
                                 </p>
                             </div>
                         </div>
@@ -100,7 +91,7 @@
                 </div>
                 <div v-if="draftAvailable" class="draft-container">
                     <h2>Draft</h2>
-                    <p class="font-italic">Continue working on your previous draft</p>
+                    <p class="font-italic">Continue working on your previous draft.</p>
                     <div
                         class="draft-preview"
                         :class="{ 'draft-preview--selected': draftSelected }"
@@ -119,12 +110,14 @@
                     </div>
                 </div>
                 <div class="templates">
-                    <h2>Templates</h2>
-                    <p class="font-italic">Start by choosing a template</p>
+                    <h2>Layout</h2>
+                    <p class="font-italic">
+                        Choose your comic's layout. You can use a single panel or a multi-panel comic strip.
+                    </p>
 
                     <div class="comic-sections">
-                        <h3>Comic Panels</h3>
-                        <p>A comic panel is a single frame within a comic strip.</p>
+                        <h3>Comic Panel</h3>
+                        <p>Choose the size of your comic panel.</p>
                         <div class="comic-panels">
                             <TemplateDisplay
                                 @select-template="selectTemplate"
@@ -139,8 +132,8 @@
                         </div>
                     </div>
                     <div class="comic-sections">
-                        <h3>Comic Strips</h3>
-                        <p>A comic strip consists of a series of panels.</p>
+                        <h3>Comic Strip</h3>
+                        <p>Choose the layout for your comic strip.</p>
                         <div class="comic-panels">
                             <TemplateDisplay
                                 @select-template="selectTemplate"
@@ -166,15 +159,16 @@
             <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
                 <DecisionPopUp
                     imgSrc="./Barista_pouring4.png"
-                    title="Poof, your hard work disappears..."
-                    body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
+                    title="Time to delete your draft?"
                     :buttons="[
                         { name: 'Delete Draft', emitName: 'discard' },
                         { name: 'Keep Draft', emitName: 'cancel' },
                     ]"
                     @cancel="deleteDraftPopUpShow = false"
                     @discard="deleteDraft"
-                />
+                >
+                    <div>Are you sure you want to delete your draft?<br />This can not be undone.</div>
+                </DecisionPopUp>
             </OverlayModal>
         </div>
         <FooterComponent />
@@ -206,11 +200,11 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: $spacer-4 $spacer-5;
+        padding: $spacer-3 $spacer-2;
     }
 
     .templates {
-        padding: $spacer-4 $spacer-5;
+        padding: $spacer-3 $spacer-2;
         user-select: none;
     }
 
@@ -218,7 +212,7 @@
         display: flex;
         flex-direction: column;
         padding: $spacer-2;
-        margin-top: $spacer-3;
+        row-gap: $spacer-1;
     }
 
     .welcome {
@@ -245,7 +239,7 @@
     }
 
     .comic-sections {
-        padding: $spacer-4 0;
+        padding: $spacer-3 0;
     }
 
     .comic-panels {
@@ -266,7 +260,7 @@
     .draft-container {
         width: calc(100% - $spacer-3);
         height: fit-content;
-        padding: $spacer-2 $spacer-5 0 $spacer-5;
+        padding: $spacer-3 $spacer-2;
         margin-bottom: $spacer-2;
         overflow: visible;
     }
@@ -307,6 +301,12 @@
     }
 
     @include media-breakpoint-up(lg) {
+        .intro {
+            padding: $spacer-4 $spacer-5;
+        }
+        .welcome-text {
+            row-gap: $spacer-3;
+        }
         .comic-image {
             max-width: 24vw !important;
         }
@@ -329,6 +329,10 @@
             transform: translateX(-50%);
         }
 
+        .draft-container {
+            padding: $spacer-2 $spacer-5 0 $spacer-5;
+        }
+
         .draft-preview {
             &:hover {
                 border: $border-width-lg solid $primary;
@@ -339,6 +343,10 @@
             &:hover {
                 scale: 1.1;
             }
+        }
+
+        .templates {
+            padding: $spacer-4 $spacer-5;
         }
     }
 </style>
