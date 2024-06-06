@@ -100,9 +100,9 @@
         &:hover {
             @include media-breakpoint-up(lg) {
                 background-color: $primary-50;
-                color: black;
+                color: $black-100;
                 .name {
-                    color: black;
+                    color: $black-100;
                 }
             }
         }
