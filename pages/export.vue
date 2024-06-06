@@ -51,6 +51,7 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
+        comicStore.setComingBackAfterSaving(true);
         reloadApp();
     }
 
