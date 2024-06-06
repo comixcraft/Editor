@@ -12,6 +12,7 @@
     let refreshCount = ref(0);
     let intersectionObserver;
     let popUpText = ref('');
+    let comicName = ref('');
 
     let selectedCategory = ref({});
 
@@ -195,21 +196,25 @@
                         Redo
                     </button>
                 </div>
+                <input type="text" class="top-nav__name-input" ref="comicName" v-model="comic.name" />
             </div>
 
             <div class="top-nav__left-btns">
+                <!-- layer -->
                 <div class="top-nav__item layer-btn">
                     <button @click="layersShow = true" class="secondary-btn">
                         <div class="icon">stacks</div>
                         <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
+                <!-- preview btn -->
                 <div class="top-nav__item preview-btn">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
                         <span class="d-none d-lg-block"> Preview </span>
                     </button>
                 </div>
+                <!-- download btn -->
                 <div class="top-nav__item export-btn">
                     <button class="secondary-btn">
                         <NuxtLink
@@ -225,6 +230,7 @@
                 </div>
             </div>
         </div>
+
         <div class="d-flex flex-column flex-lg-row flex-grow-1">
             <div class="editor__canvas col-12 col-lg-8">
                 <ComicPanels
@@ -257,6 +263,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Catalog nav on mobile -->
     <div class="d-lg-none">
         <OverlayModal :full="true" :show="catalogShow" @close="catalogShow = false" :padding="'0'">
             <div class="category__description">
@@ -275,6 +283,8 @@
             </div>
         </OverlayModal>
     </div>
+
+    <!-- Going back popup -->
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
         <DecisionPopUp
             imgSrc="/Barista Exclaiming4.png"
@@ -291,6 +301,8 @@
             <div v-html="popUpText"></div>
         </DecisionPopUp>
     </OverlayModal>
+
+    <!-- Layers -->
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
             <div class="layer-container">
@@ -298,6 +310,8 @@
             </div>
         </div>
     </ScreenOverlay>
+
+    <!-- Preview -->
     <ScreenOverlay
         title="Preview"
         :show="previewShow"
@@ -371,15 +385,6 @@
         justify-content: center;
         align-items: center;
         background-color: $white;
-    }
-
-    .top-nav__left-btns {
-        display: flex;
-        column-gap: $spacer-3;
-
-        @include media-breakpoint-up(lg) {
-            column-gap: $spacer-6;
-        }
     }
 
     .undo-redo-container {
@@ -503,35 +508,35 @@
         overflow-y: auto;
     }
 
-    .top-nav__item-undo-btn {
-        color: $grey-0;
-        @include media-breakpoint-up(lg) {
-            &:hover {
-                scale: 1.2;
-            }
-            &:disabled {
-                scale: 1; // Prevent scaling on hover when disabled
-                cursor: not-allowed; // Change cursor to indicate disabled state
+    .top-nav {
+        &__item-undo-btn,
+        &__item-redo-btn {
+            color: $grey-0;
+            @include media-breakpoint-up(lg) {
                 &:hover {
-                    scale: 1;
+                    scale: 1.2;
+                }
+                &:disabled {
+                    scale: 1; // Prevent scaling on hover when disabled
+                    cursor: not-allowed; // Change cursor to indicate disabled state
+                    &:hover {
+                        scale: 1;
+                    }
                 }
             }
         }
-    }
+        &__left-btns {
+            display: flex;
+            column-gap: $spacer-3;
 
-    .top-nav__item-redo-btn {
-        color: $grey-0;
-        @include media-breakpoint-up(lg) {
-            &:hover {
-                scale: 1.2;
+            @include media-breakpoint-up(lg) {
+                column-gap: $spacer-6;
             }
-            &:disabled {
-                scale: 1;
-                cursor: not-allowed;
-                &:hover {
-                    scale: 1;
-                }
-            }
+        }
+        &__name-input {
+            border: 1px solid $white;
+            background-color: transparent;
+            color: $white;
         }
     }
 

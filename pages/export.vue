@@ -12,6 +12,7 @@
 
     // Static Variables (let, const)
     const comicStore = useComicStore();
+    const comic = reactive(toRaw(comicStore.comic));
 
     // Reactive Variables
     // computed
@@ -128,6 +129,7 @@
                         type="text"
                         id="project-name"
                         placeholder="Enter project name"
+                        v-model="comic.name"
                     />
                 </div>
                 <div class="share__input-group d-none">
