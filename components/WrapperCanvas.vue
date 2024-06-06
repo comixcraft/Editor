@@ -23,7 +23,6 @@
     const currentWidth = ref(1);
     const activeElementId = ref(null);
     const isDragging = ref(false);
-    let resizing = ref(false);
 
     let resizeTimeout;
 
@@ -212,11 +211,9 @@
     }
 
     function delayUpdatePanelBoundingBox() {
-        resizing.value = true;
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             updatePanelBoundingBox();
-            resizing.value = false;
         }, 300);
     }
 
