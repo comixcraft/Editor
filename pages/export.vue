@@ -210,7 +210,9 @@
         color: white;
         text-decoration: none;
         &:hover {
-            scale: 1.2;
+            @include media-breakpoint-up(lg) {
+                scale: 1.2;
+            }
         }
     }
 
