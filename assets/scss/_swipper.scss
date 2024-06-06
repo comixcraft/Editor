@@ -10,6 +10,9 @@
         @include media-breakpoint-up(lg) {
             justify-content: start;
             color: $white;
+            display: flex;
+            justify-content: center; // Center the pagination horizontally
+            align-items: center;
         }
     }
 
@@ -19,8 +22,8 @@
         align-items: center;
         opacity: 1;
         border-radius: $border-radius;
-        width: 24px;
-        height: 33px;
+        width: 28px;
+        height: 41px;
         background-color: $secondary-50;
 
         @include media-breakpoint-up(lg) {
@@ -44,7 +47,6 @@
     @include media-breakpoint-up(lg) {
         .swiper-pagination {
             bottom: $spacer-5 !important;
-            left: $spacer-6 !important;
         }
     }
 }
