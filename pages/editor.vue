@@ -211,14 +211,21 @@
                 <div class="top-nav__item layer-btn">
                     <button @click="layersShow = true" class="secondary-btn">
                         <div class="icon">stacks</div>
-                        <span class="d-none d-lg-block">Layers</span>
+                        <span class="d-none d-xl-block">Layers</span>
                     </button>
                 </div>
                 <!-- preview btn -->
                 <div class="top-nav__item preview-btn">
                     <button @click="previewShow = true" class="secondary-btn">
                         <div class="icon">preview</div>
-                        <span class="d-none d-lg-block"> Preview </span>
+                        <span class="d-none d-xl-block"> Preview </span>
+                    </button>
+                </div>
+                <!-- save draft btn -->
+                <div class="top-nav__item saveDraft-btn d-none d-lg-block">
+                    <button class="secondary-btn">
+                        <div class="icon">save</div>
+                        <span class="d-none d-xl-block"> Save </span>
                     </button>
                 </div>
                 <!-- download btn -->
@@ -231,7 +238,7 @@
                             }"
                         >
                             <div class="icon">download</div>
-                            <span class=""> Download</span>
+                            <span class="d-none d-xl-block"> Download</span>
                         </NuxtLink>
                     </button>
                 </div>
@@ -328,6 +335,7 @@
                 <input type="text" id="project-name" class="input" v-model="comic.name" />
             </div>
         </DecisionPopUp>
+        <p class="alertDraftTxt">Saving a draft will override any currently saved draft</p>
     </OverlayModal>
 
     <!-- Layers overlay -->
@@ -505,6 +513,13 @@
         &:hover {
             scale: 1.1;
         }
+    }
+
+    .alertDraftTxt {
+        font-style: italic;
+        align-items: center;
+        text-align: center;
+        padding-top: $spacer-5;
     }
 
     .catalog-container {

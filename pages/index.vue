@@ -4,6 +4,7 @@
 
     const comicStore = useComicStore();
     const draftAvailable = ref(false);
+    const comic = reactive(toRaw(comicStore.comic));
 
     let selectedComicConfiguration = ref(null);
     let draftSelected = ref(false);
@@ -88,7 +89,7 @@
                 </div>
                 <div v-if="draftAvailable" class="draft-container">
                     <h2>Draft</h2>
-                    <p class="font-italic">Continue working on your previous draft.</p>
+                    <p class="font-italic">Continue working on your previous draft: {{ comic.name }}</p>
                     <div
                         class="draft-preview"
                         :class="{ 'draft-preview--selected': draftSelected }"
