@@ -52,8 +52,8 @@
 
         downloadPopUpShow.value = false;
 
+        comicStore.setComingBackAfterSaving(true);
         reloadApp();
-        // here add logic for
     }
 
     async function share() {
