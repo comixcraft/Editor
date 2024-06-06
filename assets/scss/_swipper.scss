@@ -8,7 +8,7 @@
         color: $white;
 
         @include media-breakpoint-up(lg) {
-            justify-content: start;
+            justify-content: flex-start;
             color: $white;
             display: flex;
             justify-content: center; // Center the pagination horizontally
