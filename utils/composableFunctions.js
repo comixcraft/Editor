@@ -12,9 +12,12 @@ function detectDoubleClick(event, callback, callbackArg) {
 
 function generateToast(type, message) {
     const $toast = useToast();
+
+    $toast.clear();
+
     $toast[type](message, {
         position: 'top',
-        duration: 4000,
+        duration: 3500,
     });
 }
 

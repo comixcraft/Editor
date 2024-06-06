@@ -17,6 +17,7 @@
     const elements = props.panel.elements;
     const panelElement = ref(null);
     const wrapperCanvas = ref(null);
+    const ddrContainer = ref(null);
     const scaleByHeight = ref(false);
     const panelBorder = ref(`url(${props.panel.border})`);
     const currentHeight = ref(1);
@@ -225,7 +226,7 @@
 
     onMounted(() => {
         window.addEventListener('resize', delayUpdatePanelBoundingBox);
-
+        //ddrContainer.value.addEventListener('click', (e) => console.log(e))
         updatePanelBoundingBox();
     });
 
@@ -250,7 +251,7 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <div class="w-100 h-100" v-if="!resizing">
+            <div class="w-100 h-100" v-if="!resizing" ref="ddrContainer">
                 <DragResizeRotate
                     v-for="[key, value] in elements"
                     :key="key"
