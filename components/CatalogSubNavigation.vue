@@ -57,7 +57,7 @@
     .sub__navigation {
         display: flex;
         justify-content: space-between;
-        background-color: $white;
+        background-color: $grey-80;
         box-shadow: $box-shadow-top-right;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -75,14 +75,14 @@
     .sub__btn {
         cursor: pointer;
         border-radius: $border-radius;
-        background-color: $white;
-        color: $black-100;
+        background-color: $grey-80;
+        color: $white;
         border: none;
         padding: $spacer-2;
         flex-shrink: 0;
 
         .name {
-            color: $grey-70;
+            color: $grey-50;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
