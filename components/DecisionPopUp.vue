@@ -4,6 +4,7 @@
         title: String,
         body: String,
         buttons: Object,
+        input: String,
     });
 
     useHead({
@@ -21,8 +22,8 @@
 <template>
     <div>
         <div class="pop-up">
-            <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" />
-            <p class="title h2">{{ props.title }}</p>
+            <img :src="props.imgSrc" alt="" class="pop-up__image" draggable="false" v-if="props.imgSrc" />
+            <p class="title h2" v-if="props.title">{{ props.title }}</p>
             <slot class="body">{{ props.body }}</slot>
             <div class="btn-container">
                 <button

@@ -13,6 +13,8 @@
     let intersectionObserver;
     let popUpText = ref('');
     let comicName = ref('');
+    let mobileMenu = ref(false);
+    const router = useRouter();
 
     let selectedCategory = ref({});
 
@@ -196,7 +198,12 @@
                         Redo
                     </button>
                 </div>
-                <input type="text" class="top-nav__name-input" ref="comicName" v-model="comic.name" />
+                <input
+                    type="text"
+                    class="top-nav__name-input input d-none d-lg-block"
+                    ref="comicName"
+                    v-model="comic.name"
+                />
             </div>
 
             <div class="top-nav__left-btns">
@@ -215,7 +222,7 @@
                     </button>
                 </div>
                 <!-- download btn -->
-                <div class="top-nav__item export-btn">
+                <div class="top-nav__item export-btn d-none d-lg-block">
                     <button class="secondary-btn">
                         <NuxtLink
                             :to="{
@@ -224,13 +231,17 @@
                             }"
                         >
                             <div class="icon">download</div>
-                            <span class="d-none d-lg-block"> Download</span>
+                            <span class=""> Download</span>
                         </NuxtLink>
                     </button>
+                </div>
+                <div class="top-nav__item export-btn d-lg-none">
+                    <button class="secondary-btn icon" @click="mobileMenu = true">more_horiz</button>
                 </div>
             </div>
         </div>
 
+        <!-- Editor -->
         <div class="d-flex flex-column flex-lg-row flex-grow-1">
             <div class="editor__canvas col-12 col-lg-8">
                 <ComicPanels
@@ -302,7 +313,24 @@
         </DecisionPopUp>
     </OverlayModal>
 
-    <!-- Layers -->
+    <!-- mobile submenu popup -->
+    <OverlayModal :show="mobileMenu" :full="false" @close="mobileMenu = false">
+        <DecisionPopUp
+            :buttons="[
+                { name: 'Export', emitName: 'download' },
+                { name: 'Save Draft', emitName: 'save' },
+            ]"
+            @save="saveComic"
+            @download="router.push({ name: 'export', path: '/export' })"
+        >
+            <div class="project-name">
+                <label for="project-name">Project Name</label>
+                <input type="text" id="project-name" class="input" v-model="comic.name" />
+            </div>
+        </DecisionPopUp>
+    </OverlayModal>
+
+    <!-- Layers overlay -->
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
             <div class="layer-container">
@@ -311,7 +339,7 @@
         </div>
     </ScreenOverlay>
 
-    <!-- Preview -->
+    <!-- Preview overlay -->
     <ScreenOverlay
         title="Preview"
         :show="previewShow"
@@ -528,6 +556,7 @@
         &__left-btns {
             display: flex;
             column-gap: $spacer-3;
+            align-items: center;
 
             @include media-breakpoint-up(lg) {
                 column-gap: $spacer-6;
@@ -537,12 +566,27 @@
             border: 1px solid $white;
             background-color: transparent;
             color: $white;
+            padding: $spacer-2;
         }
     }
 
     @include media-breakpoint-up(md) {
         .edit-icon {
             font-size: 40px;
+        }
+    }
+
+    .project-name {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid $grey-60;
+        padding-bottom: $spacer-3;
+        align-items: baseline;
+        width: 100%;
+        gap: $spacer-2;
+
+        .input {
+            width: 100%;
         }
     }
 </style>
