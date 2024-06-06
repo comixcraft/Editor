@@ -5,11 +5,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: transparent;
+        color: $white;
 
         @include media-breakpoint-up(lg) {
-            justify-content: start;
+            justify-content: flex-start;
             color: $white;
+            display: flex;
+            justify-content: center; // Center the pagination horizontally
+            align-items: center;
         }
     }
 
@@ -19,13 +22,13 @@
         align-items: center;
         opacity: 1;
         border-radius: $border-radius;
-        width: 24px;
-        height: 33px;
+        width: 1.9rem;
+        height: 2.5rem;
         background-color: $secondary-50;
 
         @include media-breakpoint-up(lg) {
             color: $white;
-            padding: $spacer-5;
+            padding: $spacer-5 $spacer-4;
             margin: 0 0;
             border-radius: $border-radius;
             &:hover {
@@ -44,7 +47,6 @@
     @include media-breakpoint-up(lg) {
         .swiper-pagination {
             bottom: $spacer-5 !important;
-            left: $spacer-6 !important;
         }
     }
 }
