@@ -7,7 +7,7 @@ export default class ElementDS {
     /** @type {Number} */
     _z = ref(0);
     /** @type {Position} */
-    _pos = new Position(0, 0);
+    _pos = new Position(0.1, 0.15);
     /** @type {Boolean} */
     _isFocused = false;
     /** @type {Boolean} */

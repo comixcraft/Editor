@@ -180,7 +180,11 @@
                 } else if (element.type.name === 'Text') {
                     await drawText(newContext, element, { width: panel.width, height });
                 } else {
-                    console.log('Element not recognized in drawPanel in export.vue.');
+                    let message;
+                    element
+                        ? (message = `${element.alt} is not recognized. Try another time!`)
+                        : 'One element is not correctly saved in the Panel';
+                    generateToast('error', message);
                 }
             }
             // draw the border of the panel

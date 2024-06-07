@@ -45,6 +45,9 @@
     }
 
     onMounted(() => {
+        if (comicStore.getComingBackAfterSaving()) generateToast('success', 'Comic was saved as a draft.');
+        comicStore.setComingBackAfterSaving(false);
+
         !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
             ? (draftAvailable.value = false)
             : (draftAvailable.value = true);

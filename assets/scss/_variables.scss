@@ -172,6 +172,43 @@ $box-shadow-right: 3px 0px 2px $grey-40;
 
 $nav-bar-height: 3.5rem;
 
+/* Toast-notification */
+$toast-duration: 4000;
+
+$toast-height: 3rem;
+$toast-border-radius: 4px;
+$toast-border-width: 1px;
+$toast-border-type: solid;
+
+$toast-text-color: $black-100;
+$toast-color-100--success: #16c7a4;
+$toast-color-30--success: #d1f3db;
+$toast-color-100--info: #005cf9;
+$toast-color-30--info: #b2cefd;
+$toast-color-100--error: #ff474f;
+$toast-color-30--error: #fbd2d4;
+
+$toast-icon--success: url('/public/icons/icon-success.svg');
+$toast-icon--info: url('/public/icons/icon-info.svg');
+$toast-icon--error: url('/public/icons/icon-error.svg');
+
+@use 'sass:map';
+$toast-border: (
+    'success': $toast-border-width $toast-border-type $toast-color-100--success,
+    'info': $toast-border-width $toast-border-type $toast-color-100--info,
+    'error': $toast-border-width $toast-border-type $toast-color-100--error,
+);
+$toast-background: (
+    'success': $toast-color-30--success,
+    'info': $toast-color-30--info,
+    'error': $toast-color-30--error,
+);
+$toast-icons: (
+    'success': $toast-icon--success,
+    'info': $toast-icon--info,
+    'error': $toast-icon--error,
+);
+
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/variables';

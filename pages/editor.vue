@@ -79,6 +79,8 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
+        comicStore.setComingBackAfterSaving(true);
+
         return reloadNuxtApp({
             path: '/',
             ttl: 1000,

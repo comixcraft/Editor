@@ -50,10 +50,8 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
-        return reloadNuxtApp({
-            path: '/',
-            ttl: 1000,
-        });
+        comicStore.setComingBackAfterSaving(true);
+        reloadApp();
     }
 
     function saveDraftPopUpCheck() {
@@ -79,17 +77,17 @@
                 };
 
                 navigator.share(shareData).then(() => {
-                    console.log('Shared successfully');
+                    generateToast('success', 'Comic was successfully shared!');
                 });
             } else {
                 // Fallback for browsers that don't support Web Share API
                 const blobUrl = URL.createObjectURL(blob);
                 await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                 URL.revokeObjectURL(blobUrl); // Cleanup
-                alert('Image copied to clipboard');
+                generateToast('success', 'Image was copied to clipboard.');
             }
         } catch (error) {
-            alert("Oh no! Your Browser doesn't support sharing images");
+            generateToast('error', 'Browser is not compatible for sharing. Try downloading it.');
         }
     }
 
