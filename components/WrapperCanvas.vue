@@ -186,7 +186,6 @@
             height = setToRelative(200, currentHeight.value);
             width = setToRelative(200, currentWidth.value);
             elementType = new Text(name, setToRelative(24, currentWidth.value), 'Pangolin');
-            generateToast('success', 'Text was successfully added.');
         }
         let element = new ElementDS(width, height, name, elementType);
         props.panel.addElement(element);
