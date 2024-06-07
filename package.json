@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "@gausszhou/vue3-drag-resize-rotate": "^3.0.2",
+        "@nuxtjs/google-analytics": "^2.4.0",
         "@pinia/nuxt": "^0.5.1",
         "bootstrap": "^5.3.3",
         "material-symbols": "^0.17.2",
