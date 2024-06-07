@@ -6,6 +6,7 @@
     let previewShow = ref(false);
     let catalogShow = ref(false);
     let goingBackPopUpShow = ref(false);
+    let saveDraftPopUpShow = ref(false);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
     let userDidSomething = ref(false);
@@ -122,6 +123,20 @@
         }
     }
 
+    function handleSaveDraftBtn() {
+        if (userDidSomething.value && comicStore.getDraft().value !== null) {
+            saveDraftPopUpShow.value = true;
+            if (comicStore.getDraft().value !== null) {
+                popUpText.value =
+                    'Do you want to save your progress as a draft? <br /> <strong>You can only have one draft at a time.</strong><br /> Saving a new one overwrites the existing one.';
+            } else {
+                popUpText.value = 'Do you want to save your current comic as a draft?';
+            }
+        } else if (userDidSomething.value) {
+            saveComic();
+        }
+    }
+
     window.onbeforeunload = function (e) {
         if (userDidSomething.value && e.target.activeElement === this.document.body) {
             e.preventDefault();
@@ -223,7 +238,7 @@
                 </div>
                 <!-- save draft btn -->
                 <div class="top-nav__item saveDraft-btn d-none d-lg-block">
-                    <button class="secondary-btn">
+                    <button class="secondary-btn" @click="handleSaveDraftBtn">
                         <div class="icon">save</div>
                         <span class="d-none d-xl-block"> Save </span>
                     </button>
@@ -320,6 +335,22 @@
         </DecisionPopUp>
     </OverlayModal>
 
+    <!-- saveDraft Popup -->
+    <OverlayModal :show="saveDraftPopUpShow" :full="false" @close="saveDraftPopUpShow = false">
+        <DecisionPopUp
+            imgSrc="/Barista Exclaiming4.png"
+            title="You can only have one draft."
+            :buttons="[
+                { name: 'Save Draft', emitName: 'save' },
+                { name: 'Cancel', emitName: 'cancel' },
+            ]"
+            @cancel="saveDraftPopUpShow = false"
+            @save="saveComic"
+        >
+            <div v-html="popUpText"></div>
+        </DecisionPopUp>
+    </OverlayModal>
+
     <!-- mobile submenu popup -->
     <OverlayModal :show="mobileMenu" :full="false" @close="mobileMenu = false">
         <DecisionPopUp
@@ -402,7 +433,7 @@
             column-gap: $spacer-1;
             width: 100%;
             height: 100%;
-            padding: $spacer-3 $spacer-5;
+            padding: $spacer-3 $spacer-3;
             &:hover {
                 scale: 1.1;
             }
@@ -574,7 +605,7 @@
             align-items: center;
 
             @include media-breakpoint-up(lg) {
-                column-gap: $spacer-6;
+                column-gap: $spacer-5;
             }
         }
         &__name-input {
