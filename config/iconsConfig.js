@@ -3,7 +3,7 @@ const iconConfig = new Map();
 // Icons for catalog navigation
 iconConfig.set('Characters', 'add_reaction');
 iconConfig.set('Speech Bubbles', 'chat_bubble');
-iconConfig.set('Text', 'sticky_note');
+iconConfig.set('Add Text', 'sticky_note');
 iconConfig.set('Shapes', 'category');
 iconConfig.set('Scenes', 'scene');
 iconConfig.set('All Assets', 'image_search');
