@@ -1,3 +1,5 @@
+import { useToast } from 'vue-toast-notification';
+
 let lastClickTime = Date.now();
 
 function detectDoubleClick(event, callback, callbackArg) {
@@ -8,4 +10,15 @@ function detectDoubleClick(event, callback, callbackArg) {
     lastClickTime = currentClickTime;
 }
 
-export { detectDoubleClick };
+function generateToast(type, message) {
+    const $toast = useToast();
+
+    $toast.clear();
+
+    $toast[type](message, {
+        position: 'top',
+        duration: 3500,
+    });
+}
+
+export { detectDoubleClick, generateToast };
