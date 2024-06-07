@@ -17,6 +17,7 @@ export const useComicStore = defineStore('comic', () => {
     let comingBackAfterSaving = ref(new Boolean(false));
 
     const draft = ref(null);
+    const userDidSomething = ref(false);
 
     function getComingBackAfterSaving() {
         if (typeof comingBackAfterSaving.value === 'string') {
@@ -28,6 +29,10 @@ export const useComicStore = defineStore('comic', () => {
 
     function setComingBackAfterSaving(bool) {
         comingBackAfterSaving.value = bool;
+    }
+
+    function setUserDidSomething(value) {
+        userDidSomething.value = value;
     }
 
     function saveDraft(json) {
@@ -169,8 +174,10 @@ export const useComicStore = defineStore('comic', () => {
     return {
         comic,
         bus,
+        userDidSomething,
         getComingBackAfterSaving,
         setComingBackAfterSaving,
+        setUserDidSomething,
         getDraft,
         saveDraft,
         deleteDraft,
