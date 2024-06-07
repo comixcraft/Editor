@@ -4,7 +4,8 @@ import { fileURLToPath } from 'node:url';
 export default defineNuxtConfig({
     css: ['@/assets/scss/styles.scss'],
     devtools: { enabled: true },
-    modules: ['@pinia/nuxt', 'nuxt-swiper', '@nuxtjs/google-analytics'],
+    modules: ['@pinia/nuxt', 'nuxt-swiper'],
+    buildModules: ['@nuxtjs/google-analytics'],
     pinia: {
         storesDirs: ['./stores/**'],
     },
