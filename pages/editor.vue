@@ -8,7 +8,6 @@
     let goingBackPopUpShow = ref(false);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
-    let userDidSomething = ref(false);
     let refreshCount = ref(0);
     let intersectionObserver;
     let popUpText = ref('');
@@ -21,6 +20,10 @@
 
     const redoEmpty = computed(() => {
         return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantRedo;
+    });
+
+    const userDidSomething = computed(() => {
+        return comicStore.userDidSomething;
     });
 
     definePageMeta({
@@ -79,6 +82,8 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
+        comicStore.setComingBackAfterSaving(true);
+
         return reloadNuxtApp({
             path: '/',
             ttl: 1000,
@@ -86,6 +91,7 @@
     }
 
     function discardComic() {
+        comicStore.setUserDidSomething(false);
         return reloadNuxtApp({
             path: '/',
             ttl: 1000,
@@ -112,6 +118,7 @@
                 popUpText.value = 'Do you want to save your current comic as a draft?';
             }
         } else {
+            comicStore.setUserDidSomething(false);
             return reloadNuxtApp({
                 path: '/',
                 ttl: 1000,
@@ -141,7 +148,7 @@
 
     watch(
         () => comic.getPage(0).getStrip(0).getPanel(0).elements,
-        () => (userDidSomething.value = true),
+        () => comicStore.setUserDidSomething(true),
         { deep: true }
     );
 
