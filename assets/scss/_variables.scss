@@ -189,8 +189,8 @@ $toast-color-100--error: #ff474f;
 $toast-color-30--error: #fbd2d4;
 
 $toast-icon--success: url('/public/icons/icon-success.svg');
-$toast-icon--info: url('/icons/icon-info.svg');
-$toast-icon--error: url('/icons/icon-error.svg');
+$toast-icon--info: url('/public/icons/icon-info.svg');
+$toast-icon--error: url('/public/icons/icon-error.svg');
 
 @use 'sass:map';
 $toast-border: (
@@ -206,7 +206,7 @@ $toast-background: (
 $toast-icons: (
     'success': $toast-icon--success,
     'info': $toast-icon--info,
-    'error': '$toast-icon--error',
+    'error': $toast-icon--error,
 );
 
 @import '~bootstrap/scss/functions';

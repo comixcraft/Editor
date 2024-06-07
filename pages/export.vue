@@ -36,7 +36,6 @@
         // Name of the file should come from a title of comic
         link.download = 'canvas.png';
         link.click();
-        generateToast('success', 'Comic was successfully downloaded!');
         downloadPopUpShow.value = true;
     }
 
