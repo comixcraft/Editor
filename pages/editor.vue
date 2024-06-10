@@ -306,7 +306,7 @@
 <style scoped lang="scss">
     :fullscreen,
     ::backdrop {
-        background-color: rgb(255, 255, 255);
+        background-color: $white;
     }
 
     .preview__overlay {
