@@ -4,8 +4,7 @@ import { fileURLToPath } from 'node:url';
 export default defineNuxtConfig({
     css: ['@/assets/scss/styles.scss'],
     devtools: { enabled: true },
-    modules: ['@pinia/nuxt', 'nuxt-swiper'],
-    buildModules: ['@nuxtjs/google-gtag'],
+    modules: ['@pinia/nuxt', 'nuxt-swiper', 'nuxt-gtag'],
     pinia: {
         storesDirs: ['./stores/**'],
     },
@@ -23,7 +22,7 @@ export default defineNuxtConfig({
             },
         },
     },
-    googleGtag: {
+    gtag: {
         id: 'G-M3GN7L92TF', // Replace with your Google Analytics Measurement ID
         config: {
             anonymize_ip: true, // Anonymize IP
