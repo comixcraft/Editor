@@ -37,8 +37,6 @@
     }
 
     .overlay {
-        height: 100dvh;
-        width: 100vw;
         position: fixed;
         z-index: 999999;
         top: 0;
@@ -48,7 +46,7 @@
     }
 
     .overlay__content {
-        width: 100%;
-        height: 100%;
+        height: calc(100dvh - $nav-bar-height);
+        width: 100vw;
     }
 </style>

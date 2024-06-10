@@ -8,9 +8,9 @@
     let goingBackPopUpShow = ref(false);
     let lockAspectRatio = ref(false);
     let editor = ref(null);
-    let userDidSomething = ref(false);
     let refreshCount = ref(0);
-
+    let intersectionObserver;
+    let popUpText = ref('');
     let selectedCategory = ref({});
 
     const undoEmpty = computed(() => {
@@ -21,13 +21,17 @@
         return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantRedo;
     });
 
+    const userDidSomething = computed(() => {
+        return comicStore.userDidSomething;
+    });
+
     definePageMeta({
         middleware: ['comic-defined'],
     });
 
     const allAssetsCategoryName = 'All Assets';
     const comicStore = useComicStore();
-    const catalogElements = ref([]);
+    const catalogElements = ref(null);
     const catalogStructure = ref([]);
     const comic = reactive(toRaw(comicStore.comic));
     const activePanelIndex = ref(0);
@@ -49,6 +53,7 @@
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
+        catalogElements.value = null;
 
         useFetch('/api/catalog/', {
             method: 'POST',
@@ -62,6 +67,7 @@
                 catalogElements.value = response.data.value;
             })
             .catch((error) => {
+                catalogElements.value = [];
                 createError(error);
             });
     }
@@ -75,6 +81,8 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
+        comicStore.setComingBackAfterSaving(true);
+
         return reloadNuxtApp({
             path: '/',
             ttl: 1000,
@@ -82,6 +90,7 @@
     }
 
     function discardComic() {
+        comicStore.setUserDidSomething(false);
         return reloadNuxtApp({
             path: '/',
             ttl: 1000,
@@ -101,7 +110,14 @@
     function handleGoingBack() {
         if (userDidSomething.value) {
             goingBackPopUpShow.value = true;
+            if (comicStore.getDraft().value !== null) {
+                popUpText.value =
+                    'Do you want to save your progress as a draft? <br /> <strong>You can only have one draft at a time.</strong><br /> Saving a new one overwrites the existing one.';
+            } else {
+                popUpText.value = 'Do you want to save your current comic as a draft?';
+            }
         } else {
+            comicStore.setUserDidSomething(false);
             return reloadNuxtApp({
                 path: '/',
                 ttl: 1000,
@@ -131,7 +147,7 @@
 
     watch(
         () => comic.getPage(0).getStrip(0).getPanel(0).elements,
-        () => (userDidSomething.value = true),
+        () => comicStore.setUserDidSomething(true),
         { deep: true }
     );
 
@@ -150,7 +166,7 @@
     }
 
     onMounted(() => {
-        let intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
+        intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
             threshold: 0.9,
             root: scrollableNav.value,
         });
@@ -168,6 +184,7 @@
         window.onkeyup = null;
         window.onbeforeunload = null;
         window.onresize = null;
+        intersectionObserver.disconnect();
     });
 </script>
 
@@ -266,9 +283,8 @@
     </div>
     <OverlayModal :show="goingBackPopUpShow" :full="false" @close="goingBackPopUpShow = false">
         <DecisionPopUp
-            imgSrc="/Barista_pouring4.png"
+            imgSrc="/Barista Exclaiming4.png"
             title="Poof, your hard work disappears..."
-            body="Are you sure you want to delete your draft? All the changes you've made will be discarded."
             :buttons="[
                 { name: 'Save Draft', emitName: 'save' },
                 { name: 'Discard All Changes', emitName: 'discard' },
@@ -277,7 +293,9 @@
             @cancel="goingBackPopUpShow = false"
             @save="saveComic"
             @discard="discardComic"
-        />
+        >
+            <div v-html="popUpText"></div>
+        </DecisionPopUp>
     </OverlayModal>
     <ScreenOverlay title="Layers" :show="layersShow" @close="layersShow = false">
         <div class="layer-background">
@@ -286,14 +304,25 @@
             </div>
         </div>
     </ScreenOverlay>
-    <ScreenOverlay title="Preview" :show="previewShow" @close="previewShow = false" class="preview__overlay">
+    <ScreenOverlay
+        title="Preview"
+        :show="previewShow"
+        @close="previewShow = false"
+        class="preview__overlay"
+        @click="previewShow = false"
+    >
         <div class="darken-background">
-            <PreviewCanvas />
+            <PreviewCanvas @click.stop="true" />
         </div>
     </ScreenOverlay>
 </template>
 
 <style scoped lang="scss">
+    :fullscreen,
+    ::backdrop {
+        background-color: $white;
+    }
+
     .preview__overlay {
         overflow-y: hidden !important;
     }
@@ -301,12 +330,16 @@
         content: 's';
         display: none;
         visibility: hidden;
+
+        @include media-breakpoint-up(lg) {
+            content: 'lg';
+        }
     }
 
     .editor {
         display: flex;
         flex-direction: column;
-        height: 100dvh;
+        height: 100svh;
 
         &__top-nav {
             justify-content: space-between;
@@ -343,7 +376,7 @@
 
     .layer-background {
         padding-top: $spacer-5;
-        height: 100dvh;
+        height: calc(100dvh - $nav-bar-height);
         background-color: $white;
     }
 
@@ -388,8 +421,14 @@
         overflow-x: auto;
         scroll-behavior: smooth;
         position: relative;
+
+        @include media-breakpoint-up(sm) {
+            justify-content: center;
+        }
+
         @include media-breakpoint-up(lg) {
             flex-direction: column;
+            justify-content: start;
             gap: $spacer-2;
             overflow-x: visible;
             flex-grow: 0;
@@ -420,11 +459,17 @@
     }
 
     .darken-background {
-        width: 100vw;
-        height: 100%;
         display: flex;
+        flex-direction: column;
+        padding-top: $spacer-5;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        height: 100%;
+
+        @include media-breakpoint-up(lg) {
+            padding-top: 0;
+            justify-content: center;
+        }
     }
 
     .bottom-nav__container {
@@ -450,7 +495,7 @@
         @include media-breakpoint-up(lg) {
             display: flex;
             background-color: $white;
-            height: calc(100dvh - 3.5rem);
+            height: calc(100dvh - $nav-bar-height);
             box-shadow: $box-shadow-right;
         }
     }

@@ -1,5 +1,35 @@
 <script setup>
-    defineEmits(['deleteEvent', 'mirrorHorizontalEvent', 'mirrorVerticalEvent', 'frontEvent', 'backEvent']);
+    const props = defineProps({
+        element: Object,
+    });
+    const emits = defineEmits([
+        'deleteEvent',
+        'mirrorHorizontalEvent',
+        'mirrorVerticalEvent',
+        'frontEvent',
+        'backEvent',
+        'changeTextAlign',
+    ]);
+
+    const currAlignment = ref(undefined);
+    const currIndex = ref(undefined);
+    const textAlign = {
+        left: 'format_align_left',
+        center: 'format_align_center',
+        right: 'format_align_right',
+    };
+    function handleTextAlignSwitch() {
+        currIndex.value++;
+        if (currIndex.value >= Object.keys(textAlign).length) {
+            currIndex.value = 0;
+        }
+        currAlignment.value = Object.keys(textAlign)[currIndex.value];
+        emits('changeTextAlign', currAlignment.value);
+    }
+    onMounted(() => {
+        currAlignment.value = props.element.type.textAlign;
+        currIndex.value = Object.keys(textAlign).indexOf(currAlignment.value);
+    });
 </script>
 
 <template>
@@ -9,8 +39,9 @@
             <div class="edit-icon icon" @click="$emit('frontEvent')">flip_to_front</div>
             <div class="edit-icon icon" @click="$emit('backEvent')">flip_to_back</div>
             <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
-            <div class="edit-icon edit-icon:lastChild edit-icon--flipped icon" @click="$emit('mirrorVerticalEvent')">
-                flip
+            <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')">flip</div>
+            <div class="edit-icon icon" @click="handleTextAlignSwitch" v-if="props.element.type.name === 'Text'">
+                {{ textAlign[currAlignment] }}
             </div>
         </div>
     </div>
@@ -41,12 +72,13 @@
             scale: 1.2;
         }
 
-        &:last-child {
-            border-bottom: none;
-        }
-
         &--flipped {
             transform: rotate(-90deg);
+            border-bottom: none;
+            border-left: $border-width solid $light-grey-100;
         }
+    }
+    .edit-icon:last-child {
+        border: none;
     }
 </style>

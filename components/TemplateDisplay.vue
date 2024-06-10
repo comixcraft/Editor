@@ -1,4 +1,6 @@
 <script setup>
+    const comicStore = useComicStore();
+
     const emit = defineEmits(['select-template']);
 
     const props = defineProps({
@@ -18,6 +20,10 @@
             type: Boolean,
             default: false,
         },
+        function: {
+            type: Function,
+            default: null,
+        },
     });
 
     function selectTemplate() {
@@ -30,7 +36,13 @@
 </script>
 
 <template>
-    <div class="template" :class="{ 'template--selected': selected }" @click="selectTemplate">
+    <div
+        class="template"
+        :class="{ 'template--selected': selected }"
+        @click="selectTemplate"
+        @dblclick="props.function({ ...props.config })"
+        @touchstart="detectDoubleClick($event, props.function, { ...props.config })"
+    >
         <p class="h5 template__title">{{ title }}</p>
         <img class="template__preview" :src="preview" :alt="title" draggable="false" />
     </div>

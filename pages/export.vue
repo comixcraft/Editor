@@ -21,6 +21,7 @@
     // Refs
     const previewCanvas = ref(null);
     let downloadPopUpShow = ref(false);
+    let saveDraftPopUpShow = ref(false);
     let disableButton = ref(true);
 
     // Watchers
@@ -49,12 +50,45 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
-        downloadPopUpShow.value = false;
+        comicStore.setComingBackAfterSaving(true);
+        reloadApp();
+    }
 
-        return reloadNuxtApp({
-            path: '/',
-            ttl: 1000,
-        });
+    function saveDraftPopUpCheck() {
+        if (comicStore.getDraft().value !== null) {
+            saveDraftPopUpShow.value = true;
+        } else {
+            saveDraft();
+        }
+    }
+
+    async function share() {
+        const canvas = previewCanvas.value.canvasEl;
+        // share the comic
+        try {
+            const response = await fetch(canvas.toDataURL('image/png'));
+            const blob = await response.blob();
+            if (navigator.share) {
+                const filesArray = [
+                    new File([blob], 'comic.png', { type: 'image/png', lastModified: new Date().getTime() }),
+                ];
+                const shareData = {
+                    files: filesArray,
+                };
+
+                navigator.share(shareData).then(() => {
+                    generateToast('success', 'Comic was successfully shared!');
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const blobUrl = URL.createObjectURL(blob);
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                URL.revokeObjectURL(blobUrl); // Cleanup
+                generateToast('success', 'Image was copied to clipboard.');
+            }
+        } catch (error) {
+            generateToast('error', 'Browser is not compatible for sharing. Try downloading it.');
+        }
     }
 
     // Bus Listeners
@@ -72,6 +106,17 @@
         window.onbeforeunload = null;
     });
 
+    useHead({
+        link: [
+            {
+                rel: 'preload',
+                as: 'image',
+                href: './RatsInLove.png',
+                type: 'image/png',
+            },
+        ],
+    });
+
     // defineExpose
 </script>
 
@@ -82,52 +127,67 @@
                 <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
             </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
+            <NuxtLink class="feedback_btn" to="https://forms.gle/TDp37dQ6KHGiBCuW8" target="_blank">Feedback</NuxtLink>
         </div>
         <div class="share-container">
-            <div class="share__body">
-                <div class="export__details d-none">
-                    <div class="share__input-group">
-                        <label class="share__input-group-label" for="project-name">Project Name:</label>
-                        <input
-                            class="share__input-group-input"
-                            type="text"
-                            id="project-name"
-                            placeholder="Enter project name"
-                        />
-                    </div>
-                    <div class="share__input-group">
-                        <label class="share__input-group-label" for="file-type">File Type:</label>
-                        <select class="share__input-group-select" id="file.type">
-                            <option value="png">PNG</option>
-                        </select>
-                    </div>
-                    <div class="share__input-group">
-                        <label class="share__input-group-label" for="select-panels">Select Panels:</label>
-                        <select class="share__input-group-select" id="select-panels">
-                            <option value="1">All panels</option>
-                        </select>
-                    </div>
+            <div class="export__details d-none">
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="project-name">Project Name:</label>
+                    <input
+                        class="share__input-group-input"
+                        type="text"
+                        id="project-name"
+                        placeholder="Enter project name"
+                    />
                 </div>
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="file-type">File Type:</label>
+                    <select class="share__input-group-select" id="file.type">
+                        <option value="png">PNG</option>
+                    </select>
+                </div>
+                <div class="share__input-group">
+                    <label class="share__input-group-label" for="select-panels">Select Panels:</label>
+                    <select class="share__input-group-select" id="select-panels">
+                        <option value="1">All panels</option>
+                    </select>
+                </div>
+            </div>
 
-                <PreviewCanvas ref="previewCanvas" @disable-button="(e) => (disableButton = e.disableButton)" />
-                <div class="btn-container">
-                    <button class="accent-btn" @click="download" :disabled="disableButton">Download Comic</button>
-                    <button class="accent-btn btn-last" @click="saveDraft">Save Draft</button>
-                </div>
+            <PreviewCanvas
+                class="mt-3"
+                ref="previewCanvas"
+                @disable-button="(e) => (disableButton = e.disableButton)"
+            />
+            <div class="btn-container mt-3">
+                <button class="accent-btn" @click="download" :disabled="disableButton">Download as PNG</button>
+                <button class="accent-btn btn-last" @click="share" :disabled="disableButton">Share</button>
+                <button class="accent-btn btn-last" @click="saveDraftPopUpCheck()">Save Draft</button>
             </div>
         </div>
         <OverlayModal :show="downloadPopUpShow" :full="false" @close="downloadPopUpShow = false">
             <DecisionPopUp
                 imgSrc="/RatsInLove.png"
                 title="Download successful!"
-                body="Congratulations! Your comic has been downloaded. It's time to share it with the world."
-                :buttons="[
-                    { name: 'Create New Comic', emitName: 'discard' },
-                    { name: 'Save Draft', emitName: 'save' },
-                ]"
-                @save="saveDraft"
+                :buttons="[{ name: 'Create New Comic', emitName: 'discard' }]"
                 @discard="reloadApp"
-            />
+            >
+                <div>Your comic has been downloaded.<br />Creating a new comic will overwrite your current one.</div>
+            </DecisionPopUp>
+        </OverlayModal>
+        <OverlayModal :show="saveDraftPopUpShow" :full="false" @close="saveDraftPopUpShow = false">
+            <DecisionPopUp
+                imgSrc="/Barista Exclaiming4.png"
+                title="You can only have one draft."
+                :buttons="[
+                    { name: 'Save Draft', emitName: 'save' },
+                    { name: 'Cancel', emitName: 'cancel' },
+                ]"
+                @cancel="saveDraftPopUpShow = false"
+                @save="saveDraft"
+            >
+                <div>Saving a new one overwrites the existing one.</div>
+            </DecisionPopUp>
         </OverlayModal>
         <FooterComponent />
     </div>
@@ -140,18 +200,12 @@
         height: 100svh;
     }
 
-    .share__body {
-        padding: $spacer-3;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
     .share-container {
+        padding: $spacer-3;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-between;
     }
 
     .export__details {
@@ -166,7 +220,9 @@
         color: white;
         text-decoration: none;
         &:hover {
-            scale: 1.2;
+            @include media-breakpoint-up(lg) {
+                scale: 1.2;
+            }
         }
     }
 
@@ -259,6 +315,28 @@
         border: $border-width solid black;
         border-radius: $border-radius;
         max-width: 22rem;
+    }
+
+    .feedback_btn {
+        border: 1px solid white;
+        color: white;
+        margin-left: auto;
+        border-radius: 8px;
+        padding: 8px 8px;
+        font-size: 12px;
+        text-decoration: none;
+
+        @include media-breakpoint-up(lg) {
+            font-size: 24px;
+            padding: 16px 32px;
+            margin-right: 6px;
+
+            &:hover {
+                background-color: white;
+                color: $secondary-100;
+                cursor: pointer;
+            }
+        }
     }
 
     @include media-breakpoint-up(lg) {

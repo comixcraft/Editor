@@ -1,5 +1,6 @@
 <script setup type="module">
     // Imports
+    import SpinnerLoader from './SpinnerLoader.vue';
 
     // Middlewares
 
@@ -179,7 +180,11 @@
                 } else if (element.type.name === 'Text') {
                     await drawText(newContext, element, { width: panel.width, height });
                 } else {
-                    console.log('Element not recognized in drawPanel in export.vue.');
+                    let message;
+                    element
+                        ? (message = `${element.alt} is not recognized. Try another time!`)
+                        : 'One element is not correctly saved in the Panel';
+                    generateToast('error', message);
                 }
             }
             // draw the border of the panel
@@ -197,15 +202,17 @@
     }
 
     function drawText(context, element, panelDimension) {
-        return new Promise((resolveText) => {
+        return new Promise(async (resolveText) => {
             // Save the current context
             context.save();
 
             let fontSize = element.type.fontSize * panelDimension.width;
             // Set the font properties
             context.font = `${fontSize}px ${element.type.fontFamily}`;
+            await document.fonts.load(context.font);
             context.fillStyle = 'black';
             context.textBaseline = 'top';
+            context.textAlign = element.type.textAlign;
 
             // Move the rotation point to the center of the element
             context.translate(
@@ -225,10 +232,23 @@
             }
 
             // Move the rotation point back to the top-left corner of the element so that the text is drawn correctly
-            context.translate(
-                (-element.width * panelDimension.width) / 2,
-                (-element.height * panelDimension.height) / 2
-            );
+            switch (element.type.textAlign) {
+                case 'left':
+                    context.translate(
+                        (-element.width * panelDimension.width) / 2,
+                        (-element.height * panelDimension.height) / 2
+                    );
+                    break;
+                case 'right':
+                    context.translate(
+                        (element.width * panelDimension.width) / 2,
+                        (-element.height * panelDimension.height) / 2
+                    );
+                    break;
+                default:
+                    context.translate(0, (-element.height * panelDimension.height) / 2);
+                    break;
+            }
 
             // Draw the text once the lines are created
             new Promise((resolveLine) => {
@@ -281,27 +301,24 @@
 </script>
 
 <template>
-    <div ref="previewCanvas" :class="inIndex ? 'preview__container--inIndex' : ''" class="preview__container">
-        <div class="loader" v-if="load"></div>
+    <div ref="previewCanvas" :class="{ 'preview--inIndex': inIndex }" class="preview">
+        <div v-if="load" class="preview__loader">
+            <SpinnerLoader></SpinnerLoader>
+        </div>
         <canvas ref="canvasEl" class="preview__canvas"></canvas>
     </div>
 </template>
 
 <style scoped lang="scss">
     /* SCSS */
-    .preview__container {
+    .preview {
+        position: relative;
+        display: flex;
         justify-content: center;
-        padding: $spacer-3 $spacer-4;
-        align-self: baseline;
+        align-items: center;
+        margin: 0 $spacer-5;
 
-        @include media-breakpoint-up(lg) {
-            align-self: center;
-        }
         &--inIndex {
-            align-self: auto;
-            @include media-breakpoint-up(lg) {
-                align-self: auto;
-            }
             .preview__canvas {
                 max-height: 250px;
                 border: none;
@@ -309,35 +326,20 @@
             }
         }
 
-        .loader {
+        &__canvas {
+            max-height: 70svh;
+            max-width: 100%;
+            object-fit: contain;
+            border: $border-width solid $grey-100;
+        }
+
+        &__loader {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background:
-                radial-gradient(farthest-side, $secondary-100 94%, #0000) top/8px 8px no-repeat,
-                conic-gradient(#0000 30%, $secondary-100);
-            -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-            animation: l13 1s infinite linear;
-        }
-    }
-
-    .preview__canvas {
-        border: 1px solid $grey-100;
-        width: auto;
-        max-height: 70svh;
-        max-width: 100%;
-        height: auto;
-    }
-
-    @keyframes l13 {
-        0% {
-            transform: translate(-50%, -50%);
-        }
-        100% {
-            transform: translate(-50%, -50%) rotate(1turn);
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 </style>
