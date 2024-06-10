@@ -184,11 +184,13 @@
         } else {
             height = setToRelative(200, currentHeight.value);
             width = setToRelative(200, currentWidth.value);
-            name = 'Double-click to edit me.';
             elementType = new Text(name, setToRelative(24, currentWidth.value), 'Pangolin');
-            generateToast('success', 'Text was successfully added.');
         }
-        props.panel.addElement(new ElementDS(width, height, name, elementType));
+        let element = new ElementDS(width, height, name, elementType);
+        props.panel.addElement(element);
+        if (!event) {
+            comicStore.setCurrentElement(element);
+        }
     });
 
     // functions

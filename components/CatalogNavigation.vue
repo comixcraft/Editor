@@ -5,7 +5,7 @@
 
     const props = defineProps({
         categories: { type: Array },
-        textButtonName: { type: String, default: 'Text' },
+        textButtonName: { type: String, default: 'Add Text' },
         allAssetsButtonName: { type: String, default: 'All Assets' },
     });
 
