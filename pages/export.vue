@@ -318,6 +318,7 @@
         @include media-breakpoint-up(lg) {
             font-size: 24px;
             padding: 16px 32px;
+            margin-right: 6px;
 
             &:hover {
                 background-color: white;
