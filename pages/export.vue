@@ -106,6 +106,17 @@
         window.onbeforeunload = null;
     });
 
+    useHead({
+        link: [
+            {
+                rel: 'preload',
+                as: 'image',
+                href: './RatsInLove.png',
+                type: 'image/png',
+            },
+        ],
+    });
+
     // defineExpose
 </script>
 
