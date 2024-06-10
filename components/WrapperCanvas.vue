@@ -24,7 +24,6 @@
     const currentWidth = ref(1);
     const activeElementId = ref(null);
     const isDragging = ref(false);
-    let resizing = ref(false);
 
     let resizeTimeout;
 
@@ -218,11 +217,9 @@
     }
 
     function delayUpdatePanelBoundingBox() {
-        resizing.value = true;
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             updatePanelBoundingBox();
-            resizing.value = false;
         }, 300);
     }
 
@@ -253,7 +250,7 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <div class="w-100 h-100" v-if="!resizing" ref="ddrContainer">
+            <div class="w-100 h-100" ref="ddrContainer">
                 <DragResizeRotate
                     v-for="[key, value] in elements"
                     :key="key"

@@ -11,7 +11,6 @@
     let refreshCount = ref(0);
     let intersectionObserver;
     let popUpText = ref('');
-
     let selectedCategory = ref({});
 
     const undoEmpty = computed(() => {
@@ -319,6 +318,11 @@
 </template>
 
 <style scoped lang="scss">
+    :fullscreen,
+    ::backdrop {
+        background-color: $white;
+    }
+
     .preview__overlay {
         overflow-y: hidden !important;
     }
@@ -326,12 +330,16 @@
         content: 's';
         display: none;
         visibility: hidden;
+
+        @include media-breakpoint-up(lg) {
+            content: 'lg';
+        }
     }
 
     .editor {
         display: flex;
         flex-direction: column;
-        height: 100dvh;
+        height: 100svh;
 
         &__top-nav {
             justify-content: space-between;
