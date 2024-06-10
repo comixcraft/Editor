@@ -15,12 +15,12 @@
     },
     "dependencies": {
         "@gausszhou/vue3-drag-resize-rotate": "^3.0.2",
-        "@nuxtjs/google-gtag": "^1.0.4",
         "@pinia/nuxt": "^0.5.1",
         "bootstrap": "^5.3.3",
         "material-symbols": "^0.17.2",
         "mitt": "^3.0.1",
         "nuxt": "^3.11.1",
+        "nuxt-gtag": "^2.0.6",
         "nuxt-swiper": "^1.2.2",
         "pinia": "^2.1.7",
         "sass": "^1.74.1",

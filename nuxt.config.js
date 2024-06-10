@@ -39,10 +39,5 @@ export default defineNuxtConfig({
     },
     gtag: {
         id: 'G-M3GN7L92TF', // Replace with your Google Analytics Measurement ID
-        config: {
-            anonymize_ip: true, // Anonymize IP
-            send_page_view: true, // Send page view events
-        },
-        debug: true, // Enable to track in dev mode
     },
 });
