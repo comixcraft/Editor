@@ -18,7 +18,6 @@
         align-items: center;
         padding: $spacer-2;
         border: 1px solid $grey-0;
-        pointer-events: none;
 
         &:hover {
             @include media-breakpoint-up(lg) {
@@ -39,6 +38,5 @@
         -moz-user-drag: none;
         -o-user-drag: none;
         user-select: none;
-        pointer-events: all;
     }
 </style>

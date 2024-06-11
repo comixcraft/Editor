@@ -136,14 +136,20 @@
 
         if (event) {
             let percentageFill = 0.3;
+            let target;
+            if (event.target.tagName !== 'IMG') {
+                target = event.target.firstChild;
+            } else {
+                target = event.target;
+            }
 
-            if (event.target.naturalWidth < event.target.naturalHeight) {
+            if (target.naturalWidth < target.naturalHeight) {
                 width = percentageFill;
                 height = calculateRelativeLengthB(
                     width,
-                    event.target.naturalWidth,
+                    target.naturalWidth,
                     currentWidth.value,
-                    event.target.naturalHeight,
+                    target.naturalHeight,
                     currentHeight.value
                 );
 
@@ -151,9 +157,9 @@
                     height = 1;
                     width = calculateRelativeLengthB(
                         height,
-                        event.target.naturalHeight,
+                        target.naturalHeight,
                         currentHeight.value,
-                        event.target.naturalWidth,
+                        target.naturalWidth,
                         currentWidth.value
                     );
                 }
@@ -161,9 +167,9 @@
                 height = percentageFill;
                 width = calculateRelativeLengthB(
                     height,
-                    event.target.naturalHeight,
+                    target.naturalHeight,
                     currentHeight.value,
-                    event.target.naturalWidth,
+                    target.naturalWidth,
                     currentWidth.value
                 );
 
@@ -171,16 +177,16 @@
                     width = 1;
                     height = calculateRelativeLengthB(
                         width,
-                        event.target.naturalWidth,
+                        target.naturalWidth,
                         currentWidth.value,
-                        event.target.naturalHeight,
+                        target.naturalHeight,
                         currentHeight.value
                     );
                 }
             }
 
-            name = event.target.alt;
-            elementType = new Asset(event.target.src);
+            name = target.alt;
+            elementType = new Asset(target.src);
         } else {
             height = setToRelative(200, currentHeight.value);
             width = setToRelative(200, currentWidth.value);
