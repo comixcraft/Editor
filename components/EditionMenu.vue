@@ -14,6 +14,7 @@
 
     const currAlignment = ref(undefined);
     const currIndex = ref(undefined);
+    const lockAspectRatio = ref(true);
     const textAlign = {
         left: 'format_align_left',
         center: 'format_align_center',
@@ -27,6 +28,12 @@
         currAlignment.value = Object.keys(textAlign)[currIndex.value];
         emits('changeTextAlign', currAlignment.value);
     }
+
+    function handleAspectRatio() {
+        lockAspectRatio.value = !lockAspectRatio.value;
+        emits('lockAspectRatio', lockAspectRatio.value);
+    }
+
     onMounted(() => {
         currAlignment.value = props.element.type.textAlign;
         currIndex.value = Object.keys(textAlign).indexOf(currAlignment.value);
@@ -43,6 +50,14 @@
             <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')">flip</div>
             <div class="edit-icon icon" @click="handleTextAlignSwitch" v-if="props.element.type.name === 'Text'">
                 {{ textAlign[currAlignment] }}
+            </div>
+            <div
+                class="edit-icon--flipped edit-icon icon"
+                :class="{ crossed: !lockAspectRatio }"
+                @click="handleAspectRatio"
+                v-if="props.element.type.name === 'Asset'"
+            >
+                link
             </div>
         </div>
     </div>
@@ -65,12 +80,15 @@
     }
 
     .edit-icon {
+        position: relative;
         padding: $spacer-1 $spacer-2;
         user-select: none;
         cursor: pointer;
         border-bottom: $border-width solid $light-grey-100;
-        &:hover {
-            scale: 1.2;
+        @include media-breakpoint-up(lg) {
+            &:hover {
+                scale: 1.2;
+            }
         }
 
         &--flipped {
@@ -79,6 +97,16 @@
             border-left: $border-width solid $light-grey-100;
         }
     }
+
+    .crossed {
+        &::after {
+            content: '/';
+            position: absolute;
+            color: $secondary;
+            transform: scaleX(-1) rotate(130deg) translate(-140%, -55%);
+        }
+    }
+
     .edit-icon:last-child {
         border: none;
     }
