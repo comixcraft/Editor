@@ -230,7 +230,6 @@
 
     onMounted(() => {
         window.addEventListener('resize', delayUpdatePanelBoundingBox);
-        //ddrContainer.value.addEventListener('click', (e) => console.log(e))
         updatePanelBoundingBox();
     });
 
