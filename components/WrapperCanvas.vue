@@ -6,7 +6,6 @@
     const props = defineProps({
         panel: Object,
         panelIsActive: Boolean,
-        lockAspectRatio: Boolean,
         refreshCount: Number,
     });
 
@@ -231,7 +230,6 @@
 
     onMounted(() => {
         window.addEventListener('resize', delayUpdatePanelBoundingBox);
-        //ddrContainer.value.addEventListener('click', (e) => console.log(e))
         updatePanelBoundingBox();
     });
 
@@ -275,7 +273,6 @@
                     :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                     :text="value.type.content == undefined ? '' : value.type.content"
                     :selectedId="props.selectedId"
-                    :lockAspectRatio="props.lockAspectRatio"
                     :element="value"
                     :active="activeElementId == value.id"
                     @delete-event="deleteElement"
