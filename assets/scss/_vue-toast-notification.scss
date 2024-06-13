@@ -1,0 +1,40 @@
+// overrides classes from vue-toast-notification
+@import '_variables';
+
+.v-toast__item {
+    margin-top: calc($nav-bar-height + 4px);
+    min-height: $toast-height;
+
+    @include media-breakpoint-up(lg) {
+        margin-top: 8px;
+    }
+}
+
+.v-toast {
+    @include media-breakpoint-up(lg) {
+        padding: $nav-bar-height;
+    }
+}
+
+@each $name, $color in $toast-background {
+    .v-toast__item--#{$name} {
+        background-color: $color;
+    }
+}
+
+@each $name, $border in $toast-border {
+    .v-toast__item--#{$name} {
+        border: $border;
+        border-radius: $toast-border-radius;
+    }
+}
+
+@each $name, $icon in $toast-icons {
+    .v-toast__item.v-toast__item--#{$name} .v-toast__icon {
+        background: $icon;
+    }
+}
+
+.v-toast__text {
+    color: $toast-text-color;
+}

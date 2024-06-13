@@ -17,13 +17,13 @@
     const elements = props.panel.elements;
     const panelElement = ref(null);
     const wrapperCanvas = ref(null);
+    const ddrContainer = ref(null);
     const scaleByHeight = ref(false);
     const panelBorder = ref(`url(${props.panel.border})`);
     const currentHeight = ref(1);
     const currentWidth = ref(1);
     const activeElementId = ref(null);
     const isDragging = ref(false);
-    let resizing = ref(false);
 
     let resizeTimeout;
 
@@ -136,14 +136,20 @@
 
         if (event) {
             let percentageFill = 0.3;
+            let target;
+            if (event.target.tagName !== 'IMG') {
+                target = event.target.firstChild;
+            } else {
+                target = event.target;
+            }
 
-            if (event.target.naturalWidth < event.target.naturalHeight) {
+            if (target.naturalWidth < target.naturalHeight) {
                 width = percentageFill;
                 height = calculateRelativeLengthB(
                     width,
-                    event.target.naturalWidth,
+                    target.naturalWidth,
                     currentWidth.value,
-                    event.target.naturalHeight,
+                    target.naturalHeight,
                     currentHeight.value
                 );
 
@@ -151,9 +157,9 @@
                     height = 1;
                     width = calculateRelativeLengthB(
                         height,
-                        event.target.naturalHeight,
+                        target.naturalHeight,
                         currentHeight.value,
-                        event.target.naturalWidth,
+                        target.naturalWidth,
                         currentWidth.value
                     );
                 }
@@ -161,9 +167,9 @@
                 height = percentageFill;
                 width = calculateRelativeLengthB(
                     height,
-                    event.target.naturalHeight,
+                    target.naturalHeight,
                     currentHeight.value,
-                    event.target.naturalWidth,
+                    target.naturalWidth,
                     currentWidth.value
                 );
 
@@ -171,35 +177,40 @@
                     width = 1;
                     height = calculateRelativeLengthB(
                         width,
-                        event.target.naturalWidth,
+                        target.naturalWidth,
                         currentWidth.value,
-                        event.target.naturalHeight,
+                        target.naturalHeight,
                         currentHeight.value
                     );
                 }
             }
 
-            name = event.target.alt;
-            elementType = new Asset(event.target.src);
+            name = target.alt;
+            elementType = new Asset(target.src);
         } else {
             height = setToRelative(200, currentHeight.value);
             width = setToRelative(200, currentWidth.value);
-            name = 'Double-click to edit me.';
             elementType = new Text(name, setToRelative(24, currentWidth.value), 'Pangolin');
         }
-        props.panel.addElement(new ElementDS(width, height, name, elementType));
+        let element = new ElementDS(width, height, name, elementType);
+        props.panel.addElement(element);
+        if (!event) {
+            comicStore.setCurrentElement(element);
+        }
     });
 
     // functions
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexUp(eId);
+        generateToast('info', 'Element was moved to front.');
         props.panel.addAlteration();
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
+        generateToast('info', 'Element was moved to back.');
         props.panel.addAlteration();
     }
 
@@ -212,17 +223,15 @@
     }
 
     function delayUpdatePanelBoundingBox() {
-        resizing.value = true;
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             updatePanelBoundingBox();
-            resizing.value = false;
         }, 300);
     }
 
     onMounted(() => {
         window.addEventListener('resize', delayUpdatePanelBoundingBox);
-
+        //ddrContainer.value.addEventListener('click', (e) => console.log(e))
         updatePanelBoundingBox();
     });
 
@@ -247,7 +256,7 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <div class="w-100 h-100" v-if="!resizing">
+            <div class="w-100 h-100" ref="ddrContainer">
                 <DragResizeRotate
                     v-for="[key, value] in elements"
                     :key="key"

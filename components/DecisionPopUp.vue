@@ -6,17 +6,6 @@
         buttons: Object,
         input: String,
     });
-
-    useHead({
-        link: [
-            {
-                rel: 'preload',
-                as: 'image',
-                href: props.imgSrc,
-                type: 'image/png',
-            },
-        ],
-    });
 </script>
 
 <template>

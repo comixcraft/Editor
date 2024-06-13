@@ -46,6 +46,9 @@
     }
 
     onMounted(() => {
+        if (comicStore.getComingBackAfterSaving()) generateToast('success', 'Comic was saved as a draft.');
+        comicStore.setComingBackAfterSaving(false);
+
         !comicStore.getDraft().value || comicStore.getDraft().value === 'null'
             ? (draftAvailable.value = false)
             : (draftAvailable.value = true);
@@ -252,7 +255,7 @@
     .accent-btn {
         bottom: $spacer-6;
         transform: translateX(5%);
-        z-index: 99999;
+        z-index: 999;
     }
 
     .draft-container {

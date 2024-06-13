@@ -14,8 +14,26 @@ export const useComicStore = defineStore('comic', () => {
     let currentElement = ref(null);
     let bus = mitt();
     let currentCanvas = ref({});
+    let comingBackAfterSaving = ref(new Boolean(false));
 
     const draft = ref(null);
+    const userDidSomething = ref(false);
+
+    function getComingBackAfterSaving() {
+        if (typeof comingBackAfterSaving.value === 'string') {
+            return comingBackAfterSaving.value === 'true';
+        } else {
+            return comingBackAfterSaving.value;
+        }
+    }
+
+    function setComingBackAfterSaving(bool) {
+        comingBackAfterSaving.value = bool;
+    }
+
+    function setUserDidSomething(value) {
+        userDidSomething.value = value;
+    }
 
     function saveDraft(json) {
         draft.value = json;
@@ -35,12 +53,20 @@ export const useComicStore = defineStore('comic', () => {
         }
 
         if (localStorage.getItem('draft') === null) deleteDraft();
+        comingBackAfterSaving.value = localStorage.getItem('comingBackAfterSaving');
     }
 
     watch(
         draft,
         (draftVal) => {
             localStorage.setItem('draft', draftVal);
+        },
+        { deep: true }
+    );
+    watch(
+        comingBackAfterSaving,
+        (comingBackAfterSavingVal) => {
+            localStorage.setItem('comingBackAfterSaving', comingBackAfterSavingVal);
         },
         { deep: true }
     );
@@ -148,6 +174,10 @@ export const useComicStore = defineStore('comic', () => {
     return {
         comic,
         bus,
+        userDidSomething,
+        getComingBackAfterSaving,
+        setComingBackAfterSaving,
+        setUserDidSomething,
         getDraft,
         saveDraft,
         deleteDraft,

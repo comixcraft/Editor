@@ -52,6 +52,7 @@
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
+        comicStore.setComingBackAfterSaving(true);
         reloadApp();
     }
 
@@ -79,17 +80,17 @@
                 };
 
                 navigator.share(shareData).then(() => {
-                    console.log('Shared successfully');
+                    generateToast('success', 'Comic was successfully shared!');
                 });
             } else {
                 // Fallback for browsers that don't support Web Share API
                 const blobUrl = URL.createObjectURL(blob);
                 await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                 URL.revokeObjectURL(blobUrl); // Cleanup
-                alert('Image copied to clipboard');
+                generateToast('success', 'Image was copied to clipboard.');
             }
         } catch (error) {
-            alert("Oh no! Your Browser doesn't support sharing images");
+            generateToast('error', 'Browser is not compatible for sharing. Try downloading it.');
         }
     }
 
@@ -108,6 +109,17 @@
         window.onbeforeunload = null;
     });
 
+    useHead({
+        link: [
+            {
+                rel: 'preload',
+                as: 'image',
+                href: './RatsInLove.png',
+                type: 'image/png',
+            },
+        ],
+    });
+
     // defineExpose
 </script>
 
@@ -118,6 +130,7 @@
                 <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
             </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
+            <NuxtLink class="feedback_btn" to="https://forms.gle/TDp37dQ6KHGiBCuW8" target="_blank">Feedback</NuxtLink>
         </div>
         <div class="share-container">
             <div class="export__details">
@@ -212,7 +225,9 @@
         color: white;
         text-decoration: none;
         &:hover {
-            scale: 1.2;
+            @include media-breakpoint-up(lg) {
+                scale: 1.2;
+            }
         }
     }
 
@@ -305,6 +320,28 @@
         border: $border-width solid black;
         border-radius: $border-radius;
         max-width: 22rem;
+    }
+
+    .feedback_btn {
+        border: 1px solid white;
+        color: white;
+        margin-left: auto;
+        border-radius: 8px;
+        padding: 8px 8px;
+        font-size: 12px;
+        text-decoration: none;
+
+        @include media-breakpoint-up(lg) {
+            font-size: 24px;
+            padding: 16px 32px;
+            margin-right: 6px;
+
+            &:hover {
+                background-color: white;
+                color: $secondary-100;
+                cursor: pointer;
+            }
+        }
     }
 
     @include media-breakpoint-up(lg) {

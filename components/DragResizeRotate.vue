@@ -207,6 +207,7 @@
             >
                 {{ text }}
             </p>
+            <span class="text__hint p5"> Double-click to edit me. </span>
         </div>
 
         <img
@@ -235,6 +236,10 @@
             .element__image,
             .text__content {
                 opacity: 0.5;
+            }
+
+            .text__hint {
+                display: block;
             }
         }
 
@@ -279,6 +284,13 @@
             font-family: 'Pangolin';
             line-height: 1;
             text-align: v-bind(currAlignment);
+            margin-bottom: 0;
+        }
+
+        &__hint {
+            display: none;
+            color: $info;
+            margin-top: $spacer-3;
         }
     }
 </style>
