@@ -125,6 +125,7 @@
 
     onMounted(() => {
         updateBB();
+        props.element.type.name === 'Text' ? (lockAspectRatio.value = false) : (lockAspectRatio.value = true);
         currAlignment.value = props.element.type.textAlign;
         counterRotation.value = `${-angle.value}deg`;
         comicStore.bus.on('updateText', (obj) => {
