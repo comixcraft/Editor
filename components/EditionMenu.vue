@@ -21,6 +21,10 @@
         center: 'format_align_center',
         right: 'format_align_right',
     };
+    const flipIcon = {
+        true: 'link',
+        false: 'link_off',
+    };
     function handleTextAlignSwitch() {
         currIndex.value++;
         if (currIndex.value >= Object.keys(textAlign).length) {
@@ -54,12 +58,11 @@
                 {{ textAlign[currAlignment] }}
             </div>
             <div
-                class="edit-icon--flipped edit-icon icon"
-                :class="{ crossed: !aspectRatioIsLocked }"
+                class="edit-icon icon edit-icon--crossed"
                 @click="handleAspectRatio"
                 v-if="props.element.type.name === 'Asset'"
             >
-                link
+                {{ flipIcon[aspectRatioIsLocked] }}
             </div>
         </div>
     </div>
@@ -98,14 +101,9 @@
             border-bottom: none;
             border-left: $border-width solid $light-grey-100;
         }
-    }
 
-    .crossed {
-        &::after {
-            content: '/';
-            position: absolute;
-            color: $secondary;
-            transform: scaleX(-1) rotate(130deg) translate(-140%, -55%);
+        &--crossed {
+            transform: rotate(-90deg) scaleX(-1);
         }
     }
 
