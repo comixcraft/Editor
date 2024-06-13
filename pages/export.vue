@@ -135,7 +135,6 @@
                 <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
             </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
-            <NuxtLink class="feedback_btn" to="https://forms.gle/TDp37dQ6KHGiBCuW8" target="_blank">Feedback</NuxtLink>
         </div>
         <div class="share-container">
             <div class="export__details">
