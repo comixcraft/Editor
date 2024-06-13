@@ -16,7 +16,6 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
-        isShiftPressed: Boolean,
         element: Object,
     });
 
@@ -39,7 +38,6 @@
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
     let lockAspectRatio = ref(true);
-    let shiftIsPressed = ref(false);
 
     // Define emits
     const emit = defineEmits([
@@ -125,19 +123,6 @@
         emit('changeTextAlign', { id: props.eId, align: currAlignment.value });
     }
 
-    window.onkeydown = function (e) {
-        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-            shiftIsPressed.value = true;
-            console.log(shiftIsPressed.value);
-        }
-    };
-    window.onkeyup = function (e) {
-        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-            shiftIsPressed.value = false;
-            console.log(shiftIsPressed.value);
-        }
-    };
-
     onMounted(() => {
         updateBB();
         currAlignment.value = props.element.type.textAlign;
@@ -186,7 +171,7 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
-        :lockAspectRatio="lockAspectRatio || shiftIsPressed"
+        :lockAspectRatio="lockAspectRatio"
         :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
@@ -200,12 +185,14 @@
             <EditionMenu
                 v-if="elementActive && !isRotating && !isResizing"
                 :element="props.element"
+                :lockAspectRatio="lockAspectRatio"
                 @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
                 @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
                 @delete-event="$emit('deleteEvent', eId)"
                 @front-event="upZIndex(eId)"
                 @back-event="downZIndex(eId)"
                 @change-text-align="handleTextAlignChange"
+                @lockAspectRatio="lockAspectRatio = !lockAspectRatio"
             />
         </div>
         <div

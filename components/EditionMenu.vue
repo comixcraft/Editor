@@ -1,6 +1,7 @@
 <script setup>
     const props = defineProps({
         element: Object,
+        lockAspectRatio: Boolean,
     });
     const emits = defineEmits([
         'deleteEvent',
@@ -14,7 +15,7 @@
 
     const currAlignment = ref(undefined);
     const currIndex = ref(undefined);
-    const lockAspectRatio = ref(true);
+    const aspectRatioIsLocked = ref(undefined);
     const textAlign = {
         left: 'format_align_left',
         center: 'format_align_center',
@@ -30,11 +31,12 @@
     }
 
     function handleAspectRatio() {
-        lockAspectRatio.value = !lockAspectRatio.value;
-        emits('lockAspectRatio', lockAspectRatio.value);
+        aspectRatioIsLocked.value = !aspectRatioIsLocked.value;
+        emits('lockAspectRatio', aspectRatioIsLocked.value);
     }
 
     onMounted(() => {
+        aspectRatioIsLocked.value = props.lockAspectRatio;
         currAlignment.value = props.element.type.textAlign;
         currIndex.value = Object.keys(textAlign).indexOf(currAlignment.value);
     });
@@ -53,7 +55,7 @@
             </div>
             <div
                 class="edit-icon--flipped edit-icon icon"
-                :class="{ crossed: !lockAspectRatio }"
+                :class="{ crossed: !aspectRatioIsLocked }"
                 @click="handleAspectRatio"
                 v-if="props.element.type.name === 'Asset'"
             >
