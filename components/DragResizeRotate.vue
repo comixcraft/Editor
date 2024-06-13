@@ -38,7 +38,7 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
-    let aspectRatioIsLocked = ref(true);
+    let lockAspectRatio = ref(true);
     let shiftIsPressed = ref(false);
 
     // Define emits
@@ -186,7 +186,7 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
-        :lockAspectRatio="aspectRatioIsLocked || shiftIsPressed"
+        :lockAspectRatio="lockAspectRatio || shiftIsPressed"
         :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
