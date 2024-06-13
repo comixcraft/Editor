@@ -9,6 +9,7 @@
         'frontEvent',
         'backEvent',
         'changeTextAlign',
+        'lockAspectRatio',
     ]);
 
     const currAlignment = ref(undefined);

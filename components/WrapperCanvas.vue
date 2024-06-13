@@ -6,7 +6,6 @@
     const props = defineProps({
         panel: Object,
         panelIsActive: Boolean,
-        lockAspectRatio: Boolean,
         refreshCount: Number,
     });
 

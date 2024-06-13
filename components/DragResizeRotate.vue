@@ -16,7 +16,7 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
-        lockAspectRatio: Boolean,
+        isShiftPressed: Boolean,
         element: Object,
     });
 
@@ -38,6 +38,8 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
+    let aspectRatioIsLocked = ref(true);
+    let shiftIsPressed = ref(false);
 
     // Define emits
     const emit = defineEmits([
@@ -123,6 +125,19 @@
         emit('changeTextAlign', { id: props.eId, align: currAlignment.value });
     }
 
+    window.onkeydown = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            shiftIsPressed.value = true;
+            console.log(shiftIsPressed.value);
+        }
+    };
+    window.onkeyup = function (e) {
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            shiftIsPressed.value = false;
+            console.log(shiftIsPressed.value);
+        }
+    };
+
     onMounted(() => {
         updateBB();
         currAlignment.value = props.element.type.textAlign;
@@ -171,7 +186,7 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
-        :lockAspectRatio="props.lockAspectRatio"
+        :lockAspectRatio="aspectRatioIsLocked || shiftIsPressed"
         :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
