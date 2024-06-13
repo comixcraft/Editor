@@ -12,7 +12,6 @@
     let refreshCount = ref(0);
     let intersectionObserver;
     let popUpText = ref('');
-    let comicName = ref('');
     let mobileMenu = ref(false);
     const router = useRouter();
 
@@ -82,12 +81,20 @@
         catalogShow.value = true;
     }
 
-    function saveComic() {
+    function saveComic(reload = false) {
         let comicJson = comicStore.comic.toJSON();
         comicStore.saveDraft(comicJson);
 
-        comicStore.setComingBackAfterSaving(true);
+        if (reload) {
+            comicStore.setComingBackAfterSaving(true);
+            reloadApp();
+        } else {
+            comicStore.setUserDidSomething(false);
+            generateToast('success', 'Comic was saved as a draft.');
+        }
+    }
 
+    function reloadApp() {
         return reloadNuxtApp({
             path: '/',
             ttl: 1000,
@@ -96,10 +103,7 @@
 
     function discardComic() {
         comicStore.setUserDidSomething(false);
-        return reloadNuxtApp({
-            path: '/',
-            ttl: 1000,
-        });
+        reloadApp();
     }
 
     function handleUndo() {
@@ -123,25 +127,20 @@
             }
         } else {
             comicStore.setUserDidSomething(false);
-            return reloadNuxtApp({
-                path: '/',
-                ttl: 1000,
-            });
+            reloadApp();
         }
     }
 
     function handleSaveDraftBtn() {
-        if (userDidSomething.value && comicStore.getDraft().value !== null) {
+        if (comicStore.getDraft().value !== null) {
             saveDraftPopUpShow.value = true;
-            if (comicStore.getDraft().value !== null) {
-                popUpText.value =
-                    'Do you want to save your progress as a draft? <br /> <strong>You can only have one draft at a time.</strong><br /> Saving a new one overwrites the existing one.';
-            } else {
-                popUpText.value = 'Do you want to save your current comic as a draft?';
-            }
-        } else if (userDidSomething.value) {
+            popUpText.value =
+                'Do you want to save your progress as a draft? <br /> <strong>You can only have one draft at a time.</strong><br /> Saving a new one overwrites the existing one.';
+        } else {
             saveComic();
         }
+
+        mobileMenu.value = false;
     }
 
     window.onbeforeunload = function (e) {
@@ -166,6 +165,12 @@
 
     watch(
         () => comic.getPage(0).getStrip(0).getPanel(0).elements,
+        () => comicStore.setUserDidSomething(true),
+        { deep: true }
+    );
+
+    watch(
+        () => comic.name,
         () => comicStore.setUserDidSomething(true),
         { deep: true }
     );
@@ -220,12 +225,7 @@
                         Redo
                     </button>
                 </div>
-                <input
-                    type="text"
-                    class="top-nav__name-input input d-none d-lg-block"
-                    ref="comicName"
-                    v-model="comic.name"
-                />
+                <input type="text" class="top-nav__name-input input d-none d-lg-block" v-model="comic.name" />
             </div>
 
             <div class="top-nav__left-btns">
@@ -335,7 +335,7 @@
                 { name: 'Return to Editing', emitName: 'cancel' },
             ]"
             @cancel="goingBackPopUpShow = false"
-            @save="saveComic"
+            @save="saveComic(true)"
             @discard="discardComic"
         >
             <div v-html="popUpText"></div>
@@ -343,7 +343,7 @@
     </OverlayModal>
 
     <!-- saveDraft Popup -->
-    <OverlayModal :show="saveDraftPopUpShow" :full="false" @close="saveDraftPopUpShow = false">
+    <OverlayModal :show="saveDraftPopUpShow" :full="false" @close="saveDraftPopUpShow = false" class="save-popup">
         <DecisionPopUp
             imgSrc="/Barista Exclaiming4.png"
             title="You can only have one draft."
@@ -352,7 +352,7 @@
                 { name: 'Cancel', emitName: 'cancel' },
             ]"
             @cancel="saveDraftPopUpShow = false"
-            @save="saveComic"
+            @save="saveComic(), (saveDraftPopUpShow = false)"
         >
             <div v-html="popUpText"></div>
         </DecisionPopUp>
@@ -365,7 +365,7 @@
                 { name: 'Export', emitName: 'download' },
                 { name: 'Save Draft', emitName: 'save' },
             ]"
-            @save="saveComic"
+            @save="handleSaveDraftBtn"
             @download="router.push({ name: 'export', path: '/export' })"
         >
             <div class="project-name">
@@ -650,5 +650,9 @@
         .input {
             width: 100%;
         }
+    }
+
+    .save-popup {
+        z-index: 10000;
     }
 </style>

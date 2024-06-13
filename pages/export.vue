@@ -27,6 +27,11 @@
     let disableButton = ref(true);
 
     // Watchers
+    watch(
+        () => comic.name,
+        () => comicStore.setUserDidSomething(true),
+        { deep: true }
+    );
 
     // Methods
     function download() {
