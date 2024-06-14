@@ -1,25 +1,40 @@
 <script setup>
+    // Imports
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
 
+    // Middlewares
+
+    // Emits
+
+    // Props
+
+    // Static Variables (let, const)
     const comicStore = useComicStore();
-    const draftAvailable = ref(false);
+
+    // Reactive Variables
+    // computed
+
+    // Reactive
     const comic = reactive(toRaw(comicStore.comic));
 
-    let selectedComicConfiguration = ref(null);
+    // Refs
+    const draftAvailable = ref(false);
     let draftSelected = ref(false);
     let deleteDraftPopUpShow = ref(false);
+    let selectedComicConfiguration = ref(null);
 
-    function deleteDraft() {
-        comicStore.deleteDraft();
-        draftAvailable.value = false;
-        deleteDraftPopUpShow.value = false;
-        draftSelected.value = false;
-        selectedComicConfiguration.value = templatePanelConfig[0];
-    }
+    // Watchers
 
+    // Methods
     function createComic(config) {
         draftSelected.value ? createComicFromDraft() : createNewComic(config);
+    }
+
+    function createComicFromDraft() {
+        if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
+
+        return navigateTo('/editor');
     }
 
     function createNewComic(config) {
@@ -29,15 +44,12 @@
         return navigateTo('/editor');
     }
 
-    function createComicFromDraft() {
-        if (!comicStore.getDraft().value || comicStore.getDraft().value === 'null') return;
-
-        return navigateTo('/editor');
-    }
-
-    function selectTemplate(e) {
-        selectedComicConfiguration.value = e;
+    function deleteDraft() {
+        comicStore.deleteDraft();
+        draftAvailable.value = false;
+        deleteDraftPopUpShow.value = false;
         draftSelected.value = false;
+        selectedComicConfiguration.value = templatePanelConfig[0];
     }
 
     function selectDraftToContinue() {
@@ -45,6 +57,14 @@
         draftSelected.value = true;
     }
 
+    function selectTemplate(e) {
+        selectedComicConfiguration.value = e;
+        draftSelected.value = false;
+    }
+
+    // Bus Listeners
+
+    // Vue life cycle hooks
     onMounted(() => {
         if (comicStore.getComingBackAfterSaving()) generateToast('success', 'Comic was saved as a draft.');
         comicStore.setComingBackAfterSaving(false);
@@ -60,6 +80,8 @@
             selectedComicConfiguration.value = templatePanelConfig[0];
         }
     });
+
+    // expose (defineExpose)
 </script>
 
 <template>
@@ -70,6 +92,7 @@
             </div>
             <div class="container-fluid">
                 <div class="intro">
+                    <!-- intro text -->
                     <div class="col-lg-5">
                         <div class="welcome-text">
                             <div class="welcome">
@@ -84,12 +107,14 @@
                             </div>
                         </div>
                     </div>
+                    <!-- intro image -->
                     <div class="col-lg-5 justify-content-center" style="display: flex">
                         <div class="comic-image">
                             <img src="/public/comic-image@2x.png" alt="" draggable="false" />
                         </div>
                     </div>
                 </div>
+                <!-- Draft -->
                 <div v-if="draftAvailable" class="draft-container">
                     <h2>Draft</h2>
                     <p class="font-italic">
@@ -112,12 +137,13 @@
                         </button>
                     </div>
                 </div>
+                <!-- templates -->
                 <div class="templates">
                     <h2>Layout</h2>
                     <p class="font-italic">
                         Choose your comic's layout. You can use a single panel or a multi-panel comic strip.
                     </p>
-
+                    <!-- single panels -->
                     <div class="comic-sections">
                         <h3>Comic Panel</h3>
                         <p>Choose the size of your comic panel.</p>
@@ -134,6 +160,7 @@
                             />
                         </div>
                     </div>
+                    <!-- multi panels -->
                     <div class="comic-sections">
                         <h3>Comic Strip</h3>
                         <p>Choose the layout for your comic strip.</p>
@@ -151,6 +178,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Create comic button -->
                 <button
                     class="accent-btn"
                     @click="createComic(selectedComicConfiguration?.config)"
@@ -159,6 +187,7 @@
                     {{ draftSelected ? 'Resume' : 'Start' }} Comic Crafting
                 </button>
             </div>
+            <!-- Delete Draft Modal -->
             <OverlayModal :show="deleteDraftPopUpShow" :full="false" @close="deleteDraftPopUpShow = false">
                 <DecisionPopUp
                     imgSrc="./Barista_pouring4.png"
