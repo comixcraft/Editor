@@ -149,16 +149,6 @@
         }
     };
 
-    window.onkeydown = function (e) {
-        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-            lockAspectRatio.value = true;
-        }
-    };
-    window.onkeyup = function (e) {
-        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-            lockAspectRatio.value = false;
-        }
-    };
     window.onresize = function (e) {
         navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
     };
@@ -274,7 +264,6 @@
         <div class="d-flex flex-column flex-lg-row flex-grow-1">
             <div class="editor__canvas col-12 col-lg-8">
                 <ComicPanels
-                    :lockAspectRatio="lockAspectRatio"
                     :comic="comic"
                     :refreshCount="refreshCount"
                     @active-panel-change="activePanelIndex = $event"

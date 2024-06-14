@@ -326,28 +326,6 @@
         max-width: 22rem;
     }
 
-    .feedback_btn {
-        border: 1px solid white;
-        color: white;
-        margin-left: auto;
-        border-radius: 8px;
-        padding: 8px 8px;
-        font-size: 12px;
-        text-decoration: none;
-
-        @include media-breakpoint-up(lg) {
-            font-size: 24px;
-            padding: 16px 32px;
-            margin-right: 6px;
-
-            &:hover {
-                background-color: white;
-                color: $secondary-100;
-                cursor: pointer;
-            }
-        }
-    }
-
     @include media-breakpoint-up(lg) {
         .share__body {
             flex-direction: column;
