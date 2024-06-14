@@ -1,59 +1,96 @@
 <script setup>
+    // Imports
     import ComicPanels from '~/components/ComicPanels.vue';
     import iconConfig from '../config/iconsConfig';
 
-    let layersShow = ref(false);
-    let previewShow = ref(false);
-    let catalogShow = ref(false);
-    let goingBackPopUpShow = ref(false);
-    let saveDraftPopUpShow = ref(false);
-    let lockAspectRatio = ref(false);
-    let editor = ref(null);
-    let refreshCount = ref(0);
-    let intersectionObserver;
-    let popUpText = ref('');
-    let mobileMenu = ref(false);
+    // Middlewares
+    definePageMeta({
+        middleware: ['comic-defined'],
+    });
+
+    // Emits
+
+    // Props
+
+    // Static Variables (let, const)
+    const allAssetsCategoryName = 'All Assets';
+    const comicStore = useComicStore();
     const router = useRouter();
 
-    let selectedCategory = ref({});
+    let intersectionObserver;
 
-    const undoEmpty = computed(() => {
-        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantUndo;
+    // Reactive Variables
+    // computed
+    const bottomNavHeight = computed(() => {
+        return `${Math.floor(navReactiveHeight.value * 10) / 10}px`;
     });
 
     const redoEmpty = computed(() => {
         return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantRedo;
     });
 
+    const undoEmpty = computed(() => {
+        return comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].cantUndo;
+    });
+
     const userDidSomething = computed(() => {
         return comicStore.userDidSomething;
     });
 
-    definePageMeta({
-        middleware: ['comic-defined'],
-    });
+    // Reactive
+    const comic = reactive(toRaw(comicStore.comic));
 
-    const allAssetsCategoryName = 'All Assets';
-    const comicStore = useComicStore();
+    // Refs
+    const activePanelIndex = ref(0);
     const catalogElements = ref(null);
     const catalogStructure = ref([]);
-    const comic = reactive(toRaw(comicStore.comic));
-    const activePanelIndex = ref(0);
-    const scrollableNav = ref(null);
     const isScrollableLeft = ref(false);
     const isScrollableRight = ref(true);
     const navReactiveHeight = ref(undefined);
-    await useFetch('/api/catalog/structure')
-        .then((response) => {
-            catalogStructure.value = response.data.value;
-        })
-        .catch((error) => {
-            createError(error);
-        });
+    const scrollableNav = ref(null);
+    let catalogShow = ref(false);
+    let editor = ref(null);
+    let goingBackPopUpShow = ref(false);
+    let layersShow = ref(false);
+    let mobileMenu = ref(false);
+    let popUpText = ref('');
+    let previewShow = ref(false);
+    let refreshCount = ref(0);
+    let saveDraftPopUpShow = ref(false);
+    let selectedCategory = ref({});
 
-    let bottomNavHeight = computed(() => {
-        return `${Math.floor(navReactiveHeight.value * 10) / 10}px`;
-    });
+    // Watchers
+    watch(
+        () => comic.getPage(0).getStrip(0).getPanel(0).elements,
+        () => comicStore.setUserDidSomething(true),
+        { deep: true }
+    );
+
+    watch(
+        () => comic.name,
+        () => comicStore.setUserDidSomething(true),
+        { deep: true }
+    );
+
+    // Methods
+    function changeScrollingBooleans(element, bool) {
+        element === scrollableNav.value.firstChild.firstChild
+            ? (isScrollableLeft.value = bool)
+            : (isScrollableRight.value = bool);
+    }
+
+    function detectScrollingPosition(entries) {
+        entries.forEach((entry) => {
+            entry.isIntersecting
+                ? changeScrollingBooleans(entry.target, false)
+                : changeScrollingBooleans(entry.target, true);
+        });
+    }
+
+    function discardComic() {
+        comicStore.setUserDidSomething(false);
+        reloadApp();
+    }
 
     function fetchCatalogElements(category = [], subCategory = [], filter = []) {
         if (category === allAssetsCategoryName) category = [];
@@ -76,46 +113,6 @@
             });
     }
 
-    function updateSelectedCategory(category) {
-        selectedCategory.value = category;
-        catalogShow.value = true;
-    }
-
-    function saveComic(reload = false) {
-        let comicJson = comicStore.comic.toJSON();
-        comicStore.saveDraft(comicJson);
-
-        if (reload) {
-            comicStore.setComingBackAfterSaving(true);
-            reloadApp();
-        } else {
-            comicStore.setUserDidSomething(false);
-            generateToast('success', 'Comic was saved as a draft.');
-        }
-    }
-
-    function reloadApp() {
-        return reloadNuxtApp({
-            path: '/',
-            ttl: 1000,
-        });
-    }
-
-    function discardComic() {
-        comicStore.setUserDidSomething(false);
-        reloadApp();
-    }
-
-    function handleUndo() {
-        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
-        refreshCount.value++;
-    }
-
-    function handleRedo() {
-        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
-        refreshCount.value++;
-    }
-
     function handleGoingBack() {
         if (userDidSomething.value) {
             goingBackPopUpShow.value = true;
@@ -131,6 +128,11 @@
         }
     }
 
+    function handleRedo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].redoAction();
+        refreshCount.value++;
+    }
+
     function handleSaveDraftBtn() {
         if (comicStore.getDraft().value !== null) {
             saveDraftPopUpShow.value = true;
@@ -143,6 +145,39 @@
         mobileMenu.value = false;
     }
 
+    function handleUndo() {
+        comicStore.comic.getPage(0).getStrip(0).panels[activePanelIndex.value].undo();
+        refreshCount.value++;
+    }
+
+    function reloadApp() {
+        return reloadNuxtApp({
+            path: '/',
+            ttl: 1000,
+        });
+    }
+
+    function saveComic(reload = false) {
+        let comicJson = comicStore.comic.toJSON();
+        comicStore.saveDraft(comicJson);
+
+        if (reload) {
+            comicStore.setComingBackAfterSaving(true);
+            reloadApp();
+        } else {
+            comicStore.setUserDidSomething(false);
+            generateToast('success', 'Comic was saved as a draft.');
+        }
+    }
+
+    function updateSelectedCategory(category) {
+        selectedCategory.value = category;
+        catalogShow.value = true;
+    }
+
+    // Bus Listeners
+
+    // Vue life cycle hooks
     window.onbeforeunload = function (e) {
         if (userDidSomething.value && e.target.activeElement === this.document.body) {
             e.preventDefault();
@@ -152,32 +187,6 @@
     window.onresize = function (e) {
         navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
     };
-
-    watch(
-        () => comic.getPage(0).getStrip(0).getPanel(0).elements,
-        () => comicStore.setUserDidSomething(true),
-        { deep: true }
-    );
-
-    watch(
-        () => comic.name,
-        () => comicStore.setUserDidSomething(true),
-        { deep: true }
-    );
-
-    function detectScrollingPosition(entries) {
-        entries.forEach((entry) => {
-            entry.isIntersecting
-                ? changeScrollingBooleans(entry.target, false)
-                : changeScrollingBooleans(entry.target, true);
-        });
-    }
-
-    function changeScrollingBooleans(element, bool) {
-        element === scrollableNav.value.firstChild.firstChild
-            ? (isScrollableLeft.value = bool)
-            : (isScrollableRight.value = bool);
-    }
 
     onMounted(() => {
         intersectionObserver = new IntersectionObserver(detectScrollingPosition, {
@@ -200,11 +209,23 @@
         window.onresize = null;
         intersectionObserver.disconnect();
     });
+
+    // expose (defineExpose)
+
+    //
+    await useFetch('/api/catalog/structure')
+        .then((response) => {
+            catalogStructure.value = response.data.value;
+        })
+        .catch((error) => {
+            createError(error);
+        });
 </script>
 
 <template>
     <div class="editor" ref="editor">
         <div class="editor__top-nav top-nav">
+            <!-- Left nav -->
             <div class="top-nav__left-btns">
                 <button class="share__top-nav-item back-btn icon icon-btn" @click="handleGoingBack">arrow_back</button>
                 <div class="undo-redo-container">
@@ -218,6 +239,7 @@
                 <input type="text" class="top-nav__name-input input d-none d-lg-block" v-model="comic.name" />
             </div>
 
+            <!-- Right nav -->
             <div class="top-nav__left-btns">
                 <!-- layer -->
                 <div class="top-nav__item layer-btn">
@@ -254,6 +276,8 @@
                         </NuxtLink>
                     </button>
                 </div>
+
+                <!-- mobile menu -->
                 <div class="top-nav__item export-btn d-lg-none">
                     <button class="secondary-btn icon" @click="mobileMenu = true">more_horiz</button>
                 </div>
@@ -269,6 +293,7 @@
                     @active-panel-change="activePanelIndex = $event"
                 ></ComicPanels>
             </div>
+            <!-- Catalog -->
             <div
                 class="bottom-nav__scrollable-nav col-12 col-lg-2 col-xl-1 order-lg-first"
                 :class="{
