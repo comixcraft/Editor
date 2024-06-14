@@ -127,7 +127,6 @@
                 <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
             </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>
-            <NuxtLink class="feedback_btn" to="https://forms.gle/TDp37dQ6KHGiBCuW8" target="_blank">Feedback</NuxtLink>
         </div>
         <div class="share-container">
             <div class="export__details d-none">
@@ -315,28 +314,6 @@
         border: $border-width solid black;
         border-radius: $border-radius;
         max-width: 22rem;
-    }
-
-    .feedback_btn {
-        border: 1px solid white;
-        color: white;
-        margin-left: auto;
-        border-radius: 8px;
-        padding: 8px 8px;
-        font-size: 12px;
-        text-decoration: none;
-
-        @include media-breakpoint-up(lg) {
-            font-size: 24px;
-            padding: 16px 32px;
-            margin-right: 6px;
-
-            &:hover {
-                background-color: white;
-                color: $secondary-100;
-                cursor: pointer;
-            }
-        }
     }
 
     @include media-breakpoint-up(lg) {
