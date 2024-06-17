@@ -21,13 +21,25 @@
 
 <br/>
 
+<details>
+  <summary>&nbsp;&nbsp;&nbsp;Deployment</summary><br/>
+
 [![Static Badge](https://img.shields.io/badge/1.2.4_beta-latest-beta)](https://github.com/comixcraft/Editor/releases/latest)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d11fb4f4-f8fa-447c-b483-7ddc4d93c542/deploy-status)](https://app.netlify.com/sites/admirable-mandazi-f47990/deploys)
 
+</details>
+
+<br/>
+
 - [Description](#description)
+- [Authors and acknowledgment](#authors-and-acknowledgment)
 
 ## Description
 
 Comics are a powerful way to bring stories to life and can even support student engagement in learning complex scientific subjects. With our user-friendly platform, anyone can become a comic creator – no artistic skills required!
+
+## Authors and acknowledgment 
+
+  <img align="center" src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Anna Blasinger**  &nbsp;&nbsp;*[[Github]](https://github.com/Annacc211018)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/anna-blasinger-3ba0a52bb/)*
 
