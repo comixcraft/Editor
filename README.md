@@ -38,7 +38,6 @@
 
 - [Description](#description)
 - [Authors and acknowledgment](#authors-and-acknowledgment)
-- [Preview](#preview)
 - [Development](#development)
   - [Setup](#setup)
   - [Development Server](#development-server)
@@ -87,10 +86,6 @@ Comics are a powerful way to bring stories to life and can even support student 
 <ins>Special thanks to</ins> [Gausszhou](https://github.com/gausszhou) and is [vue-drag-resize-rotate](https://github.com/gausszhou/vue-drag-resize-rotate) plugin.
 
 <br/>
-
-## Preview
-
-<img src="https://showcase.comixcraft.com/pictures/promo_video.gif" alt="demoGif">
 
 ## Development
 
