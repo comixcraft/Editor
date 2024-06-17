@@ -53,9 +53,13 @@
 
 </details>
 
+<br/>
+
 ## Description
 
 Comics are a powerful way to bring stories to life and can even support student engagement in learning complex scientific subjects. With our user-friendly platform, anyone can become a comic creator – no artistic skills required!
+
+<br/>
 
 ## Authors and acknowledgment 
 
