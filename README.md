@@ -90,7 +90,7 @@ Comics are a powerful way to bring stories to life and can even support student 
 
 ## Preview
 
-![Demo](https://showcase.comixcraft.com/pictures/promo_video.gif)
+<img src="https://showcase.comixcraft.com/pictures/promo_video.gif" alt="demoGif">
 
 ## Development
 
