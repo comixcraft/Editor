@@ -4,7 +4,6 @@
   </a>
 </p>
 
-## Intro
 
 <h1 align="center">comixcraft</h1>
 
@@ -37,7 +36,6 @@
 <details>
   <summary>&nbsp;&nbsp;&nbsp;Table of Content</summary><br/>
 
-- [Intro](#intro)
 - [Description](#description)
 - [Authors and acknowledgment](#authors-and-acknowledgment)
 - [Preview](#preview)
