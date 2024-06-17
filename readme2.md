@@ -30,10 +30,13 @@ Comixcraft is a project developed at St. Pölten University of Applied Sciences 
 
 ## Authors and acknowledgment
 
-<kbd>
+
+
 <div class='author-display'>
 
 ![Anna Blasinger](https://avatars.githubusercontent.com/u/92300733?v=4#avatar)
+
+<img src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30" style="border-radius:50%">
 
 **Anna Blasinger**
 
@@ -132,7 +135,7 @@ Comixcraft is a project developed at St. Pölten University of Applied Sciences 
 
 <ins>Special thanks to</ins> [Gausszhou](https://github.com/gausszhou) and is [vue-drag-resize-rotate](https://github.com/gausszhou/vue-drag-resize-rotate) plugin.
 
-</kbd>
+
 
 ## How does it works
 
