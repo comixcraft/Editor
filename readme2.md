@@ -21,12 +21,7 @@ Comixcraft is a project developed at St. Pölten University of Applied Sciences 
 <div class="flex-row">
 
 [1.2.4-beta
-](https://github.com/comixcraft/Editor/releases/latest)
-
-<p class="pill">latest</p>
-</div>
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d11fb4f4-f8fa-447c-b483-7ddc4d93c542/deploy-status)](https://app.netlify.com/sites/admirable-mandazi-f47990/deploys)
+](https://github.com/comixcraft/Editor/releases/latest) [![Netlify Status](https://api.netlify.com/api/v1/badges/d11fb4f4-f8fa-447c-b483-7ddc4d93c542/deploy-status)](https://app.netlify.com/sites/admirable-mandazi-f47990/deploys)
 
 ## Authors and acknowledgment
 
