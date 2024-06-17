@@ -31,22 +31,10 @@ Comixcraft is a project developed at St. Pölten University of Applied Sciences 
 ## Authors and acknowledgment
 
 
+<img src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30"> <p></p>
 
-<div class='author-display'>
+**Anna Blasinger**  *[[Github]](https://github.com/Annacc211018)* *[[Linkedin]](https://www.linkedin.com/in/anna-blasinger-3ba0a52bb/)* <img src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30"> <p></p>
 
-![Anna Blasinger](https://avatars.githubusercontent.com/u/92300733?v=4#avatar)
-
-<img src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30" style="border-radius:50%">
-
-**Anna Blasinger**
-
-<div class="socials">
-
-*[[Github]](https://github.com/Annacc211018)*
-
-*[[Linkedin]](https://www.linkedin.com/in/anna-blasinger-3ba0a52bb/)*
-</div>
-</div>
 
 <div class='author-display'>
 
