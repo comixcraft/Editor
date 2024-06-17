@@ -44,19 +44,27 @@ Comics are a powerful way to bring stories to life and can even support student 
 
 ## Authors and acknowledgment 
 
-<img align="center" src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Anna Blasinger**  &nbsp;&nbsp;*[[Github]](https://github.com/Annacc211018)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/anna-blasinger-3ba0a52bb/)*
+<img align="center" src="https://avatars.githubusercontent.com/u/92300733?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Anna Blasinger**  &nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/anna-blasinger-3ba0a52bb"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/Annacc211018"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
-<img align="center" src="https://avatars.githubusercontent.com/u/85215120?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Florent Gabillon**  &nbsp;&nbsp;*[[Github]](https://github.com/esitsolf)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/florent-gabillon-2709b8194/)*
+<img align="center" src="https://avatars.githubusercontent.com/u/85215120?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Florent Gabillon**  &nbsp;&nbsp;<a href="https://www.linkedin.com/in/florent-gabillon-2709b8194/"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/esitsolf"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
-<img align="center" src="https://avatars.githubusercontent.com/u/55839005?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Alica Holla**  &nbsp;&nbsp;*[[Github]](https://github.com/hollaa)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/alica-holla/)*
+<img align="center" src="https://avatars.githubusercontent.com/u/55839005?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Alica Holla**  &nbsp;&nbsp;<a href="https://www.linkedin.com/in/alica-holla/"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/hollaa"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
-<img align="center" src="https://avatars.githubusercontent.com/u/47862956?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Vanessa Koeck**  &nbsp;&nbsp;*[[Github]](https://github.com/Vanessi-K)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/vanessa-k%C3%B6ck-42a265244/?original_referer=https%3A%2F%2Fshowcase.comixcraft.com%2F)*
+<img align="center" src="https://avatars.githubusercontent.com/u/47862956?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Vanessa Koeck**  &nbsp;&nbsp;<a href="https://www.linkedin.com/in/vanessa-k%C3%B6ck-42a265244/?original_referer=https%3A%2F%2Fshowcase.comixcraft.com%2F"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/Vanessi-K"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
-<img align="center" src="https://avatars.githubusercontent.com/u/107397144?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Juliana Matsumura**  &nbsp;&nbsp;*[[Github]](https://github.com/moonjuko)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/juliana-matsumura/)*
+<img align="center" src="https://avatars.githubusercontent.com/u/107397144?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Juliana Matsumura**  &nbsp;&nbsp;<a href="https://www.linkedin.com/in/juliana-matsumura/"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/moonjuko"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
-<img align="center" src="https://avatars.githubusercontent.com/u/92710938?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Antoine Muneret**  &nbsp;&nbsp;*[[Github]](https://github.com/AntoinouM)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/antoine-muneret-5b81b9123)*
+<img align="center" src="https://avatars.githubusercontent.com/u/92710938?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Antoine Muneret**  &nbsp;&nbsp;<a href="https://www.linkedin.com/in/antoine-muneret-5b81b9123"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/AntoinouM"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
-<img align="center" src="https://avatars.githubusercontent.com/u/85215120?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Hannah Wagner**  &nbsp;&nbsp;*[[Github]](https://github.com/hannahwagner1402)*&nbsp; *[[Linkedin]](https://www.linkedin.com/in/hannah-wagner-4b9328268/)*
+<img align="center" src="https://avatars.githubusercontent.com/u/85215120?v=4" width="30" height="30"> &nbsp;&nbsp;&nbsp;&nbsp;**Hannah Wagner**  &nbsp;&nbsp;<a href="https://www.linkedin.com/in/hannah-wagner-4b9328268/"><img align="center" src="https://img.shields.io/badge/linkedin-0077B5.svg?style=socials&logo=linkedin&logoColor=white" /></a> &nbsp;
+<a href="https://github.com/hannahwagner1402"><img align="center" src="https://img.shields.io/badge/github-0077B5.svg?style=socials&logo=github&logoColor=black&color=%23e5e8e5" /></a>
 
 <br/>
 
