@@ -19,8 +19,8 @@
     const ddrContainer = ref(null);
     const scaleByHeight = ref(false);
     const panelBorder = ref(`url(${props.panel.border})`);
-    const currentHeight = ref(1);
-    const currentWidth = ref(1);
+    const currentHeight = ref(0);
+    const currentWidth = ref(0);
     const activeElementId = ref(null);
     const isDragging = ref(false);
 
@@ -254,7 +254,7 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <div class="w-100 h-100" ref="ddrContainer">
+            <div class="w-100 h-100" ref="ddrContainer" v-if="currentWidth != 0 && currentHeight != 0">
                 <DragResizeRotate
                     v-for="[key, value] in elements"
                     :key="key"
