@@ -1,7 +1,6 @@
 <script setup>
     const props = defineProps({
         element: Object,
-        lockAspectRatio: Boolean,
     });
     const emits = defineEmits([
         'deleteEvent',
@@ -10,20 +9,14 @@
         'frontEvent',
         'backEvent',
         'changeTextAlign',
-        'lockAspectRatio',
     ]);
 
     const currAlignment = ref(undefined);
     const currIndex = ref(undefined);
-    const aspectRatioIsLocked = ref(undefined);
     const textAlign = {
         left: 'format_align_left',
         center: 'format_align_center',
         right: 'format_align_right',
-    };
-    const flipIcon = {
-        true: 'link',
-        false: 'link_off',
     };
     function handleTextAlignSwitch() {
         currIndex.value++;
@@ -33,14 +26,7 @@
         currAlignment.value = Object.keys(textAlign)[currIndex.value];
         emits('changeTextAlign', currAlignment.value);
     }
-
-    function handleAspectRatio() {
-        aspectRatioIsLocked.value = !aspectRatioIsLocked.value;
-        emits('lockAspectRatio', aspectRatioIsLocked.value);
-    }
-
     onMounted(() => {
-        aspectRatioIsLocked.value = props.lockAspectRatio;
         currAlignment.value = props.element.type.textAlign;
         currIndex.value = Object.keys(textAlign).indexOf(currAlignment.value);
     });
@@ -56,13 +42,6 @@
             <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')">flip</div>
             <div class="edit-icon icon" @click="handleTextAlignSwitch" v-if="props.element.type.name === 'Text'">
                 {{ textAlign[currAlignment] }}
-            </div>
-            <div
-                class="edit-icon icon edit-icon--crossed"
-                @click="handleAspectRatio"
-                v-if="props.element.type.name === 'Asset'"
-            >
-                {{ flipIcon[aspectRatioIsLocked] }}
             </div>
         </div>
     </div>
@@ -85,15 +64,12 @@
     }
 
     .edit-icon {
-        position: relative;
         padding: $spacer-1 $spacer-2;
         user-select: none;
         cursor: pointer;
         border-bottom: $border-width solid $light-grey-100;
-        @include media-breakpoint-up(lg) {
-            &:hover {
-                scale: 1.2;
-            }
+        &:hover {
+            scale: 1.2;
         }
 
         &--flipped {
@@ -101,12 +77,7 @@
             border-bottom: none;
             border-left: $border-width solid $light-grey-100;
         }
-
-        &--crossed {
-            transform: rotate(-90deg) scaleX(-1);
-        }
     }
-
     .edit-icon:last-child {
         border: none;
     }
