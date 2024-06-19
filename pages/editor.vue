@@ -182,12 +182,24 @@
     <div class="editor" ref="editor">
         <div class="editor__top-nav top-nav">
             <div class="top-nav__left-btns">
-                <button class="share__top-nav-item back-btn icon icon-btn" @click="handleGoingBack">arrow_back</button>
+                <button class="share__top-nav-item back-btn icon icon-btn" @click="handleGoingBack" title="Go Back">
+                    arrow_back
+                </button>
                 <div class="undo-redo-container">
-                    <button class="top-nav__item-undo-btn icon icon-btn" @click="handleUndo" :disabled="undoEmpty">
+                    <button
+                        class="top-nav__item-undo-btn icon icon-btn"
+                        @click="handleUndo"
+                        :disabled="undoEmpty"
+                        title="Undo"
+                    >
                         Undo
                     </button>
-                    <button class="top-nav__item-redo-btn icon icon-btn" @click="handleRedo" :disabled="redoEmpty">
+                    <button
+                        class="top-nav__item-redo-btn icon icon-btn"
+                        @click="handleRedo"
+                        :disabled="redoEmpty"
+                        title="Redo"
+                    >
                         Redo
                     </button>
                 </div>
@@ -195,19 +207,19 @@
 
             <div class="top-nav__left-btns">
                 <div class="top-nav__item layer-btn">
-                    <button @click="layersShow = true" class="secondary-btn">
+                    <button @click="layersShow = true" class="secondary-btn" title="Manage Layers">
                         <div class="icon">stacks</div>
                         <span class="d-none d-lg-block">Layers</span>
                     </button>
                 </div>
                 <div class="top-nav__item preview-btn">
-                    <button @click="previewShow = true" class="secondary-btn">
+                    <button @click="previewShow = true" class="secondary-btn" title="Open Preview">
                         <div class="icon">preview</div>
                         <span class="d-none d-lg-block"> Preview </span>
                     </button>
                 </div>
                 <div class="top-nav__item export-btn">
-                    <button class="secondary-btn">
+                    <button class="secondary-btn" title="Download Comic">
                         <NuxtLink
                             :to="{
                                 name: 'export',
