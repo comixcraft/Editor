@@ -16,6 +16,7 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
+        lockAspectRatio: Boolean,
         element: Object,
     });
 
@@ -37,7 +38,6 @@
     let mirroredHorizontal = ref(props.isMirroredHorizontal);
     let mirroredVertical = ref(props.isMirroredVertical);
     let self = ref(null);
-    let lockAspectRatio = ref(true);
 
     // Define emits
     const emit = defineEmits([
@@ -125,7 +125,6 @@
 
     onMounted(() => {
         updateBB();
-        props.element.type.name === 'Text' ? (lockAspectRatio.value = false) : (lockAspectRatio.value = true);
         currAlignment.value = props.element.type.textAlign;
         counterRotation.value = `${-angle.value}deg`;
         comicStore.bus.on('updateText', (obj) => {
@@ -172,7 +171,7 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
-        :lockAspectRatio="lockAspectRatio"
+        :lockAspectRatio="props.lockAspectRatio"
         :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
@@ -186,14 +185,12 @@
             <EditionMenu
                 v-if="elementActive && !isRotating && !isResizing"
                 :element="props.element"
-                :lockAspectRatio="lockAspectRatio"
                 @mirror-horizontal-event="updateMirroring(eId, (direction = 'x'))"
                 @mirror-vertical-event="updateMirroring(eId, (direction = 'y'))"
                 @delete-event="$emit('deleteEvent', eId)"
                 @front-event="upZIndex(eId)"
                 @back-event="downZIndex(eId)"
                 @change-text-align="handleTextAlignChange"
-                @lockAspectRatio="lockAspectRatio = !lockAspectRatio"
             />
         </div>
         <div
