@@ -173,7 +173,7 @@ This provides better alt-texts for the images.
 This provides relative urls.
 5. If new images were added update the `public/catalog`-folder with the new images.
 6. If new categories or sub-categories were added please add/adapt the corresponding icons 
-in `config/iconsConfig.js` ith the icons-name from [Material Symbols](https://fonts.google.com/icons)
+in `config/iconsConfig.js` with the icons-name from [Material Symbols](https://fonts.google.com/icons)
 
 ## Contributing
 
