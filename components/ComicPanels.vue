@@ -6,6 +6,7 @@
             type: Object,
             default: () => {},
         },
+        lockAspectRatio: Boolean,
         refreshCount: Number,
     });
 
