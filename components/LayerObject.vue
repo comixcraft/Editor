@@ -93,7 +93,7 @@
                     class="expand-less icon icon-btn"
                     :class="{ disabled: index === 0 }"
                     @click="sendEmitFront(element.id, index)"
-                    title="Move Up"
+                    title="Move Up One Layer"
                 >
                     expand_less
                 </button>
@@ -101,7 +101,7 @@
                     class="expand-more icon icon-btn"
                     :class="{ disabled: index === arrayZSorted.length - 1 }"
                     @click="sendEmitBack(element.id, index)"
-                    title="Move Down"
+                    title="Move Down One Layer"
                 >
                     expand_more
                 </button>
