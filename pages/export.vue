@@ -12,6 +12,7 @@
 
     // Static Variables (let, const)
     const comicStore = useComicStore();
+    const comic = reactive(toRaw(comicStore.comic));
 
     // Reactive Variables
     // computed
@@ -20,11 +21,17 @@
 
     // Refs
     const previewCanvas = ref(null);
+    const comicName = ref('');
     let downloadPopUpShow = ref(false);
     let saveDraftPopUpShow = ref(false);
     let disableButton = ref(true);
 
     // Watchers
+    watch(
+        () => comic.name,
+        () => comicStore.setUserDidSomething(true),
+        { deep: true }
+    );
 
     // Methods
     function download() {
@@ -34,7 +41,7 @@
         const link = document.createElement('a');
         link.href = img;
         // Name of the file should come from a title of comic
-        link.download = 'canvas.png';
+        link.download = (comicName.value.value || 'canvas') + '.png';
         link.click();
         downloadPopUpShow.value = true;
     }
@@ -68,9 +75,10 @@
         try {
             const response = await fetch(canvas.toDataURL('image/png'));
             const blob = await response.blob();
+            const fileName = (comicName.value.value || 'canvas') + '.png';
             if (navigator.share) {
                 const filesArray = [
-                    new File([blob], 'comic.png', { type: 'image/png', lastModified: new Date().getTime() }),
+                    new File([blob], fileName, { type: 'image/png', lastModified: new Date().getTime() }),
                 ];
                 const shareData = {
                     files: filesArray,
@@ -129,23 +137,25 @@
             <div class="share__top-nav-item download-txt">Download Comic</div>
         </div>
         <div class="share-container">
-            <div class="export__details d-none">
+            <div class="export__details">
                 <div class="share__input-group">
-                    <label class="share__input-group-label" for="project-name">Project Name:</label>
+                    <label class="share__input-group-label" for="project-name">Project Name</label>
                     <input
+                        ref="comicName"
                         class="share__input-group-input"
                         type="text"
                         id="project-name"
                         placeholder="Enter project name"
+                        v-model="comic.name"
                     />
                 </div>
-                <div class="share__input-group">
+                <div class="share__input-group d-none">
                     <label class="share__input-group-label" for="file-type">File Type:</label>
                     <select class="share__input-group-select" id="file.type">
                         <option value="png">PNG</option>
                     </select>
                 </div>
-                <div class="share__input-group">
+                <div class="share__input-group d-none">
                     <label class="share__input-group-label" for="select-panels">Select Panels:</label>
                     <select class="share__input-group-select" id="select-panels">
                         <option value="1">All panels</option>

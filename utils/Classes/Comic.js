@@ -16,7 +16,7 @@ export default class Comic {
      * @param {String} creatorName
      */
     constructor(name = null, title = null, creatorName = null) {
-        this._name = name ?? 'undefined';
+        this._name = name ?? 'Untitled';
         this._title = title ?? 'undefined';
         this._creatorName = creatorName ?? 'undefined';
         this._pages = reactive([]);
@@ -110,7 +110,7 @@ export default class Comic {
     }
 
     resetComic() {
-        this._name = 'undefined';
+        this._name = 'Untitled';
         this._title = 'undefined';
         this._creatorName = 'undefined';
         this._pages = [];
