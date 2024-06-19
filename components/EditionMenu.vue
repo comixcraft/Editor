@@ -36,8 +36,8 @@
     <div>
         <div class="icon-container">
             <div class="edit-icon icon" @click="$emit('deleteEvent')" title="Delete">delete</div>
-            <div class="edit-icon icon" @click="$emit('frontEvent')" title="Bring Forward">flip_to_front</div>
-            <div class="edit-icon icon" @click="$emit('backEvent')" title="Send Backward">flip_to_back</div>
+            <div class="edit-icon icon" @click="$emit('frontEvent')" title="Move Forward">flip_to_front</div>
+            <div class="edit-icon icon" @click="$emit('backEvent')" title="Move Backward">flip_to_back</div>
             <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')" title="Flip Horizontal">flip</div>
             <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')" title="Flip Vertical">
                 flip
