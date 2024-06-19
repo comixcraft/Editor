@@ -93,6 +93,7 @@
                     class="expand-less icon icon-btn"
                     :class="{ disabled: index === 0 }"
                     @click="sendEmitFront(element.id, index)"
+                    title="Move Up"
                 >
                     expand_less
                 </button>
@@ -100,6 +101,7 @@
                     class="expand-more icon icon-btn"
                     :class="{ disabled: index === arrayZSorted.length - 1 }"
                     @click="sendEmitBack(element.id, index)"
+                    title="Move Down"
                 >
                     expand_more
                 </button>
