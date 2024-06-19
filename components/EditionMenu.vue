@@ -26,6 +26,17 @@
         currAlignment.value = Object.keys(textAlign)[currIndex.value];
         emits('changeTextAlign', currAlignment.value);
     }
+
+    function sendUp() {
+        emits('frontEvent');
+        generateToast('info', 'Element moved forward.');
+    }
+
+    function sendDown() {
+        emits('backEvent');
+        generateToast('info', 'Element moved backward.');
+    }
+
     onMounted(() => {
         currAlignment.value = props.element.type.textAlign;
         currIndex.value = Object.keys(textAlign).indexOf(currAlignment.value);
@@ -36,8 +47,8 @@
     <div>
         <div class="icon-container">
             <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
-            <div class="edit-icon icon" @click="$emit('frontEvent')">flip_to_front</div>
-            <div class="edit-icon icon" @click="$emit('backEvent')">flip_to_back</div>
+            <div class="edit-icon icon" @click="sendUp">flip_to_front</div>
+            <div class="edit-icon icon" @click="sendDown">flip_to_back</div>
             <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
             <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')">flip</div>
             <div class="edit-icon icon" @click="handleTextAlignSwitch" v-if="props.element.type.name === 'Text'">

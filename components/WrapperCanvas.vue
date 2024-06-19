@@ -203,14 +203,12 @@
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexUp(eId);
-        generateToast('info', 'Element was moved to front.');
         props.panel.addAlteration();
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
-        generateToast('info', 'Element was moved to back.');
         props.panel.addAlteration();
     }
 
