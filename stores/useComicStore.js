@@ -154,6 +154,7 @@ export const useComicStore = defineStore('comic', () => {
                                 element.type._fontSize,
                                 element.type._fontFamily
                             );
+                            tempType.textAlign = element.type._textAlign;
                         }
                         // create new element
                         let tempElement = new ElementDS(element.width, element.height, element.alt, tempType);
