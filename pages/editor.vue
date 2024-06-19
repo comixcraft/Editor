@@ -278,14 +278,14 @@
                     </button>
                 </div>
                 <!-- save draft btn -->
-                <div class="top-nav__item saveDraft-btn d-none d-lg-block">
+                <div class="top-nav__item saveDraft-btn d-none d-lg-block" title="Save Draft">
                     <button class="secondary-btn" @click="handleSaveDraftBtn">
                         <div class="icon">save</div>
                         <span class="d-none d-xl-block"> Save </span>
                     </button>
                 </div>
                 <!-- download btn -->
-                <div class="top-nav__item export-btn d-none d-lg-block">
+                <div class="top-nav__item export-btn d-none d-lg-block" title="Download Comic">
                     <button class="secondary-btn">
                         <NuxtLink
                             :to="{
@@ -300,7 +300,7 @@
                 </div>
 
                 <!-- mobile menu -->
-                <div class="top-nav__item export-btn d-lg-none">
+                <div class="top-nav__item export-btn d-lg-none" title="Show More">
                     <button class="secondary-btn icon" @click="mobileMenu = true">more_horiz</button>
                 </div>
             </div>
