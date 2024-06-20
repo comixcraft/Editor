@@ -203,8 +203,6 @@
     });
 
     onBeforeUnmount(() => {
-        window.onkeydown = null;
-        window.onkeyup = null;
         window.onbeforeunload = null;
         window.onresize = null;
         intersectionObserver.disconnect();
