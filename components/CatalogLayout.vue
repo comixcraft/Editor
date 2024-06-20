@@ -55,7 +55,7 @@
     <div class="catalog">
         <CatalogSearch
             class="catalog__search"
-            placeholder="happy, barista, ..."
+            placeholder="Type keyword to search..."
             :filters="selectedSubCategory.filter"
             :subCategory="selectedSubCategory"
             :category="selectedCategory"
