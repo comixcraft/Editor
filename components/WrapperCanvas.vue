@@ -6,7 +6,6 @@
     const props = defineProps({
         panel: Object,
         panelIsActive: Boolean,
-        lockAspectRatio: Boolean,
         refreshCount: Number,
     });
 
@@ -275,7 +274,6 @@
                     :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                     :text="value.type.content == undefined ? '' : value.type.content"
                     :selectedId="props.selectedId"
-                    :lockAspectRatio="props.lockAspectRatio"
                     :element="value"
                     :active="activeElementId == value.id"
                     @delete-event="deleteElement"

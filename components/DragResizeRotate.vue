@@ -16,7 +16,6 @@
         rotation: Number,
         fontSize: Number, // if 0, it's an image, if not, it's text
         text: String,
-        lockAspectRatio: Boolean,
         element: Object,
     });
 
@@ -171,7 +170,6 @@
         :resizable="true"
         :draggable="true"
         :r="angle"
-        :lockAspectRatio="props.lockAspectRatio"
         :style="{ zIndex: props.z }"
         @rotating="rotating"
         @resizing="isResizing = true"
