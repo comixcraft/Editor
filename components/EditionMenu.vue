@@ -29,12 +29,12 @@
 
     function sendUp() {
         emits('frontEvent');
-        generateToast('info', 'Element moved forward.');
+        generateToast('info', 'Element moved forward one step.');
     }
 
     function sendDown() {
         emits('backEvent');
-        generateToast('info', 'Element moved backward.');
+        generateToast('info', 'Element moved backward one step.');
     }
 
     onMounted(() => {
