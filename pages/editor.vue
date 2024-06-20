@@ -200,9 +200,27 @@
         document.fonts.ready.then(() => {
             navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
         });
+
+        window.onkeydown = (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveComic();
+            }
+
+            if (e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                handleUndo();
+            }
+
+            if (e.ctrlKey && e.key === 'y') {
+                e.preventDefault();
+                handleRedo();
+            }
+        };
     });
 
     onBeforeUnmount(() => {
+        window.onkeydown = null;
         window.onbeforeunload = null;
         window.onresize = null;
         intersectionObserver.disconnect();
