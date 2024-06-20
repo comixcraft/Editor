@@ -100,6 +100,7 @@
                             emitSearch();
                         }
                     "
+                    title="Reset Search"
                     >close
                 </span>
             </div>
@@ -108,6 +109,7 @@
                 class="icon search__tune"
                 :class="{ 'search__tune--active': showAllFilters }"
                 @click="showAllFilters = !showAllFilters"
+                title="Apply Filters"
                 >tune
             </span>
         </div>
@@ -124,7 +126,7 @@
                     }
                 "
             >
-                {{ filter }} <span class="icon pill__close p5">close</span>
+                {{ filter }} <span class="icon pill__close p5" title="Remove Filter">close</span>
             </span>
         </div>
     </div>

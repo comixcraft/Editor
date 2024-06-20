@@ -11,7 +11,7 @@
     <div v-if="show" class="overlay">
         <div class="navigation top-nav">
             <div class="navigation__title">{{ title }}</div>
-            <button class="navigation__icon icon icon-btn" @click="$emit('close')">close</button>
+            <button class="navigation__icon icon icon-btn" @click="$emit('close')" title="Close">close</button>
         </div>
         <div class="overlay__content"><slot></slot></div>
     </div>
