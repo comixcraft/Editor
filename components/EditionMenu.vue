@@ -46,12 +46,19 @@
 <template>
     <div>
         <div class="icon-container">
-            <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
-            <div class="edit-icon icon" @click="sendUp">flip_to_front</div>
-            <div class="edit-icon icon" @click="sendDown">flip_to_back</div>
-            <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
-            <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')">flip</div>
-            <div class="edit-icon icon" @click="handleTextAlignSwitch" v-if="props.element.type.name === 'Text'">
+            <div class="edit-icon icon" @click="$emit('deleteEvent')" title="Delete">delete</div>
+            <div class="edit-icon icon" @click="sendUp" title="Move Forward One Step">flip_to_front</div>
+            <div class="edit-icon icon" @click="sendDown" title="Move Backward One Step">flip_to_back</div>
+            <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')" title="Flip Horizontal">flip</div>
+            <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')" title="Flip Vertical">
+                flip
+            </div>
+            <div
+                class="edit-icon icon"
+                @click="handleTextAlignSwitch"
+                v-if="props.element.type.name === 'Text'"
+                title="Align Text"
+            >
                 {{ textAlign[currAlignment] }}
             </div>
         </div>
