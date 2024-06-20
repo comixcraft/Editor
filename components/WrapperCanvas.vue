@@ -29,6 +29,13 @@
     function setActiveElement(eId) {
         if (!isDragging.value) {
             activeElementId.value = eId;
+            window.onkeydown = (e) => {
+                if (e.key === 'Delete' || e.key === 'Backspace') {
+                    if (activeElementId.value) {
+                        deleteElement(activeElementId.value);
+                    }
+                }
+            };
         }
     }
 
