@@ -44,7 +44,7 @@
 <template>
     <div v-if="show" class="background">
         <div class="overlay" :style="{ padding: padding }">
-            <div class="close-icon icon" @click="$emit('close')">close</div>
+            <div class="close-icon icon" @click="$emit('close')" title="Close">close</div>
             <div class="overlay__content">
                 <slot></slot>
             </div>

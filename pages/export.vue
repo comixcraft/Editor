@@ -131,7 +131,7 @@
 <template>
     <div class="share">
         <div class="share__top-nav top-nav">
-            <button class="icon-btn">
+            <button class="icon-btn" title="Go Back">
                 <NuxtLink to="/editor" class="icon-btn icon"> arrow_back </NuxtLink>
             </button>
             <div class="share__top-nav-item download-txt">Download Comic</div>

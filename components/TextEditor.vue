@@ -104,9 +104,9 @@
         ></textarea>
 
         <div class="font-size" @click.stop="true">
-            <button class="font-size__button" @click="increaseFont">+</button>
+            <button class="font-size__button" @click="increaseFont" title="Increase Font Size">+</button>
             <p class="font-size__text p5">{{ Math.round(fontSize) }}</p>
-            <button class="font-size__button" @click="decreaseFont">-</button>
+            <button class="font-size__button" @click="decreaseFont" title="Decrease Font Size">-</button>
         </div>
     </div>
 </template>

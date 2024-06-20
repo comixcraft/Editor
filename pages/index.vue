@@ -132,6 +132,7 @@
                             v-if="draftSelected"
                             class="draft-btn--cancel icon"
                             @click="deleteDraftPopUpShow = true"
+                            title="Delete Draft"
                         >
                             delete
                         </button>
