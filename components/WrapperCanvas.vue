@@ -210,7 +210,7 @@
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
-        generateToast('info', 'Element moved backward once step.');
+        generateToast('info', 'Element moved backward one step.');
         props.panel.addAlteration();
     }
 
