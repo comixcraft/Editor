@@ -177,7 +177,7 @@
 
     function initGlobalKeyboardShortcuts(e) {
         let modifierKey = e.ctrlKey;
-        if (userAgent.indexOf('Mac') !== -1) {
+        if (window.navigator.userAgent.indexOf('Mac') !== -1) {
             modifierKey = e.metaKey;
         }
 
