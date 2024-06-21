@@ -232,6 +232,13 @@
                 deleteElement(activeElementId.value);
             }
         }
+
+        if (e.key === 'Enter' && activeElementId.value) {
+            const element = elements.get(activeElementId.value);
+            if (element.type === 'Text') {
+                comicStore.setCurrentElement(element);
+            }
+        }
     }
 
     onMounted(() => {
