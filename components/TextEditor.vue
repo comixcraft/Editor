@@ -99,7 +99,8 @@
             ref="textarea"
             :style="{ fontSize: fontSize + 'px' }"
             v-model="textValue"
-            @keydown.enter.prevent="stopModifyText"
+            @keydown.enter.stop.prevent="stopModifyText"
+            @keydown.delete.stop="true"
             @click.stop="true"
         ></textarea>
 
