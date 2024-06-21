@@ -181,17 +181,17 @@
             modifierKey = e.metaKey;
         }
 
-        if (modifierKey && e.key === 's') {
+        if (modifierKey && e.key.toLowerCase() === 's') {
             e.preventDefault();
             saveComic();
         }
 
-        if (modifierKey && e.key === 'z') {
+        if (modifierKey && e.key.toLowerCase() === 'z') {
             e.preventDefault();
             handleUndo();
         }
 
-        if (modifierKey && e.key === 'y') {
+        if ((modifierKey && e.shiftKey && e.key === 'z') || (modifierKey && e.key.toLowerCase() === 'y')) {
             e.preventDefault();
             handleRedo();
         }
