@@ -26,6 +26,17 @@
         currAlignment.value = Object.keys(textAlign)[currIndex.value];
         emits('changeTextAlign', currAlignment.value);
     }
+
+    function sendUp() {
+        emits('frontEvent');
+        generateToast('info', 'Element moved forward one step.');
+    }
+
+    function sendDown() {
+        emits('backEvent');
+        generateToast('info', 'Element moved backward one step.');
+    }
+
     onMounted(() => {
         currAlignment.value = props.element.type.textAlign;
         currIndex.value = Object.keys(textAlign).indexOf(currAlignment.value);
@@ -35,12 +46,19 @@
 <template>
     <div>
         <div class="icon-container">
-            <div class="edit-icon icon" @click="$emit('deleteEvent')">delete</div>
-            <div class="edit-icon icon" @click="$emit('frontEvent')">flip_to_front</div>
-            <div class="edit-icon icon" @click="$emit('backEvent')">flip_to_back</div>
-            <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')">flip</div>
-            <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')">flip</div>
-            <div class="edit-icon icon" @click="handleTextAlignSwitch" v-if="props.element.type.name === 'Text'">
+            <div class="edit-icon icon" @click="$emit('deleteEvent')" title="Delete">delete</div>
+            <div class="edit-icon icon" @click="sendUp" title="Move Forward One Step">flip_to_front</div>
+            <div class="edit-icon icon" @click="sendDown" title="Move Backward One Step">flip_to_back</div>
+            <div class="edit-icon icon" @click="$emit('mirrorHorizontalEvent')" title="Flip Horizontal">flip</div>
+            <div class="edit-icon--flipped edit-icon icon" @click="$emit('mirrorVerticalEvent')" title="Flip Vertical">
+                flip
+            </div>
+            <div
+                class="edit-icon icon"
+                @click="handleTextAlignSwitch"
+                v-if="props.element.type.name === 'Text'"
+                title="Align Text"
+            >
                 {{ textAlign[currAlignment] }}
             </div>
         </div>

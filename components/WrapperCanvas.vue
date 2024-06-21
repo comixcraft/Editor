@@ -6,7 +6,6 @@
     const props = defineProps({
         panel: Object,
         panelIsActive: Boolean,
-        lockAspectRatio: Boolean,
         refreshCount: Number,
     });
 
@@ -20,8 +19,8 @@
     const ddrContainer = ref(null);
     const scaleByHeight = ref(false);
     const panelBorder = ref(`url(${props.panel.border})`);
-    const currentHeight = ref(1);
-    const currentWidth = ref(1);
+    const currentHeight = ref(0);
+    const currentWidth = ref(0);
     const activeElementId = ref(null);
     const isDragging = ref(false);
 
@@ -203,14 +202,12 @@
     function upElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexUp(eId);
-        generateToast('info', 'Element was moved to front.');
         props.panel.addAlteration();
     }
 
     function downElement(eId) {
         if (!props.panelIsActive) return;
         props.panel.moveZIndexDown(eId);
-        generateToast('info', 'Element was moved to back.');
         props.panel.addAlteration();
     }
 
@@ -229,9 +226,24 @@
         }, 300);
     }
 
+    function initElementKeyboardShortcuts(e) {
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+            if (activeElementId.value) {
+                deleteElement(activeElementId.value);
+            }
+        }
+
+        if (e.key === 'Enter' && activeElementId.value) {
+            const element = elements.get(activeElementId.value);
+            if (element.type.name === 'Text') {
+                comicStore.setCurrentElement(element);
+            }
+        }
+    }
+
     onMounted(() => {
         window.addEventListener('resize', delayUpdatePanelBoundingBox);
-        //ddrContainer.value.addEventListener('click', (e) => console.log(e))
+        window.addEventListener('keydown', initElementKeyboardShortcuts);
         updatePanelBoundingBox();
     });
 
@@ -245,6 +257,7 @@
         comicStore.bus.off('putLayerBack');
         comicStore.bus.off('putLayerFront');
         window.removeEventListener('resize', delayUpdatePanelBoundingBox);
+        window.removeEventListener('keydown', initElementKeyboardShortcuts);
     });
 </script>
 
@@ -256,7 +269,7 @@
             class="panel swiper-no-swiping"
             :class="scaleByHeight ? 'panel--scale-by-height' : 'panel--scale-by-width'"
         >
-            <div class="w-100 h-100" ref="ddrContainer">
+            <div class="w-100 h-100" ref="ddrContainer" v-if="currentWidth != 0 && currentHeight != 0">
                 <DragResizeRotate
                     v-for="[key, value] in elements"
                     :key="key"
@@ -275,7 +288,6 @@
                     :fontSize="value.type.name == 'Text' ? value.type.fontSize : 0"
                     :text="value.type.content == undefined ? '' : value.type.content"
                     :selectedId="props.selectedId"
-                    :lockAspectRatio="props.lockAspectRatio"
                     :element="value"
                     :active="activeElementId == value.id"
                     @delete-event="deleteElement"
