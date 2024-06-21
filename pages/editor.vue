@@ -175,6 +175,22 @@
         catalogShow.value = true;
     }
 
+    function initGlobalKeyboardShortcuts(e) {
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            saveComic();
+        }
+
+        if (e.ctrlKey && e.key === 'z') {
+            e.preventDefault();
+            handleUndo();
+        }
+
+        if (e.ctrlKey && e.key === 'y') {
+            e.preventDefault();
+            handleRedo();
+        }
+    }
     // Bus Listeners
 
     // Vue life cycle hooks
@@ -201,26 +217,11 @@
             navReactiveHeight.value = scrollableNav.value.getBoundingClientRect().height;
         });
 
-        window.onkeydown = (e) => {
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                saveComic();
-            }
-
-            if (e.ctrlKey && e.key === 'z') {
-                e.preventDefault();
-                handleUndo();
-            }
-
-            if (e.ctrlKey && e.key === 'y') {
-                e.preventDefault();
-                handleRedo();
-            }
-        };
+        window.addEventListener('keydown', initGlobalKeyboardShortcuts);
     });
 
     onBeforeUnmount(() => {
-        window.onkeydown = null;
+        window.removeEventListener('keydown', initGlobalKeyboardShortcuts);
         window.onbeforeunload = null;
         window.onresize = null;
         intersectionObserver.disconnect();

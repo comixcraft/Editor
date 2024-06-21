@@ -29,13 +29,6 @@
     function setActiveElement(eId) {
         if (!isDragging.value) {
             activeElementId.value = eId;
-            window.onkeydown = (e) => {
-                if (e.key === 'Delete' || e.key === 'Backspace') {
-                    if (activeElementId.value) {
-                        deleteElement(activeElementId.value);
-                    }
-                }
-            };
         }
     }
 
@@ -233,9 +226,17 @@
         }, 300);
     }
 
+    function initElementKeyboardShortcuts(e) {
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+            if (activeElementId.value) {
+                deleteElement(activeElementId.value);
+            }
+        }
+    }
+
     onMounted(() => {
         window.addEventListener('resize', delayUpdatePanelBoundingBox);
-        //ddrContainer.value.addEventListener('click', (e) => console.log(e))
+        window.addEventListener('keydown', initElementKeyboardShortcuts);
         updatePanelBoundingBox();
     });
 
@@ -249,6 +250,7 @@
         comicStore.bus.off('putLayerBack');
         comicStore.bus.off('putLayerFront');
         window.removeEventListener('resize', delayUpdatePanelBoundingBox);
+        window.removeEventListener('keydown', initElementKeyboardShortcuts);
     });
 </script>
 
