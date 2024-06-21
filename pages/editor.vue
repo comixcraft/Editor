@@ -176,17 +176,22 @@
     }
 
     function initGlobalKeyboardShortcuts(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        let modifierKey = e.ctrlKey;
+        if (userAgent.indexOf('Mac') !== -1) {
+            modifierKey = e.metaKey;
+        }
+
+        if (modifierKey && e.key === 's') {
             e.preventDefault();
             saveComic();
         }
 
-        if (e.ctrlKey && e.key === 'z') {
+        if (modifierKey && e.key === 'z') {
             e.preventDefault();
             handleUndo();
         }
 
-        if (e.ctrlKey && e.key === 'y') {
+        if (modifierKey && e.key === 'y') {
             e.preventDefault();
             handleRedo();
         }
