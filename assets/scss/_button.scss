@@ -30,11 +30,6 @@
     user-select: none;
 }
 
-.accent-btn:hover {
-    background-color: $secondary-50;
-    cursor: pointer;
-}
-
 .accent-btn:disabled {
     background-color: $secondary-30;
     cursor: not-allowed;
@@ -43,5 +38,10 @@
 @include media-breakpoint-up(lg) {
     .accent-btn {
         width: auto;
+    }
+
+    .accent-btn:hover {
+        background-color: $secondary-50;
+        cursor: pointer;
     }
 }

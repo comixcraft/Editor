@@ -287,8 +287,10 @@
         background-color: $white-100;
         border: $border-width solid $secondary-100;
         &:hover {
-            background-color: $secondary-50;
-            color: $white;
+            @include media-breakpoint-up(lg) {
+                background-color: $secondary-50;
+                color: $white;
+            }
         }
     }
 
