@@ -184,16 +184,22 @@
         if (modifierKey && e.key.toLowerCase() === 's') {
             e.preventDefault();
             saveComic();
+            return;
+        }
+
+        if (
+            (modifierKey && e.shiftKey && e.key.toLowerCase() === 'z') ||
+            (modifierKey && e.key.toLowerCase() === 'y')
+        ) {
+            e.preventDefault();
+            handleRedo();
+            return;
         }
 
         if (modifierKey && e.key.toLowerCase() === 'z') {
             e.preventDefault();
             handleUndo();
-        }
-
-        if ((modifierKey && e.shiftKey && e.key === 'z') || (modifierKey && e.key.toLowerCase() === 'y')) {
-            e.preventDefault();
-            handleRedo();
+            return;
         }
     }
     // Bus Listeners
