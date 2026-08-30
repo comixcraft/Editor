@@ -2,6 +2,7 @@
     // Imports
     import templatePanelConfig from '/config/templatePanelConfig.js';
     import templateStripConfig from '/config/templateStripConfig.js';
+    import iconConfig from '../config/iconsConfig';
 
     // Middlewares
 
@@ -89,6 +90,9 @@
         <div class="index">
             <div class="top-nav">
                 <img src="/public/TextwithBg.svg" alt="" class="top-nav__logo" draggable="false" />
+                <a href="https://www.comixplain.cc/guide.html#title-comixcraft" class="help-link" aria-label="help">
+                    <div class="icon">help</div>
+                </a>
             </div>
             <div class="container-fluid">
                 <div class="intro">
@@ -322,6 +326,16 @@
         cursor: pointer;
         border: $border-width-lg solid $grey-60;
         border-radius: $border-radius;
+    }
+
+    .help-link {
+        margin-left: auto;
+        text-decoration: none;
+    }
+
+    .help-link .icon {
+        border: none;
+        color: $white;
     }
 
     .draft-btn--cancel {
